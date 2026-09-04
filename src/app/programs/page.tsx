@@ -1,0 +1,154 @@
+import type { Metadata } from "next";
+import { PageHero } from "@/components/layout/page-hero";
+import { PillLink } from "@/components/common/pill-button";
+import { Section, SectionHead, StatusBadge } from "@/components/common/primitives";
+import { Reveal } from "@/components/common/reveal";
+import {
+  activePrograms,
+  upcomingPrograms,
+  type Program,
+} from "@/content/programs";
+
+export const metadata: Metadata = {
+  title: "Programs",
+  description:
+    "Six active JustUsedTech programmes plus the initiatives currently in development, with the dated results we can verify.",
+};
+
+export default function ProgramsPage() {
+  return (
+    <>
+      <PageHero
+        eyebrow="Programs"
+        title="What we run, and what is still a proposal."
+        lede="Everything below is labelled. Programmes marked Running now are delivering today. Programmes marked In development are proposals or concepts at pitch stage, and are not yet operating."
+      />
+
+      <Section tone="white">
+        <Reveal>
+          <SectionHead
+            title="Running now"
+            lede="Six programmes currently delivering across the US and Nigeria."
+          />
+        </Reveal>
+        <div className="mt-12 space-y-5">
+          {activePrograms.map((program, i) => (
+            <Reveal key={program.slug} delay={Math.min(i, 3) * 0.05}>
+              <ProgramPanel program={program} />
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      <Section tone="deep">
+        <Reveal>
+          <SectionHead
+            title="In development"
+            lede="Concepts, proposals, and collaborations that are not yet running. Listed here so the pipeline is visible without being mistaken for delivered work."
+          />
+        </Reveal>
+        <div className="mt-12 space-y-5">
+          {upcomingPrograms.map((program, i) => (
+            <Reveal key={program.slug} delay={Math.min(i, 3) * 0.05}>
+              <ProgramPanel program={program} />
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      <Section tone="green">
+        <div className="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
+          <SectionHead
+            onGreen
+            title="Every programme runs on donated hardware."
+            lede="If your organisation is retiring devices, that is where a programme starts."
+            className="max-w-xl"
+          />
+          <PillLink href="/get-involved#donate-devices" variant="onDark">
+            Donate a device
+          </PillLink>
+        </div>
+      </Section>
+    </>
+  );
+}
+
+function ProgramPanel({ program }: { program: Program }) {
+  const upcoming = program.status === "upcoming";
+  return (
+    <article
+      id={program.slug}
+      className={
+        upcoming
+          ? "scroll-mt-28 rounded-[var(--radius-card)] border border-dashed border-[color:rgba(18,33,26,0.24)] bg-transparent p-7 sm:p-10"
+          : "scroll-mt-28 rounded-[var(--radius-card)] border border-[color:var(--hairline)] bg-white p-7 shadow-[var(--shadow-soft)] sm:p-10"
+      }
+    >
+      <div className="grid gap-8 lg:grid-cols-[1fr_1fr] lg:gap-14">
+        <div>
+          <StatusBadge status={program.status} />
+          <h3 className="mt-5 text-2xl font-extrabold tracking-[-0.03em] text-balance sm:text-[1.75rem]">
+            {program.name}
+          </h3>
+          {program.partner && (
+            <p className="mt-3 text-[0.875rem] font-bold text-brand-green-dark">
+              In partnership with {program.partner}
+            </p>
+          )}
+          <p className="mt-4 text-[1.0625rem] leading-relaxed font-semibold text-ink text-pretty">
+            {program.summary}
+          </p>
+          {program.body.map((para) => (
+            <p
+              key={para.slice(0, 24)}
+              className="mt-4 text-[0.9375rem] leading-relaxed text-ink-soft text-pretty"
+            >
+              {para}
+            </p>
+          ))}
+        </div>
+
+        <div className="lg:pt-1">
+          {program.target && (
+            <div className="rounded-[var(--radius-inner)] bg-mint p-6">
+              <p className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-brand-green-dark uppercase">
+                Target
+              </p>
+              <p className="mt-2.5 text-[0.9375rem] leading-relaxed font-semibold text-ink">
+                {program.target}
+              </p>
+            </div>
+          )}
+
+          {program.results && (
+            <div className={program.target ? "mt-6" : ""}>
+              <p className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
+                Delivered in 2025
+              </p>
+              <dl className="mt-4 space-y-4">
+                {program.results.map((result) => (
+                  <div key={result.label}>
+                    <dt className="text-[0.9375rem] font-extrabold text-ink">
+                      {result.label}
+                    </dt>
+                    <dd className="mt-1 text-[0.9375rem] leading-relaxed text-ink-soft">
+                      {result.detail}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          )}
+
+          {!program.target && !program.results && (
+            <p className="text-[0.875rem] leading-relaxed font-semibold text-ink-faint">
+              {upcoming
+                ? "Not yet running. No results to report."
+                : "No dated results published for this programme yet."}
+            </p>
+          )}
+        </div>
+      </div>
+    </article>
+  );
+}

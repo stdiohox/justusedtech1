@@ -1,0 +1,57 @@
+import Link from "next/link";
+import { marqueePartners } from "@/content/partners";
+
+/**
+ * Partner wordmark marquee. Sits under the hero band, never inside it.
+ *
+ * No partner logo files have been delivered, so these are typeset wordmarks rather than
+ * fabricated marks. TODO: swap for supplied partner logo SVGs when the client provides
+ * them. This is the only marquee on the page.
+ *
+ * The strip is duplicated once and translated -50%, which gives a seamless loop. The
+ * duplicate is aria-hidden so screen readers read each partner once.
+ */
+export function PartnersMarquee() {
+  return (
+    <section className="border-y border-[color:var(--hairline)] bg-white py-14">
+      <div className="shell">
+        <h2 className="text-[0.6875rem] font-extrabold tracking-[0.18em] text-ink-faint uppercase">
+          Working with
+        </h2>
+      </div>
+
+      <div className="marquee-fade mt-8 overflow-hidden">
+        <div
+          className="animate-marquee flex w-max"
+          style={{ ["--marquee-duration" as string]: "52s" }}
+        >
+          {[0, 1].map((copy) => (
+            <ul
+              key={copy}
+              aria-hidden={copy === 1}
+              className="flex shrink-0 items-center"
+            >
+              {marqueePartners.map((name) => (
+                <li
+                  key={name}
+                  className="px-7 text-lg font-extrabold tracking-[-0.02em] whitespace-nowrap text-ink-faint sm:px-9 sm:text-xl"
+                >
+                  {name}
+                </li>
+              ))}
+            </ul>
+          ))}
+        </div>
+      </div>
+
+      <div className="shell mt-8">
+        <Link
+          href="/partners"
+          className="text-[0.875rem] font-bold text-brand-green-dark underline-offset-4 hover:underline"
+        >
+          See all partners
+        </Link>
+      </div>
+    </section>
+  );
+}

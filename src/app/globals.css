@@ -1,0 +1,343 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/*
+  JUSTUSED design system.
+  Theme lock: LIGHT ONLY. There is no dark variant and no theme toggle. The brand is a
+  bright green on warm paper, and inverting it breaks the logo lockup and the gold accent.
+  Radius rule (locked): interactive controls are full pills, cards are --radius-card,
+  media and inner cores are --radius-inner, inputs are --radius-field. Nothing is square.
+*/
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-nunito);
+  --font-heading: var(--font-nunito);
+
+  /* Brand tokens, sampled from the real brand assets. Do not adjust. */
+  --color-brand-green: var(--brand-green);
+  --color-brand-green-dark: var(--brand-green-dark);
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-gold: var(--brand-gold);
+  --color-green-surface: var(--green-surface);
+
+  /* Brand-derived surface ramp */
+  --color-paper: var(--paper);
+  --color-paper-deep: var(--paper-deep);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-hairline: var(--hairline);
+  --color-mint: var(--mint);
+  --color-mint-deep: var(--mint-deep);
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  --radius-shell: 2.25rem;
+  --radius-card: 1.75rem;
+  --radius-inner: 1.375rem;
+  --radius-field: 1rem;
+
+  --ease-brand: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+:root {
+  color-scheme: light;
+
+  /* Exact brand values */
+  --brand-green: #00a652;
+  --brand-green-dark: #007a37;
+  --brand-blue: #00adef;
+  --brand-gold: #ffd966;
+
+  /*
+    Large green fills use --green-surface, not --brand-green-dark.
+    Reason: white text on #007A37 reaches 5.5:1, but the muted tints the design needs on
+    top of it (white at 55% to 75%) fall to roughly 3:1 and fail WCAG AA for body copy.
+    #00622C is one step darker, visually indistinguishable at fill size, and carries
+    white/70 and above at 4.5:1 or better, so the type hierarchy survives intact.
+    --brand-green-dark stays exactly as sampled and remains the token for buttons,
+    badges, and green text on light surfaces.
+  */
+  --green-surface: #00622c;
+
+  /* Surfaces: warm off-white paper, never pure white, never pure black */
+  --paper: #fbfaf6;
+  --paper-deep: #f2f1ea;
+  --mint: #eef7f0;
+  --mint-deep: #dceee2;
+
+  --ink: #12211a;
+  --ink-soft: #4c5c54;
+  /*
+    Darkened from the sampled #7A8A82, which sat at 3.5:1 on paper and failed AA for the
+    small uppercase labels it is used on. #5F6F69 clears 4.5:1 on paper, paper-deep, mint,
+    and white, so the same token is safe on every light surface in the system.
+  */
+  --ink-faint: #5f6f69;
+  --hairline: rgba(18, 33, 26, 0.09);
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: #ffffff;
+  --card-foreground: var(--ink);
+  --popover: #ffffff;
+  --popover-foreground: var(--ink);
+  --primary: var(--brand-green);
+  --primary-foreground: #ffffff;
+  --secondary: var(--mint);
+  --secondary-foreground: var(--brand-green-dark);
+  --muted: var(--paper-deep);
+  --muted-foreground: var(--ink-soft);
+  --accent: var(--mint);
+  --accent-foreground: var(--brand-green-dark);
+  --destructive: #b4341f;
+  --border: var(--hairline);
+  --input: rgba(18, 33, 26, 0.14);
+  --ring: var(--brand-green);
+  --radius: 1rem;
+
+  --sidebar: var(--paper);
+  --sidebar-foreground: var(--ink);
+  --sidebar-primary: var(--brand-green);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--mint);
+  --sidebar-accent-foreground: var(--brand-green-dark);
+  --sidebar-border: var(--hairline);
+  --sidebar-ring: var(--brand-green);
+
+  /* Soft, hue-tinted elevation. No pure-black drop shadows. */
+  --shadow-soft: 0 1px 2px rgba(18, 33, 26, 0.04), 0 12px 32px -12px rgba(18, 33, 26, 0.12);
+  --shadow-lift: 0 2px 4px rgba(18, 33, 26, 0.05), 0 28px 60px -24px rgba(0, 122, 55, 0.28);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply font-sans;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background: var(--brand-gold);
+    color: var(--ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brand-green-dark);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  /* Page gutter, shared by every section so vertical edges line up across the site. */
+  .shell {
+    @apply mx-auto w-full max-w-[1240px] px-5 sm:px-8;
+  }
+
+  /* Outer shell / inner core pairing used by every major card on the site. */
+  .bezel {
+    background: rgba(18, 33, 26, 0.035);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-shell);
+    padding: 0.5rem;
+  }
+
+  .bezel-core {
+    border-radius: var(--radius-card);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  }
+
+  .hairline-rule {
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--hairline) 12%,
+      var(--hairline) 88%,
+      transparent
+    );
+    height: 1px;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /* Edge fade for the partner marquee, so wordmarks dissolve rather than clip. */
+  .marquee-fade {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+}
+
+/*
+  Scroll entry animation.
+
+  The resting state of `.rise` is fully visible: no opacity, no transform, nothing that
+  depends on JavaScript or on a feature being supported. The fade-up is added only inside
+  the @supports block, so a browser without scroll-driven animations shows the content
+  immediately rather than showing nothing.
+*/
+@keyframes jut-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .rise {
+      animation: jut-rise linear both;
+      animation-timeline: view();
+      animation-range: entry 4% cover calc(20% + (var(--rise-delay, 0) * 45%));
+    }
+
+    /* Cascade group children by shifting where each one finishes its range. */
+    .rise-group > .rise:nth-child(2) {
+      animation-range: entry 4% cover 25%;
+    }
+    .rise-group > .rise:nth-child(3) {
+      animation-range: entry 4% cover 30%;
+    }
+    .rise-group > .rise:nth-child(4) {
+      animation-range: entry 4% cover 35%;
+    }
+    .rise-group > .rise:nth-child(n + 5) {
+      animation-range: entry 4% cover 40%;
+    }
+  }
+}
+
+/* World map: routes trace themselves once, endpoint pulses at the collection origin. */
+@keyframes jut-draw {
+  from {
+    stroke-dashoffset: 120;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes jut-ping {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.45;
+  }
+  70%,
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.jut-route {
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  animation: jut-draw 1.9s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+}
+
+.jut-ping {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: jut-ping 2.8s cubic-bezier(0.32, 0.72, 0, 1) infinite;
+}
+
+@keyframes jut-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee {
+  animation: jut-marquee var(--marquee-duration, 46s) linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+    transform: none;
+  }
+
+  .jut-route {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+
+  .jut-ping {
+    animation: none;
+    opacity: 0.2;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
