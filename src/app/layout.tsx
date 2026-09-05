@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
+import { AnnouncementBar } from "@/components/layout/announcement-bar";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { QuickActionsDock } from "@/components/layout/quick-actions-dock";
@@ -43,6 +44,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        <AnnouncementBar />
         <SiteHeader />
         <main id="main">{children}</main>
         <SiteFooter />

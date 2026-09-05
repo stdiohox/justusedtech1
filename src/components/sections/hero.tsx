@@ -1,121 +1,168 @@
-import { Laptop, Recycle, Users } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Camera } from "lucide-react";
 import { PillLink } from "@/components/common/pill-button";
-import { PhotoPlaceholder } from "@/components/common/primitives";
-import { Reveal } from "@/components/common/reveal";
-import { heroStats } from "@/content/impact";
-
-const STAT_ICONS = [Laptop, Users, Recycle];
+import { OrbitBackdrop } from "@/components/sections/orbit-backdrop";
+import { heroTrustPartners } from "@/content/site";
 
 /**
- * Editorial split hero. Copy left, image collage right.
- * Four text elements maximum: eyebrow, headline, subtext, CTAs. The stat pills sit
- * beneath the fold line as a separate band, not stacked inside the hero block.
+ * Home hero: two-column split on a flat green gradient with a dashed orbit backdrop.
+ *
+ * On the photo slot. No programme photography has been delivered, so the right column
+ * renders the branded placeholder treatment used everywhere else on the site. It holds
+ * the exact box, radius, and aspect a real image will occupy, so swapping in <Image>
+ * needs no layout change and does not move the floating cards.
+ *
+ * On the floating cards. Card A originally read "Laptop #482 / Today", which asserts a
+ * specific delivery that did not happen. The visual pattern is unchanged, but every
+ * string now comes from the confirmed 2025 figures: Gbagada Junior High is a real School
+ * Tour Initiative site with 60+ students reached.
  */
 export function Hero() {
   return (
-    <section className="relative overflow-hidden pt-14 pb-20 md:pt-20 md:pb-28">
-      {/* Soft brand wash behind the hero. Fixed, non-scrolling, decorative only. */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{
-          background:
-            "radial-gradient(900px 520px at 12% 0%, rgba(0,166,82,0.10), transparent 62%), radial-gradient(700px 460px at 92% 18%, rgba(0,173,239,0.10), transparent 60%)",
-        }}
-      />
+    <section className="relative isolate overflow-hidden" style={{ background: "var(--hero-gradient)" }}>
+      {/* Orbits sit behind the photo column and bleed off the right edge. */}
+      <OrbitBackdrop className="pointer-events-none absolute top-1/2 -right-[26%] -z-10 h-[135%] w-[95%] -translate-y-1/2 lg:-right-[10%] lg:w-[62%]" />
 
-      <div className="shell">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
-          <Reveal>
-            <p className="inline-flex rounded-full bg-mint px-4 py-1.5 text-[0.6875rem] font-extrabold tracking-[0.18em] text-brand-green-dark uppercase">
-              501(c)(3) nonprofit
-            </p>
-
-            <h1 className="mt-6 text-[2.5rem] leading-[1.02] font-extrabold tracking-[-0.038em] text-balance sm:text-6xl lg:text-[4.25rem]">
-              Used tech,{" "}
-              <span className="text-brand-green-dark">put back to work.</span>
-            </h1>
-
-            <p className="mt-6 max-w-[46ch] text-[1.0625rem] leading-relaxed text-ink-soft sm:text-lg">
-              We recover devices in St. Louis, refurbish them, and place them with
-              students and young creatives across Nigeria, Ghana, and Kenya.
-            </p>
-
-            <div className="mt-9 flex flex-wrap items-center gap-3">
-              <PillLink href="/get-involved">Get involved</PillLink>
-              <PillLink href="/impact" variant="outline">
-                See the impact
-              </PillLink>
-            </div>
-          </Reveal>
+      <div className="shell grid items-center gap-12 py-14 md:py-16 lg:grid-cols-[1.08fr_0.92fr] lg:gap-14 lg:py-20">
+        {/* Left column */}
+        <div className="max-w-[640px]">
+          <p className="text-[0.6875rem] font-extrabold tracking-[0.2em] text-white/90 uppercase">
+            Tech access for Africa
+          </p>
 
           {/*
-            Three placeholder slots. Real programme photography has not been delivered,
-            so these are branded blocks. Dropping in <Image> later needs no layout change.
+            Two sentences, sized so the first holds one line. The second runs to 34
+            characters and cannot fit a single line at hero scale inside a split layout,
+            so it breaks after "futures" rather than being shrunk to fit.
           */}
-          <Reveal delay={0.12} className="relative">
-            {/*
-              Mobile: a plain two-column stack, every cell full width of its column.
-              lg and up: the asymmetric 5x6 grid, where the tall slot and the stat card
-              share the left column and two smaller slots stack on the right.
-            */}
-            <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:h-[30rem] lg:grid-cols-5 lg:grid-rows-6">
-              <PhotoPlaceholder
-                tone={0}
-                caption="School Tour, Gbagada"
-                className="col-span-2 min-h-[11rem] lg:col-span-3 lg:row-span-4 lg:min-h-0"
+          <h1 className="mt-6 text-[2.375rem] leading-[1.06] font-extrabold tracking-[-0.04em] text-white text-balance sm:text-[2.75rem] lg:text-5xl">
+            Give tech a second life.
+            <span className="block">Power young futures across Africa.</span>
+          </h1>
+
+          <p className="mt-6 text-[1.0625rem] leading-relaxed text-white/90 text-pretty">
+            JustUsedTech collects, refurbishes, and redistributes technology to
+            underserved students and youth across Nigeria, Ghana, Kenya, and the US,
+            turning e-waste into opportunity.
+          </p>
+
+          <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
+            <PillLink href="/get-involved#donate-devices" variant="onDark">
+              Donate a device
+            </PillLink>
+            <Link
+              href="/impact"
+              className="group/link inline-flex items-center gap-2 text-[0.9375rem] font-bold text-white"
+            >
+              See our impact
+              <ArrowRight
+                className="size-4 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover/link:translate-x-1"
+                strokeWidth={2.25}
+                aria-hidden
               />
-              <PhotoPlaceholder
-                tone={1}
-                caption="Refurbishment bench, University City"
-                className="min-h-[9.5rem] lg:col-span-2 lg:row-span-3 lg:min-h-0"
-              />
-              <PhotoPlaceholder
-                tone={2}
-                caption="Project 9-12, Makoko"
-                className="min-h-[9.5rem] lg:col-span-2 lg:row-span-3 lg:min-h-0"
-              />
-              <div className="col-span-2 flex flex-col justify-center rounded-[var(--radius-inner)] bg-green-surface p-5 text-white lg:col-span-3 lg:row-span-2">
-                <p className="text-3xl leading-none font-extrabold tracking-[-0.03em] sm:text-4xl">
-                  8 schools
-                </p>
-                <p className="mt-2 text-[0.875rem] leading-snug font-semibold text-white/75">
-                  reached across Lagos State in 2025
-                </p>
-              </div>
-            </div>
-          </Reveal>
+            </Link>
+          </div>
+
+          {/* Trust row. Wordmarks are text: no partner logo files exist yet. */}
+          <div className="mt-12 border-t border-white/20 pt-7">
+            <p className="text-[0.8125rem] font-bold text-white/90">
+              Backed by 20+ partners across two continents
+            </p>
+            {/* TODO: swap for supplied partner logo SVGs when the client delivers them. */}
+            <ul className="mt-4 flex flex-wrap items-center gap-x-7 gap-y-3">
+              {heroTrustPartners.map((name) => (
+                <li
+                  key={name}
+                  className="text-[0.9375rem] font-extrabold tracking-[-0.01em] text-white/90"
+                >
+                  {name}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Right column: photo slot with floating cards on desktop. */}
+        <div className="relative">
+          {/*
+            Placeholder content is centred rather than pinned to the corners, so the two
+            floating cards can sit over the top-right and bottom-left without covering it.
+          */}
+          <figure className="flex aspect-[4/3.2] flex-col items-center justify-center gap-4 overflow-hidden rounded-[var(--radius-card)] bg-[linear-gradient(150deg,#dceee2_0%,#f6f4ea_55%,#ffe9a8_100%)] p-8 text-center shadow-[0_30px_70px_-30px_rgba(0,0,0,0.45)] sm:aspect-[4/3] lg:aspect-[4/3.4]">
+            <Camera
+              className="size-9 shrink-0 text-brand-green-dark/40"
+              strokeWidth={1.5}
+              aria-hidden
+            />
+            <figcaption className="max-w-[22ch] text-[0.8125rem] leading-snug font-semibold text-brand-green-dark">
+              Photo coming soon
+              <span className="block font-medium text-ink-soft">
+                Device handover, School Tour Initiative, Lagos
+              </span>
+            </figcaption>
+          </figure>
+
+          {/*
+            Floating cards are absolute from lg up only. Below that they render as static
+            badges under the photo, because absolute positioning over a narrow photo
+            collides with the caption and pushes cards off-screen.
+          */}
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:mt-0 lg:block">
+            <FloatingCard
+              className="lg:absolute lg:-top-6 lg:-right-4 lg:w-[17.5rem]"
+              delay="0s"
+            >
+              <p className="flex items-center gap-2 text-[0.9375rem] font-extrabold text-ink">
+                <span
+                  aria-hidden
+                  className="size-2 shrink-0 rounded-full bg-brand-green"
+                />
+                Devices delivered
+              </p>
+              <p className="mt-2 text-[0.875rem] leading-snug font-semibold text-ink-soft">
+                Gbagada Junior High, Lagos
+              </p>
+              <p className="mt-1.5 text-[0.75rem] font-bold text-ink-faint">
+                60+ students reached
+              </p>
+            </FloatingCard>
+
+            <FloatingCard
+              className="lg:absolute lg:-bottom-7 lg:-left-6 lg:w-[15rem]"
+              delay="1.6s"
+            >
+              <p className="text-3xl leading-none font-extrabold tracking-[-0.035em] text-brand-green-dark">
+                45,000+ lbs
+              </p>
+              <p className="mt-2 text-[0.875rem] font-semibold text-ink-soft">
+                E-waste diverted
+              </p>
+            </FloatingCard>
+          </div>
         </div>
       </div>
 
-      {/* Sentinel for the Quick Actions dock. It appears once the hero has scrolled past. */}
+      {/* Sentinel for the Quick Actions dock: it rises once the hero is scrolled past. */}
       <div id="dock-sentinel" aria-hidden className="h-px w-full" />
-
-      <div className="shell mt-16 md:mt-20">
-        <ul className="flex flex-wrap gap-3">
-          {heroStats.map((stat, i) => {
-            const Icon = STAT_ICONS[i]!;
-            return (
-              <li
-                key={stat.label}
-                className="flex items-center gap-3.5 rounded-full border border-[color:var(--hairline)] bg-white py-3 pr-6 pl-3 shadow-[var(--shadow-soft)]"
-              >
-                <span className="flex size-10 items-center justify-center rounded-full bg-mint text-brand-green-dark">
-                  <Icon className="size-[1.125rem]" strokeWidth={1.75} aria-hidden />
-                </span>
-                <span>
-                  <span className="block text-lg leading-none font-extrabold tracking-[-0.02em] text-ink">
-                    {stat.value}
-                  </span>
-                  <span className="mt-1 block text-[0.8125rem] font-semibold text-ink-soft">
-                    {stat.label}
-                  </span>
-                </span>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
     </section>
+  );
+}
+
+function FloatingCard({
+  children,
+  className,
+  delay,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay: string;
+}) {
+  return (
+    <div
+      className={`jut-float rounded-[var(--radius-inner)] bg-white p-5 shadow-[0_18px_44px_-20px_rgba(18,33,26,0.45)] ${className ?? ""}`}
+      style={{ ["--float-delay" as string]: delay }}
+    >
+      {children}
+    </div>
   );
 }

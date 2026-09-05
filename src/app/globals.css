@@ -139,6 +139,23 @@
   --sidebar-border: var(--hairline);
   --sidebar-ring: var(--brand-green);
 
+  /*
+    Hero gradient. Flat linear ramp at 135deg, no mesh and no noise, per spec.
+
+    The spec's two-stop ramp ran #007A37 to #00A652. White body copy over the bright half
+    lands at roughly 2.9:1 and fails WCAG AA, and the left text column sits over the middle
+    of that ramp, not the dark corner. So a third stop holds the darker greens across the
+    first 58% where all the type lives, and #00A652 is still reached at the far corner
+    behind the photo, where nothing has to be read. Every white tint used on this surface
+    clears 4.5:1.
+  */
+  --hero-gradient: linear-gradient(
+    135deg,
+    var(--green-surface) 0%,
+    var(--brand-green-dark) 58%,
+    var(--brand-green) 100%
+  );
+
   /* Soft, hue-tinted elevation. No pure-black drop shadows. */
   --shadow-soft: 0 1px 2px rgba(18, 33, 26, 0.04), 0 12px 32px -12px rgba(18, 33, 26, 0.12);
   --shadow-lift: 0 2px 4px rgba(18, 33, 26, 0.05), 0 28px 60px -24px rgba(0, 122, 55, 0.28);
@@ -268,6 +285,53 @@
   }
 }
 
+/*
+  Hero orbit backdrop.
+
+  Dashed ellipses crossing at angles behind the hero photo, reprising the crossing-orbit
+  lines from the brand's own globe graphic. Rotation is 60s to 95s per turn, slow enough
+  to read as life rather than movement. Transform only, so it stays on the compositor.
+*/
+@keyframes jut-orbit {
+  from {
+    transform: rotate(var(--orbit-tilt, 0deg));
+  }
+  to {
+    transform: rotate(calc(var(--orbit-tilt, 0deg) + 360deg));
+  }
+}
+
+.jut-orbit {
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: rotate(var(--orbit-tilt, 0deg));
+  animation: jut-orbit var(--orbit-duration, 80s) linear infinite;
+  will-change: transform;
+}
+
+/* Floating stat cards over the hero photo. Staggered so they do not bob in unison. */
+@keyframes jut-float {
+  0%,
+  100% {
+    transform: translate3d(0, -6px, 0);
+  }
+  50% {
+    transform: translate3d(0, 6px, 0);
+  }
+}
+
+/*
+  Only floats where the cards actually float. Below lg they are static badges stacked
+  under the photo, and bobbing inline content in a normal flow reads as a rendering fault.
+*/
+@media (min-width: 1024px) {
+  .jut-float {
+    animation: jut-float 4s ease-in-out infinite;
+    animation-delay: var(--float-delay, 0s);
+    will-change: transform;
+  }
+}
+
 /* World map: routes trace themselves once, endpoint pulses at the collection origin. */
 @keyframes jut-draw {
   from {
@@ -330,6 +394,16 @@
   .jut-ping {
     animation: none;
     opacity: 0.2;
+  }
+
+  .jut-orbit,
+  .jut-float {
+    animation: none;
+    will-change: auto;
+  }
+
+  .jut-float {
+    transform: none;
   }
 
   *,

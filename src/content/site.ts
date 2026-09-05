@@ -46,7 +46,22 @@ export const socials = [
   { name: "Linktree", href: "https://linktr.ee/justusedtech" },
 ] as const;
 
+/**
+ * Header navigation: four centre links, with Contact and the primary CTA held on the
+ * right. Kept deliberately short so the bar stays on one line.
+ */
 export const nav = [
+  { label: "Programs", href: "/programs" },
+  { label: "Impact", href: "/impact" },
+  { label: "Team", href: "/team" },
+  { label: "Get Involved", href: "/get-involved" },
+] as const;
+
+/**
+ * Footer navigation carries every page. About, Partners, and News are not in the header,
+ * so this is the route by which they stay reachable and crawlable.
+ */
+export const footerNav = [
   { label: "About", href: "/about" },
   { label: "Programs", href: "/programs" },
   { label: "Impact", href: "/impact" },
@@ -54,4 +69,22 @@ export const nav = [
   { label: "Partners", href: "/partners" },
   { label: "News", href: "/news" },
   { label: "Contact", href: "/contact" },
+] as const;
+
+/** Announcement bar above the header. */
+export const announcement = {
+  badge: "New",
+  text: "Now accepting device donations across the US and Nigeria",
+  href: "/get-involved#donate-devices",
+} as const;
+
+/**
+ * Trust row wordmarks under the hero CTAs. Text, not images: no partner logo files have
+ * been delivered. TODO: swap for supplied partner logo SVGs when the client provides them.
+ */
+export const heroTrustPartners = [
+  "Passback",
+  "Google",
+  "Claim Academy",
+  "Thomas Dunn Learning Center",
 ] as const;

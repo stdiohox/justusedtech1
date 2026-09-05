@@ -2,22 +2,28 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
 import { focusAreas } from "@/content/programs";
 import { site } from "@/content/site";
 
-/** Full-bleed statement band. One idea, said once, at size. */
+/**
+ * Mission statement band.
+ *
+ * Rendered light rather than green: the hero above it is now a full green gradient, and
+ * a second green block immediately below it read as one undifferentiated slab. Green is
+ * kept for the page's bookends, the hero and the closing CTA plus footer.
+ */
 export function MissionStrip() {
   return (
-    <section className="bg-green-surface py-20 text-white md:py-28">
+    <section className="bg-white py-20 md:py-28">
       <div className="shell grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
         <Reveal>
-          <p className="text-[0.6875rem] font-extrabold tracking-[0.18em] text-white/70 uppercase">
+          <p className="text-[0.6875rem] font-extrabold tracking-[0.18em] text-ink-faint uppercase">
             Our mission
           </p>
-          <p className="mt-6 max-w-[16ch] text-4xl leading-[1.08] font-extrabold tracking-[-0.035em] text-balance sm:text-5xl md:text-[3.5rem]">
+          <p className="mt-6 max-w-[16ch] text-4xl leading-[1.08] font-extrabold tracking-[-0.035em] text-ink text-balance sm:text-5xl md:text-[3.5rem]">
             A device that still works should still be working.
           </p>
         </Reveal>
 
         <Reveal delay={0.1} className="lg:pt-14">
-          <p className="max-w-[54ch] text-[1.0625rem] leading-relaxed text-white/80">
+          <p className="max-w-[54ch] text-[1.0625rem] leading-relaxed text-ink-soft">
             {site.mission}
           </p>
 
@@ -26,7 +32,7 @@ export function MissionStrip() {
               <RevealItem
                 as="li"
                 key={area}
-                className="rounded-full border border-white/20 px-4 py-2 text-[0.875rem] font-bold text-white/90"
+                className="rounded-full bg-mint px-4 py-2 text-[0.875rem] font-bold text-brand-green-dark"
               >
                 {area}
               </RevealItem>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { LogoLink } from "@/components/brand/logo";
-import { contact, nav, site, socials } from "@/content/site";
+import { contact, footerNav, site, socials } from "@/content/site";
 
 const involvement = [
   { label: "Donate a device", href: "/get-involved#donate-devices" },
@@ -30,7 +30,7 @@ export function SiteFooter() {
               Explore
             </h2>
             <ul className="mt-5 space-y-2.5">
-              {nav.map((item) => (
+              {footerNav.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
