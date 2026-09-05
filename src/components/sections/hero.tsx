@@ -37,9 +37,14 @@ export function Hero() {
         the subject reads as grounded. The left column carries its own bottom padding.
       */}
       <div className="shell grid gap-12 pt-14 md:pt-16 lg:min-h-[41rem] lg:grid-cols-[1.02fr_0.98fr] lg:items-stretch lg:gap-10 lg:pt-20">
-        {/* Left column */}
+        {/*
+          Left column type scale. Tracking tightens as size grows and opens for the
+          small-caps label. Weight 400 for body, 600 to 700 for controls and labels,
+          800 held back for the headline alone so it stays the only thing shouting.
+          Spacing uses the 4px token scale rather than raw values.
+        */}
         <div className="max-w-[640px] lg:flex lg:flex-col lg:pb-20">
-          <p className="text-[0.6875rem] font-extrabold tracking-[0.2em] text-white/90 uppercase">
+          <p className="text-[12px] leading-none font-semibold tracking-[var(--tracking-eyebrow)] text-white/90 uppercase">
             Tech access for Africa
           </p>
 
@@ -48,24 +53,28 @@ export function Hero() {
             characters and cannot fit a single line at hero scale inside a split layout,
             so it breaks after "futures" rather than being shrunk to fit.
           */}
-          <h1 className="mt-6 text-[2.375rem] leading-[1.06] font-extrabold tracking-[-0.04em] text-white text-balance sm:text-[2.75rem] lg:text-5xl">
+          <h1 className="mt-[var(--space-24)] text-[2.375rem] leading-[1.06] font-extrabold tracking-[var(--tracking-headline)] text-white text-balance sm:text-[2.75rem] lg:text-5xl">
             Give tech a second life.
             <span className="block">Power young futures across Africa.</span>
           </h1>
 
-          <p className="mt-6 text-[1.0625rem] leading-relaxed text-white/90 text-pretty">
+          <p className="mt-[var(--space-24)] text-[1.0625rem] leading-relaxed font-normal tracking-[var(--tracking-body)] text-white/90 text-pretty">
             JustUsedTech collects, refurbishes, and redistributes technology to
             underserved students and youth across Nigeria, Ghana, Kenya, and the US,
             turning e-waste into opportunity.
           </p>
 
-          <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-4">
+          {/*
+            Filled primary plus ghost-outlined secondary: the standard two-button pair,
+            expressed white-on-green rather than ink-on-white.
+          */}
+          <div className="mt-[var(--space-40)] flex flex-wrap items-center gap-[var(--space-16)]">
             <PillLink href="/get-involved#donate-devices" variant="onDark">
               Donate a device
             </PillLink>
             <Link
               href="/impact"
-              className="group/link inline-flex items-center gap-2 text-[0.9375rem] font-bold text-white"
+              className="group/link inline-flex items-center gap-[var(--space-8)] rounded-full border border-[rgba(255,255,255,0.7)] px-[var(--space-24)] py-[var(--space-12)] text-[0.9375rem] leading-none font-semibold tracking-[var(--tracking-body)] text-white transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-white/10"
             >
               See our impact
               <ArrowRight
@@ -78,16 +87,16 @@ export function Hero() {
 
           {/* Trust row. Wordmarks are text: no partner logo files exist yet. */}
           {/* Pushed to the base of the block at lg, so it sits on the hero's floor. */}
-          <div className="mt-12 border-t border-white/20 pt-7 lg:mt-auto">
-            <p className="text-[0.8125rem] font-bold text-white/90">
+          <div className="mt-[var(--space-48)] border-t border-white/20 pt-[var(--space-28)] lg:mt-auto">
+            <p className="text-[0.8125rem] font-semibold tracking-[var(--tracking-body)] text-white/90">
               Backed by 20+ partners across two continents
             </p>
             {/* TODO: swap for supplied partner logo SVGs when the client delivers them. */}
-            <ul className="mt-4 flex flex-wrap items-center gap-x-7 gap-y-3">
+            <ul className="mt-[var(--space-16)] flex flex-wrap items-center gap-x-[var(--space-28)] gap-y-[var(--space-12)]">
               {heroTrustPartners.map((name) => (
                 <li
                   key={name}
-                  className="text-[0.9375rem] font-extrabold tracking-[-0.01em] text-white/90"
+                  className="text-[0.9375rem] font-bold tracking-[var(--tracking-body)] text-white/90"
                 >
                   {name}
                 </li>

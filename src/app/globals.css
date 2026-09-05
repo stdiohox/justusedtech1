@@ -67,6 +67,44 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 
+  /*
+    Spacing scale, 4px base, named --space-* rather than --spacing-*.
+
+    --spacing-* is Tailwind v4's own theme namespace: the framework derives every numeric
+    utility from it as calc(var(--spacing) * n). Declaring --spacing-4 and friends here
+    replaces that dynamic scale with a fixed lookup, which silently redefines size-4 as
+    4px, h-8 as 8px, and drops px-5 and gap-6 entirely. It broke the logo, every icon,
+    and the page gutters site-wide before this rename.
+
+    Tailwind's numeric utilities already resolve to this same 4px grid (p-4 is 16px,
+    p-12 is 48px). These tokens exist for authored CSS and arbitrary values, where a raw
+    px number would otherwise slip off the scale.
+  */
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-28: 28px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-48: 48px;
+  --space-56: 56px;
+  --space-64: 64px;
+  --space-80: 80px;
+  --space-96: 96px;
+  --space-128: 128px;
+  --space-144: 144px;
+
+  /*
+    Tracking scale. Letter-spacing tightens as size grows and opens for small caps.
+    Weights: 400 body, 600 to 700 nav and controls, 800 for the headline only.
+  */
+  --tracking-headline: -0.02em;
+  --tracking-body: 0em;
+  --tracking-eyebrow: 0.12em;
+
   --radius-shell: 2.25rem;
   --radius-card: 1.75rem;
   --radius-inner: 1.375rem;

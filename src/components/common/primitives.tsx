@@ -167,17 +167,21 @@ export function InitialsAvatar({
   name,
   index,
   className,
+  circle = false,
 }: {
   name: string;
   index: number;
   className?: string;
+  /** Circular rather than the default squircle. Used by the Community Voices cards. */
+  circle?: boolean;
 }) {
   const tone = AVATAR_TONES[index % AVATAR_TONES.length]!;
   return (
     <div
       aria-hidden
       className={cn(
-        "flex size-14 shrink-0 items-center justify-center rounded-[1.125rem] text-lg font-extrabold tracking-[-0.02em]",
+        "flex size-14 shrink-0 items-center justify-center text-lg font-extrabold tracking-[-0.02em]",
+        circle ? "rounded-full" : "rounded-[1.125rem]",
         className,
       )}
       style={{ background: tone.bg, color: tone.fg }}
