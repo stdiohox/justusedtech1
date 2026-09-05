@@ -2,7 +2,7 @@ import { PillLink } from "@/components/common/pill-button";
 
 export default function NotFound() {
   return (
-    <section className="flex min-h-[60dvh] items-center py-24">
+    <section className="frame-x frame-radius-bottom flex min-h-[60dvh] items-center bg-white py-24">
       <div className="shell">
         <p className="inline-flex rounded-full bg-mint px-4 py-1.5 text-[0.6875rem] font-extrabold tracking-[0.18em] text-brand-green-dark uppercase">
           Page not found

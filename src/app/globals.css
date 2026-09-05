@@ -24,6 +24,7 @@
   --color-green-surface: var(--green-surface);
 
   /* Brand-derived surface ramp */
+  --color-mat: var(--mat);
   --color-paper: var(--paper);
   --color-paper-deep: var(--paper-deep);
   --color-ink: var(--ink);
@@ -93,6 +94,13 @@
     badges, and green text on light surfaces.
   */
   --green-surface: #00622c;
+
+  /*
+    The mat: the page canvas the framed hero unit floats on. Cooler and a shade darker
+    than --paper so the 16px gutter around the frame actually reads as a frame rather
+    than as a rendering seam.
+  */
+  --mat: #f3f4f1;
 
   /* Surfaces: warm off-white paper, never pure white, never pure black */
   --paper: #fbfaf6;
@@ -190,6 +198,54 @@
 }
 
 @layer components {
+  /*
+    Framed hero unit: announcement bar, nav, and hero read as one rounded block floating
+    on the mat. Built as two adjacent elements sharing the same horizontal inset, so the
+    seam between the nav and the hero is invisible and the outer corners round as one
+    continuous shape.
+
+    Why not one wrapper with overflow:hidden. Clipping an ancestor turns it into a
+    scrollport, which kills `position: sticky` on the nav inside it: the nav would scroll
+    away with the block. Rounding the first and last child instead gives the identical
+    silhouette and keeps the nav sticky. The announcement bar carries the top radius and
+    its own overflow:hidden, so its square corners are still clipped to the block shape.
+  */
+  /*
+    16px at every breakpoint. 8px was tried on mobile per the original spec and read as
+    barely inset rather than framed, so the radius drops to 20px there instead and the
+    gutter holds.
+  */
+  .frame-x {
+    margin-inline: 16px;
+  }
+
+  .frame-top {
+    margin-top: 16px;
+  }
+
+  .frame-radius-top {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    overflow: hidden;
+  }
+
+  .frame-radius-bottom {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    overflow: hidden;
+  }
+
+  @media (min-width: 768px) {
+    .frame-radius-top {
+      border-top-left-radius: 28px;
+      border-top-right-radius: 28px;
+    }
+    .frame-radius-bottom {
+      border-bottom-left-radius: 28px;
+      border-bottom-right-radius: 28px;
+    }
+  }
+
   /* Page gutter, shared by every section so vertical edges line up across the site. */
   .shell {
     @apply mx-auto w-full max-w-[1240px] px-5 sm:px-8;

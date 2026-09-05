@@ -8,10 +8,15 @@ import { heroTrustPartners } from "@/content/site";
 /**
  * Home hero: two-column split on a flat green gradient with a dashed orbit backdrop.
  *
- * On the photo. This is brand photography, not a record of a specific handover, so it
- * carries no caption and no claim about who the subject is. Programme and field
- * photography still does not exist, which is why the rest of the site keeps its branded
- * placeholder treatment.
+ * On the photo. A transparent cutout, so there is no card or frame around it: it stands
+ * directly on the gradient. `object-contain` rather than `cover`, because cropping a
+ * silhouette would cut into her hair or the laptop edge. The subject is bottom-anchored
+ * so the cut edge of the torso meets the hero's bottom edge and reads as grounded rather
+ * than floating in space, and a drop-shadow lifts her off the flat gradient.
+ *
+ * This is brand photography, not a record of a specific handover, so it carries no
+ * caption and no claim about who the subject is. Programme and field photography still
+ * does not exist, which is why the rest of the site keeps its placeholder treatment.
  *
  * On the floating cards. Card A originally read "Laptop #482 / Today", which asserts a
  * specific delivery that did not happen. The visual pattern is unchanged, but every
@@ -20,13 +25,20 @@ import { heroTrustPartners } from "@/content/site";
  */
 export function Hero() {
   return (
-    <section className="relative isolate overflow-hidden" style={{ background: "var(--hero-gradient)" }}>
+    <section
+      className="frame-x frame-radius-bottom relative isolate overflow-hidden"
+      style={{ background: "var(--hero-gradient)" }}
+    >
       {/* Orbits sit behind the photo column and bleed off the right edge. */}
       <OrbitBackdrop className="pointer-events-none absolute top-1/2 -right-[26%] -z-10 h-[135%] w-[95%] -translate-y-1/2 lg:-right-[10%] lg:w-[62%]" />
 
-      <div className="shell grid items-center gap-12 py-14 md:py-16 lg:grid-cols-[1.08fr_0.92fr] lg:gap-14 lg:py-20">
+      {/*
+        No bottom padding on the section: the cutout column runs to the bottom edge so
+        the subject reads as grounded. The left column carries its own bottom padding.
+      */}
+      <div className="shell grid gap-12 pt-14 md:pt-16 lg:grid-cols-[1.08fr_0.92fr] lg:items-end lg:gap-14 lg:pt-20">
         {/* Left column */}
-        <div className="max-w-[640px]">
+        <div className="max-w-[640px] lg:pb-20">
           <p className="text-[0.6875rem] font-extrabold tracking-[0.2em] text-white/90 uppercase">
             Tech access for Africa
           </p>
@@ -83,63 +95,64 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Right column: photo slot with floating cards on desktop. */}
-        <div className="relative">
+        {/* Right column: the cutout, with floating cards from lg up. */}
+        <div className="pb-14 lg:pb-0">
           {/*
-            Source is 16:9 and the slot is close to 4:3, so it is centre-cropped. The
-            subject sits mid-frame and survives the crop at every breakpoint.
+            The inner wrapper is exactly the width of the image, so the cards' percentage
+            offsets are measured against the subject rather than against the column.
 
-            Alt text describes what is in the picture and stops there. It does not name
-            her as a JustUsedTech recipient, because the image is brand photography rather
-            than a record of a specific handover.
+            Alt text describes the frame and stops there. It does not name her as a
+            JustUsedTech recipient, because this is brand photography rather than a record
+            of a specific handover.
           */}
-          <div className="relative aspect-[4/3.2] overflow-hidden rounded-[var(--radius-card)] shadow-[0_30px_70px_-30px_rgba(0,0,0,0.45)] sm:aspect-[4/3]">
+          <div className="relative mx-auto w-[92%]">
             <Image
-              src="/hero/hero-student.jpeg"
-              alt="A young woman smiling as she works on a laptop."
-              fill
+              src="/hero/hero-student-cutout.png"
+              alt="Student using a laptop."
+              width={1631}
+              height={1536}
               priority
-              sizes="(min-width: 1024px) 46vw, 100vw"
-              className="object-cover object-center"
+              sizes="(min-width: 1024px) 44vw, 92vw"
+              className="h-auto w-full [filter:drop-shadow(0_26px_34px_rgba(0,26,12,0.42))]"
             />
-          </div>
 
-          {/*
-            Floating cards are absolute from lg up only. Below that they render as static
-            badges under the photo, because absolute positioning over a narrow photo
-            collides with the caption and pushes cards off-screen.
-          */}
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:mt-0 lg:block">
-            <FloatingCard
-              className="lg:absolute lg:-top-6 lg:-right-4 lg:w-[17.5rem]"
-              delay="0s"
-            >
-              <p className="flex items-center gap-2 text-[0.9375rem] font-extrabold text-ink">
-                <span
-                  aria-hidden
-                  className="size-2 shrink-0 rounded-full bg-brand-green"
-                />
-                Devices delivered
-              </p>
-              <p className="mt-2 text-[0.875rem] leading-snug font-semibold text-ink-soft">
-                Gbagada Junior High, Lagos
-              </p>
-              <p className="mt-1.5 text-[0.75rem] font-bold text-ink-faint">
-                60+ students reached
-              </p>
-            </FloatingCard>
+            {/*
+              Floating cards are absolute from lg up only, offset in percentages so they
+              track the subject across breakpoints. Below lg they are static badges under
+              the image, because absolute cards over a narrow cutout cover her face.
+            */}
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:mt-0 lg:block">
+              <FloatingCard
+                className="lg:absolute lg:top-[7%] lg:-right-[8%] lg:z-10 lg:w-[16.5rem]"
+                delay="0s"
+              >
+                <p className="flex items-center gap-2 text-[0.9375rem] font-extrabold text-ink">
+                  <span
+                    aria-hidden
+                    className="size-2 shrink-0 rounded-full bg-brand-green"
+                  />
+                  Devices delivered
+                </p>
+                <p className="mt-2 text-[0.875rem] leading-snug font-semibold text-ink-soft">
+                  Gbagada Junior High, Lagos
+                </p>
+                <p className="mt-1.5 text-[0.75rem] font-bold text-ink-faint">
+                  60+ students reached
+                </p>
+              </FloatingCard>
 
-            <FloatingCard
-              className="lg:absolute lg:-bottom-7 lg:-left-6 lg:w-[15rem]"
-              delay="1.6s"
-            >
-              <p className="text-3xl leading-none font-extrabold tracking-[-0.035em] text-brand-green-dark">
-                45,000+ lbs
-              </p>
-              <p className="mt-2 text-[0.875rem] font-semibold text-ink-soft">
-                E-waste diverted
-              </p>
-            </FloatingCard>
+              <FloatingCard
+                className="lg:absolute lg:bottom-[9%] lg:-left-[7%] lg:z-10 lg:w-[14.5rem]"
+                delay="1.6s"
+              >
+                <p className="text-3xl leading-none font-extrabold tracking-[-0.035em] text-brand-green-dark">
+                  45,000+ lbs
+                </p>
+                <p className="mt-2 text-[0.875rem] font-semibold text-ink-soft">
+                  E-waste diverted
+                </p>
+              </FloatingCard>
+            </div>
           </div>
         </div>
       </div>

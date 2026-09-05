@@ -37,14 +37,21 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={nunito.variable}>
-      <body className="min-h-[100dvh] bg-paper">
+      <body className="min-h-[100dvh] bg-mat">
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-full focus:bg-brand-green-dark focus:px-5 focus:py-3 focus:font-bold focus:text-white"
         >
           Skip to content
         </a>
-        <AnnouncementBar />
+        {/*
+          Top of the framed hero unit. The bar and the nav are separate children of body
+          sharing the same inset rather than sitting in a shared wrapper: `position: sticky`
+          is confined to its parent's box, so a short wrapper would let the nav scroll away
+          with it. The page's own hero carries `frame-x` plus `frame-radius-bottom` and
+          closes the block. Everything below returns to full width with no frame.
+        */}
+        <AnnouncementBar className="frame-x frame-top frame-radius-top" />
         <SiteHeader />
         <main id="main">{children}</main>
         <SiteFooter />

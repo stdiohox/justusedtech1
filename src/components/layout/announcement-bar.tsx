@@ -9,9 +9,9 @@ import { announcement } from "@/content/site";
  * on the gold reaches 5.5:1 that way, against 4.0:1 with the lighter token, and the label
  * is small enough to need the higher bar.
  */
-export function AnnouncementBar() {
+export function AnnouncementBar({ className }: { className?: string }) {
   return (
-    <div className="bg-brand-green-dark text-white">
+    <div className={`bg-brand-green-dark text-white ${className ?? ""}`}>
       <Link
         href={announcement.href}
         className="group/ann flex w-full items-center justify-center gap-3 px-4 py-2.5 text-center"

@@ -14,7 +14,8 @@ export function PageHero({
   aside?: ReactNode;
 }) {
   return (
-    <section className="relative overflow-hidden pt-14 pb-16 md:pt-20 md:pb-20">
+    // Closes the framed block on inner pages, the way the home hero does on the home page.
+    <section className="frame-x frame-radius-bottom relative overflow-hidden bg-white pt-14 pb-16 md:pt-20 md:pb-20">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10"
