@@ -1,5 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Camera } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { PillLink } from "@/components/common/pill-button";
 import { OrbitBackdrop } from "@/components/sections/orbit-backdrop";
 import { heroTrustPartners } from "@/content/site";
@@ -7,10 +8,10 @@ import { heroTrustPartners } from "@/content/site";
 /**
  * Home hero: two-column split on a flat green gradient with a dashed orbit backdrop.
  *
- * On the photo slot. No programme photography has been delivered, so the right column
- * renders the branded placeholder treatment used everywhere else on the site. It holds
- * the exact box, radius, and aspect a real image will occupy, so swapping in <Image>
- * needs no layout change and does not move the floating cards.
+ * On the photo. This is brand photography, not a record of a specific handover, so it
+ * carries no caption and no claim about who the subject is. Programme and field
+ * photography still does not exist, which is why the rest of the site keeps its branded
+ * placeholder treatment.
  *
  * On the floating cards. Card A originally read "Laptop #482 / Today", which asserts a
  * specific delivery that did not happen. The visual pattern is unchanged, but every
@@ -85,22 +86,23 @@ export function Hero() {
         {/* Right column: photo slot with floating cards on desktop. */}
         <div className="relative">
           {/*
-            Placeholder content is centred rather than pinned to the corners, so the two
-            floating cards can sit over the top-right and bottom-left without covering it.
+            Source is 16:9 and the slot is close to 4:3, so it is centre-cropped. The
+            subject sits mid-frame and survives the crop at every breakpoint.
+
+            Alt text describes what is in the picture and stops there. It does not name
+            her as a JustUsedTech recipient, because the image is brand photography rather
+            than a record of a specific handover.
           */}
-          <figure className="flex aspect-[4/3.2] flex-col items-center justify-center gap-4 overflow-hidden rounded-[var(--radius-card)] bg-[linear-gradient(150deg,#dceee2_0%,#f6f4ea_55%,#ffe9a8_100%)] p-8 text-center shadow-[0_30px_70px_-30px_rgba(0,0,0,0.45)] sm:aspect-[4/3] lg:aspect-[4/3.4]">
-            <Camera
-              className="size-9 shrink-0 text-brand-green-dark/40"
-              strokeWidth={1.5}
-              aria-hidden
+          <div className="relative aspect-[4/3.2] overflow-hidden rounded-[var(--radius-card)] shadow-[0_30px_70px_-30px_rgba(0,0,0,0.45)] sm:aspect-[4/3]">
+            <Image
+              src="/hero/hero-student.jpeg"
+              alt="A young woman smiling as she works on a laptop."
+              fill
+              priority
+              sizes="(min-width: 1024px) 46vw, 100vw"
+              className="object-cover object-center"
             />
-            <figcaption className="max-w-[22ch] text-[0.8125rem] leading-snug font-semibold text-brand-green-dark">
-              Photo coming soon
-              <span className="block font-medium text-ink-soft">
-                Device handover, School Tour Initiative, Lagos
-              </span>
-            </figcaption>
-          </figure>
+          </div>
 
           {/*
             Floating cards are absolute from lg up only. Below that they render as static
