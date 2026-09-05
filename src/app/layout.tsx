@@ -44,14 +44,8 @@ export default function RootLayout({
         >
           Skip to content
         </a>
-        {/*
-          Top of the framed hero unit. The bar and the nav are separate children of body
-          sharing the same inset rather than sitting in a shared wrapper: `position: sticky`
-          is confined to its parent's box, so a short wrapper would let the nav scroll away
-          with it. The page's own hero carries `frame-x` plus `frame-radius-bottom` and
-          closes the block. Everything below returns to full width with no frame.
-        */}
-        <AnnouncementBar className="frame-x frame-top frame-radius-top" />
+        {/* Bar and nav run flush to the viewport edges. Only the hero block is framed. */}
+        <AnnouncementBar />
         <SiteHeader />
         <main id="main">{children}</main>
         <SiteFooter />

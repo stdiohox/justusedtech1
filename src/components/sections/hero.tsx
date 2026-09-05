@@ -26,7 +26,7 @@ import { heroTrustPartners } from "@/content/site";
 export function Hero() {
   return (
     <section
-      className="frame-x frame-radius-bottom relative isolate overflow-hidden"
+      className="hero-frame relative isolate lg:min-h-[41rem]"
       style={{ background: "var(--hero-gradient)" }}
     >
       {/* Orbits sit behind the photo column and bleed off the right edge. */}
@@ -36,9 +36,9 @@ export function Hero() {
         No bottom padding on the section: the cutout column runs to the bottom edge so
         the subject reads as grounded. The left column carries its own bottom padding.
       */}
-      <div className="shell grid gap-12 pt-14 md:pt-16 lg:grid-cols-[1.08fr_0.92fr] lg:items-end lg:gap-14 lg:pt-20">
+      <div className="shell grid gap-12 pt-14 md:pt-16 lg:min-h-[41rem] lg:grid-cols-[1.02fr_0.98fr] lg:items-stretch lg:gap-10 lg:pt-20">
         {/* Left column */}
-        <div className="max-w-[640px] lg:pb-20">
+        <div className="max-w-[640px] lg:flex lg:flex-col lg:pb-20">
           <p className="text-[0.6875rem] font-extrabold tracking-[0.2em] text-white/90 uppercase">
             Tech access for Africa
           </p>
@@ -77,7 +77,8 @@ export function Hero() {
           </div>
 
           {/* Trust row. Wordmarks are text: no partner logo files exist yet. */}
-          <div className="mt-12 border-t border-white/20 pt-7">
+          {/* Pushed to the base of the block at lg, so it sits on the hero's floor. */}
+          <div className="mt-12 border-t border-white/20 pt-7 lg:mt-auto">
             <p className="text-[0.8125rem] font-bold text-white/90">
               Backed by 20+ partners across two continents
             </p>
@@ -96,24 +97,30 @@ export function Hero() {
         </div>
 
         {/* Right column: the cutout, with floating cards from lg up. */}
-        <div className="pb-14 lg:pb-0">
+        <div className="pb-14 lg:relative lg:pb-0">
           {/*
-            The inner wrapper is exactly the width of the image, so the cards' percentage
-            offsets are measured against the subject rather than against the column.
+            The wrapper is exactly the width of the image, so the cards' percentage offsets
+            are measured against the subject rather than against the column.
+
+            At lg the wrapper is absolutely positioned and sized by HEIGHT (90% of the
+            hero's inner height) with width following the 1631:1536 ratio. Sizing by width
+            left her far too small: the column is narrower than the block is tall, so
+            width-driven scaling capped her at roughly two thirds of the available height.
+            She now runs from just under the top padding to the block's bottom edge.
 
             Alt text describes the frame and stops there. It does not name her as a
             JustUsedTech recipient, because this is brand photography rather than a record
             of a specific handover.
           */}
-          <div className="relative mx-auto w-[92%]">
+          <div className="relative mx-auto w-[92%] lg:absolute lg:right-0 lg:bottom-0 lg:mx-0 lg:h-[90%] lg:w-auto">
             <Image
               src="/hero/hero-student-cutout.png"
               alt="Student using a laptop."
               width={1631}
               height={1536}
               priority
-              sizes="(min-width: 1024px) 44vw, 92vw"
-              className="h-auto w-full [filter:drop-shadow(0_26px_34px_rgba(0,26,12,0.42))]"
+              sizes="(min-width: 1024px) 46vw, 92vw"
+              className="h-auto w-full [filter:drop-shadow(0_26px_34px_rgba(0,26,12,0.42))] lg:h-full lg:w-auto lg:max-w-none"
             />
 
             {/*
@@ -123,7 +130,9 @@ export function Hero() {
             */}
             <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:mt-0 lg:block">
               <FloatingCard
-                className="lg:absolute lg:top-[7%] lg:-right-[8%] lg:z-10 lg:w-[16.5rem]"
+                // Narrowed and pulled flush right: at the larger photo scale the previous
+                // offset sat squarely on her hair. This clears it and only kisses the edge.
+                className="lg:absolute lg:top-[3%] lg:right-0 lg:z-10 lg:w-[15rem]"
                 delay="0s"
               >
                 <p className="flex items-center gap-2 text-[0.9375rem] font-extrabold text-ink">
@@ -136,7 +145,8 @@ export function Hero() {
                 <p className="mt-2 text-[0.875rem] leading-snug font-semibold text-ink-soft">
                   Gbagada Junior High, Lagos
                 </p>
-                <p className="mt-1.5 text-[0.75rem] font-bold text-ink-faint">
+                {/* ink-soft, not ink-faint: the lighter token loses AA on the glass fill. */}
+                <p className="mt-1.5 text-[0.75rem] font-bold text-ink-soft">
                   60+ students reached
                 </p>
               </FloatingCard>
@@ -174,7 +184,7 @@ function FloatingCard({
 }) {
   return (
     <div
-      className={`jut-float rounded-[var(--radius-inner)] bg-white p-5 shadow-[0_18px_44px_-20px_rgba(18,33,26,0.45)] ${className ?? ""}`}
+      className={`jut-float glass-card rounded-[var(--radius-inner)] p-5 ${className ?? ""}`}
       style={{ ["--float-delay" as string]: delay }}
     >
       {children}

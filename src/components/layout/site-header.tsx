@@ -41,7 +41,7 @@ export function SiteHeader() {
     pathname === href || pathname.startsWith(`${href}/`);
 
   return (
-    <header className="frame-x sticky top-0 z-40 border-b border-[color:var(--hairline)] bg-white/92 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 border-b border-[color:var(--hairline)] bg-white/92 backdrop-blur-xl">
       <div className="shell flex h-18 items-center justify-between gap-6">
         <LogoLink priority className="shrink-0" />
 

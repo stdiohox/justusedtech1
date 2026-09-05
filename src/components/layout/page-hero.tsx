@@ -14,8 +14,8 @@ export function PageHero({
   aside?: ReactNode;
 }) {
   return (
-    // Closes the framed block on inner pages, the way the home hero does on the home page.
-    <section className="frame-x frame-radius-bottom relative overflow-hidden bg-white pt-14 pb-16 md:pt-20 md:pb-20">
+    // Full width and unframed: the rounded frame is the home hero gradient block only.
+    <section className="relative overflow-hidden bg-paper pt-14 pb-16 md:pt-20 md:pb-20">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10"
