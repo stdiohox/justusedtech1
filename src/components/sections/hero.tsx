@@ -17,10 +17,11 @@ import { heroTrustPartners } from "@/content/site";
  * one to a programme, and does not call the laptops refurbished, because none of that is
  * established by the photograph itself.
  *
- * The source is 1340x893, under the 2000px the slot asks for. At the desktop size the
- * window renders the media layer around 708 CSS px wide, so a 2x display has no spare
- * pixels and the photo will look soft there. A larger export of the same frame drops
- * straight in: only the width and height props below change.
+ * The source is 2680x1786, a 2x export of the same frame at the same crop. It replaced a
+ * 1340x893 original that had no spare pixels for a retina display: the window renders the
+ * media layer around 708 CSS px wide, which wants roughly 1416px of source and now has
+ * comfortably more. The width and height props below are the file's intrinsic size and are
+ * the only thing a further re-export would change.
  *
  * On the floating cards. Card A originally read "Laptop #482 / Today", which asserts a
  * specific delivery that did not happen. The visual pattern is unchanged, but every
@@ -149,8 +150,8 @@ export function Hero() {
               <Image
                 src="/hero/hero-visual.jpg"
                 alt="Students working on laptops at a JustUsedTech session, with a mentor helping."
-                width={1340}
-                height={893}
+                width={2680}
+                height={1786}
                 priority
                 quality={90}
                 sizes="(min-width: 1024px) 46vw, 92vw"
