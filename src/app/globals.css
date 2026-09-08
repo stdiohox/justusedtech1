@@ -347,6 +347,40 @@
     box-shadow: 0 12px 30px -16px rgba(0, 26, 12, 0.4);
   }
 
+  /*
+    Hero visual: a rounded window that crops an oversized image.
+
+    The media layer is 120% of the window in both axes and anchored top-left, so the top
+    and left of the picture stay whole and the right and bottom run off the edge. That is
+    the point of the treatment: the subject reads as a detail lifted out of a larger frame
+    rather than a photo politely centred in a box.
+
+    The class is shared by the placeholder and by the real <Image>, so swapping the asset in
+    needs no geometry changes. max-width and height are declared explicitly because
+    Tailwind's preflight sets `img { max-width: 100%; height: auto }`, which would otherwise
+    clamp the oversize away.
+  */
+  .hero-visual-media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 120%;
+    width: 120%;
+    max-width: none;
+    object-fit: cover;
+    object-position: left top;
+  }
+
+  /* Placeholder fill. Diagonal hatching reads as "nothing here yet" at any size. */
+  .hero-visual-stripes {
+    background-color: var(--surface-subtle);
+    background-image: repeating-linear-gradient(
+      -45deg,
+      rgba(18, 33, 26, 0.06) 0 8px,
+      transparent 8px 20px
+    );
+  }
+
   /* Browsers without backdrop-filter get an opaque fill instead of an unreadable wash. */
   @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
     .glass-card {
