@@ -10,10 +10,13 @@ import { marqueePartners } from "@/content/partners";
  *
  * The strip is duplicated once and translated -50%, which gives a seamless loop. The
  * duplicate is aria-hidden so screen readers read each partner once.
+ *
+ * Wordmarks rest at 65% of --ink and resolve to --brand-green-dark on hover, matching the
+ * /partners strip. See that file for why the opacity comes off --ink and not --ink-faint.
  */
 export function PartnersMarquee() {
   return (
-    <section className="border-y border-[color:var(--hairline)] bg-white py-14">
+    <section className="border-y border-edge bg-white py-14">
       <div className="shell">
         <h2 className="text-[0.6875rem] font-extrabold tracking-[0.18em] text-ink-faint uppercase">
           Working with
@@ -34,7 +37,7 @@ export function PartnersMarquee() {
               {marqueePartners.map((name) => (
                 <li
                   key={name}
-                  className="px-7 text-lg font-extrabold tracking-[-0.02em] whitespace-nowrap text-ink-faint sm:px-9 sm:text-xl"
+                  className="px-7 text-lg font-extrabold tracking-[-0.02em] whitespace-nowrap text-ink/65 transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:text-brand-green-dark sm:px-9 sm:text-xl"
                 >
                   {name}
                 </li>

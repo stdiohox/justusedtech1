@@ -48,7 +48,7 @@ export default function TeamPage() {
                 <RevealItem
                   as="li"
                   key={member.name}
-                  className="flex items-start gap-4 rounded-[var(--radius-card)] border border-[color:var(--hairline)] bg-white p-6 shadow-[var(--shadow-soft)]"
+                  className="card flex items-start gap-4"
                 >
                   <InitialsAvatar name={member.name} index={groupIndex + i} />
                   <div className="min-w-0 pt-0.5">

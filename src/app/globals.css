@@ -6,8 +6,21 @@
   JUSTUSED design system.
   Theme lock: LIGHT ONLY. There is no dark variant and no theme toggle. The brand is a
   bright green on warm paper, and inverting it breaks the logo lockup and the gold accent.
-  Radius rule (locked): interactive controls are full pills, cards are --radius-card,
-  media and inner cores are --radius-inner, inputs are --radius-field. Nothing is square.
+
+  Radius rule (locked):
+    --radius-pill    nav-style CTAs only (the PillLink family). Still the brand's primary
+                     button shape, per the standing "pill buttons" rule.
+    --radius-card    36px. Every content card on the site.
+    --radius-shell   44px. The bezel wrapper, sized so its core stays concentric at 36px.
+    --radius-inner   22px. Media blocks and inset panels nested inside a card.
+    --radius-button  14px. Non-pill controls and form fields.
+    --radius-badge   12px. Status badges and tag pills.
+  Nothing is square.
+
+  Elevation rule (locked): content cards carry a 1px --edge hairline and NO drop shadow.
+  --shadow-soft survives only on elements that predate this rule and read as lifted rather
+  than as cards (the outline pill button). Community Voices keeps its glass treatment,
+  which is a deliberate exception, not an oversight.
 */
 
 @theme inline {
@@ -33,6 +46,11 @@
   --color-hairline: var(--hairline);
   --color-mint: var(--mint);
   --color-mint-deep: var(--mint-deep);
+
+  /* Card system: surfaces and the hairline that replaces drop shadows. */
+  --color-edge: var(--edge);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-surface-dark: var(--surface-dark);
 
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -105,10 +123,19 @@
   --tracking-body: 0em;
   --tracking-eyebrow: 0.12em;
 
-  --radius-shell: 2.25rem;
-  --radius-card: 1.75rem;
+  /*
+    Radius scale. --radius-shell is --radius-card plus the bezel's 0.5rem padding, so the
+    outer shell and its inner core stay concentric. Changing one without the other puts a
+    visible kink where the two curves disagree.
+  */
+  --radius-shell: 2.75rem;
+  --radius-card: 2.25rem;
   --radius-inner: 1.375rem;
-  --radius-field: 1rem;
+  --radius-button: 0.875rem;
+  /* Form fields share the button radius. Kept as its own name so field-only tweaks stay local. */
+  --radius-field: 0.875rem;
+  --radius-badge: 0.75rem;
+  --radius-pill: 9999px;
 
   --ease-brand: cubic-bezier(0.32, 0.72, 0, 1);
 }
@@ -146,6 +173,29 @@
   --mint: #eef7f0;
   --mint-deep: #dceee2;
 
+  /*
+    Card system surfaces.
+
+    --surface-subtle is the recessed step below white: nested panels inside a card, and the
+    resting fill for an Upcoming programme card, which should read one notch quieter than a
+    running one.
+
+    --surface-dark is the brand's answer to a neutral black feature block: our dark surface
+    IS green. It resolves to --green-surface (#00622C) rather than --brand-green-dark
+    (#007A37) for the reason documented above: at fill size the two are indistinguishable,
+    but only #00622C carries the muted white tints (white/70 and up) at WCAG AA. Small
+    green elements on light surfaces still use --brand-green-dark exactly as sampled.
+
+    --edge is the hairline that replaces drop shadows on every card built under this pass.
+    Opaque rather than the translucent --hairline, so it lands the same weight on white,
+    paper, and surface-subtle instead of drifting with whatever sits behind it.
+  */
+  --surface-canvas: var(--mat);
+  --surface-card: #ffffff;
+  --surface-subtle: #fafaf8;
+  --surface-dark: var(--green-surface);
+  --edge: #e5e5e0;
+
   --ink: #12211a;
   --ink-soft: #4c5c54;
   /*
@@ -154,6 +204,13 @@
     and white, so the same token is safe on every light surface in the system.
   */
   --ink-faint: #5f6f69;
+  /*
+    The muted-label token the card system asks for. It is --ink-faint rather than a new
+    neutral: a true #71717A grey sits at roughly 4.5:1 on our warm paper, right on the AA
+    line, and reads cold against the canvas. --ink-faint is the same value in the hierarchy
+    with the green cast the rest of the palette carries. Use `text-ink-faint` in markup.
+  */
+  --text-muted: var(--ink-faint);
   --hairline: rgba(18, 33, 26, 0.09);
 
   --background: var(--paper);
@@ -202,9 +259,14 @@
     var(--brand-green) 100%
   );
 
-  /* Soft, hue-tinted elevation. No pure-black drop shadows. */
+  /*
+    Soft, hue-tinted elevation. No pure-black drop shadows.
+
+    Only the outline pill button still uses this. Cards do not: see the elevation rule at
+    the top of this file. The old --shadow-lift, a heavy green glow for the featured
+    programme cell, is gone rather than left sitting here as an invitation.
+  */
   --shadow-soft: 0 1px 2px rgba(18, 33, 26, 0.04), 0 12px 32px -12px rgba(18, 33, 26, 0.12);
-  --shadow-lift: 0 2px 4px rgba(18, 33, 26, 0.05), 0 28px 60px -24px rgba(0, 122, 55, 0.28);
 }
 
 @layer base {
@@ -290,6 +352,40 @@
     .glass-card {
       background: rgba(255, 255, 255, 0.94);
     }
+  }
+
+  /*
+    The site's one content-card surface. Hairline instead of shadow, so a grid of cards
+    reads as a set of panels cut from the same sheet rather than as objects hovering at
+    slightly different heights.
+
+    Modifiers:
+      .card-quiet   recessed fill, for a card whose subject is not yet live.
+      .card-dark    the green feature block used as a rhythm break on light sections.
+      .card-flush   drops the padding so a media band can run to the card's own edges.
+                    Pair it with a padded body element inside.
+  */
+  .card {
+    background: var(--surface-card);
+    border: 1px solid var(--edge);
+    border-radius: var(--radius-card);
+    padding: var(--space-28);
+    box-shadow: none;
+  }
+
+  .card-quiet {
+    background: var(--surface-subtle);
+  }
+
+  .card-dark {
+    background: var(--surface-dark);
+    border-color: transparent;
+    color: #ffffff;
+  }
+
+  .card-flush {
+    padding: 0;
+    overflow: hidden;
   }
 
   /* Outer shell / inner core pairing used by every major card on the site. */

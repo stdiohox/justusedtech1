@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/page-hero";
 import { PillLink } from "@/components/common/pill-button";
+import { ProgramMedia } from "@/components/common/program-media";
 import { Section, SectionHead, StatusBadge } from "@/components/common/primitives";
 import { Reveal } from "@/components/common/reveal";
 import {
@@ -8,6 +9,7 @@ import {
   upcomingPrograms,
   type Program,
 } from "@/content/programs";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Programs",
@@ -21,7 +23,7 @@ export default function ProgramsPage() {
       <PageHero
         eyebrow="Programs"
         title="What we run, and what is still a proposal."
-        lede="Everything below is labelled. Programmes marked Running now are delivering today. Programmes marked In development are proposals or concepts at pitch stage, and are not yet operating."
+        lede="Everything below is labelled. Programmes badged Active are delivering today. Programmes badged Upcoming are proposals or concepts at pitch stage, and are not yet operating."
       />
 
       <Section tone="white">
@@ -34,13 +36,18 @@ export default function ProgramsPage() {
         <div className="mt-12 space-y-5">
           {activePrograms.map((program, i) => (
             <Reveal key={program.slug} delay={Math.min(i, 3) * 0.05}>
-              <ProgramPanel program={program} />
+              <ProgramPanel program={program} tone={i} />
             </Reveal>
           ))}
         </div>
       </Section>
 
-      <Section tone="deep">
+      {/*
+        Paper rather than paper-deep: an Upcoming card is filled with --surface-subtle,
+        which on this ground sits a hair off the page and is held mostly by its hairline.
+        That outline-not-fill reading is the same signal the Upcoming badge carries.
+      */}
+      <Section tone="paper">
         <Reveal>
           <SectionHead
             title="In development"
@@ -50,7 +57,7 @@ export default function ProgramsPage() {
         <div className="mt-12 space-y-5">
           {upcomingPrograms.map((program, i) => (
             <Reveal key={program.slug} delay={Math.min(i, 3) * 0.05}>
-              <ProgramPanel program={program} />
+              <ProgramPanel program={program} tone={i} />
             </Reveal>
           ))}
         </div>
@@ -73,18 +80,16 @@ export default function ProgramsPage() {
   );
 }
 
-function ProgramPanel({ program }: { program: Program }) {
+function ProgramPanel({ program, tone }: { program: Program; tone: number }) {
   const upcoming = program.status === "upcoming";
   return (
     <article
       id={program.slug}
-      className={
-        upcoming
-          ? "scroll-mt-28 rounded-[var(--radius-card)] border border-dashed border-[color:rgba(18,33,26,0.24)] bg-transparent p-7 sm:p-10"
-          : "scroll-mt-28 rounded-[var(--radius-card)] border border-[color:var(--hairline)] bg-white p-7 shadow-[var(--shadow-soft)] sm:p-10"
-      }
+      className={cn("card card-flush scroll-mt-28", upcoming && "card-quiet")}
     >
-      <div className="grid gap-8 lg:grid-cols-[1fr_1fr] lg:gap-14">
+      <ProgramMedia slug={program.slug} status={program.status} tone={tone} />
+
+      <div className="grid gap-8 p-7 lg:grid-cols-[1fr_1fr] lg:gap-14">
         <div>
           <StatusBadge status={program.status} />
           <h3 className="mt-5 text-2xl font-extrabold tracking-[-0.03em] text-balance sm:text-[1.75rem]">

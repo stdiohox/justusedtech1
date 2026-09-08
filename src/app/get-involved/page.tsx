@@ -167,7 +167,7 @@ export default function GetInvolvedPage() {
             ],
           ].map(([title, detail], i) => (
             <Reveal key={title} delay={i * 0.06}>
-              <article className="h-full rounded-[var(--radius-card)] border border-[color:var(--hairline)] bg-white p-7 shadow-[var(--shadow-soft)]">
+              <article className="card h-full">
                 <h3 className="text-xl font-extrabold tracking-[-0.025em]">{title}</h3>
                 <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-soft">
                   {detail}

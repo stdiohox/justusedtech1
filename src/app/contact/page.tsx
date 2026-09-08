@@ -90,7 +90,7 @@ export default function ContactPage() {
                         href={social.href}
                         target="_blank"
                         rel="noreferrer noopener"
-                        className="inline-flex rounded-full border border-[color:var(--hairline)] bg-white px-4 py-2 text-[0.875rem] font-bold text-ink-soft transition-colors duration-300 hover:border-[color:rgba(0,122,55,0.3)] hover:text-brand-green-dark"
+                        className="rounded-button inline-flex border border-edge bg-white px-4 py-2 text-[0.875rem] font-bold text-ink-soft transition-colors duration-300 hover:border-[color:rgba(0,122,55,0.3)] hover:text-brand-green-dark"
                       >
                         {social.name}
                       </a>

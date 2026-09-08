@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Building2, Globe2 } from "lucide-react";
+import { ArrowRight, Building2, Globe2 } from "lucide-react";
 import { PageHero } from "@/components/layout/page-hero";
 import { PillLink } from "@/components/common/pill-button";
-import { Section, SectionHead } from "@/components/common/primitives";
+import { Section, SectionHead, TagPill } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
 import { coreValues, focusAreas, model } from "@/content/programs";
 import { site } from "@/content/site";
@@ -52,7 +52,15 @@ export default function AboutPage() {
             lede="Five commitments that decide what we take on and how we run it."
           />
         </Reveal>
-        <RevealGroup as="ul" className="mt-12 grid gap-px overflow-hidden rounded-[var(--radius-card)] bg-[color:var(--hairline)] sm:grid-cols-2 lg:grid-cols-3">
+        {/*
+          One panel split by hairlines rather than five separate cards: same elevation
+          language as the rest of the system, and the gap-px trick keeps the rules
+          pixel-exact at every breakpoint.
+        */}
+        <RevealGroup
+          as="ul"
+          className="rounded-card mt-12 grid gap-px overflow-hidden border border-edge bg-edge sm:grid-cols-2 lg:grid-cols-3"
+        >
           {coreValues.map((value) => (
             <RevealItem
               as="li"
@@ -84,51 +92,58 @@ export default function AboutPage() {
               lede="Five areas where the work concentrates."
             />
           </Reveal>
-          <RevealGroup as="ul" className="flex flex-wrap gap-3">
+          {/*
+            Tag pills at the large size. These are the section's content rather than
+            metadata hanging off something else, so 13px would read as a footnote.
+          */}
+          <RevealGroup as="ul" className="flex flex-wrap gap-2.5">
             {focusAreas.map((area) => (
-              <RevealItem
-                as="li"
-                key={area}
-                className="rounded-full border border-[color:rgba(0,122,55,0.22)] bg-white px-5 py-3 text-[1rem] font-extrabold tracking-[-0.015em] text-brand-green-dark"
-              >
-                {area}
+              <RevealItem as="li" key={area}>
+                <TagPill size="lg" className="bg-white text-brand-green-dark">
+                  {area}
+                </TagPill>
               </RevealItem>
             ))}
           </RevealGroup>
         </div>
       </Section>
 
-      {/* Our model: a three-beat sequence, connected rather than three equal cards. */}
-      <Section tone="green">
-        <Reveal>
-          <SectionHead
-            onGreen
-            eyebrow="Our model"
-            title="Collect, refurbish, distribute."
-            lede="Three steps, one pipeline. Nothing reaches a recipient without passing through all three."
-          />
-        </Reveal>
-        <RevealGroup as="ol" className="mt-14 grid gap-10 md:grid-cols-3 md:gap-8">
-          {model.map((stage, i) => (
-            <RevealItem as="li" key={stage.step} className="relative">
-              {i < model.length - 1 && (
-                <span
-                  aria-hidden
-                  className="absolute top-6 -right-4 hidden h-px w-8 bg-white/25 md:block"
-                />
-              )}
-              <span className="flex size-12 items-center justify-center rounded-full bg-white text-lg font-extrabold text-brand-green-dark">
-                {i + 1}
-              </span>
-              <h3 className="mt-6 text-2xl font-extrabold tracking-[-0.03em]">
-                {stage.step}
-              </h3>
-              <p className="mt-3 max-w-[38ch] text-[0.9375rem] leading-relaxed text-white/80">
-                {stage.detail}
-              </p>
-            </RevealItem>
-          ))}
-        </RevealGroup>
+      {/*
+        Our model as a dark feature card rather than a full-bleed green band. The block is
+        the rhythm break against the light canvas either side of it, and containing it keeps
+        the section head reading on paper where the rest of the page's heads do.
+      */}
+      <Section tone="white">
+        <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-16">
+          <Reveal>
+            <SectionHead
+              eyebrow="Our model"
+              title="Collect, refurbish, distribute."
+              lede="Three steps, one pipeline. Nothing reaches a recipient without passing through all three."
+            />
+          </Reveal>
+          <Reveal delay={0.1}>
+            <ol className="card card-dark space-y-4">
+              {model.map((stage) => (
+                <li key={stage.step} className="flex gap-4">
+                  <ArrowRight
+                    className="mt-1 size-5 shrink-0 text-white/60"
+                    strokeWidth={1.75}
+                    aria-hidden
+                  />
+                  <div>
+                    <h3 className="text-xl font-medium tracking-[-0.02em] text-white">
+                      {stage.step}
+                    </h3>
+                    <p className="mt-1.5 max-w-[46ch] text-[0.9375rem] leading-relaxed text-white/75">
+                      {stage.detail}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </Reveal>
+        </div>
       </Section>
 
       {/* How we work: the hybrid US and Nigeria structure. */}
@@ -141,7 +156,7 @@ export default function AboutPage() {
         </Reveal>
         <div className="mt-12 grid gap-5 lg:grid-cols-2">
           <Reveal>
-            <article className="h-full rounded-[var(--radius-card)] border border-[color:var(--hairline)] bg-white p-7 shadow-[var(--shadow-soft)] sm:p-9">
+            <article className="card h-full">
               <span className="flex size-12 items-center justify-center rounded-2xl bg-mint text-brand-green-dark">
                 <Building2 className="size-6" strokeWidth={1.75} aria-hidden />
               </span>
@@ -157,7 +172,7 @@ export default function AboutPage() {
             </article>
           </Reveal>
           <Reveal delay={0.08}>
-            <article className="h-full rounded-[var(--radius-card)] border border-[color:var(--hairline)] bg-white p-7 shadow-[var(--shadow-soft)] sm:p-9">
+            <article className="card h-full">
               <span className="flex size-12 items-center justify-center rounded-2xl bg-[color:rgba(0,173,239,0.14)] text-[color:#0673a0]">
                 <Globe2 className="size-6" strokeWidth={1.75} aria-hidden />
               </span>

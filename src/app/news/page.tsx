@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { PageHero } from "@/components/layout/page-hero";
-import { Section } from "@/components/common/primitives";
+import { Section, TagPill } from "@/components/common/primitives";
 import { Reveal } from "@/components/common/reveal";
 import { posts } from "@/content/news";
 
@@ -26,7 +26,7 @@ export default function NewsPage() {
             <Reveal as="li" key={post.slug} delay={i * 0.06}>
               <Link
                 href={`/news/${post.slug}`}
-                className="group/post block rounded-[var(--radius-card)] border border-[color:var(--hairline)] bg-white p-7 shadow-[var(--shadow-soft)] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 sm:p-10"
+                className="card group/post block transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1"
               >
                 <div className="flex items-start justify-between gap-6">
                   <div>
@@ -41,11 +41,8 @@ export default function NewsPage() {
                     </p>
                     <ul className="mt-6 flex flex-wrap gap-2">
                       {post.tags.map((tag) => (
-                        <li
-                          key={tag}
-                          className="rounded-full bg-mint px-3 py-1.5 text-[0.75rem] font-extrabold text-brand-green-dark"
-                        >
-                          {tag}
+                        <li key={tag}>
+                          <TagPill>{tag}</TagPill>
                         </li>
                       ))}
                     </ul>

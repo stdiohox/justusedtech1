@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { PhotoPlaceholder } from "@/components/common/primitives";
+import { PhotoPlaceholder, TagPill } from "@/components/common/primitives";
 import { Reveal } from "@/components/common/reveal";
 import { posts } from "@/content/news";
 
@@ -70,13 +70,10 @@ export default async function PostPage({ params }: Params) {
             ))}
           </div>
 
-          <ul className="mt-12 flex flex-wrap gap-2 border-t border-[color:var(--hairline)] pt-8">
+          <ul className="mt-12 flex flex-wrap gap-2 border-t border-edge pt-8">
             {post.tags.map((tag) => (
-              <li
-                key={tag}
-                className="rounded-full bg-mint px-3.5 py-1.5 text-[0.75rem] font-extrabold text-brand-green-dark"
-              >
-                {tag}
+              <li key={tag}>
+                <TagPill>{tag}</TagPill>
               </li>
             ))}
           </ul>

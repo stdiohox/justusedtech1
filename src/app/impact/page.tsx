@@ -1,14 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHero } from "@/components/layout/page-hero";
-import { Section, SectionHead } from "@/components/common/primitives";
+import { Section, SectionHead, StatBlock } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
 import { WorldMap } from "@/components/sections/world-map";
 import {
   communitiesReached,
   impact2025,
   usOperations,
-  type Stat,
 } from "@/content/impact";
 import { latestPost } from "@/content/news";
 
@@ -27,7 +26,11 @@ export default function ImpactPage() {
         lede="Everything on this page is a confirmed figure from 2025 or from US operations since inception. Where a programme has no dated result, it is not listed here."
       />
 
-      {/* 2025: staggered stat rows rather than an even card grid. */}
+      {/*
+        Stat blocks, not stat cards. Each figure is separated by a hairline rule instead of
+        being boxed, so the five numbers read as one set rather than as five objects, and
+        the figure keeps all of the weight.
+      */}
       <Section tone="white">
         <Reveal>
           <SectionHead
@@ -35,14 +38,17 @@ export default function ImpactPage() {
             lede="Across 8 schools in Lagos State, plus US-side redistribution."
           />
         </Reveal>
-        <RevealGroup as="ul" className="mt-12 grid gap-4 md:grid-cols-6">
-          {impact2025.map((stat, i) => (
-            <RevealItem
-              as="li"
-              key={stat.label}
-              className={i < 2 ? "md:col-span-3" : "md:col-span-2"}
-            >
-              <StatBlock stat={stat} big={i < 2} />
+        <RevealGroup
+          as="ul"
+          className="mt-14 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {impact2025.map((stat) => (
+            <RevealItem as="li" key={stat.label}>
+              <StatBlock
+                value={stat.value}
+                label={stat.label}
+                detail={stat.detail}
+              />
             </RevealItem>
           ))}
         </RevealGroup>
@@ -82,20 +88,18 @@ export default function ImpactPage() {
             lede="St. Louis is where the pipeline starts, and a majority of what we recover stays there."
           />
         </Reveal>
-        <RevealGroup as="ul" className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+        <RevealGroup
+          as="ul"
+          className="mt-14 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4"
+        >
           {usOperations.map((stat) => (
             <RevealItem as="li" key={stat.label}>
-              <p className="text-4xl leading-none font-extrabold tracking-[-0.04em] sm:text-5xl">
-                {stat.value}
-              </p>
-              <p className="mt-4 text-[0.9375rem] leading-snug font-bold text-white/85">
-                {stat.label}
-              </p>
-              {stat.detail && (
-                <p className="mt-2 text-[0.875rem] leading-relaxed text-white/70">
-                  {stat.detail}
-                </p>
-              )}
+              <StatBlock
+                onGreen
+                value={stat.value}
+                label={stat.label}
+                detail={stat.detail}
+              />
             </RevealItem>
           ))}
         </RevealGroup>
@@ -124,7 +128,7 @@ export default function ImpactPage() {
                 Read the full post
               </Link>
             </div>
-            <dl className="space-y-5 rounded-[var(--radius-card)] bg-white p-7 shadow-[var(--shadow-soft)] sm:p-8">
+            <dl className="card h-fit space-y-5">
               <div>
                 <dt className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
                   Date
@@ -158,27 +162,5 @@ export default function ImpactPage() {
         </Reveal>
       </Section>
     </>
-  );
-}
-
-function StatBlock({ stat, big }: { stat: Stat; big: boolean }) {
-  return (
-    <div className="h-full rounded-[var(--radius-card)] border border-[color:var(--hairline)] bg-white p-7 shadow-[var(--shadow-soft)] sm:p-8">
-      <p
-        className={
-          big
-            ? "text-5xl leading-none font-extrabold tracking-[-0.045em] text-brand-green-dark sm:text-6xl"
-            : "text-4xl leading-none font-extrabold tracking-[-0.04em] text-brand-green-dark"
-        }
-      >
-        {stat.value}
-      </p>
-      <p className="mt-4 text-[1rem] leading-snug font-bold text-ink">{stat.label}</p>
-      {stat.detail && (
-        <p className="mt-2 text-[0.875rem] leading-relaxed text-ink-soft">
-          {stat.detail}
-        </p>
-      )}
-    </div>
   );
 }

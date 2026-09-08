@@ -119,6 +119,14 @@ export function Bezel({
  * Status badge. Drives the ACTIVE / UPCOMING distinction site-wide.
  * ------------------------------------------------------------------ */
 
+/**
+ * Active reads as a filled pill, Upcoming as a hairline outline with no fill: quieter on
+ * purpose, so "not yet running" is legible at a glance without shouting in a second colour.
+ *
+ * The fill is --brand-green-dark, not the bright --brand-green. White on #00A652 is 3.2:1
+ * and this label is 11px, which puts it under the AA bar for small text. #007A37 clears it
+ * at 5.5:1 and is indistinguishable at badge size.
+ */
 export function StatusBadge({
   status,
   className,
@@ -130,15 +138,111 @@ export function StatusBadge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[0.6875rem] font-extrabold tracking-[0.14em] uppercase",
+        "inline-flex items-center rounded-badge px-2 py-1 text-[0.6875rem] font-extrabold tracking-[0.12em] uppercase",
         active
           ? "bg-brand-green-dark text-white"
-          : "border border-dashed border-[color:rgba(18,33,26,0.28)] bg-transparent text-ink-soft",
+          : "border border-edge bg-transparent text-ink-faint",
         className,
       )}
     >
-      {active ? "Running now" : "In development"}
+      {active ? "Active" : "Upcoming"}
     </span>
+  );
+}
+
+/* ------------------------------------------------------------------ *
+ * Tag pill. The general-purpose category/filter tag.
+ * ------------------------------------------------------------------ */
+
+/**
+ * Outline is the default and is safe to use anywhere a category, region, or focus area
+ * appears. The filled variant is deliberately scarce: it belongs to the Active status badge
+ * and nothing else, because a green fill that shows up on every tag stops meaning "live".
+ *
+ * `size="lg"` exists for the one place tags are the section's content rather than metadata
+ * attached to something else (the About page's focus areas), where 13px would read as a
+ * footnote instead of a list.
+ */
+export function TagPill({
+  children,
+  size = "sm",
+  onGreen = false,
+  className,
+}: {
+  children: ReactNode;
+  size?: "sm" | "lg";
+  onGreen?: boolean;
+  className?: string;
+}) {
+  return (
+    <span
+      className={cn(
+        "inline-flex items-center rounded-badge border font-bold tracking-[-0.01em]",
+        size === "sm"
+          ? "px-2 py-1 text-[0.8125rem]"
+          : "px-3.5 py-2 text-[0.9375rem]",
+        onGreen
+          ? "border-white/30 text-white"
+          : "border-edge text-ink-soft",
+        className,
+      )}
+    >
+      {children}
+    </span>
+  );
+}
+
+/* ------------------------------------------------------------------ *
+ * Stat block. Number and label sit tight together, no card around them.
+ * ------------------------------------------------------------------ */
+
+/**
+ * The figure carries the weight; the label is a caption under it, not a competing line.
+ * A hairline rule above each block does the separating work a card border used to do,
+ * which keeps a row of numbers reading as one set rather than as five boxed objects.
+ */
+export function StatBlock({
+  value,
+  label,
+  detail,
+  onGreen = false,
+  className,
+}: {
+  value: string;
+  label: string;
+  detail?: string;
+  onGreen?: boolean;
+  className?: string;
+}) {
+  return (
+    <div className={cn("border-t pt-6", onGreen ? "border-white/25" : "border-edge", className)}>
+      <p
+        className={cn(
+          "text-[2.75rem] leading-[0.95] font-bold tracking-[-0.04em] sm:text-[3.5rem]",
+          onGreen ? "text-white" : "text-brand-green-dark",
+        )}
+      >
+        {value}
+      </p>
+      <p
+        className={cn(
+          "mt-2 max-w-[28ch] text-[0.875rem] leading-snug font-normal",
+          onGreen ? "text-white/80" : "text-ink-faint",
+        )}
+      >
+        {label}
+      </p>
+      {detail && (
+        <p
+          className={cn(
+            "mt-3 max-w-[34ch] text-[0.8125rem] leading-relaxed font-normal",
+            onGreen ? "text-white/70" : "text-ink-faint",
+          )}
+        >
+          {detail}
+        </p>
+      )}
+    </div>
   );
 }
 

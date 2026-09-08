@@ -1,3 +1,4 @@
+import { TagPill } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
 import { focusAreas } from "@/content/programs";
 import { site } from "@/content/site";
@@ -29,12 +30,8 @@ export function MissionStrip() {
 
           <RevealGroup as="ul" className="mt-10 flex flex-wrap gap-2.5">
             {focusAreas.map((area) => (
-              <RevealItem
-                as="li"
-                key={area}
-                className="rounded-full bg-mint px-4 py-2 text-[0.875rem] font-bold text-brand-green-dark"
-              >
-                {area}
+              <RevealItem as="li" key={area}>
+                <TagPill>{area}</TagPill>
               </RevealItem>
             ))}
           </RevealGroup>
