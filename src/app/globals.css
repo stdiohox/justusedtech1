@@ -158,7 +158,16 @@
     --brand-green-dark stays exactly as sampled and remains the token for buttons,
     badges, and green text on light surfaces.
   */
-  --green-surface: #00622c;
+  /*
+    Held as channels, with the colour derived from them, so a partly transparent green can
+    be written as rgb(var(--green-surface-rgb) / <alpha>) without restating the value. The
+    hero veil needs exactly that. The alternative, color-mix against the hex, compiles to an
+    OPAQUE green fallback for engines that lack color-mix, which would hide the hero
+    photograph outright rather than degrade to no veil.
+    #00622c is 0 98 44. Change the channels, never the derived line.
+  */
+  --green-surface-rgb: 0 98 44;
+  --green-surface: rgb(var(--green-surface-rgb));
 
   /*
     The mat: the page canvas the framed hero unit floats on. Cooler and a shade darker
@@ -350,15 +359,20 @@
   /*
     Hero visual: a rounded window that crops an oversized image.
 
-    The media layer is 120% of the window in both axes and anchored top-left, so the top
-    and left of the picture stay whole and the right and bottom run off the edge. That is
-    the point of the treatment: the subject reads as a detail lifted out of a larger frame
-    rather than a photo politely centred in a box.
+    The media layer is 120% of the window in both axes and pinned to its top-left corner, so
+    the right and bottom of the picture run off the edge. That is the point of the treatment:
+    the subject reads as a detail lifted out of a larger frame rather than a photo politely
+    centred in a box.
 
-    The class is shared by the placeholder and by the real <Image>, so swapping the asset in
-    needs no geometry changes. max-width and height are declared explicitly because
-    Tailwind's preflight sets `img { max-width: 100%; height: auto }`, which would otherwise
-    clamp the oversize away.
+    object-position is a hard `left top` and must stay that way. The supplied photograph is
+    landscape, so `cover` scales it to the window's height and the whole crop happens on the
+    horizontal axis: every step rightward pulls in an unrelated figure at the right edge of
+    the frame and pushes the mentor, the two students, and the JUSTUSED marks on the shirt
+    and the laptop lids out of shot. There is no breakpoint at which drifting right is an
+    improvement, so this is not exposed as a variable.
+
+    max-width and height are declared explicitly because Tailwind's preflight sets
+    `img { max-width: 100%; height: auto }`, which would otherwise clamp the oversize away.
   */
   .hero-visual-media {
     position: absolute;
@@ -371,13 +385,32 @@
     object-position: left top;
   }
 
-  /* Placeholder fill. Diagonal hatching reads as "nothing here yet" at any size. */
-  .hero-visual-stripes {
-    background-color: var(--surface-subtle);
-    background-image: repeating-linear-gradient(
-      -45deg,
-      rgba(18, 33, 26, 0.06) 0 8px,
-      transparent 8px 20px
+  /*
+    Top-down green veil over the hero photograph.
+
+    The upper third of the frame is a busy room: framed wall art, a doorway, and a figure
+    caught mid-stride. None of it is the subject, and all of it competes with the headline
+    sitting beside it. The veil is heaviest at the top edge and fully clear by 42%, so it
+    quiets the background without touching the students or the laptops below.
+
+    Built from the --green-surface channels rather than a literal rgba, because the value is
+    exactly that token: it is the same green the hero gradient resolves to at its darkest, so
+    the fade reads as the hero reaching over the photo rather than as a grey wash laid on top.
+
+    The last stop is a zero-alpha green, not the `transparent` keyword. `transparent` is
+    rgba(0, 0, 0, 0), and engines that interpolate through it grey the middle of the ramp.
+  */
+  .hero-visual-veil {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      to bottom,
+      rgb(var(--green-surface-rgb) / 0.6) 0%,
+      rgb(var(--green-surface-rgb) / 0.33) 10%,
+      rgb(var(--green-surface-rgb) / 0.12) 21%,
+      rgb(var(--green-surface-rgb) / 0.02) 32%,
+      rgb(var(--green-surface-rgb) / 0) 42%
     );
   }
 

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { PillLink } from "@/components/common/pill-button";
@@ -8,24 +9,18 @@ import { heroTrustPartners } from "@/content/site";
  * Home hero: two-column split on a flat green gradient with a dashed orbit backdrop.
  *
  * On the visual. The right column is a rounded window that crops an oversized image: see
- * `.hero-visual-media` in globals.css for the geometry. The previous transparent cutout is
- * gone, along with its asset, because the final image has not been supplied yet.
+ * `.hero-visual-media` and `.hero-visual-veil` in globals.css for the geometry and the
+ * fade. The client's event photograph now fills it, replacing both the old transparent
+ * cutout and the hatched placeholder that stood in for this asset.
  *
- * SWAPPING IN THE REAL ASSET. Drop a square or portrait file at
- * public/hero/hero-visual.png, then replace <HeroVisualPlaceholder /> below with:
+ * The alt text describes what is in the frame and stops there. It names no one, assigns no
+ * one to a programme, and does not call the laptops refurbished, because none of that is
+ * established by the photograph itself.
  *
- *   <Image
- *     src="/hero/hero-visual.png"
- *     alt=""            // decorative: describe it only if it carries information
- *     width={2000}
- *     height={2000}     // match the real file
- *     priority
- *     sizes="(min-width: 1024px) 46vw, 92vw"
- *     className="hero-visual-media"
- *   />
- *
- * and re-add `import Image from "next/image"` at the top. Nothing else changes: the crop,
- * the radius, the bottom anchor, and the card offsets all live on the container.
+ * The source is 1340x893, under the 2000px the slot asks for. At the desktop size the
+ * window renders the media layer around 708 CSS px wide, so a 2x display has no spare
+ * pixels and the photo will look soft there. A larger export of the same frame drops
+ * straight in: only the width and height props below change.
  *
  * On the floating cards. Card A originally read "Laptop #482 / Today", which asserts a
  * specific delivery that did not happen. The visual pattern is unchanged, but every
@@ -127,10 +122,46 @@ export function Hero() {
             by width leaves the visual far too small: the column is narrower than the block
             is tall, so width-driven scaling caps it at roughly two thirds of the available
             height. Bottom-anchored, as the cutout was, so the window meets the hero's floor.
+
+            max-w-full is what stops that from running away. Just above the lg breakpoint the
+            column is at its narrowest while the headline wraps to five lines and pushes the
+            row to its tallest, so a square driven off that height comes out wider than the
+            column and lays itself across the headline. The old cutout had the same geometry
+            and the same overflow, but a transparent silhouette bleeding leftward read as
+            deliberate layering; an opaque card doing it reads as a bug. Clamped, the window
+            simply turns portrait through that band and squares up once there is room, and
+            `cover` keeps it filled either way.
           */}
-          <div className="relative mx-auto w-[92%] lg:absolute lg:right-0 lg:bottom-0 lg:mx-0 lg:aspect-square lg:h-[90%] lg:w-auto">
-            <div className="relative aspect-square w-full overflow-hidden rounded-[var(--radius-card)] lg:aspect-auto lg:h-full">
-              <HeroVisualPlaceholder />
+          <div className="relative mx-auto w-[92%] lg:absolute lg:right-0 lg:bottom-0 lg:mx-0 lg:aspect-square lg:h-[90%] lg:w-auto lg:max-w-full">
+            {/*
+              Crop values are tuned to this photograph, not to the layout: see
+              .hero-visual-media in globals.css for what each knob does.
+              The window is square and the photograph is 3:2, so `cover` fits it to the
+              height and the crop falls entirely on the horizontal axis. The left-top pin is
+              load-bearing, not a default nobody revisited: it keeps the mentor, both
+              students, and the JUSTUSED marks on the shirt and the laptop lids, and it puts
+              the unrelated figure at the right of the frame outside the window.
+
+              The green fill behind the image is a backstop for the moment before it decodes,
+              so the window never flashes white against the gradient.
+            */}
+            <div className="relative aspect-square w-full overflow-hidden rounded-[var(--radius-card)] bg-green-surface lg:aspect-auto lg:h-full">
+              <Image
+                src="/hero/hero-visual.jpg"
+                alt="Students working on laptops at a JustUsedTech session, with a mentor helping."
+                width={1340}
+                height={893}
+                priority
+                quality={90}
+                sizes="(min-width: 1024px) 46vw, 92vw"
+                className="hero-visual-media"
+              />
+              {/*
+                Decorative, and after the image so it paints over it. The floating cards are
+                siblings of this window rather than children, so they stay above the veil
+                without needing a z-index of their own.
+              */}
+              <div aria-hidden className="hero-visual-veil" />
             </div>
 
             {/*
@@ -182,38 +213,6 @@ export function Hero() {
       {/* Sentinel for the Quick Actions dock: it rises once the hero is scrolled past. */}
       <div id="dock-sentinel" aria-hidden className="h-px w-full" />
     </section>
-  );
-}
-
-/**
- * Stand-in for the hero image until the client supplies it.
- *
- * The hatched layer wears `.hero-visual-media`, the same class the real <Image> will wear,
- * so the 120% oversize and the top-left anchor are live right now and the crop can be
- * checked before the asset lands. The label sits in its own layer pinned to the window, so
- * it stays centred on what is actually visible rather than on the oversized media box.
- *
- * Deleting this function is the last step of the swap described at the top of the file.
- */
-function HeroVisualPlaceholder() {
-  return (
-    <>
-      <div aria-hidden className="hero-visual-media hero-visual-stripes" />
-
-      {/*
-        The dashed edge is drawn as an inset overlay rather than a border on the window,
-        because a border would sit outside the overflow clip and survive the swap as a
-        stray outline around the real photograph.
-      */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-[var(--radius-card)] border-2 border-dashed border-[color:rgba(18,33,26,0.3)] p-6 text-center">
-        <p className="max-w-[26ch] text-[0.9375rem] leading-snug font-bold text-ink-soft text-balance">
-          Hero image placeholder. Square or portrait, 2000px+ recommended.
-        </p>
-        <p className="rounded-badge border border-edge bg-white/70 px-2 py-1 text-[0.8125rem] font-semibold text-ink-soft">
-          /public/hero/hero-visual.png
-        </p>
-      </div>
-    </>
   );
 }
 
