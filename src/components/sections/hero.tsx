@@ -122,7 +122,14 @@ export function Hero() {
             hero's inner height), with the square ratio resolving the width from it. Sizing
             by width leaves the visual far too small: the column is narrower than the block
             is tall, so width-driven scaling caps it at roughly two thirds of the available
-            height. Bottom-anchored, as the cutout was, so the window meets the hero's floor.
+            height.
+
+            It sits --space-32 off the floor rather than flush to it. The cutout it replaced
+            was flush on purpose, because a person cropped at the torso needs to stand on
+            something; a rounded card resting on the hero's edge just looks stuck to it.
+            Height stays at 90%: the row is at least 576px tall, so 10% of it leaves around
+            58px above the window and the 32px lift still clears the top by a comfortable
+            margin. Nothing overflows and the hero does not grow.
 
             max-w-full is what stops that from running away. Just above the lg breakpoint the
             column is at its narrowest while the headline wraps to five lines and pushes the
@@ -133,7 +140,7 @@ export function Hero() {
             simply turns portrait through that band and squares up once there is room, and
             `cover` keeps it filled either way.
           */}
-          <div className="relative mx-auto w-[92%] lg:absolute lg:right-0 lg:bottom-0 lg:mx-0 lg:aspect-square lg:h-[90%] lg:w-auto lg:max-w-full">
+          <div className="relative mx-auto w-[92%] lg:absolute lg:right-0 lg:bottom-[var(--space-32)] lg:mx-0 lg:aspect-square lg:h-[90%] lg:w-auto lg:max-w-full">
             {/*
               Crop values are tuned to this photograph, not to the layout: see
               .hero-visual-media in globals.css for what each knob does.
@@ -170,6 +177,12 @@ export function Hero() {
               the wrapper so they track the window across breakpoints. Below lg they are
               static badges under it, because absolute cards over a narrow image cover the
               middle of the frame, which is where a portrait's subject sits.
+
+              Their offsets are deliberately NOT compensated for the wrapper's lift off the
+              floor. The cards are children of the wrapper, not of the window, and the window
+              fills the wrapper exactly at lg, so raising the wrapper carries both cards with
+              it and Card B stays the same distance from the photo's bottom edge as before.
+              Nudging them here would double-count the lift and push them off the picture.
             */}
             <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:mt-0 lg:block">
               <FloatingCard
