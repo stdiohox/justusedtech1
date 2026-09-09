@@ -4,21 +4,32 @@ import { PillLink } from "@/components/common/pill-button";
 import { ProgramMedia } from "@/components/common/program-media";
 import { SectionHead, StatusBadge } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
-import { activePrograms, upcomingPrograms } from "@/content/programs";
+import { activePrograms } from "@/content/programs";
 import { cn } from "@/lib/utils";
 
 /**
- * Asymmetric bento. The first active programme takes a wide cell with a coloured fill,
- * the rest run smaller. One upcoming programme is shown in the grid so the ACTIVE and
- * UPCOMING distinction is visible on the home page, not just on /programs.
+ * Asymmetric bento. The first active programme takes a wide cell with a coloured fill, the
+ * rest run smaller.
+ *
+ * Active only. The second cell of the top row used to hold one upcoming programme, so the
+ * ACTIVE and UPCOMING distinction was visible without leaving the home page. It is gone:
+ * this block is the top-of-page spotlight, and a spotlight advertises work that is running.
+ * The distinction still reads on /programs, where In development is its own section under
+ * the active list and GreenBin 360 Smart Bin Ecosystem carries the Upcoming badge.
+ *
+ * The five cells are simply the first five active programmes in catalogue order, which is
+ * what removes the duplicate the old shape risked: one contiguous slice cannot repeat an
+ * entry, where a hand-picked promotion could have put GreenBin 360 in the top row while it
+ * was already sitting in the grid below.
+ *
+ * Five is the number the layout wants, not a preference. The grid is six columns, the
+ * featured cell spans four, so one small cell finishes its row and three fill the next.
  *
  * Every cell is the same Category Card: a media band flush to the card's own edges, then a
  * 28px body carrying the status badge, the title, and the summary.
  */
 export function ProgramsPreview() {
-  const featured = activePrograms[0]!;
-  const rest = activePrograms.slice(1, 4);
-  const upcoming = upcomingPrograms[0]!;
+  const [featured, ...rest] = activePrograms.slice(0, 5);
 
   return (
     <section className="bg-paper py-20 md:py-28">
@@ -32,14 +43,11 @@ export function ProgramsPreview() {
 
         <RevealGroup className="mt-12 grid gap-4 md:grid-cols-6">
           <RevealItem className="md:col-span-4">
-            <ProgramCard program={featured} tone={0} featured />
-          </RevealItem>
-          <RevealItem className="md:col-span-2">
-            <ProgramCard program={upcoming} tone={1} />
+            <ProgramCard program={featured!} tone={0} featured />
           </RevealItem>
           {rest.map((program, i) => (
             <RevealItem key={program.slug} className="md:col-span-2">
-              <ProgramCard program={program} tone={i + 2} />
+              <ProgramCard program={program} tone={i + 1} />
             </RevealItem>
           ))}
         </RevealGroup>
@@ -63,7 +71,7 @@ function ProgramCard({
   tone: number;
   featured?: boolean;
 }) {
-  const upcoming = program.status === "upcoming";
+  /* No card-quiet branch: every cell here comes from activePrograms now. */
   return (
     <Link
       href={`/programs#${program.slug}`}
@@ -71,7 +79,6 @@ function ProgramCard({
         "group/card card card-flush flex h-full flex-col",
         "transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1",
         featured && "card-dark",
-        upcoming && "card-quiet",
       )}
     >
       <ProgramMedia

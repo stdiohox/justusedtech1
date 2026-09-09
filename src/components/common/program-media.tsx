@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   GraduationCap,
   Palette,
@@ -31,6 +32,39 @@ const PROGRAM_ICONS: Record<string, LucideIcon> = {
   "circular-tech-bootcamp": Wrench,
 };
 
+/*
+  Real photographs, which take precedence over the icon wash above. This is the swap point
+  the comment above promised: a programme with a file here gets its photograph, one without
+  keeps the icon, and nothing else in either consumer changes.
+
+  All four are pre-cropped to a single 1500x500 and dropped in at object-cover, so the band
+  crops the same way for every card. school_tour.jpg was trimmed above the JUSTUSED
+  watermark burned into the bottom of the source before that crop was taken, rather than
+  left for the band's own crop window to miss.
+
+  Alt text describes what is in the frame and stops there, the same standard as the hero
+  photograph: no names, and no claim about who any person pictured is or which programme
+  they benefited from.
+*/
+const PROGRAM_PHOTOS: Record<string, { src: string; alt: string }> = {
+  "school-tour-initiative": {
+    src: "/programs/school_tour.jpg",
+    alt: "Two students in school uniform writing in an exercise book at a classroom desk.",
+  },
+  "breakthrough-series": {
+    src: "/programs/breakthroughseries.jpg",
+    alt: "Young people working at laptops around a table, with team members in JustUsedTech shirts standing alongside.",
+  },
+  "project-9-12": {
+    src: "/programs/project_9-12.jpg",
+    alt: "Young people crouching on a sandy pitch lacing football boots, with more boots laid out in front of them.",
+  },
+  "greenbin-360": {
+    src: "/programs/green_bin.jpg",
+    alt: "Team members loading equipment into the back of a van at an outdoor collection event.",
+  },
+};
+
 /* Three washes, cycled by index, so a grid of cards does not repeat the same fill. */
 const WASHES = [
   "linear-gradient(135deg, #dceee2 0%, #eef7f0 55%, #fff2cc 100%)",
@@ -52,8 +86,29 @@ export function ProgramMedia({
   onDark?: boolean;
   className?: string;
 }) {
+  const photo = PROGRAM_PHOTOS[slug];
   const Icon = PROGRAM_ICONS[slug] ?? Recycle;
   const upcoming = status === "upcoming";
+
+  /*
+    A photograph is content, so unlike the icon band it is not aria-hidden and it carries
+    real alt text. The band keeps its exact height either way, so swapping one programme to
+    a photo cannot shift the card next to it.
+  */
+  if (photo) {
+    return (
+      <div className={cn("relative h-24 overflow-hidden sm:h-28", className)}>
+        <Image
+          src={photo.src}
+          alt={photo.alt}
+          fill
+          /* Widest case is the home page's featured cell, roughly two thirds of the shell. */
+          sizes="(min-width: 1280px) 800px, (min-width: 768px) 66vw, 100vw"
+          className="object-cover"
+        />
+      </div>
+    );
+  }
 
   /*
     Upcoming programmes get the recessed neutral rather than a branded wash, and a hairline
