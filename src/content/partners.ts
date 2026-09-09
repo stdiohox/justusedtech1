@@ -29,10 +29,22 @@ export type Partner = {
 };
 
 export const usPartners: Partner[] = [
-  { name: "Passback", logo: { src: "/partners/partner-passback.png", width: 527, height: 683 } },
   {
+    /* Scaled as a PICTORIAL mark, not a typographic one: there is no type in the artwork,
+       so the target is equal presence beside the square badges (Sporty Lagos, Gtech, Cafe
+       One), not the larger multiplier the type-bearing marks need. It is portrait at 0.77,
+       so at a shared height it covers about three quarters the area of a square badge, and
+       this makes up the difference. Lowest of the four: solid black and the highest
+       contrast in the set, so it needs the least help. */
+    name: "Passback",
+    logo: { src: "/partners/partner-passback.png", width: 527, height: 683, scale: 1.15 },
+  },
+  {
+    /* Pictorial, like Passback, and portrait at 0.87 so the area correction is smaller.
+       Scaled higher anyway: the mark is thin teal strokes on white, the faintest artwork
+       here, and low contrast costs legibility the same way small type does. */
     name: "10 Billion Strong",
-    logo: { src: "/partners/partner-10-billion-strong.png", width: 132, height: 152 },
+    logo: { src: "/partners/partner-10-billion-strong.png", width: 132, height: 152, scale: 1.25 },
   },
   {
     name: "Cortex STL",
@@ -45,8 +57,12 @@ export const usPartners: Partner[] = [
     logo: { src: "/partners/partner-revise-robotics.png", width: 875, height: 248 },
   },
   {
+    /* Typographic, so it is scaled to the band the other type-bearing marks sit in. The
+       wordmark is a single band across the middle of the artwork with a tagline under it,
+       roughly a third of the total height, so at the shared height the tagline lands near
+       4px. The widest of the four once scaled, but still level with Cortex and WashU. */
     name: "Employment Connection",
-    logo: { src: "/partners/partner-employment-connection.png", width: 654, height: 305 },
+    logo: { src: "/partners/partner-employment-connection.png", width: 654, height: 305, scale: 1.5 },
   },
   {
     /* Scaled: the wordmark is four stacked lines occupying only the right half of the
@@ -112,8 +128,25 @@ export const nigeriaPartners: Partner[] = [
       Rotaract is the real partner, this `name` changes and the logo file needs replacing
       with the Rotaract mark, because the current artwork would then be the wrong org's.
     */
+    /*
+      The supplied file needed fixing before any multiplier was worth choosing, so the
+      artwork here is not byte-identical to what was delivered:
+
+      1. A stray opaque 1px grey rule ran the full width of the top edge, a crop artifact.
+         Invisible at the old size, a hairline above the mark once scaled.
+      2. With that rule gone, the real ink turned out to fill only the bottom half of the
+         canvas: 53% of the height, against 84-100% for every other file here. Scale could
+         not fix that, because scale grows the empty space too. The box would have had to
+         run half again as tall as anything else in the row just to bring the type up.
+
+      Cropped to its ink bounds, which is the same normalisation the other seventeen
+      already have, so the multiplier below only has to do the job it does elsewhere.
+    */
+    /* Modest, because the crop did most of the work. "Rotary" is set large; the multiplier
+       is here for the "District 9111" line under it, the finest type in the set and the
+       only thing distinguishing this partner from Rotary generally. */
     name: "Rotary District 9111",
-    logo: { src: "/partners/partner-rotary-district-9111.png", width: 447, height: 304 },
+    logo: { src: "/partners/partner-rotary-district-9111.png", width: 420, height: 160, scale: 1.2 },
   },
 ];
 
