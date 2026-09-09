@@ -1,48 +1,68 @@
 /**
  * Partner organisations.
  *
- * Seven have supplied a logo. The other thirteen render as typeset wordmarks, and that is
- * the correct end state until real files arrive: a fabricated mark, or a name set in a
- * typeface chosen to look logo-ish, misrepresents the partner.
- *
- * TODO: add a `logo` to the remaining thirteen as the client delivers them. Nothing else
- * needs to change; the render path already branches per partner.
+ * Every partner here has supplied a logo, and that is a hard invariant rather than a
+ * happy accident: `logo` is required, so a partner cannot be added without a file. Two
+ * earlier entries, Product Tent and Claim Academy, were removed rather than carried as
+ * name-only rows, which is why the list runs to eighteen and not twenty. Any copy that
+ * states a partner count has to be read against this file.
  */
 
 export type Partner = {
   name: string;
   /**
-   * The supplied mark, or omitted where none exists.
+   * The supplied mark.
    *
    * Intrinsic pixel dimensions are recorded alongside the path because next/image needs the
    * true ratio to reserve the right box before the file loads. Guessing one ratio for all
-   * seven would shift the strip as each mark arrives: they run from a 1.00 square badge to
-   * a 1.91 wordmark.
+   * eighteen would shift the strip as each mark loads: they run from a 0.77 portrait lockup
+   * to a 3.10 wordmark.
+   *
+   * `scale` multiplies the rendered size inside the shared slot, defaulting to 1. It exists
+   * because a single height treats every mark as equally dense, and they are not: a wide
+   * one-line wordmark is legible at 44px where a crest or a four-line stacked lockup is a
+   * grey smudge. Only raise it for a mark that genuinely loses detail, and check the result
+   * in the row rather than picking a number: the point is equal LEGIBILITY, and overshooting
+   * just recreates the imbalance from the other direction.
    */
-  logo?: { src: string; width: number; height: number };
+  logo: { src: string; width: number; height: number; scale?: number };
 };
 
 export const usPartners: Partner[] = [
-  { name: "Passback" },
-  { name: "10 Billion Strong" },
-  { name: "Cortex STL" },
-  { name: "Product Tent" },
-  { name: "WashU IT" },
-  { name: "ReeGen" },
-  { name: "Claim Academy" },
-  { name: "Revise Robotics" },
-  { name: "Employment Connection" },
+  { name: "Passback", logo: { src: "/partners/partner-passback.png", width: 527, height: 683 } },
   {
-    name: "Thomas Dunn Learning Center",
-    logo: { src: "/partners/thomas-dunn-learning-center.png", width: 478, height: 396 },
+    name: "10 Billion Strong",
+    logo: { src: "/partners/partner-10-billion-strong.png", width: 132, height: 152 },
   },
-  { name: "Google" },
+  {
+    name: "Cortex STL",
+    logo: { src: "/partners/partner-cortex-stl.png", width: 668, height: 182 },
+  },
+  { name: "WashU IT", logo: { src: "/partners/partner-washu.png", width: 670, height: 175 } },
+  { name: "ReeGen", logo: { src: "/partners/partner-reegen.png", width: 543, height: 190 } },
+  {
+    name: "Revise Robotics",
+    logo: { src: "/partners/partner-revise-robotics.png", width: 875, height: 248 },
+  },
+  {
+    name: "Employment Connection",
+    logo: { src: "/partners/partner-employment-connection.png", width: 654, height: 305 },
+  },
+  {
+    /* Scaled: the wordmark is four stacked lines occupying only the right half of the
+       artwork, so at the shared height its type lands under 8px. */
+    name: "Thomas Dunn Learning Center",
+    logo: { src: "/partners/thomas-dunn-learning-center.png", width: 478, height: 396, scale: 1.45 },
+  },
+  { name: "Google", logo: { src: "/partners/partner-google.png", width: 2597, height: 837 } },
 ];
 
 export const nigeriaPartners: Partner[] = [
   {
+    /* Scaled least of the three: the crest is the widest artwork here at 1.44, so it
+       reaches a legible ring at a smaller multiplier than the rounder two. */
     name: "Lagos Educational District IV",
-    logo: { src: "/partners/lagos-education-district-iv.png", width: 536, height: 373 },
+    logo: { src: "/partners/lagos-education-district-iv.png", width: 536, height: 373, scale: 1.4 },
   },
   {
     name: "Heroes Dreams Alive Foundation (HDA)",
@@ -69,24 +89,32 @@ export const nigeriaPartners: Partner[] = [
       renders beside it as supplied. If the client confirms the ministry is the real
       partner, the fix is this `name` plus the `partner` field on skillsync-initiative.
     */
+    /* Scaled most of the three: the finest ring type of the set, and the squarest artwork
+       at 1.04, so the extra size costs the least horizontal room in the row. */
     name: "Office of the Special Assistant to the President on Art, Culture and the Creative Economy",
-    logo: { src: "/partners/fmacce-art-culture-creative-economy.png", width: 341, height: 329 },
+    logo: { src: "/partners/fmacce-art-culture-creative-economy.png", width: 341, height: 329, scale: 1.5 },
   },
-  { name: "Cafe One" },
-  { name: "Buyscraps Nigeria" },
-  { name: "Rotaract District 9111" },
+  { name: "Cafe One", logo: { src: "/partners/partner-cafe-one.png", width: 554, height: 532 } },
+  {
+    name: "Buyscraps Nigeria",
+    logo: { src: "/partners/partner-buyscraps-nigeria.png", width: 362, height: 99 },
+  },
+  {
+    /*
+      NAMING QUESTION, unresolved, needs the client. Same shape as the FMACCE one above.
+
+      The supplied logo reads "Rotary District 9111", so that is what is displayed: the
+      name on the page matches the mark beside it. The partner profile we were given says
+      "Rotaract District 9111". Rotary and Rotaract are related but distinct bodies, the
+      second being Rotary's young-adult programme, so one of the two is wrong.
+
+      Displaying the logo's own wording is the safer default until the client confirms. If
+      Rotaract is the real partner, this `name` changes and the logo file needs replacing
+      with the Rotaract mark, because the current artwork would then be the wrong org's.
+    */
+    name: "Rotary District 9111",
+    logo: { src: "/partners/partner-rotary-district-9111.png", width: 447, height: 304 },
+  },
 ];
 
 export const allPartners: Partner[] = [...usPartners, ...nigeriaPartners];
-
-/**
- * The home-page marquee.
- *
- * Long names break the marquee's rhythm, so text-only entries are capped at 30 characters.
- * A partner with a logo is exempt: a mark occupies a fixed, predictable slot no matter how
- * long the organisation's legal name runs, which is how the Art and Culture partner earns
- * a place here that its 89-character name would otherwise lose.
- */
-export const marqueePartners: Partner[] = allPartners.filter(
-  (partner) => partner.logo || partner.name.length <= 30,
-);

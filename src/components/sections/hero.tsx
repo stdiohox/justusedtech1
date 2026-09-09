@@ -90,13 +90,18 @@ export function Hero() {
             </Link>
           </div>
 
-          {/* Trust row. Wordmarks are text: no partner logo files exist yet. */}
+          {/* Trust row. Wordmarks stay text even though logo files now exist for all four.
+              The supplied marks are full-colour on transparent, most of them with dark
+              type, and this band is deep green: dropping them in here would need reversed
+              or knocked-out versions the client has not delivered. The /partners strip and
+              the marquee, both on light grounds, carry the real marks. */}
           {/* Pushed to the base of the block at lg, so it sits on the hero's floor. */}
           <div className="mt-[var(--space-48)] border-t border-white/20 pt-[var(--space-28)] lg:mt-auto">
             <p className="text-[0.8125rem] font-semibold tracking-[var(--tracking-body)] text-white/90">
-              Backed by 20+ partners across two continents
+              Backed by 18 partners across two continents
             </p>
-            {/* TODO: swap for supplied partner logo SVGs when the client delivers them. */}
+            {/* TODO: swap for reversed/knocked-out logo versions when the client delivers
+                them. The full-colour marks in public/partners are not usable on green. */}
             <ul className="mt-[var(--space-16)] flex flex-wrap items-center gap-x-[var(--space-28)] gap-y-[var(--space-12)]">
               {heroTrustPartners.map((name) => (
                 <li

@@ -3,31 +3,25 @@ import type { Partner } from "@/content/partners";
 import { cn } from "@/lib/utils";
 
 /**
- * One partner in a logo strip: the supplied mark where there is one, the typeset name
- * where there is not.
+ * One partner in a logo strip.
  *
- * The two branches are deliberately interchangeable inside a single row. A partner without
- * a logo is not a lesser partner, and pulling the seven with files into their own block
- * would say exactly that, so they interleave in whatever order the content file lists.
+ * Every partner has a supplied mark, so there is one branch and no fallback. The typeset
+ * wordmark this component used to render for logo-less partners is gone, along with the
+ * hover treatment built around it.
  *
- * On the grey. The strip's whole idea is quiet-until-hovered. A full-colour mark beside a
- * muted wordmark breaks it: G-TECH's teal and Sporty Lagos's badge would read as the only
- * real partners on the page. grayscale flattens them to the weight of a word, and hover
- * releases both together.
- *
- * Marks rest at 80% where text rests at 65%, which is not an inconsistency. Desaturating a
- * mid-tone logo already lightens it a great deal, so matching the text's number made the
- * seven real logos read FAINTER than the wordmarks beside them, which is the same failure
- * as the one above with the sign flipped. The pair is tuned to equal optical weight, not to
- * equal numbers.
+ * On full colour. The strip used to rest greyscaled and resolve to colour on hover, because
+ * a handful of real marks sitting beside typeset names would have read as the only real
+ * partners on the page. With eighteen marks and no names, that problem does not exist: the
+ * row is already uniform, so there is nothing to equalise and nothing to reveal. Greyscale
+ * now only costs each partner its own brand colour for no gain, so it is off, and the hover
+ * transition that carried it went with it.
  *
  * On the slot. Marks are normalised by HEIGHT so a square badge and a long wordmark share a
- * baseline, and the row reserves that height for text entries too so the two branches line
- * up. max-width is a backstop for the widest lockups, which at a common height would
+ * baseline. max-width is a backstop for the widest lockups, which at a common height would
  * otherwise run nearly twice the length of anything else in the row.
  *
- * Sizing is inline rather than a passed-in class because the same number has to reach three
- * places at once, the image height, the image width:auto and the row's min-height, and a
+ * Sizing is inline rather than a passed-in class because the same number has to reach two
+ * places at once, the image height and the wrapper that holds the row's baseline, and a
  * className prop can only carry it to one of them.
  */
 
@@ -48,39 +42,32 @@ export function PartnerMark({
   className?: string;
 }) {
   const { slot, maxWidth } = SIZES[size];
-  const motion =
-    "transition-[filter,opacity,color] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]";
+  const scale = partner.logo.scale ?? 1;
 
-  if (partner.logo) {
-    return (
+  return (
+    /*
+      The wrapper is fixed at the slot height and the image is allowed to overflow it.
+      That is what keeps a scaled mark from dragging the row taller: the box every item
+      contributes to the row stays the same, so the baseline holds and only the artwork
+      grows past it, centred.
+    */
+    <span
+      style={{ height: `${slot}rem` }}
+      className="flex shrink-0 items-center justify-center"
+    >
       <Image
         src={partner.logo.src}
         alt={partner.name}
         width={partner.logo.width}
         height={partner.logo.height}
         /* Both dimensions are set, so next/image does not warn about a modified aspect. */
-        style={{ height: `${slot}rem`, width: "auto", maxWidth: `${maxWidth}rem` }}
-        className={cn(
-          "object-contain opacity-80 grayscale",
-          "group-hover/partner:opacity-100 group-hover/partner:grayscale-0",
-          motion,
-          className,
-        )}
+        style={{
+          height: `${slot * scale}rem`,
+          width: "auto",
+          maxWidth: `${maxWidth * scale}rem`,
+        }}
+        className={cn("object-contain", className)}
       />
-    );
-  }
-
-  return (
-    <span
-      style={{ minHeight: `${slot}rem` }}
-      className={cn(
-        "flex items-center text-[1.0625rem] leading-snug font-extrabold tracking-[-0.02em] text-ink/65 text-balance",
-        "group-hover/partner:text-brand-green-dark sm:text-lg",
-        motion,
-        className,
-      )}
-    >
-      {partner.name}
     </span>
   );
 }

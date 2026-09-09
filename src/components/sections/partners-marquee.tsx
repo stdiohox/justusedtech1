@@ -1,21 +1,21 @@
 import Link from "next/link";
 import { PartnerMark } from "@/components/common/partner-mark";
-import { marqueePartners } from "@/content/partners";
+import { allPartners } from "@/content/partners";
 
 /**
  * Partner marquee. Sits under the hero band, never inside it, and is the only marquee on
  * the page.
  *
- * Seven partners have supplied a mark and render as logos; the rest are typeset wordmarks,
- * mixed into the same run rather than grouped. PartnerMark decides per partner, so this
- * component does not know or care which is which.
+ * Every partner runs, in the content file's order. There used to be a length filter here,
+ * to keep a long organisation name from stretching one slot and breaking the loop's
+ * rhythm; a mark occupies a fixed slot whatever the legal name runs to, so with no typeset
+ * entries left the filter matched everything and came out.
  *
  * The strip is duplicated once and translated -50%, which gives a seamless loop. The
  * duplicate is aria-hidden so screen readers read each partner once, which also stops the
  * logo alt text from being announced twice.
  *
- * Everything rests muted and resolves on hover, matching the /partners strip. See that file
- * for why the text opacity comes off --ink and not --ink-faint.
+ * Marks run in full colour with no hover state, matching the /partners strip.
  */
 export function PartnersMarquee() {
   return (
@@ -37,10 +37,13 @@ export function PartnersMarquee() {
               aria-hidden={copy === 1}
               className="flex shrink-0 items-center"
             >
-              {marqueePartners.map((partner) => (
+              {allPartners.map((partner) => (
                 <li
                   key={partner.name}
-                  className="group/partner flex shrink-0 items-center px-7 whitespace-nowrap sm:px-9"
+                  /* Padding, not gap, because the two copies have to butt together
+                     seamlessly at the seam: the last item's right padding and the first
+                     item's left padding form one normal gap where the loop wraps. */
+                  className="flex shrink-0 items-center px-5 sm:px-6"
                 >
                   <PartnerMark partner={partner} size="sm" />
                 </li>

@@ -17,7 +17,7 @@ export default function PartnersPage() {
     <>
       <PageHero
         eyebrow="Partners"
-        title="Twenty organisations, two continents, one pipeline."
+        title="Eighteen organisations, two continents, one pipeline."
         lede="Collection partners supply the hardware. Delivery partners get it to the people who need it. Both lists below are current."
       />
 
@@ -61,28 +61,23 @@ export default function PartnersPage() {
 }
 
 /**
- * Logo strip, not a card grid. Marks and wordmarks sit directly on the page at 65% opacity,
- * and resolve to full colour on hover. Understated social proof: the row is there to be
- * scanned, and only the one you point at asserts itself. See PartnerMark for why a supplied
- * logo is greyed to the same weight as a name rather than left in full colour.
+ * Logo strip, not a card grid. The marks sit directly on the page in full colour, with no
+ * hover state: there is nothing left to reveal now that every partner is an image. See
+ * PartnerMark for why the greyscale-until-hovered treatment came off.
  *
- * The 65% on text is taken off --ink rather than --ink-faint. These are real content, not
- * chrome, and --ink-faint at 65% lands near 2.6:1 on paper. --ink at 65% resolves to about
- * the same grey and still clears 4.5:1. Hover resolves to --brand-green-dark for the same
- * reason the CTA does: the bright green is 3.0:1 at this text size.
+ * The horizontal gap is deliberately smaller than the vertical one. Marks are normalised by
+ * height and so vary in width, which means a generous gap-x reads as a scattering of marks
+ * rather than a row; pulling it in lets the eye group them. gap-y stays larger because the
+ * rows themselves still need to separate.
  */
 function PartnerList({ partners }: { partners: readonly Partner[] }) {
   return (
     <RevealGroup
       as="ul"
-      className="mt-12 flex flex-wrap items-center gap-x-10 gap-y-7 sm:gap-x-14 sm:gap-y-9"
+      className="mt-12 flex flex-wrap items-center gap-x-8 gap-y-7 sm:gap-x-11 sm:gap-y-9"
     >
       {partners.map((partner) => (
-        <RevealItem
-          as="li"
-          key={partner.name}
-          className="group/partner flex max-w-[36ch] items-center"
-        >
+        <RevealItem as="li" key={partner.name} className="flex items-center">
           <PartnerMark partner={partner} />
         </RevealItem>
       ))}

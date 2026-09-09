@@ -85,7 +85,7 @@ export const nav: NavEntry[] = [
           },
           {
             label: "Partners",
-            description: "20+ partners across two continents",
+            description: "18 partners across two continents",
             href: "/partners",
             icon: "Handshake",
           },

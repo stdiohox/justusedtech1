@@ -74,12 +74,16 @@ export const announcement = {
 } as const;
 
 /**
- * Trust row wordmarks under the hero CTAs. Text, not images: no partner logo files have
- * been delivered. TODO: swap for supplied partner logo SVGs when the client provides them.
+ * Trust row wordmarks under the hero CTAs. Text rather than images because the hero band is
+ * deep green and every supplied mark is full-colour on transparent; see the comment at the
+ * trust row in hero.tsx.
+ *
+ * Every name here must exist in content/partners.ts. Claim Academy was dropped when that
+ * list lost its logo-less entries, and Cortex STL took the slot.
  */
 export const heroTrustPartners = [
   "Passback",
   "Google",
-  "Claim Academy",
+  "Cortex STL",
   "Thomas Dunn Learning Center",
 ] as const;
