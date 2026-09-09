@@ -151,3 +151,22 @@ export const nigeriaPartners: Partner[] = [
 ];
 
 export const allPartners: Partner[] = [...usPartners, ...nigeriaPartners];
+
+/**
+ * The four marks in the hero trust row.
+ *
+ * Resolved out of the list above rather than retyped, so the row cannot name an
+ * organisation this file does not carry. That used to be a comment asking the next editor
+ * to keep the two in step, and it had already been broken once: the row still named Claim
+ * Academy after that partner was dropped. The throw makes it a build failure instead.
+ */
+export const heroTrustPartners: Partner[] = [
+  "Passback",
+  "Google",
+  "Cortex STL",
+  "Thomas Dunn Learning Center",
+].map((name) => {
+  const partner = allPartners.find((candidate) => candidate.name === name);
+  if (!partner) throw new Error(`heroTrustPartners: no partner named "${name}"`);
+  return partner;
+});

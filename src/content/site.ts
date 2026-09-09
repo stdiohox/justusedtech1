@@ -73,17 +73,5 @@ export const announcement = {
   href: "/get-involved#donate-devices",
 } as const;
 
-/**
- * Trust row wordmarks under the hero CTAs. Text rather than images because the hero band is
- * deep green and every supplied mark is full-colour on transparent; see the comment at the
- * trust row in hero.tsx.
- *
- * Every name here must exist in content/partners.ts. Claim Academy was dropped when that
- * list lost its logo-less entries, and Cortex STL took the slot.
- */
-export const heroTrustPartners = [
-  "Passback",
-  "Google",
-  "Cortex STL",
-  "Thomas Dunn Learning Center",
-] as const;
+/* The hero trust row moved to content/partners.ts, where it is resolved from the partner
+   list rather than kept as a parallel set of names. */

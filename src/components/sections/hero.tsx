@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { PillLink } from "@/components/common/pill-button";
 import { OrbitBackdrop } from "@/components/sections/orbit-backdrop";
-import { heroTrustPartners } from "@/content/site";
+import { heroTrustPartners } from "@/content/partners";
 
 /**
  * Home hero: two-column split on a flat green gradient with a dashed orbit backdrop.
@@ -90,25 +90,49 @@ export function Hero() {
             </Link>
           </div>
 
-          {/* Trust row. Wordmarks stay text even though logo files now exist for all four.
-              The supplied marks are full-colour on transparent, most of them with dark
-              type, and this band is deep green: dropping them in here would need reversed
-              or knocked-out versions the client has not delivered. The /partners strip and
-              the marquee, both on light grounds, carry the real marks. */}
+          {/*
+            Trust row. The marks are full-colour on transparent and this band is deep
+            green, so each one sits on its own white chip. That is what retires the old
+            request for reversed or knocked-out artwork: a white ground needs no recoloured
+            version of anyone's logo, and asking four organisations for one would have been
+            asking for work nobody needs.
+
+            Radius is --radius-badge, per the locked scale in globals.css. Not
+            --radius-pill, which that scale reserves for the PillLink family: the two CTAs
+            directly above are pills, and giving the same shape to something inert would
+            read as two more buttons.
+
+            No shadow and no border. The locked elevation rule puts a hairline on content
+            cards, but --edge is a light grey meant for paper, and on green it would only
+            fog the chip's edge. White on this gradient separates on its own.
+          */}
           {/* Pushed to the base of the block at lg, so it sits on the hero's floor. */}
           <div className="mt-[var(--space-48)] border-t border-white/20 pt-[var(--space-28)] lg:mt-auto">
             <p className="text-[0.8125rem] font-semibold tracking-[var(--tracking-body)] text-white/90">
               Backed by 18 partners across two continents
             </p>
-            {/* TODO: swap for reversed/knocked-out logo versions when the client delivers
-                them. The full-colour marks in public/partners are not usable on green. */}
-            <ul className="mt-[var(--space-16)] flex flex-wrap items-center gap-x-[var(--space-28)] gap-y-[var(--space-12)]">
-              {heroTrustPartners.map((name) => (
+            {/*
+              Gap is smaller than the /partners strip's, deliberately. That strip sets bare
+              marks on an open page, where the gap is the only thing separating one from
+              the next. Here each chip carries its own padding, so the strip's value would
+              be counting the same separation twice and would push the row wider than the
+              copy column it sits under.
+            */}
+            <ul className="mt-[var(--space-16)] flex flex-wrap items-center gap-[var(--space-12)]">
+              {heroTrustPartners.map((partner) => (
                 <li
-                  key={name}
-                  className="text-[0.9375rem] font-bold tracking-[var(--tracking-body)] text-white/90"
+                  key={partner.name}
+                  className="flex items-center rounded-[var(--radius-badge)] bg-white px-[var(--space-12)] py-[var(--space-8)]"
                 >
-                  {name}
+                  <Image
+                    src={partner.logo.src}
+                    alt={partner.name}
+                    width={partner.logo.width}
+                    height={partner.logo.height}
+                    /* Height fixed, width auto: the marks run from a 0.77 portrait to a
+                       3.67 wordmark, so the chips vary in width and share a height. */
+                    className="h-6 w-auto object-contain"
+                  />
                 </li>
               ))}
             </ul>
