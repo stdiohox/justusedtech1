@@ -46,20 +46,15 @@ export const socials = [
   { name: "Linktree", href: "https://linktr.ee/justusedtech" },
 ] as const;
 
-/**
- * Header navigation: four centre links, with Contact and the primary CTA held on the
- * right. Kept deliberately short so the bar stays on one line.
- */
-export const nav = [
-  { label: "Programs", href: "/programs" },
-  { label: "Impact", href: "/impact" },
-  { label: "Team", href: "/team" },
-  { label: "Get Involved", href: "/get-involved" },
-] as const;
+/*
+  Header navigation moved to content/nav.ts when the centre links gained dropdown menus.
+  It is a larger structure than a flat list of facts and earns its own module.
+*/
 
 /**
- * Footer navigation carries every page. About, Partners, and News are not in the header,
- * so this is the route by which they stay reachable and crawlable.
+ * Footer navigation carries every page. Partners and News are not in the header's own
+ * link row, so this is the route by which they stay reachable and crawlable. About and
+ * Partners are also reachable from the header's About menu.
  */
 export const footerNav = [
   { label: "About", href: "/about" },

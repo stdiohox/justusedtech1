@@ -23,7 +23,8 @@ export default function AboutPage() {
       />
 
       {/* Vision and mission: two statements, given room rather than boxed into cards. */}
-      <Section tone="white">
+      {/* ids here are link targets for the header About menu. Do not rename without updating content/nav.ts. */}
+      <Section id="vision" tone="white">
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
           <Reveal>
             <p className="text-[0.6875rem] font-extrabold tracking-[0.18em] text-ink-faint uppercase">
@@ -45,7 +46,7 @@ export default function AboutPage() {
       </Section>
 
       {/* Core values: numbered rows, no card grid. */}
-      <Section tone="paper">
+      <Section id="values" tone="paper">
         <Reveal>
           <SectionHead
             title="Core values"
@@ -113,7 +114,7 @@ export default function AboutPage() {
         the rhythm break against the light canvas either side of it, and containing it keeps
         the section head reading on paper where the rest of the page's heads do.
       */}
-      <Section tone="white">
+      <Section id="model" tone="white">
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-16">
           <Reveal>
             <SectionHead
