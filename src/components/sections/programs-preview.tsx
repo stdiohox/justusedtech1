@@ -88,7 +88,45 @@ function ProgramCard({
         onDark={featured}
       />
 
-      <div className="flex flex-1 flex-col p-7">
+      {/*
+        Hover lift. The body panel slides up over the foot of the photograph, which is the
+        tactile half of the card responding to the pointer alongside the existing card rise.
+
+        It carries the card's own fill rather than being transparent. Without that the type
+        would ride over the photograph mid-transition and be unreadable for the length of
+        the animation, and the panel would not read as a solid thing being moved.
+
+        No gap opens under it: the strip it uncovers at the card's foot is the card's own
+        background, which is the colour the panel is painted in.
+
+        [@media(hover:hover)] rather than a breakpoint. A width query would still hand this
+        to a touch tablet, where the state sticks after a tap and there is no pointer to
+        take it away again.
+
+        motion-reduce holds the panel at rest with no transition. Nothing here carries
+        meaning, so there is nothing to substitute when the motion is dropped.
+      */}
+      <div
+        className={cn(
+          "relative flex flex-1 flex-col p-7",
+          featured ? "bg-[var(--surface-dark)]" : "bg-[var(--surface-card)]",
+          "transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]",
+          "[@media(hover:hover)]:group-hover/card:-translate-y-3",
+          /*
+            Under reduced motion the panel still takes the lifted position, it just arrives
+            there instantly instead of travelling. Dropping the transition is the whole fix:
+            what that setting asks us to remove is the movement between two states, and an
+            instant state change on hover is not movement to remove.
+
+            Only transition-none is listed. A translate reset would need to out-specify the
+            hover rule above, whose :is(:where(.group/card):hover *) carries more weight
+            than a bare utility class, so adding one would read as a guard while doing
+            nothing. Worth knowing if the lift should be dropped entirely here instead: that
+            needs specificity, not another utility.
+          */
+          "motion-reduce:transition-none",
+        )}
+      >
         <div className="flex items-start justify-between gap-4">
           <StatusBadge
             status={program.status}

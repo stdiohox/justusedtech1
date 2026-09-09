@@ -79,6 +79,15 @@ const PROGRAM_PHOTOS: Record<string, { src: string; alt: string }> = {
   },
 };
 
+/**
+ * One height for every media band, photo or icon, so the cards line up in a grid whatever
+ * each programme happens to have.
+ *
+ * 20rem is chosen for the portrait: school_tour.jpg is 0.82, and contained at anything
+ * shorter it shrinks to a stamp. Landscape marks are 1.50 and sit comfortably inside it.
+ */
+const MEDIA_HEIGHT = "h-80";
+
 /* Three washes, cycled by index, so a grid of cards does not repeat the same fill. */
 const WASHES = [
   "linear-gradient(135deg, #dceee2 0%, #eef7f0 55%, #fff2cc 100%)",
@@ -111,14 +120,28 @@ export function ProgramMedia({
   */
   if (photo) {
     return (
-      <div className={cn("relative h-24 overflow-hidden sm:h-28", className)}>
+      <div
+        className={cn(
+          MEDIA_HEIGHT,
+          "relative overflow-hidden",
+          /*
+            The mat. object-contain leaves real letterbox space, and how that space is
+            filled decides whether the band reads as a framed photograph or as a broken
+            one. --mint is the light tint of --brand-green already used for soft surfaces
+            across the site. On the dark featured cell a mint block would be a hole in the
+            card, so that one lifts its own fill instead, which lands as a paler green.
+          */
+          onDark ? "bg-white/[0.08]" : "bg-mint",
+          className,
+        )}
+      >
         <Image
           src={photo.src}
           alt={photo.alt}
           fill
           /* Widest case is the home page's featured cell, roughly two thirds of the shell. */
           sizes="(min-width: 1280px) 800px, (min-width: 768px) 66vw, 100vw"
-          className="object-cover"
+          className="object-contain"
         />
       </div>
     );
@@ -139,7 +162,13 @@ export function ProgramMedia({
     <div
       aria-hidden
       className={cn(
-        "flex h-24 items-end px-7 pb-5 sm:h-28",
+        /*
+          Same height as a photo band, so a programme without a photograph still lines up
+          in the grid. The icon centres rather than sitting on the baseline: at this height
+          a bottom-left icon reads as a small mark stranded under a large empty wash.
+        */
+        MEDIA_HEIGHT,
+        "flex items-center justify-center px-7",
         upcoming && !onDark && "border-b border-edge",
         className,
       )}
@@ -147,7 +176,7 @@ export function ProgramMedia({
     >
       <Icon
         className={cn(
-          "size-9 sm:size-10",
+          "size-14 sm:size-16",
           onDark
             ? "text-white/45"
             : upcoming
