@@ -36,9 +36,17 @@ export default async function PostPage({ params }: Params) {
             All news
           </Link>
 
+          {/*
+            The separator belongs to the date, not to the line, so a post with no confirmed
+            date shows its location alone rather than a stray leading slash.
+          */}
           <p className="mt-10 text-[0.875rem] font-bold text-ink-faint">
-            <time dateTime={post.iso}>{post.date}</time>
-            <span className="mx-2 text-ink-faint/50">/</span>
+            {post.date && (
+              <>
+                <time dateTime={post.iso}>{post.date}</time>
+                <span className="mx-2 text-ink-faint/50">/</span>
+              </>
+            )}
             {post.location}
           </p>
 

@@ -30,10 +30,13 @@ export default function NewsPage() {
               >
                 <div className="flex items-start justify-between gap-6">
                   <div>
-                    <p className="text-[0.8125rem] font-bold text-ink-faint">
-                      <time dateTime={post.iso}>{post.date}</time>
-                    </p>
-                    <h2 className="mt-4 max-w-[24ch] text-2xl leading-tight font-extrabold tracking-[-0.03em] text-balance sm:text-[2rem]">
+                    {/* Dropped whole, not left blank, where a post has no confirmed date. */}
+                    {post.date && (
+                      <p className="text-[0.8125rem] font-bold text-ink-faint">
+                        <time dateTime={post.iso}>{post.date}</time>
+                      </p>
+                    )}
+                    <h2 className="mt-4 max-w-[24ch] text-2xl leading-tight font-extrabold tracking-[-0.03em] text-balance first:mt-0 sm:text-[2rem]">
                       {post.title}
                     </h2>
                     <p className="mt-4 max-w-[62ch] text-[1.0625rem] leading-relaxed text-ink-soft text-pretty">

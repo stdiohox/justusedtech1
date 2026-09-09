@@ -1,11 +1,9 @@
 import {
-  Cpu,
   GraduationCap,
   Palette,
   QrCode,
   Recycle,
   Rocket,
-  Tent,
   Trophy,
   Wrench,
   type LucideIcon,
@@ -31,8 +29,6 @@ const PROGRAM_ICONS: Record<string, LucideIcon> = {
   "greenbin-360-ecosystem": QrCode,
   "skillsync-initiative": Palette,
   "circular-tech-bootcamp": Wrench,
-  "google-hardware-recycling-workplan": Cpu,
-  "tdlc-summer-camp": Tent,
 };
 
 /* Three washes, cycled by index, so a grid of cards does not repeat the same fill. */

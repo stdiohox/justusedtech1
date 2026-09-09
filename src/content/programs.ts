@@ -119,36 +119,22 @@ export const programs: Program[] = [
   },
 ];
 
-/** Proposals and collaborations in development. Never presented as running programmes. */
-export const inDevelopment: Program[] = [
-  {
-    slug: "google-hardware-recycling-workplan",
-    name: "Google Hardware Recycling Workplan",
-    status: "upcoming",
-    summary:
-      "A proposal to train 50 young people in hardware refurbishment, circular economy literacy, and e-waste reduction.",
-    body: [
-      "Currently a proposal. It would put 50 young people through structured training in hardware refurbishment alongside circular economy literacy and e-waste reduction practice.",
-    ],
-  },
-  {
-    slug: "tdlc-summer-camp",
-    name: "TDLC Summer Camp",
-    status: "upcoming",
-    partner: "Thomas Dunn Learning Center",
-    summary:
-      "A proposed St. Louis collaboration on a Hardware Technology and Ethical AI Use program for young people aged 15 and up.",
-    body: [
-      "Proposed with Thomas Dunn Learning Center in St. Louis. The camp would cover hardware technology alongside ethical AI use for participants aged 15 and up.",
-    ],
-  },
-];
+/*
+  There was a second list here, `inDevelopment`, holding two entries that are now gone:
+
+  - Google Hardware Recycling Workplan. An internal planning document, not a programme the
+    public was ever meant to read about.
+  - TDLC Summer Camp. It ran, so it is no longer upcoming. Written up as a completed event
+    in content/news.ts instead.
+
+  With both removed the list was empty, and `upcomingPrograms` was spreading an empty array
+  into a filter, so the list and the spread came out with them. GreenBin 360 Smart Bin
+  Ecosystem is now the only upcoming programme, and it already carries status: "upcoming"
+  in the catalogue above, which is all the filter below needs.
+*/
 
 export const activePrograms = programs.filter((p) => p.status === "active");
-export const upcomingPrograms = [
-  ...programs.filter((p) => p.status === "upcoming"),
-  ...inDevelopment,
-];
+export const upcomingPrograms = programs.filter((p) => p.status === "upcoming");
 
 export const focusAreas = [
   "Digital Inclusion",

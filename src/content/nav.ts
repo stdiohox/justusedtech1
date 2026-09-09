@@ -145,26 +145,17 @@ export const nav: NavEntry[] = [
           },
         ],
       },
-      {
-        title: "Upcoming",
-        items: [
-          {
-            label: "Google Hardware Workplan",
-            description: "Hardware training workplan, proposal stage",
-            href: "/programs#google-hardware-recycling-workplan",
-            icon: "FileText",
-            status: "upcoming",
-          },
-          {
-            label: "TDLC Summer Camp",
-            description:
-              "Summer hardware & AI camp, proposed with Thomas Dunn Learning Center",
-            href: "/programs#tdlc-summer-camp",
-            icon: "FileText",
-            status: "upcoming",
-          },
-        ],
-      },
+      /*
+        The "Upcoming" column held only the Google workplan and the TDLC camp. The first was
+        an internal document and the second has run, so both went, and a column heading with
+        nothing under it is worse than no column: the menu removes it rather than render an
+        empty one.
+
+        GreenBin 360 Smart Bin Ecosystem is now the sole upcoming programme and is still
+        listed in the In development section on /programs. It was never in this menu, so it
+        is not added here either. If the column should come back, that entry is what fills
+        it: /programs#greenbin-360-ecosystem.
+      */
     ],
   },
   { label: "Impact", href: "/impact" },

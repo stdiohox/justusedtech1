@@ -129,14 +129,21 @@ export default function ImpactPage() {
               </Link>
             </div>
             <dl className="card h-fit space-y-5">
-              <div>
-                <dt className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
-                  Date
-                </dt>
-                <dd className="mt-1.5 font-bold text-ink">
-                  <time dateTime={latestPost.iso}>{latestPost.date}</time>
-                </dd>
-              </div>
+              {/*
+                latestPost is chosen as the first DATED post, so this row is expected to
+                fill. It is still guarded: a Date term with an empty definition under it is
+                a worse failure than one missing row.
+              */}
+              {latestPost.date && (
+                <div>
+                  <dt className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
+                    Date
+                  </dt>
+                  <dd className="mt-1.5 font-bold text-ink">
+                    <time dateTime={latestPost.iso}>{latestPost.date}</time>
+                  </dd>
+                </div>
+              )}
               <div>
                 <dt className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
                   Venue
