@@ -3,15 +3,14 @@ import { PageHero } from "@/components/layout/page-hero";
 import { PillLink } from "@/components/common/pill-button";
 import { Section, SectionHead, TagPill } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
-import { nigeriaPartners, usPartners } from "@/content/partners";
+import { PartnerMark } from "@/components/common/partner-mark";
+import { nigeriaPartners, usPartners, type Partner } from "@/content/partners";
 
 export const metadata: Metadata = {
   title: "Partners",
   description:
     "The US-based and Nigeria-based organisations working with JustUsedTech on collection, refurbishment, and programme delivery.",
 };
-
-/* TODO: swap wordmarks for supplied partner logo SVGs when the client delivers them. */
 
 export default function PartnersPage() {
   return (
@@ -30,7 +29,7 @@ export default function PartnersPage() {
             lede="Corporate, academic, and community partners supporting collection, refurbishment, and local redistribution around St. Louis."
           />
         </Reveal>
-        <PartnerList names={usPartners} />
+        <PartnerList partners={usPartners} />
       </Section>
 
       <Section tone="paper">
@@ -41,7 +40,7 @@ export default function PartnersPage() {
             lede="Government, education, and community partners delivering programmes across Lagos State and beyond."
           />
         </Reveal>
-        <PartnerList names={nigeriaPartners} />
+        <PartnerList partners={nigeriaPartners} />
       </Section>
 
       <Section tone="green">
@@ -62,31 +61,29 @@ export default function PartnersPage() {
 }
 
 /**
- * Logo strip, not a card grid. Wordmarks sit directly on the page at 65% opacity in the
- * muted ink, and resolve to full brand green on hover. Understated social proof: the names
- * are there to be scanned, and only the one you point at asserts itself.
+ * Logo strip, not a card grid. Marks and wordmarks sit directly on the page at 65% opacity,
+ * and resolve to full colour on hover. Understated social proof: the row is there to be
+ * scanned, and only the one you point at asserts itself. See PartnerMark for why a supplied
+ * logo is greyed to the same weight as a name rather than left in full colour.
  *
- * The 65% is taken off --ink rather than --ink-faint. These are real content, not chrome,
- * and --ink-faint at 65% lands near 2.6:1 on paper. --ink at 65% resolves to about the same
- * grey the reference uses and still clears 4.5:1. Hover resolves to --brand-green-dark for
- * the same reason the CTA does: the bright green is 3.0:1 at this text size.
- *
- * TODO: swap wordmarks for supplied partner logo SVGs when the client delivers them. The
- * same opacity and hover treatment applies to a real mark, so this needs no layout change.
+ * The 65% on text is taken off --ink rather than --ink-faint. These are real content, not
+ * chrome, and --ink-faint at 65% lands near 2.6:1 on paper. --ink at 65% resolves to about
+ * the same grey and still clears 4.5:1. Hover resolves to --brand-green-dark for the same
+ * reason the CTA does: the bright green is 3.0:1 at this text size.
  */
-function PartnerList({ names }: { names: readonly string[] }) {
+function PartnerList({ partners }: { partners: readonly Partner[] }) {
   return (
     <RevealGroup
       as="ul"
       className="mt-12 flex flex-wrap items-center gap-x-10 gap-y-7 sm:gap-x-14 sm:gap-y-9"
     >
-      {names.map((name) => (
+      {partners.map((partner) => (
         <RevealItem
           as="li"
-          key={name}
-          className="max-w-[36ch] text-[1.0625rem] leading-snug font-extrabold tracking-[-0.02em] text-ink/65 text-balance transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:text-brand-green-dark sm:text-lg"
+          key={partner.name}
+          className="group/partner flex max-w-[36ch] items-center"
         >
-          {name}
+          <PartnerMark partner={partner} />
         </RevealItem>
       ))}
     </RevealGroup>
