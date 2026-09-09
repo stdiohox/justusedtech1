@@ -118,43 +118,35 @@ export function Hero() {
             cannot be one element: Card B sits at -left-[7%], outside the window, and a
             single box with overflow:hidden would swallow it.
 
-            At lg the wrapper is pinned on BOTH vertical edges with the same --space-32
-            token, and fills the column horizontally. Every edge is therefore declared, not
-            derived: the gap above and the gap below are the same token, so they are equal by
-            construction rather than by two values that happen to agree today. This replaced
-            sizing by height at 90% of the row, which gave a fixed 32px below and an
-            incidental ~106px above.
+            At lg the wrapper is a square, centred in the row rather than pinned to it.
+            inset-y-0 with my-auto is absolute centring: with both vertical insets at 0 and
+            auto block margins, the leftover height is split evenly, so the gap above always
+            equals the gap below. That equality is a property of centring, not of two inset
+            values that happen to match, and it survives the square changing size. The gap
+            itself is not fixed and is not meant to be: it measures 142px where the headline
+            wraps to five lines and the row is tall, and 29px from 1280 up where it is not.
 
-            The square ratio had to go for that to hold. With aspect-square and max-w-full
-            both in play, three constraints competed for two dimensions, and the ratio won:
-            below about 1250px the column clamps the width, the square drags the height down
-            with it, and the box stops reaching the bottom inset. Measured, that left 32px
-            above and 251px below at 1024. A declared width and two declared insets is the
-            only combination where the box can honour all four edges.
+            Every size constraint here is a MAXIMUM, which is what lets the ratio hold. An
+            explicit height wins over aspect-ratio, so `h-[90%]` produced a 431x643 box at
+            1024: the width clamped to the column, the height stayed at 90%, and the square
+            was lost. As max-h-[90%] it is a ceiling instead, the clamp transfers back
+            through the ratio, and the box stays square at every width. Measured square to
+            three decimals from 1024 to 1920.
 
-            max-w-full went with it, and is not a guard that was dropped: it existed because
-            a height-driven square could come out wider than the column and lie across the
-            headline. A w-full box cannot exceed its own containing block, so the overflow it
-            protected against is now unreachable by construction. Verified across 1024 to
-            1920: the wrapper's left edge matches the column's exactly at every step, and the
-            headline stays clear.
-
-            The cost is at the narrow end. The window is no longer square, it is whatever the
-            column and the insets leave, which runs from 0.66 at 1024 to 1.09 from 1280 up.
-            At the portrait extreme `cover` crops harder from the right, so the second student
-            is only partly in frame around 1024 to 1100. The mentor, the JUSTUSED shirt mark,
-            the first student and the laptop all survive at every width.
+            max-w-full is still doing real work. Rechecked by removing it: at 1024 the box
+            grows to 643 wide against a 431px column, overflowing 212px and lying 172px
+            across the headline. It is the only reason the narrow end stays clear.
           */}
-          <div className="relative mx-auto w-[92%] lg:absolute lg:top-[var(--space-32)] lg:right-0 lg:bottom-[var(--space-32)] lg:mx-0 lg:w-full">
+          <div className="relative mx-auto w-[92%] lg:absolute lg:inset-y-0 lg:right-0 lg:mx-0 lg:my-auto lg:aspect-square lg:max-h-[90%] lg:w-auto lg:max-w-full">
             {/*
               Crop values are tuned to this photograph, not to the layout: see
               .hero-visual-media in globals.css for what each knob does.
-              The window is wider than it is tall at desktop and the photograph is 3:2, so
-              `cover` fits it to the height and the crop falls entirely on the horizontal
-              axis. The left-top pin is load-bearing, not a default nobody revisited: it
-              keeps the mentor, the students, and the JUSTUSED marks on the shirt and the
-              laptop lids, and it puts the unrelated figure at the right of the frame outside
-              the window. Every step rightward trades one of those away for that figure.
+              The window is square and the photograph is 3:2, so `cover` fits it to the
+              height and the crop falls entirely on the horizontal axis. The left-top pin is
+              load-bearing, not a default nobody revisited: it keeps the mentor, both
+              students, and the JUSTUSED marks on the shirt and the laptop lids, and it puts
+              the unrelated figure at the right of the frame outside the window. Every step
+              rightward trades one of those away for that figure.
 
               The green fill behind the image is a backstop for the moment before it decodes,
               so the window never flashes white against the gradient.
