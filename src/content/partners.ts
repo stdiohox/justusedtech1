@@ -164,7 +164,12 @@ export const heroTrustPartners: Partner[] = [
   "Passback",
   "Google",
   "Cortex STL",
-  "Thomas Dunn Learning Center",
+  /* Thomas Dunn was here and could not hold the chip's 24px height: its mark is a building
+     icon plus four stacked lines of type, so each line landed near 4px. It needs the 1.45x
+     multiplier just to survive the /partners strip, whose slot is nearly twice as tall,
+     and the chips share one height by design. Swapped for a single-line wordmark, which is
+     the shape that survives at this size. */
+  "WashU IT",
 ].map((name) => {
   const partner = allPartners.find((candidate) => candidate.name === name);
   if (!partner) throw new Error(`heroTrustPartners: no partner named "${name}"`);
