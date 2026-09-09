@@ -63,6 +63,20 @@ const PROGRAM_PHOTOS: Record<string, { src: string; alt: string }> = {
     src: "/programs/green_bin.jpg",
     alt: "Team members loading equipment into the back of a van at an outdoor collection event.",
   },
+  /*
+    Scene only, and deliberately not described as SkillSync work: the photograph is a device
+    handover, and nothing in the frame depicts the creative-economy support this programme
+    actually runs. Naming the programme in the alt text would assert something the picture
+    does not show.
+
+    Worth a look before this one stays: the banner and three of the shirts in frame read
+    "Product Tent", an organisation removed from the partner list a few commits ago for
+    having no logo. The card credits a different partner in its body copy.
+  */
+  "skillsync-initiative": {
+    src: "/programs/skillsync_initiative.jpg",
+    alt: "Five people standing together for a photograph at a device handover event, with a desktop computer in front of them.",
+  },
 };
 
 /* Three washes, cycled by index, so a grid of cards does not repeat the same fill. */
