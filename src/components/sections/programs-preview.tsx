@@ -72,6 +72,7 @@ function ProgramCard({
   featured?: boolean;
 }) {
   /* No card-quiet branch: every cell here comes from activePrograms now. */
+  const metrics = program.results ?? program.stats;
   return (
     <Link
       href={`/programs#${program.slug}`}
@@ -86,6 +87,7 @@ function ProgramCard({
         status={program.status}
         tone={tone}
         onDark={featured}
+        wide={featured}
       />
 
       {/*
@@ -173,16 +175,44 @@ function ProgramCard({
             </p>
           )}
 
-          {/* The featured cell is tall, so it carries its verified 2025 results. */}
-          {featured && program.results && (
-            <dl className="mt-4 grid gap-x-8 gap-y-4 border-t border-white/20 pt-6 sm:grid-cols-3">
-              {program.results.map((result) => (
-                <div key={result.label}>
-                  <dt className="text-[0.8125rem] font-extrabold text-white">
-                    {result.label}
+          {/*
+            The figures footer, which used to be the featured cell's alone. Every card that
+            has numbers now carries them, because a card with only a one-line summary read as
+            a thinner programme rather than a smaller cell.
+
+            Divider, type sizes, and spacing are the featured cell's, unchanged. Two things
+            do change, and both are forced rather than chosen: the colours flip to the ink
+            tokens off the dark card, and the columns collapse to one. A small cell is 380px
+            against the featured cell's 777, so three columns there would set each figure in
+            about 14 characters of width.
+
+            `results` before `stats` because a dated result is the stronger claim. No card
+            currently has both.
+          */}
+          {metrics && (
+            <dl
+              className={cn(
+                "mt-4 grid gap-x-8 gap-y-4 border-t pt-6",
+                featured ? "border-white/20 sm:grid-cols-3" : "border-edge",
+              )}
+            >
+              {metrics.map((metric) => (
+                <div key={metric.label}>
+                  <dt
+                    className={cn(
+                      "text-[0.8125rem] font-extrabold",
+                      featured ? "text-white" : "text-ink",
+                    )}
+                  >
+                    {metric.label}
                   </dt>
-                  <dd className="mt-1 text-[0.8125rem] leading-snug text-white/75">
-                    {result.detail}
+                  <dd
+                    className={cn(
+                      "mt-1 text-[0.8125rem] leading-snug",
+                      featured ? "text-white/75" : "text-ink-soft",
+                    )}
+                  >
+                    {metric.detail}
                   </dd>
                 </div>
               ))}

@@ -146,7 +146,32 @@ function ProgramPanel({ program, tone }: { program: Program; tone: number }) {
             </div>
           )}
 
-          {!program.target && !program.results && (
+          {/*
+            Running totals, under their own heading. They cannot go under "Delivered in
+            2025" above: these are cumulative "to date" figures, and that heading would date
+            them to a year none of them belong to.
+          */}
+          {program.stats && (
+            <div className={program.target || program.results ? "mt-6" : ""}>
+              <p className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
+                US operations to date
+              </p>
+              <dl className="mt-4 space-y-4">
+                {program.stats.map((stat) => (
+                  <div key={stat.label}>
+                    <dt className="text-[0.9375rem] font-extrabold text-ink">
+                      {stat.label}
+                    </dt>
+                    <dd className="mt-1 text-[0.9375rem] leading-relaxed text-ink-soft">
+                      {stat.detail}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          )}
+
+          {!program.target && !program.results && !program.stats && (
             <p className="text-[0.875rem] leading-relaxed font-semibold text-ink-faint">
               {upcoming
                 ? "Not yet running. No results to report."

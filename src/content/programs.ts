@@ -14,6 +14,15 @@ export type Program = {
   body: string[];
   /** Dated, verified results only. Omitted where none exist. */
   results?: { label: string; detail: string }[];
+  /**
+   * Cumulative operating figures, as distinct from `results`.
+   *
+   * The two are not interchangeable. `results` is dated delivery and renders on /programs
+   * under a "Delivered in 2025" heading; these are running totals with no single date, so
+   * filing them as results would put a 2025 label on a number that is "to date". Same
+   * figures as the Impact page, not new ones.
+   */
+  stats?: { label: string; detail: string }[];
   target?: string;
 };
 
@@ -83,6 +92,13 @@ export const programs: Program[] = [
       "US-based corporate e-waste collection. This is the supply side of the whole device pipeline.",
     body: [
       "GreenBin 360 is how devices reach us. We collect end-of-life and surplus hardware from companies and institutions across St. Louis, then route it into assessment and refurbishment.",
+    ],
+    /* The US operations figures from content/impact.ts. Same numbers, not new ones: this
+       programme IS the US collection operation, so its totals are that operation's. */
+    stats: [
+      { label: "95,000+ lbs", detail: "E-waste upcycled to date" },
+      { label: "60%", detail: "Devices returned to the St. Louis community" },
+      { label: "800+", detail: "Devices redistributed" },
     ],
   },
   {

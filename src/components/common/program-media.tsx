@@ -15,10 +15,10 @@ import type { ProgramStatus } from "@/content/programs";
 /*
   The media band at the top of a programme card.
 
-  No programme photography has been delivered, and putting a stock photo here would imply
-  it shows our sessions. So the band is an icon on a branded wash: obviously a graphic
-  device, obviously not a photograph. When real photos arrive this component is the single
-  place to swap: same box, same height, same flush edges.
+  Five programmes now have real photographs and take them. The rest keep the icon on a
+  branded wash, which was the original treatment for the whole set while no photography had
+  been delivered: obviously a graphic device, obviously not a photograph, so nothing here
+  ever implies a stock image shows our sessions.
 
   Icon choice is presentation, not copy, so the map lives here rather than in src/content.
 */
@@ -37,18 +37,29 @@ const PROGRAM_ICONS: Record<string, LucideIcon> = {
   the comment above promised: a programme with a file here gets its photograph, one without
   keeps the icon, and nothing else in either consumer changes.
 
-  All four are pre-cropped to a single 1500x500 and dropped in at object-cover, so the band
-  crops the same way for every card. school_tour.jpg was trimmed above the JUSTUSED
-  watermark burned into the bottom of the source before that crop was taken, rather than
-  left for the band's own crop window to miss.
+  Every file is the complete frame at its own aspect, dropped in at object-contain, so no
+  card ever crops a photograph to fit. school_tour was trimmed above the JUSTUSED watermark
+  burned into the bottom of its source before anything else was done to it, rather than left
+  for a crop window to miss.
 
   Alt text describes what is in the frame and stops there, the same standard as the hero
   photograph: no names, and no claim about who any person pictured is or which programme
   they benefited from.
 */
-const PROGRAM_PHOTOS: Record<string, { src: string; alt: string }> = {
+const PROGRAM_PHOTOS: Record<
+  string,
+  /*
+    `wideSrc` is a second crop of the same original for the featured cell, not a replacement.
+    Both are re-derived from the untouched source and both are trimmed above the watermark
+    first; they differ only in the region framed, so one alt text describes both. Every other
+    surface, /programs included, keeps `src`.
+  */
+  { src: string; alt: string; wideSrc?: string }
+> = {
   "school-tour-initiative": {
     src: "/programs/school_tour.jpg",
+    /* Landscape window on the same frame, holding both students and the exercise book. */
+    wideSrc: "/programs/school_tour_wide.jpg",
     alt: "Two students in school uniform writing in an exercise book at a classroom desk.",
   },
   "breakthrough-series": {
@@ -89,6 +100,20 @@ const PROGRAM_PHOTOS: Record<string, { src: string; alt: string }> = {
 const MEDIA_HEIGHT = "h-80";
 
 /**
+ * The one band that does not share MEDIA_HEIGHT: the home bento's featured cell.
+ *
+ * That cell is roughly 777px wide against every other cell's 380, so a contained photograph
+ * there is limited by height while the same photograph elsewhere is limited by width. At the
+ * shared 320px the portrait rendered 262px wide and left 257px of mat on each side, a third
+ * of the cell per side. Height is the only lever that widens a height-limited image, so this
+ * cell gets its own.
+ *
+ * 25rem is 400px. Paired with the 1.60 wide variant below it renders 640px across, leaving
+ * about 68px of mat each side, which is roughly 9%: framing rather than a field.
+ */
+const FEATURED_MEDIA_HEIGHT = "h-[25rem]";
+
+/**
  * Width cap for the mat, applied only where `capped` is set. See that prop for why it caps
  * the mat and not the image.
  *
@@ -112,6 +137,7 @@ export function ProgramMedia({
   tone = 0,
   onDark = false,
   capped = false,
+  wide = false,
   className,
 }: {
   slug: string;
@@ -133,11 +159,18 @@ export function ProgramMedia({
    * as framing, and MEDIA_HEIGHT stays shared across both pages either way.
    */
   capped?: boolean;
+  /**
+   * The home bento's featured cell: takes FEATURED_MEDIA_HEIGHT, and the landscape crop of
+   * the photograph where the programme has one. Both are that cell's problem alone, which is
+   * why they travel together on one flag rather than two.
+   */
+  wide?: boolean;
   className?: string;
 }) {
   const photo = PROGRAM_PHOTOS[slug];
   const Icon = PROGRAM_ICONS[slug] ?? Recycle;
   const upcoming = status === "upcoming";
+  const height = wide ? FEATURED_MEDIA_HEIGHT : MEDIA_HEIGHT;
 
   /*
     A photograph is content, so unlike the icon band it is not aria-hidden and it carries
@@ -146,7 +179,7 @@ export function ProgramMedia({
   */
   if (photo) {
     return (
-      <div className={cn(MEDIA_HEIGHT, "overflow-hidden", className)}>
+      <div className={cn(height, "overflow-hidden", className)}>
         <div
           className={cn(
             "relative mx-auto h-full w-full",
@@ -162,7 +195,7 @@ export function ProgramMedia({
           )}
         >
           <Image
-            src={photo.src}
+            src={wide && photo.wideSrc ? photo.wideSrc : photo.src}
             alt={photo.alt}
             fill
             /* Widest case is the home page's featured cell, roughly two thirds of the shell. */
@@ -194,7 +227,7 @@ export function ProgramMedia({
           in the grid. The icon centres rather than sitting on the baseline: at this height
           a bottom-left icon reads as a small mark stranded under a large empty wash.
         */
-        MEDIA_HEIGHT,
+        height,
         "overflow-hidden",
         /*
           The hairline stays on the full-width element even when the wash inside it is
