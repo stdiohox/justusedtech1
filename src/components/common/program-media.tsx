@@ -88,6 +88,17 @@ const PROGRAM_PHOTOS: Record<string, { src: string; alt: string }> = {
  */
 const MEDIA_HEIGHT = "h-80";
 
+/**
+ * Width cap for the mat, applied only where `capped` is set. See that prop for why it caps
+ * the mat and not the image.
+ *
+ * 46rem is 736px, against a contained landscape that renders 480px wide and a portrait that
+ * renders 262px. That leaves the landscape 128px of mat each side and the portrait 237px:
+ * enough that both still read as framed rather than cropped tight, and far short of the
+ * ~720px and ~938px the uncapped panel was giving them.
+ */
+const MEDIA_CAP = "max-w-[46rem]";
+
 /* Three washes, cycled by index, so a grid of cards does not repeat the same fill. */
 const WASHES = [
   "linear-gradient(135deg, #dceee2 0%, #eef7f0 55%, #fff2cc 100%)",
@@ -100,6 +111,7 @@ export function ProgramMedia({
   status,
   tone = 0,
   onDark = false,
+  capped = false,
   className,
 }: {
   slug: string;
@@ -107,6 +119,20 @@ export function ProgramMedia({
   tone?: number;
   /** For the featured cell, which is already a deep green fill. */
   onDark?: boolean;
+  /**
+   * Caps the mat, for a band running the full width of the shell.
+   *
+   * Only /programs needs it. Those panels are about 1200px wide and the band is 320px tall,
+   * so a contained photograph is limited by HEIGHT, not width: a 1.50 landscape renders
+   * 480px across whatever the panel does, leaving some 720px of mat around it. Capping the
+   * image itself would therefore change nothing, since the image never reaches the cap.
+   * What gets capped is the mat, which turns one wide field into two flanking margins with
+   * the card's own surface outside them.
+   *
+   * The home bento leaves this off. Its cells are narrow enough that the mat already reads
+   * as framing, and MEDIA_HEIGHT stays shared across both pages either way.
+   */
+  capped?: boolean;
   className?: string;
 }) {
   const photo = PROGRAM_PHOTOS[slug];
@@ -120,29 +146,30 @@ export function ProgramMedia({
   */
   if (photo) {
     return (
-      <div
-        className={cn(
-          MEDIA_HEIGHT,
-          "relative overflow-hidden",
-          /*
-            The mat. object-contain leaves real letterbox space, and how that space is
-            filled decides whether the band reads as a framed photograph or as a broken
-            one. --mint is the light tint of --brand-green already used for soft surfaces
-            across the site. On the dark featured cell a mint block would be a hole in the
-            card, so that one lifts its own fill instead, which lands as a paler green.
-          */
-          onDark ? "bg-white/[0.08]" : "bg-mint",
-          className,
-        )}
-      >
-        <Image
-          src={photo.src}
-          alt={photo.alt}
-          fill
-          /* Widest case is the home page's featured cell, roughly two thirds of the shell. */
-          sizes="(min-width: 1280px) 800px, (min-width: 768px) 66vw, 100vw"
-          className="object-contain"
-        />
+      <div className={cn(MEDIA_HEIGHT, "overflow-hidden", className)}>
+        <div
+          className={cn(
+            "relative mx-auto h-full w-full",
+            /*
+              The mat. object-contain leaves real letterbox space, and how that space is
+              filled decides whether the band reads as a framed photograph or as a broken
+              one. --mint is the light tint of --brand-green already used for soft surfaces
+              across the site. On the dark featured cell a mint block would be a hole in the
+              card, so that one lifts its own fill instead, which lands as a paler green.
+            */
+            onDark ? "bg-white/[0.08]" : "bg-mint",
+            capped && MEDIA_CAP,
+          )}
+        >
+          <Image
+            src={photo.src}
+            alt={photo.alt}
+            fill
+            /* Widest case is the home page's featured cell, roughly two thirds of the shell. */
+            sizes="(min-width: 1280px) 800px, (min-width: 768px) 66vw, 100vw"
+            className="object-contain"
+          />
+        </div>
       </div>
     );
   }
@@ -168,23 +195,36 @@ export function ProgramMedia({
           a bottom-left icon reads as a small mark stranded under a large empty wash.
         */
         MEDIA_HEIGHT,
-        "flex items-center justify-center px-7",
+        "overflow-hidden",
+        /*
+          The hairline stays on the full-width element even when the wash inside it is
+          capped. It is there to divide the band from the body, and a divider that stops
+          short of the card's edges reads as an underline drawn under nothing.
+        */
         upcoming && !onDark && "border-b border-edge",
         className,
       )}
-      style={{ background }}
     >
-      <Icon
+      {/* Capped on the same terms as a photo mat, so a wash and a photograph flank alike. */}
+      <div
         className={cn(
-          "size-14 sm:size-16",
-          onDark
-            ? "text-white/45"
-            : upcoming
-              ? "text-ink-faint/45"
-              : "text-brand-green-dark/40",
+          "mx-auto flex h-full w-full items-center justify-center px-7",
+          capped && MEDIA_CAP,
         )}
-        strokeWidth={1.25}
-      />
+        style={{ background }}
+      >
+        <Icon
+          className={cn(
+            "size-14 sm:size-16",
+            onDark
+              ? "text-white/45"
+              : upcoming
+                ? "text-ink-faint/45"
+                : "text-brand-green-dark/40",
+          )}
+          strokeWidth={1.25}
+        />
+      </div>
     </div>
   );
 }
