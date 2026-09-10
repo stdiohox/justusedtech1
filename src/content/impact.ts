@@ -79,3 +79,13 @@ export const corridors = [
     to: { label: "Nairobi, Kenya", lat: -1.2921, lng: 36.8219 },
   },
 ];
+
+/**
+ * Key copy for the corridor globe. cobe draws no text on the sphere itself, so the
+ * city names and the meaning of each color have to live in HTML beside it.
+ */
+export const corridorLegend = {
+  hub: "Collection hub",
+  spoke: "Distribution",
+  route: "Device route",
+};

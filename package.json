@@ -12,6 +12,7 @@
     "@base-ui/react": "^1.8.0",
     "class-variance-authority": "^0.7.1",
     "cn": "^0.2.5",
+    "cobe": "^2.0.1",
     "dotted-map": "^3.1.0",
     "lucide-react": "^1.41.0",
     "motion": "^13.2.0",

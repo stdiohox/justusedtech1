@@ -3,7 +3,7 @@ import Link from "next/link";
 import { PageHero } from "@/components/layout/page-hero";
 import { Section, SectionHead, StatBlock } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
-import { WorldMap } from "@/components/sections/world-map";
+import { CorridorGlobe } from "@/components/sections/corridor-globe";
 import {
   communitiesReached,
   impact2025,
@@ -72,8 +72,8 @@ export default function ImpactPage() {
           </Reveal>
           <Reveal delay={0.1}>
             <div className="bezel">
-              <div className="bezel-core bg-white px-3 py-6 sm:px-6 sm:py-10">
-                <WorldMap />
+              <div className="bezel-core bg-white px-5 py-8 sm:px-8 sm:py-10">
+                <CorridorGlobe />
               </div>
             </div>
           </Reveal>
