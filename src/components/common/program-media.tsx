@@ -54,16 +54,48 @@ const PROGRAM_PHOTOS: Record<
     first; they differ only in the region framed, so one alt text describes both. Every other
     surface, /programs included, keeps `src`.
   */
-  { src: string; alt: string; wideSrc?: string }
+  /*
+    `position` is an object-position class, set only where cover's default centre crop cuts
+    through something that matters. Cover is the rule; this is how a specific photograph is
+    steered inside it, rather than the band going back to letterboxing for one picture.
+
+    `widePosition` pairs with `wideSrc`. The two variants are different framings of the same
+    original, so they do not crop alike and cannot share one value.
+  */
+  {
+    src: string;
+    alt: string;
+    position?: string;
+    wideSrc?: string;
+    widePosition?: string;
+  }
 > = {
   "school-tour-initiative": {
     src: "/programs/school_tour.jpg",
+    /*
+      The portrait in the /programs band shows about a fifth of its height, and centred that
+      fifth lands on arms and the desk with both faces above the cut. The faces sit at 12% to
+      28% of the file, so the window is pulled up to hold them.
+    */
+    position: "object-[center_12%]",
     /* Landscape window on the same frame, holding both students and the exercise book. */
     wideSrc: "/programs/school_tour_wide.jpg",
     alt: "Two students in school uniform writing in an exercise book at a classroom desk.",
   },
   "breakthrough-series": {
     src: "/programs/breakthroughseries.jpg",
+    /*
+      The /programs band shows about 39% of this file's height, and the standing adults' heads
+      sit further from the seated young people's faces than that window is tall, so no value
+      holds both. Every candidate was rendered before this one was picked: at 50% and 38% the
+      standing figures are cut at the neck, at 25% the nearer one is cut through the brow. 15%
+      is the only window that slices no face at all, keeping both adults whole with the seated
+      subjects along the lower edge.
+
+      It is a compromise, and the reason it has to be made is the band's 3.83 ratio on that
+      page, not this photograph.
+    */
+    position: "object-[center_15%]",
     alt: "Young people working at laptops around a table, with team members in JustUsedTech shirts standing alongside.",
   },
   "project-9-12": {
@@ -114,13 +146,11 @@ const MEDIA_HEIGHT = "h-80";
 const FEATURED_MEDIA_HEIGHT = "h-[25rem]";
 
 /**
- * Width cap for the mat, applied only where `capped` is set. See that prop for why it caps
- * the mat and not the image.
+ * Width cap for the icon wash on /programs, where the panel runs the full shell width and an
+ * icon alone in a 1226px field reads as stranded.
  *
- * 46rem is 736px, against a contained landscape that renders 480px wide and a portrait that
- * renders 262px. That leaves the landscape 128px of mat each side and the portrait 237px:
- * enough that both still read as framed rather than cropped tight, and far short of the
- * ~720px and ~938px the uncapped panel was giving them.
+ * Photographs no longer use it. They fill the band edge to edge under object-cover, so there
+ * is no mat to cap and a cap would only hold them off the card's edges.
  */
 const MEDIA_CAP = "max-w-[46rem]";
 
@@ -173,65 +203,54 @@ export function ProgramMedia({
   const height = wide ? FEATURED_MEDIA_HEIGHT : MEDIA_HEIGHT;
 
   /*
+    Width hint per surface, so a 380px cell does not pull the same file a 1226px panel needs.
+    `capped` still marks the /programs panel here even though photographs no longer cap: that
+    prop is the only signal this component gets for which surface it is on.
+  */
+  const photoSizes = capped
+    ? "(min-width: 1280px) 1200px, 100vw"
+    : wide
+      ? "(min-width: 1280px) 800px, (min-width: 768px) 66vw, 100vw"
+      : "(min-width: 1280px) 400px, (min-width: 768px) 33vw, 100vw";
+
+  /*
     A photograph is content, so unlike the icon band it is not aria-hidden and it carries
     real alt text. The band keeps its exact height either way, so swapping one programme to
     a photo cannot shift the card next to it.
   */
   if (photo) {
+    /* Written as two ternaries rather than one flag so the wideSrc check narrows the type. */
+    const src = wide && photo.wideSrc ? photo.wideSrc : photo.src;
+    const position = wide && photo.wideSrc ? photo.widePosition : photo.position;
+
     return (
-      <div className={cn(height, "overflow-hidden", className)}>
-        <div
-          className={cn(
-            /*
-              overflow-hidden is load-bearing now, not tidiness. The backdrop below is scaled
-              past 100%, and on /programs this element is also the width cap, so without a
-              clip here the blur would bleed past the capped mat and past the card's rounded
-              corner.
-            */
-            "relative mx-auto h-full w-full overflow-hidden",
-            /*
-              The fill behind the photograph, which shows only where the letterbox does. It
-              stays under the backdrop as the colour during load and decode, so the band is
-              never briefly empty. --mint is the light tint of --brand-green used for soft
-              surfaces across the site; the dark featured cell lifts its own fill instead,
-              since a mint block there would be a hole in the card.
-            */
-            onDark ? "bg-white/[0.08]" : "bg-mint",
-            capped && MEDIA_CAP,
-          )}
-        >
-          {/*
-            Backdrop. The same photograph, cropped to fill and blurred, so the letterbox
-            carries that picture's own colour instead of one flat tint repeated down the
-            grid. Same `src` and the same `sizes` as the foreground on purpose: it resolves
-            to the identical optimised URL, so this costs one more decode and no more bytes.
+      /*
+        One layer, filling the band edge to edge. object-cover crops whatever does not fit,
+        which is the intent: no mat, no letterbox, nothing to fill.
 
-            scale-110 because a blur samples past its own edges and would otherwise fade to
-            transparent at the border, leaving a pale halo inside the frame. brightness-90
-            keeps it behind the sharp copy rather than competing with it.
+        No width cap here even on /programs. That cap existed to shrink the mat object-contain
+        left behind, and under cover it would do the opposite of what it was for, holding the
+        photograph off the card's edges with card surface either side. The icon band below
+        keeps it, being unchanged.
 
-            Decorative by construction: it is the same image as the foreground, which already
-            carries the alt text, so announcing it twice would be noise.
-          */}
-          <Image
-            src={wide && photo.wideSrc ? photo.wideSrc : photo.src}
-            alt=""
-            aria-hidden
-            fill
-            sizes="(min-width: 1280px) 800px, (min-width: 768px) 66vw, 100vw"
-            className="scale-110 object-cover blur-xl brightness-90"
-          />
-
-          {/* Foreground, unchanged: the complete photograph, uncropped, over the backdrop. */}
-          <Image
-            src={wide && photo.wideSrc ? photo.wideSrc : photo.src}
-            alt={photo.alt}
-            fill
-            /* Widest case is the home page's featured cell, roughly two thirds of the shell. */
-            sizes="(min-width: 1280px) 800px, (min-width: 768px) 66vw, 100vw"
-            className="object-contain"
-          />
-        </div>
+        The background colour survives as a load state only. It is covered the moment the
+        photograph paints, and is there so the band is never briefly empty.
+      */
+      <div
+        className={cn(
+          height,
+          "relative overflow-hidden",
+          onDark ? "bg-white/[0.08]" : "bg-mint",
+          className,
+        )}
+      >
+        <Image
+          src={src}
+          alt={photo.alt}
+          fill
+          sizes={photoSizes}
+          className={cn("object-cover", position)}
+        />
       </div>
     );
   }
