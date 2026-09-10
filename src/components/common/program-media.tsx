@@ -182,18 +182,47 @@ export function ProgramMedia({
       <div className={cn(height, "overflow-hidden", className)}>
         <div
           className={cn(
-            "relative mx-auto h-full w-full",
             /*
-              The mat. object-contain leaves real letterbox space, and how that space is
-              filled decides whether the band reads as a framed photograph or as a broken
-              one. --mint is the light tint of --brand-green already used for soft surfaces
-              across the site. On the dark featured cell a mint block would be a hole in the
-              card, so that one lifts its own fill instead, which lands as a paler green.
+              overflow-hidden is load-bearing now, not tidiness. The backdrop below is scaled
+              past 100%, and on /programs this element is also the width cap, so without a
+              clip here the blur would bleed past the capped mat and past the card's rounded
+              corner.
+            */
+            "relative mx-auto h-full w-full overflow-hidden",
+            /*
+              The fill behind the photograph, which shows only where the letterbox does. It
+              stays under the backdrop as the colour during load and decode, so the band is
+              never briefly empty. --mint is the light tint of --brand-green used for soft
+              surfaces across the site; the dark featured cell lifts its own fill instead,
+              since a mint block there would be a hole in the card.
             */
             onDark ? "bg-white/[0.08]" : "bg-mint",
             capped && MEDIA_CAP,
           )}
         >
+          {/*
+            Backdrop. The same photograph, cropped to fill and blurred, so the letterbox
+            carries that picture's own colour instead of one flat tint repeated down the
+            grid. Same `src` and the same `sizes` as the foreground on purpose: it resolves
+            to the identical optimised URL, so this costs one more decode and no more bytes.
+
+            scale-110 because a blur samples past its own edges and would otherwise fade to
+            transparent at the border, leaving a pale halo inside the frame. brightness-90
+            keeps it behind the sharp copy rather than competing with it.
+
+            Decorative by construction: it is the same image as the foreground, which already
+            carries the alt text, so announcing it twice would be noise.
+          */}
+          <Image
+            src={wide && photo.wideSrc ? photo.wideSrc : photo.src}
+            alt=""
+            aria-hidden
+            fill
+            sizes="(min-width: 1280px) 800px, (min-width: 768px) 66vw, 100vw"
+            className="scale-110 object-cover blur-xl brightness-90"
+          />
+
+          {/* Foreground, unchanged: the complete photograph, uncropped, over the backdrop. */}
           <Image
             src={wide && photo.wideSrc ? photo.wideSrc : photo.src}
             alt={photo.alt}
