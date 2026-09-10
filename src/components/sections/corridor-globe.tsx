@@ -62,6 +62,11 @@ const THETA = 0.24;
 const SPHERE_RADIUS = 0.8;
 /** Depth over which a pin fades as it rounds the limb, in the same units. Avoids popping. */
 const FADE_BAND = 0.18;
+/**
+ * Length of the .jut-ping cycle in globals.css, in seconds. Only used to spread the four
+ * pulses evenly across it, so keep the two in step if that keyframe is ever retimed.
+ */
+const PULSE_CYCLE = 2.8;
 
 const HUB = corridors[0].from;
 const SPOKES = corridors.map((corridor) => corridor.to);
@@ -297,12 +302,37 @@ export function CorridorGlobe() {
               className="absolute top-0 left-0 will-change-transform"
               style={{ visibility: "hidden" }}
             >
+              {/*
+                Pulse, anchored to the pin tip rather than the glyph's middle, which is
+                why it hangs off the bottom edge: the wrapper's bottom center is the
+                city. Three nested spans because each owns a transform that must not
+                fight the others. The outer wrapper carries the projected position, this
+                one the centering offset, and .jut-ping the scale.
+              */}
+              <span
+                className={
+                  city.hub
+                    ? "absolute bottom-0 left-1/2 size-4 -translate-x-1/2 translate-y-1/2"
+                    : "absolute bottom-0 left-1/2 size-3.5 -translate-x-1/2 translate-y-1/2"
+                }
+              >
+                <span
+                  className={
+                    city.hub
+                      ? "jut-ping block size-full rounded-full bg-brand-green-dark/40"
+                      : "jut-ping block size-full rounded-full bg-brand-green/45"
+                  }
+                  /* Out of phase, so four points breathe rather than blink in unison. */
+                  style={{ animationDelay: `${index * (PULSE_CYCLE / CITIES.length)}s` }}
+                />
+              </span>
+
               <MapPin
                 strokeWidth={1.5}
                 className={
                   city.hub
-                    ? "size-6 fill-brand-green-dark stroke-white drop-shadow-[0_1px_2px_rgba(18,33,26,0.45)]"
-                    : "size-5 fill-brand-green stroke-white drop-shadow-[0_1px_2px_rgba(18,33,26,0.4)]"
+                    ? "relative size-6 fill-brand-green-dark stroke-white drop-shadow-[0_1px_2px_rgba(18,33,26,0.45)]"
+                    : "relative size-5 fill-brand-green stroke-white drop-shadow-[0_1px_2px_rgba(18,33,26,0.4)]"
                 }
               />
             </span>
@@ -317,25 +347,33 @@ export function CorridorGlobe() {
         the hub from its heavier pin plus that surrounding copy, and the role words stay
         for screen readers, which get no benefit from the difference in weight.
       */}
-      <figcaption className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
-        {CITIES.map((city) => (
-          <span
-            key={city.name}
-            className="flex items-center gap-1 text-[0.75rem] font-extrabold tracking-[0.01em] text-ink"
-          >
-            <MapPin
-              aria-hidden
-              strokeWidth={2}
-              className={
-                city.hub
-                  ? "size-3.5 shrink-0 text-brand-green-dark"
-                  : "size-3.5 shrink-0 text-brand-green"
-              }
-            />
-            {city.name}
-            <span className="sr-only">, {city.role}</span>
-          </span>
-        ))}
+      {/*
+        A real list, not a row of spans. Generic spans sit flush against each other with
+        no whitespace between them, so assistive tech ran the entries together as one
+        string ("Collection hubLagos"). List items give each city its own node, and the
+        trailing period keeps the phrases apart even where the text gets flattened.
+      */}
+      <figcaption className="mt-6">
+        <ul className="flex flex-wrap items-center gap-x-4 gap-y-2">
+          {CITIES.map((city) => (
+            <li
+              key={city.name}
+              className="flex items-center gap-1 text-[0.75rem] font-extrabold tracking-[0.01em] text-ink"
+            >
+              <MapPin
+                aria-hidden
+                strokeWidth={2}
+                className={
+                  city.hub
+                    ? "size-3.5 shrink-0 text-brand-green-dark"
+                    : "size-3.5 shrink-0 text-brand-green"
+                }
+              />
+              {city.name}
+              <span className="sr-only">, {city.role}. </span>
+            </li>
+          ))}
+        </ul>
       </figcaption>
     </figure>
   );
