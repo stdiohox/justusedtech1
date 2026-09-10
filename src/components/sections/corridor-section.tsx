@@ -1,13 +1,19 @@
 import { SectionHead } from "@/components/common/primitives";
 import { Reveal } from "@/components/common/reveal";
-import { WorldMap } from "@/components/sections/world-map";
+import { CorridorGlobe } from "@/components/sections/corridor-globe";
 import { communitiesReached } from "@/content/impact";
 
 export function CorridorSection() {
   return (
     <section className="bg-white py-20 md:py-28">
       <div className="shell">
-        <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-14">
+        {/*
+          The visual column used to be the wider one, because the flat map was a 2:1
+          rectangle that needed the room. The globe is square, so the weight flips: the
+          text column takes the extra width and the globe is capped rather than stretched,
+          which keeps it from turning into a giant ball beside a short paragraph.
+        */}
+        <div className="grid gap-12 lg:grid-cols-[1fr_0.85fr] lg:items-center lg:gap-16">
           <Reveal>
             <SectionHead
               eyebrow="Where devices go"
@@ -35,10 +41,13 @@ export function CorridorSection() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <div className="bezel">
-              <div className="bezel-core bg-paper px-3 py-6 sm:px-6 sm:py-10">
-                <WorldMap />
-              </div>
+            {/*
+              No bezel here, unlike most visuals on the site. The globe is a lit sphere with
+              its own soft edge, and boxing it in a filled card put a hard rectangle around
+              something already round. This div is sizing only, no surface of its own.
+            */}
+            <div className="mx-auto w-full max-w-[30rem] lg:max-w-none">
+              <CorridorGlobe />
             </div>
           </Reveal>
         </div>

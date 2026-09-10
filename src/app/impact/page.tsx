@@ -3,7 +3,6 @@ import Link from "next/link";
 import { PageHero } from "@/components/layout/page-hero";
 import { Section, SectionHead, StatBlock } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
-import { CorridorGlobe } from "@/components/sections/corridor-globe";
 import {
   communitiesReached,
   impact2025,
@@ -59,25 +58,6 @@ export default function ImpactPage() {
             {communitiesReached.join(", ")}.
           </p>
         </Reveal>
-      </Section>
-
-      <Section tone="paper">
-        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-14">
-          <Reveal>
-            <SectionHead
-              eyebrow="Device corridor"
-              title="From University City to Lagos, Accra, and Nairobi."
-              lede="Collection and refurbishment happen in Missouri. Distribution happens on three routes out of it."
-            />
-          </Reveal>
-          <Reveal delay={0.1}>
-            <div className="bezel">
-              <div className="bezel-core bg-white px-5 py-8 sm:px-8 sm:py-10">
-                <CorridorGlobe />
-              </div>
-            </div>
-          </Reveal>
-        </div>
       </Section>
 
       <Section tone="green">

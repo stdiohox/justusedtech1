@@ -67,16 +67,16 @@ export const usOperations: Stat[] = [
 /** St. Louis is the origin of every route. Coordinates are [lat, lng]. */
 export const corridors = [
   {
-    from: { label: "St. Louis, MO", lat: 38.627, lng: -90.1994 },
-    to: { label: "Lagos, Nigeria", lat: 6.5244, lng: 3.3792 },
+    from: { label: "St. Louis, MO", city: "St. Louis", lat: 38.627, lng: -90.1994 },
+    to: { label: "Lagos, Nigeria", city: "Lagos", lat: 6.5244, lng: 3.3792 },
   },
   {
-    from: { label: "St. Louis, MO", lat: 38.627, lng: -90.1994 },
-    to: { label: "Accra, Ghana", lat: 5.6037, lng: -0.187 },
+    from: { label: "St. Louis, MO", city: "St. Louis", lat: 38.627, lng: -90.1994 },
+    to: { label: "Accra, Ghana", city: "Accra", lat: 5.6037, lng: -0.187 },
   },
   {
-    from: { label: "St. Louis, MO", lat: 38.627, lng: -90.1994 },
-    to: { label: "Nairobi, Kenya", lat: -1.2921, lng: 36.8219 },
+    from: { label: "St. Louis, MO", city: "St. Louis", lat: 38.627, lng: -90.1994 },
+    to: { label: "Nairobi, Kenya", city: "Nairobi", lat: -1.2921, lng: 36.8219 },
   },
 ];
 
@@ -87,5 +87,4 @@ export const corridors = [
 export const corridorLegend = {
   hub: "Collection hub",
   spoke: "Distribution",
-  route: "Device route",
 };

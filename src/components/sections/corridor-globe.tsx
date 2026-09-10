@@ -1,15 +1,19 @@
 "use client";
 
-import createGlobe, { type Arc, type Marker } from "cobe";
+import createGlobe from "cobe";
+import { MapPin } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { corridorLegend, corridors } from "@/content/impact";
 
 /**
  * The device corridor as an interactive globe: St. Louis out to Lagos, Accra, and Nairobi.
  *
- * Successor to the flat dotted-map version. The arcs are the point of the section, so they
- * are real cobe arcs rather than decoration, and every coordinate is read from `corridors`
- * so the globe and the rest of the site cannot drift apart.
+ * Successor to the flat dotted-map version. Every coordinate is read from `corridors`, so
+ * the globe and the rest of the site cannot drift apart.
+ *
+ * The cities are marked with real pin icons tracked against the sphere as it turns, rather
+ * than cobe's own dot markers. Positions are projected in plain JS from the same math the
+ * shaders use, so this needs no CSS Anchor Positioning and works in every browser.
  *
  * Motion follows the same restraint already applied to the hero orbit lines: the idle spin
  * takes 75s per revolution, slow enough to read as a living object rather than a spinner.
@@ -28,16 +32,14 @@ import { corridorLegend, corridors } from "@/content/impact";
 
   so at dark: 0 the baseColor is the *sphere*, and the land dots are the dark part
   (baseColor * 0.1 once q reaches 1). At dark: 1 that inverts: dark sphere, glowing
-  baseColor land. We run light, because this globe sits in a white bezel core on a paper
-  section and a near-black sphere would outweigh the headline it is illustrating.
+  baseColor land. We run light, because this globe sits on the section's own white
+  background and a near-black sphere would outweigh the headline it is illustrating.
   Flipping DARK to 1 and raising mapBrightness is the whole change if that is ever wanted.
 */
 const DARK = 0;
 /** Sphere fill: --brand-green-dark #007A37 lightened and desaturated, since at dark: 0 this is the whole ball. */
 const BASE_COLOR: [number, number, number] = [0.6, 0.78, 0.68];
-const MARKER_COLOR: [number, number, number] = [0, 0.651, 0.322]; // --brand-green #00A652
 const GLOW_COLOR: [number, number, number] = [0.898, 0.957, 0.925]; // --brand-green #00A652 held at low saturation, not the demo's neutral gray
-const ARC_COLOR: [number, number, number] = [0, 0.678, 0.937]; // --brand-blue #00ADEF, the accent the logo swoosh and hero orbit lines already use
 /*
   Held below 1 deliberately. At 1 and above q saturates and every land dot crushes to
   baseColor * 0.1, which is almost black. 0.7 lands the continents on a deep green that
@@ -51,22 +53,43 @@ const IDLE_RATE = (2 * Math.PI) / 75;
 const DRAG_SENSITIVITY = 0.005;
 /** Time constant for easing the release velocity back down to IDLE_RATE, in seconds. */
 const SETTLE_TAU = 0.7;
+/** Northward tilt, so the corridor sits across the upper half of the sphere. */
+const THETA = 0.24;
+/**
+ * cobe draws the sphere at radius 0.8 within a clip space of 1, so a surface point
+ * projects to 0.8 of the half-width. Pin tips ride exactly on that surface.
+ */
+const SPHERE_RADIUS = 0.8;
+/** Depth over which a pin fades as it rounds the limb, in the same units. Avoids popping. */
+const FADE_BAND = 0.18;
 
 const HUB = corridors[0].from;
 const SPOKES = corridors.map((corridor) => corridor.to);
 
-const MARKERS: Marker[] = [
-  { location: [HUB.lat, HUB.lng], size: 0.07 },
-  ...SPOKES.map((city) => ({ location: [city.lat, city.lng] as [number, number], size: 0.05 })),
+const CITIES = [
+  { name: HUB.city, lat: HUB.lat, lng: HUB.lng, role: corridorLegend.hub, hub: true },
+  ...SPOKES.map((city) => ({
+    name: city.city,
+    lat: city.lat,
+    lng: city.lng,
+    role: corridorLegend.spoke,
+    hub: false,
+  })),
 ];
 
-const ARCS: Arc[] = corridors.map((corridor) => ({
-  from: [corridor.from.lat, corridor.from.lng],
-  to: [corridor.to.lat, corridor.to.lng],
-}));
+/** Lat/lng to a unit vector, matching cobe's own conversion exactly. */
+function toVector(lat: number, lng: number): [number, number, number] {
+  const a = (lat * Math.PI) / 180;
+  const b = (lng * Math.PI) / 180 - Math.PI;
+  const c = Math.cos(a);
+  return [-c * Math.cos(b), Math.sin(a), c * Math.sin(b)];
+}
+
+const VECTORS = CITIES.map((city) => toVector(city.lat, city.lng));
 
 export function CorridorGlobe() {
   const hostRef = useRef<HTMLDivElement>(null);
+  const pinRefs = useRef<(HTMLSpanElement | null)[]>([]);
 
   useEffect(() => {
     const host = hostRef.current;
@@ -76,7 +99,8 @@ export function CorridorGlobe() {
       The canvas is created here rather than in JSX on purpose. cobe v2 inserts its own
       wrapper div between the canvas and its parent for anchor positioning, which would
       leave React removing a node that is no longer its child on unmount. Keeping the
-      canvas outside React's tree entirely sidesteps that.
+      canvas outside React's tree entirely sidesteps that, which is also why the pins live
+      in a sibling layer React does own rather than inside this host.
     */
     const canvas = document.createElement("canvas");
     canvas.style.width = "100%";
@@ -93,7 +117,8 @@ export function CorridorGlobe() {
       exactly one canvas pixel per device pixel. The upstream demo passes width * 2 on top
       of a devicePixelRatio of 2, which shades four times the fragments for no visible gain.
     */
-    const size = () => Math.max(host.clientWidth, 1);
+    const measure = () => Math.max(host.clientWidth, 1);
+    let px = measure();
 
     /*
       Solved against cobe's own projection rather than eyeballed: at 5.14 all four cities
@@ -111,10 +136,10 @@ export function CorridorGlobe() {
 
     const globe = createGlobe(canvas, {
       devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
-      width: size(),
-      height: size(),
+      width: px,
+      height: px,
       phi,
-      theta: 0.24, // a slight northward tilt, so the corridor sits across the upper half
+      theta: THETA,
       dark: DARK,
       diffuse: 1.1,
       scale: 1,
@@ -123,15 +148,49 @@ export function CorridorGlobe() {
       // 0 keeps the ocean clean: only land cells get a dot.
       mapBaseBrightness: 0,
       baseColor: BASE_COLOR,
-      markerColor: MARKER_COLOR,
+      // Unused, since the cities are drawn as HTML pins, but cobe requires the field.
+      markerColor: BASE_COLOR,
       glowColor: GLOW_COLOR,
-      markers: MARKERS,
-      arcs: ARCS,
-      arcColor: ARC_COLOR,
-      arcWidth: 1.1,
-      arcHeight: 0.4,
-      markerElevation: 0.02,
+      markers: [],
     });
+
+    /*
+      Project each city to the pin layer, reproducing cobe's marker vertex shader in JS.
+      The rotation below is that shader's matrix written out, and because the canvas is
+      square, clip space maps straight to the layer with no aspect correction.
+    */
+    const placePins = () => {
+      const ct = Math.cos(THETA);
+      const st = Math.sin(THETA);
+      const cp = Math.cos(phi);
+      const sp = Math.sin(phi);
+
+      for (let i = 0; i < VECTORS.length; i += 1) {
+        const pin = pinRefs.current[i];
+        if (!pin) continue;
+
+        const [ux, uy, uz] = VECTORS[i];
+        const ax = ux * SPHERE_RADIUS;
+        const ay = uy * SPHERE_RADIUS;
+        const az = uz * SPHERE_RADIUS;
+
+        const x = cp * ax + sp * az;
+        const y = sp * st * ax + ct * ay - cp * st * az;
+        const z = -sp * ct * ax + st * ay + cp * ct * az;
+
+        if (z <= 0) {
+          // Behind the sphere. Hidden outright so it cannot sit invisibly over the globe.
+          pin.style.visibility = "hidden";
+          continue;
+        }
+
+        pin.style.visibility = "visible";
+        pin.style.opacity = String(Math.min(z / FADE_BAND, 1));
+        // Transform only, so moving a pin never costs a layout pass.
+        pin.style.transform = `translate(${(0.5 + x / 2) * px}px, ${(0.5 - y / 2) * px}px) translate(-50%, -100%)`;
+      }
+    };
+    placePins();
 
     const TWO_PI = Math.PI * 2;
     /*
@@ -143,6 +202,7 @@ export function CorridorGlobe() {
       phi = (phi + delta) % TWO_PI;
       if (phi < 0) phi += TWO_PI;
       globe.update({ phi });
+      placePins();
     };
 
     const render = (now: number) => {
@@ -193,7 +253,9 @@ export function CorridorGlobe() {
     canvas.addEventListener("pointercancel", onPointerUp);
 
     const observer = new ResizeObserver(() => {
-      globe.update({ width: size(), height: size() });
+      px = measure();
+      globe.update({ width: px, height: px });
+      placePins();
     });
     observer.observe(host);
 
@@ -210,52 +272,70 @@ export function CorridorGlobe() {
     };
   }, []);
 
-  const cities = [
-    { label: HUB.label, role: corridorLegend.hub, hub: true },
-    ...SPOKES.map((city) => ({ label: city.label, role: corridorLegend.spoke, hub: false })),
-  ];
-
   return (
     <figure className="m-0">
       <div
-        ref={hostRef}
         className="relative mx-auto aspect-square w-full max-w-[26rem]"
         role="img"
-        aria-label={`Globe showing device routes from ${HUB.label} to ${SPOKES.map((c) => c.label).join(", ")}.`}
-      />
+        aria-label={`Globe showing the device corridor from ${HUB.label} to ${SPOKES.map((c) => c.label).join(", ")}.`}
+      >
+        {/* cobe owns this node outright, so React never renders children into it. */}
+        <div ref={hostRef} className="absolute inset-0" />
 
-      {/*
-        cobe renders no text on the sphere, and in-3D floating labels fight the library's
-        actual API, so the city names live here where they stay readable and selectable.
-      */}
-      <figcaption className="mt-7">
-        <ul className="grid grid-cols-2 gap-x-5 gap-y-3.5 sm:grid-cols-4">
-          {cities.map((city) => (
-            <li key={city.label} className="flex items-start gap-2">
-              <span
-                aria-hidden
+        {/*
+          The pin layer. Sibling to the canvas rather than inside it, so the imperative
+          cleanup above cannot take React's nodes with it. Positions are written straight
+          to style from the render loop. Decorative: the legend below carries the names.
+        */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+          {CITIES.map((city, index) => (
+            <span
+              key={city.name}
+              ref={(node) => {
+                pinRefs.current[index] = node;
+              }}
+              className="absolute top-0 left-0 will-change-transform"
+              style={{ visibility: "hidden" }}
+            >
+              <MapPin
+                strokeWidth={1.5}
                 className={
                   city.hub
-                    ? "mt-1.5 size-2.5 shrink-0 rounded-full bg-brand-green ring-3 ring-brand-green/20"
-                    : "mt-1.5 size-2 shrink-0 rounded-full bg-brand-green"
+                    ? "size-6 fill-brand-green-dark stroke-white drop-shadow-[0_1px_2px_rgba(18,33,26,0.45)]"
+                    : "size-5 fill-brand-green stroke-white drop-shadow-[0_1px_2px_rgba(18,33,26,0.4)]"
                 }
               />
-              <span>
-                <span className="block text-[0.8125rem] leading-snug font-extrabold text-ink">
-                  {city.label}
-                </span>
-                <span className="mt-0.5 block text-[0.6875rem] leading-snug font-bold tracking-[0.02em] text-ink-faint">
-                  {city.role}
-                </span>
-              </span>
-            </li>
+            </span>
           ))}
-        </ul>
+        </div>
+      </div>
 
-        <p className="mt-5 flex items-center gap-2 text-[0.6875rem] font-bold tracking-[0.02em] text-ink-faint">
-          <span aria-hidden className="h-0.5 w-6 shrink-0 rounded-full bg-brand-blue" />
-          {corridorLegend.route}
-        </p>
+      {/*
+        cobe renders no text on the sphere, so the names live here instead. Deliberately
+        just the city and its pin: the section's own prose already carries the countries
+        and the Missouri base, so anything more would be saying it twice. The hub reads as
+        the hub from its heavier pin plus that surrounding copy, and the role words stay
+        for screen readers, which get no benefit from the difference in weight.
+      */}
+      <figcaption className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
+        {CITIES.map((city) => (
+          <span
+            key={city.name}
+            className="flex items-center gap-1 text-[0.75rem] font-extrabold tracking-[0.01em] text-ink"
+          >
+            <MapPin
+              aria-hidden
+              strokeWidth={2}
+              className={
+                city.hub
+                  ? "size-3.5 shrink-0 text-brand-green-dark"
+                  : "size-3.5 shrink-0 text-brand-green"
+              }
+            />
+            {city.name}
+            <span className="sr-only">, {city.role}</span>
+          </span>
+        ))}
       </figcaption>
     </figure>
   );
