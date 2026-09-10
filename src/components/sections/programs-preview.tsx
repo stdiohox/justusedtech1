@@ -62,6 +62,20 @@ export function ProgramsPreview() {
   );
 }
 
+/**
+ * Programmes whose figures are withheld from the home bento specifically.
+ *
+ * Breakthrough Series is here because its only result is one named individual's story. That
+ * is established, verified content and it stays on /programs, where it has always been: this
+ * is not a retraction. What it should not get is the extra prominence of the home page, and
+ * a card wide enough for figures is not a reason to promote a person's story onto it.
+ *
+ * Scoped here rather than in content/programs.ts on purpose. The data is fine; it is this
+ * one surface that should not carry it, so the rule belongs to the surface. Anything added
+ * here needs the same kind of reason, not just a wish for a tidier card.
+ */
+const HOME_FIGURES_WITHHELD = new Set(["breakthrough-series"]);
+
 function ProgramCard({
   program,
   tone,
@@ -72,7 +86,9 @@ function ProgramCard({
   featured?: boolean;
 }) {
   /* No card-quiet branch: every cell here comes from activePrograms now. */
-  const metrics = program.results ?? program.stats;
+  const metrics = HOME_FIGURES_WITHHELD.has(program.slug)
+    ? undefined
+    : (program.results ?? program.stats);
   return (
     <Link
       href={`/programs#${program.slug}`}
