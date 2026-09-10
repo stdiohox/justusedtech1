@@ -37,10 +37,11 @@ const PROGRAM_ICONS: Record<string, LucideIcon> = {
   the comment above promised: a programme with a file here gets its photograph, one without
   keeps the icon, and nothing else in either consumer changes.
 
-  Every file is the complete frame at its own aspect, dropped in at object-contain, so no
-  card ever crops a photograph to fit. school_tour was trimmed above the JUSTUSED watermark
-  burned into the bottom of its source before anything else was done to it, rather than left
-  for a crop window to miss.
+  Every file is the complete frame at its own aspect, and each band fills itself with
+  object-cover, so what a card shows is a crop of the whole picture rather than a picture
+  fitted into a box. school_tour was trimmed above the JUSTUSED watermark burned into the
+  bottom of its source before anything else was done to it, rather than left for a crop
+  window to miss.
 
   Alt text describes what is in the frame and stops there, the same standard as the hero
   photograph: no names, and no claim about who any person pictured is or which programme
@@ -73,9 +74,11 @@ const PROGRAM_PHOTOS: Record<
   "school-tour-initiative": {
     src: "/programs/school_tour.jpg",
     /*
-      The portrait in the /programs band shows about a fifth of its height, and centred that
-      fifth lands on arms and the desk with both faces above the cut. The faces sit at 12% to
-      28% of the file, so the window is pulled up to hold them.
+      The portrait shows 29% of its height in the /programs band, and centred that window
+      lands on arms and the desk with both faces above the cut. The faces sit at 12% to 28%
+      of the file, so it is pulled up to hold them. Re-checked against the taller band and
+      kept: 8% centres the faces more exactly but trades the framing for empty classroom
+      above them.
     */
     position: "object-[center_12%]",
     /* Landscape window on the same frame, holding both students and the exercise book. */
@@ -85,17 +88,17 @@ const PROGRAM_PHOTOS: Record<
   "breakthrough-series": {
     src: "/programs/breakthroughseries.jpg",
     /*
-      The /programs band shows about 39% of this file's height, and the standing adults' heads
-      sit further from the seated young people's faces than that window is tall, so no value
-      holds both. Every candidate was rendered before this one was picked: at 50% and 38% the
-      standing figures are cut at the neck, at 25% the nearer one is cut through the brow. 15%
-      is the only window that slices no face at all, keeping both adults whole with the seated
-      subjects along the lower edge.
+      Still needed at the taller band: centred, the /programs window starts below the standing
+      figures and takes their heads off. What changed is that it stopped being a compromise.
 
-      It is a compromise, and the reason it has to be made is the band's 3.83 ratio on that
-      page, not this photograph.
+      At the old 320px band only 39% of this file was visible, and 15% was the single value
+      that sliced no face, managing it by pushing the seated young people to the very edge. At
+      440px the window shows 56%, which is enough to hold the standing figures and all three
+      seated faces at once, so the value moved to 10%: it keeps headroom above the adults and
+      brings the seated faces fully inside the frame instead of clipping them at the bottom.
+      Retuned against the band's measured 1174px width, not an assumed one.
     */
-    position: "object-[center_15%]",
+    position: "object-[center_10%]",
     alt: "Young people working at laptops around a table, with team members in JustUsedTech shirts standing alongside.",
   },
   "project-9-12": {
@@ -146,6 +149,20 @@ const MEDIA_HEIGHT = "h-80";
 const FEATURED_MEDIA_HEIGHT = "h-[25rem]";
 
 /**
+ * The /programs band, which is its own height for the same reason the featured cell is: that
+ * panel runs the full shell width, about 1226px, so its ratio is set by the page rather than
+ * by the card.
+ *
+ * 27.5rem is 440px, taking the band from 3.83 to 2.79. What that buys is crop room: at 320px
+ * a cover crop showed 39% of a landscape file's height, which was not enough to hold the
+ * standing figures and the seated young people in the Breakthrough photograph at once, and
+ * forced a position that kept faces whole only by pushing subjects to the edge. At 440px the
+ * same crop shows 54% and holds every face in that frame. 400px was tried first and still
+ * cut one group or the other.
+ */
+const PANEL_MEDIA_HEIGHT = "h-[27.5rem]";
+
+/**
  * Width cap for the icon wash on /programs, where the panel runs the full shell width and an
  * icon alone in a 1226px field reads as stranded.
  *
@@ -166,7 +183,7 @@ export function ProgramMedia({
   status,
   tone = 0,
   onDark = false,
-  capped = false,
+  panel = false,
   wide = false,
   className,
 }: {
@@ -176,19 +193,14 @@ export function ProgramMedia({
   /** For the featured cell, which is already a deep green fill. */
   onDark?: boolean;
   /**
-   * Caps the mat, for a band running the full width of the shell.
+   * Rendered as a /programs panel: full shell width, its own band height, and the width cap
+   * on an icon wash.
    *
-   * Only /programs needs it. Those panels are about 1200px wide and the band is 320px tall,
-   * so a contained photograph is limited by HEIGHT, not width: a 1.50 landscape renders
-   * 480px across whatever the panel does, leaving some 720px of mat around it. Capping the
-   * image itself would therefore change nothing, since the image never reaches the cap.
-   * What gets capped is the mat, which turns one wide field into two flanking margins with
-   * the card's own surface outside them.
-   *
-   * The home bento leaves this off. Its cells are narrow enough that the mat already reads
-   * as framing, and MEDIA_HEIGHT stays shared across both pages either way.
+   * Renamed from `capped`, which described only one of those three and had stopped being
+   * true of photographs at all once they went to object-cover. This is the component's only
+   * signal for which surface it is on, so it is worth a name that says so.
    */
-  capped?: boolean;
+  panel?: boolean;
   /**
    * The home bento's featured cell: takes FEATURED_MEDIA_HEIGHT, and the landscape crop of
    * the photograph where the programme has one. Both are that cell's problem alone, which is
@@ -200,14 +212,16 @@ export function ProgramMedia({
   const photo = PROGRAM_PHOTOS[slug];
   const Icon = PROGRAM_ICONS[slug] ?? Recycle;
   const upcoming = status === "upcoming";
-  const height = wide ? FEATURED_MEDIA_HEIGHT : MEDIA_HEIGHT;
+  const height = panel
+    ? PANEL_MEDIA_HEIGHT
+    : wide
+      ? FEATURED_MEDIA_HEIGHT
+      : MEDIA_HEIGHT;
 
   /*
     Width hint per surface, so a 380px cell does not pull the same file a 1226px panel needs.
-    `capped` still marks the /programs panel here even though photographs no longer cap: that
-    prop is the only signal this component gets for which surface it is on.
   */
-  const photoSizes = capped
+  const photoSizes = panel
     ? "(min-width: 1280px) 1200px, 100vw"
     : wide
       ? "(min-width: 1280px) 800px, (min-width: 768px) 66vw, 100vw"
@@ -290,7 +304,7 @@ export function ProgramMedia({
       <div
         className={cn(
           "mx-auto flex h-full w-full items-center justify-center px-7",
-          capped && MEDIA_CAP,
+          panel && MEDIA_CAP,
         )}
         style={{ background }}
       >

@@ -87,8 +87,8 @@ function ProgramPanel({ program, tone }: { program: Program; tone: number }) {
       id={program.slug}
       className={cn("card card-flush scroll-mt-28", upcoming && "card-quiet")}
     >
-      {/* capped: these panels run the full shell width. See the prop for what it caps. */}
-      <ProgramMedia slug={program.slug} status={program.status} tone={tone} capped />
+      {/* panel: full shell width, so the band takes its own height. See the prop. */}
+      <ProgramMedia slug={program.slug} status={program.status} tone={tone} panel />
 
       <div className="grid gap-8 p-7 lg:grid-cols-[1fr_1fr] lg:gap-14">
         <div>
