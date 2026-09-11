@@ -21,7 +21,14 @@ export function CorridorSection() {
               title="One warehouse in Missouri. Three countries on the other end."
               lede="Recovery and refurbishment happen in University City, MO. From there, working machines travel to communities in Nigeria, Ghana, and Kenya."
             />
-            <dl className="mt-9 space-y-4">
+            {/*
+              gap, not space-y-4. The @theme block defines --space-4: 4px, and Tailwind
+              v4.3.3 resolves space-y-N against that --space-* namespace, so space-y-4
+              compiled to a literal 4px instead of 16px. That put less air between the
+              blocks than inside them, which is why the values read as flush against the
+              next label. gap resolves through --spacing and is not affected.
+            */}
+            <dl className="mt-9 flex flex-col gap-6">
               <div>
                 <dt className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
                   Operations base
