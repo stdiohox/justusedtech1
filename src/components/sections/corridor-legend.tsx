@@ -16,7 +16,7 @@ import { corridorCities } from "@/content/impact";
  */
 export function CorridorLegend() {
   return (
-    <ul className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
+    <ul className="flex flex-wrap items-center gap-x-6 gap-y-1.5">
       {corridorCities.map((city) => (
         <li
           key={city.city}
