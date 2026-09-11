@@ -8,12 +8,12 @@ export function CorridorSection() {
     <section className="bg-white py-20 md:py-28">
       <div className="shell">
         {/*
-          The visual column used to be the wider one, because the flat map was a 2:1
-          rectangle that needed the room. The globe is square, so the weight flips: the
-          text column takes the extra width and the globe is capped rather than stretched,
-          which keeps it from turning into a giant ball beside a short paragraph.
+          Even columns. The globe carried a 0.85fr column while it still sat in a filled
+          card, where the card's own padding ate the difference. Bare on the page it can
+          use the whole half: at the 1240px shell that is a 556px column against a 544px
+          cap, so the sphere sets its own size and the column is not what limits it.
         */}
-        <div className="grid gap-12 lg:grid-cols-[1fr_0.85fr] lg:items-center lg:gap-16">
+        <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           <Reveal>
             <SectionHead
               eyebrow="Where devices go"
@@ -46,7 +46,7 @@ export function CorridorSection() {
               its own soft edge, and boxing it in a filled card put a hard rectangle around
               something already round. This div is sizing only, no surface of its own.
             */}
-            <div className="mx-auto w-full max-w-[30rem] lg:max-w-none">
+            <div className="mx-auto w-full max-w-[34rem] lg:max-w-none">
               <CorridorGlobe />
             </div>
           </Reveal>

@@ -327,7 +327,7 @@ export function CorridorGlobe() {
   return (
     <figure className="m-0">
       <div
-        className="relative mx-auto aspect-square w-full max-w-[26rem]"
+        className="relative mx-auto aspect-square w-full max-w-[34rem]"
         role="img"
         aria-label={`Globe showing the device corridor from ${HUB.label} to ${SPOKES.map((c) => c.label).join(", ")}.`}
       >
