@@ -88,3 +88,12 @@ export const corridorLegend = {
   hub: "Collection hub",
   spoke: "Distribution",
 };
+
+/**
+ * The four corridor cities as one ordered list, hub first. Shared so the globe's pin
+ * projection and the legend in the text column cannot fall out of step with each other.
+ */
+export const corridorCities = [
+  { ...corridors[0].from, role: corridorLegend.hub, hub: true },
+  ...corridors.map((corridor) => ({ ...corridor.to, role: corridorLegend.spoke, hub: false })),
+];

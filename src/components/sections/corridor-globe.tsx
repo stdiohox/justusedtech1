@@ -3,7 +3,7 @@
 import createGlobe from "cobe";
 import { MapPin } from "lucide-react";
 import { useEffect, useRef } from "react";
-import { corridorLegend, corridors } from "@/content/impact";
+import { corridorCities, corridors } from "@/content/impact";
 
 /**
  * The device corridor as an interactive globe: St. Louis out to Lagos, Accra, and Nairobi.
@@ -71,16 +71,11 @@ const PULSE_CYCLE = 2.8;
 const HUB = corridors[0].from;
 const SPOKES = corridors.map((corridor) => corridor.to);
 
-const CITIES = [
-  { name: HUB.city, lat: HUB.lat, lng: HUB.lng, role: corridorLegend.hub, hub: true },
-  ...SPOKES.map((city) => ({
-    name: city.city,
-    lat: city.lat,
-    lng: city.lng,
-    role: corridorLegend.spoke,
-    hub: false,
-  })),
-];
+/*
+  The names themselves are rendered by CorridorLegend over in the text column, since cobe
+  draws no text on the sphere. This component only needs their positions.
+*/
+const CITIES = corridorCities;
 
 /** Lat/lng to a unit vector, matching cobe's own conversion exactly. */
 function toVector(lat: number, lng: number): [number, number, number] {
@@ -126,7 +121,7 @@ type Pin = {
 */
 const PINS: Pin[] = [
   ...CITIES.map((city) => ({
-    key: city.name,
+    key: city.city,
     vector: toVector(city.lat, city.lng),
     hub: city.hub,
     decorative: false,
@@ -325,21 +320,21 @@ export function CorridorGlobe() {
   }, []);
 
   return (
-    <figure className="m-0">
-      <div
-        className="relative mx-auto aspect-square w-full max-w-[34rem]"
-        role="img"
-        aria-label={`Globe showing the device corridor from ${HUB.label} to ${SPOKES.map((c) => c.label).join(", ")}.`}
-      >
-        {/* cobe owns this node outright, so React never renders children into it. */}
-        <div ref={hostRef} className="absolute inset-0" />
+    <div
+      className="relative mx-auto aspect-square w-full max-w-[34rem]"
+      role="img"
+      aria-label={`Globe showing the device corridor from ${HUB.label} to ${SPOKES.map((c) => c.label).join(", ")}.`}
+    >
+      {/* cobe owns this node outright, so React never renders children into it. */}
+      <div ref={hostRef} className="absolute inset-0" />
 
-        {/*
-          The pin layer. Sibling to the canvas rather than inside it, so the imperative
-          cleanup above cannot take React's nodes with it. Positions are written straight
-          to style from the render loop. Decorative: the legend below carries the names.
-        */}
-        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+      {/*
+        The pin layer. Sibling to the canvas rather than inside it, so the imperative
+        cleanup above cannot take React's nodes with it. Positions are written straight
+        to style from the render loop. The names are CorridorLegend's job, in the text
+        column, since nothing here is readable text.
+      */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
           {PINS.map((pin, index) => (
             <span
               key={pin.key}
@@ -394,44 +389,7 @@ export function CorridorGlobe() {
               />
             </span>
           ))}
-        </div>
       </div>
-
-      {/*
-        cobe renders no text on the sphere, so the names live here instead. Deliberately
-        just the city and its pin: the section's own prose already carries the countries
-        and the Missouri base, so anything more would be saying it twice. The hub reads as
-        the hub from its heavier pin plus that surrounding copy, and the role words stay
-        for screen readers, which get no benefit from the difference in weight.
-      */}
-      {/*
-        A real list, not a row of spans. Generic spans sit flush against each other with
-        no whitespace between them, so assistive tech ran the entries together as one
-        string ("Collection hubLagos"). List items give each city its own node, and the
-        trailing period keeps the phrases apart even where the text gets flattened.
-      */}
-      <figcaption className="mt-6">
-        <ul className="flex flex-wrap items-center gap-x-4 gap-y-2">
-          {CITIES.map((city) => (
-            <li
-              key={city.name}
-              className="flex items-center gap-1 text-[0.75rem] font-extrabold tracking-[0.01em] text-ink"
-            >
-              <MapPin
-                aria-hidden
-                strokeWidth={2}
-                className={
-                  city.hub
-                    ? "size-3.5 shrink-0 text-brand-green-dark"
-                    : "size-3.5 shrink-0 text-brand-green"
-                }
-              />
-              {city.name}
-              <span className="sr-only">, {city.role}. </span>
-            </li>
-          ))}
-        </ul>
-      </figcaption>
-    </figure>
+    </div>
   );
 }

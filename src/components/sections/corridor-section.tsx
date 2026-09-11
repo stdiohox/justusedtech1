@@ -1,6 +1,7 @@
 import { SectionHead } from "@/components/common/primitives";
 import { Reveal } from "@/components/common/reveal";
 import { CorridorGlobe } from "@/components/sections/corridor-globe";
+import { CorridorLegend } from "@/components/sections/corridor-legend";
 import { communitiesReached } from "@/content/impact";
 
 export function CorridorSection() {
@@ -35,6 +36,20 @@ export function CorridorSection() {
                 </dt>
                 <dd className="mt-1.5 text-[1.0625rem] font-bold text-ink">
                   {communitiesReached.join(", ")}
+                </dd>
+              </div>
+              {/*
+                The globe's key, as a third labelled pair rather than a caption under the
+                visual. The column is already a run of label-then-value rows, so an
+                unlabelled pin row would have read as the one loose element in it. Value
+                type matches the two rows above; only the pins mark it as the globe's key.
+              */}
+              <div>
+                <dt className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
+                  Corridor cities
+                </dt>
+                <dd className="mt-1.5">
+                  <CorridorLegend />
                 </dd>
               </div>
             </dl>
