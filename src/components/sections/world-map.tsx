@@ -37,22 +37,45 @@ const routes = corridors
     const a = project(from.lat, from.lng, from.label);
     const b = project(to.lat, to.lng, to.label);
     if (!a || !b) return null;
-    // Lift the control point perpendicular to the chord so arcs fan out instead of overlap.
+    /*
+      The reference's control point: midpoint on x, and on y the higher of the two
+      endpoints lifted by a fixed amount. Its 50 is against an 800x400 viewBox, so it is
+      12.5% of the height; ours is 123x62, which makes the same lift 7.75 units. Every arc
+      out of St. Louis therefore peaks at one shared height rather than bowing in
+      proportion to its own length, which is what makes the three read as a fan.
+    */
     const mx = (a.x + b.x) / 2;
-    const my = (a.y + b.y) / 2;
-    const lift = Math.hypot(b.x - a.x, b.y - a.y) * 0.22;
-    return { a, b, d: `M ${a.x} ${a.y} Q ${mx} ${my - lift} ${b.x} ${b.y}` };
+    const my = Math.min(a.y, b.y) - H * 0.125;
+    return { a, b, d: `M ${a.x} ${a.y} Q ${mx} ${my} ${b.x} ${b.y}` };
   })
   .filter((r): r is NonNullable<typeof r> => r !== null);
 
 const origin = routes[0]?.a;
 const destinations = routes.map((r) => r.b);
 
+const dots = [
+  ...(origin
+    ? [{ ...origin, r: 0.75, fill: "var(--brand-green-dark)", ping: "var(--brand-green)" }]
+    : []),
+  ...destinations.map((d) => ({
+    ...d,
+    r: 0.7,
+    fill: "var(--brand-blue)",
+    ping: "var(--brand-blue)",
+  })),
+];
+
 export function WorldMap() {
   return (
     <div className="relative w-full">
+      {/*
+        map-fade carries the reference's vertical mask, so the dot field dissolves at the
+        top and bottom instead of ending on a straight cut. It lives in globals.css beside
+        marquee-fade, which needs the -webkit- prefix alongside it, rather than as an
+        arbitrary Tailwind value that would emit the unprefixed property alone.
+      */}
       <div
-        className="w-full [&_svg]:h-auto [&_svg]:w-full"
+        className="map-fade w-full [&_svg]:h-auto [&_svg]:w-full"
         aria-hidden
         dangerouslySetInnerHTML={{ __html: DOT_SVG }}
       />
@@ -89,6 +112,14 @@ export function WorldMap() {
             d={r.d}
             fill="none"
             stroke="url(#jut-route)"
+            /*
+              The reference animates motion's pathLength 0 to 1, which is normalised.
+              Our CSS draw uses a fixed dasharray of 120, so without this the three routes
+              (39.1, 40.0 and 52.3 units long) would each finish at a different point in
+              the draw phase. pathLength re-declares every path as 120 units for
+              dash purposes, which is the same normalisation the reference gets for free.
+            */
+            pathLength={120}
             strokeWidth={0.42}
             strokeLinecap="round"
             className="jut-route"
@@ -96,22 +127,19 @@ export function WorldMap() {
           />
         ))}
 
-        {origin && (
-          <>
-            <circle
-              cx={origin.x}
-              cy={origin.y}
-              r={1.5}
-              fill="var(--brand-green)"
-              opacity={0.18}
-              className="jut-ping"
-            />
-            <circle cx={origin.x} cy={origin.y} r={0.75} fill="var(--brand-green-dark)" />
-          </>
-        )}
-
-        {destinations.map((d) => (
-          <circle key={d.label} cx={d.x} cy={d.y} r={0.7} fill="var(--brand-blue)" />
+        {/*
+          Every dot gets the reference's pair: a solid mark, and a ghost behind it that
+          expands and fades on a loop. The reference grows r from 2 to 8 against an
+          800x400 viewBox; ours keeps the dot sizes already tuned for a 123x62 one and
+          takes the ratio, so the ghost scales to 4x whatever its own dot measures.
+          Colour follows the split the section already uses: green marks the collection
+          hub, blue marks the three it distributes to.
+        */}
+        {dots.map((dot) => (
+          <g key={dot.label}>
+            <circle cx={dot.x} cy={dot.y} r={dot.r} fill={dot.ping} className="jut-ping" />
+            <circle cx={dot.x} cy={dot.y} r={dot.r} fill={dot.fill} />
+          </g>
         ))}
       </svg>
 

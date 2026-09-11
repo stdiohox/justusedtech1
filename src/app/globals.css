@@ -500,6 +500,18 @@
     );
     mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
   }
+
+  /* World map dot field: the reference's vertical fade, so the field has no hard edge. */
+  .map-fade {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
+    mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+  }
 }
 
 /*
@@ -625,14 +637,22 @@
   }
 }
 
+/*
+  Radar ping on each route endpoint, ported from the reference's pair of SVG <animate>
+  elements: r 2 to 8 and opacity 0.5 to 0, 1.5s, repeating forever.
+
+  Expressed as a transform scale rather than an animated r. Scaling a circle about its own
+  centre is visually identical to growing its radius, and r as a CSS property is a newer
+  geometry-property feature, while transform works everywhere the rest of this build does.
+  4x is the reference's own 2-to-8 ratio, so each ghost grows to four times its own dot.
+*/
 @keyframes jut-ping {
-  0% {
-    transform: scale(0.6);
-    opacity: 0.45;
+  from {
+    transform: scale(1);
+    opacity: 0.5;
   }
-  70%,
-  100% {
-    transform: scale(2.2);
+  to {
+    transform: scale(4);
     opacity: 0;
   }
 }
@@ -646,7 +666,7 @@
 .jut-ping {
   transform-box: fill-box;
   transform-origin: center;
-  animation: jut-ping 2.8s cubic-bezier(0.32, 0.72, 0, 1) infinite;
+  animation: jut-ping 1.5s linear infinite;
 }
 
 @keyframes jut-marquee {
