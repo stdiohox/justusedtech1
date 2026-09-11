@@ -90,7 +90,54 @@ function toVector(lat: number, lng: number): [number, number, number] {
   return [-c * Math.cos(b), Math.sin(a), c * Math.sin(b)];
 }
 
-const VECTORS = CITIES.map((city) => toVector(city.lat, city.lng));
+/*
+  Decorative only. These six points carry no geographic or programmatic meaning, are not
+  places JustUsedTech operates, and exist purely to give the sphere more visual density.
+  They are kept out of the legend, out of the aria-label, and marked aria-hidden, so
+  nothing announces them and no copy anywhere refers to them.
+
+  Flagged on the way in, and left to the owner's explicit call: a pin glyph is the
+  universal "a location is here" symbol, so to a sighted visitor these still read as
+  places on a page whose whole subject is where devices actually go. That is the same
+  failure CLAUDE.md content rule 5 was written about, after the old live site showed a
+  London map for an organisation with no London presence. aria-hidden solves the screen
+  reader half of the problem and none of the visual half. Drop DECOR_POINTS to an empty
+  array to remove them, nothing else needs to change.
+*/
+const DECOR_POINTS: [number, number][] = [
+  [12.0, 8.0],
+  [-15.0, -47.0],
+  [51.0, 10.0],
+  [35.0, 105.0],
+  [-25.0, 135.0],
+  [40.0, -100.0],
+];
+
+type Pin = {
+  key: string;
+  vector: [number, number, number];
+  hub: boolean;
+  decorative: boolean;
+};
+
+/*
+  One flat list, so the projection loop and the rendered nodes stay index-aligned. The four
+  real cities come first and keep their existing size, pulse, and legend entry untouched.
+*/
+const PINS: Pin[] = [
+  ...CITIES.map((city) => ({
+    key: city.name,
+    vector: toVector(city.lat, city.lng),
+    hub: city.hub,
+    decorative: false,
+  })),
+  ...DECOR_POINTS.map(([lat, lng], index) => ({
+    key: `decor-${index}`,
+    vector: toVector(lat, lng),
+    hub: false,
+    decorative: true,
+  })),
+];
 
 export function CorridorGlobe() {
   const hostRef = useRef<HTMLDivElement>(null);
@@ -170,11 +217,11 @@ export function CorridorGlobe() {
       const cp = Math.cos(phi);
       const sp = Math.sin(phi);
 
-      for (let i = 0; i < VECTORS.length; i += 1) {
+      for (let i = 0; i < PINS.length; i += 1) {
         const pin = pinRefs.current[i];
         if (!pin) continue;
 
-        const [ux, uy, uz] = VECTORS[i];
+        const [ux, uy, uz] = PINS[i].vector;
         const ax = ux * SPHERE_RADIUS;
         const ay = uy * SPHERE_RADIUS;
         const az = uz * SPHERE_RADIUS;
@@ -293,12 +340,13 @@ export function CorridorGlobe() {
           to style from the render loop. Decorative: the legend below carries the names.
         */}
         <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-          {CITIES.map((city, index) => (
+          {PINS.map((pin, index) => (
             <span
-              key={city.name}
+              key={pin.key}
               ref={(node) => {
                 pinRefs.current[index] = node;
               }}
+              aria-hidden
               className="absolute top-0 left-0 will-change-transform"
               style={{ visibility: "hidden" }}
             >
@@ -308,31 +356,40 @@ export function CorridorGlobe() {
                 city. Three nested spans because each owns a transform that must not
                 fight the others. The outer wrapper carries the projected position, this
                 one the centering offset, and .jut-ping the scale.
+
+                Real cities only. Pulsing the decorative points would give them the same
+                emphasis as the four the section is actually about, and would put six
+                more infinite animations on screen for nothing.
               */}
-              <span
-                className={
-                  city.hub
-                    ? "absolute bottom-0 left-1/2 size-4 -translate-x-1/2 translate-y-1/2"
-                    : "absolute bottom-0 left-1/2 size-3.5 -translate-x-1/2 translate-y-1/2"
-                }
-              >
+              {!pin.decorative && (
                 <span
                   className={
-                    city.hub
-                      ? "jut-ping block size-full rounded-full bg-brand-green-dark/40"
-                      : "jut-ping block size-full rounded-full bg-brand-green/45"
+                    pin.hub
+                      ? "absolute bottom-0 left-1/2 size-4 -translate-x-1/2 translate-y-1/2"
+                      : "absolute bottom-0 left-1/2 size-3.5 -translate-x-1/2 translate-y-1/2"
                   }
-                  /* Out of phase, so four points breathe rather than blink in unison. */
-                  style={{ animationDelay: `${index * (PULSE_CYCLE / CITIES.length)}s` }}
-                />
-              </span>
+                >
+                  <span
+                    className={
+                      pin.hub
+                        ? "jut-ping block size-full rounded-full bg-brand-green-dark/40"
+                        : "jut-ping block size-full rounded-full bg-brand-green/45"
+                    }
+                    /* Out of phase, so four points breathe rather than blink in unison. */
+                    style={{ animationDelay: `${index * (PULSE_CYCLE / CITIES.length)}s` }}
+                  />
+                </span>
+              )}
 
               <MapPin
                 strokeWidth={1.5}
                 className={
-                  city.hub
-                    ? "relative size-6 fill-brand-green-dark stroke-white drop-shadow-[0_1px_2px_rgba(18,33,26,0.45)]"
-                    : "relative size-5 fill-brand-green stroke-white drop-shadow-[0_1px_2px_rgba(18,33,26,0.4)]"
+                  pin.decorative
+                    ? // Same glyph, markedly smaller and quieter, so the real four still lead.
+                      "relative size-3 fill-brand-green/55 stroke-white/80"
+                    : pin.hub
+                      ? "relative size-6 fill-brand-green-dark stroke-white drop-shadow-[0_1px_2px_rgba(18,33,26,0.45)]"
+                      : "relative size-5 fill-brand-green stroke-white drop-shadow-[0_1px_2px_rgba(18,33,26,0.4)]"
                 }
               />
             </span>
