@@ -592,13 +592,36 @@
   }
 }
 
-/* World map: routes trace themselves once, endpoint pulses at the collection origin. */
+/*
+  World map: routes trace themselves on a loop, endpoint pulses at the collection origin.
+
+  One cycle is draw, hold, fade, repeat. The fade matters: looping a draw-on by itself
+  snaps the finished line back to nothing, which reads as a flicker rather than a pulse.
+  Fading out first means the reset happens while the stroke is already invisible, so the
+  restart is never seen. The line is hidden by its own dash offset at 0%, which is why
+  opacity can jump back to 1 there without showing.
+
+  The bezier is declared on the 0% stop rather than on the shorthand so it governs only
+  the draw, leaving the hold and fade linear. At 3.5s that is 1.89s drawing, 1.19s held
+  at full, then 0.42s fading.
+*/
 @keyframes jut-draw {
-  from {
+  0% {
     stroke-dashoffset: 120;
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
   }
-  to {
+  54% {
     stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  88% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
   }
 }
 
@@ -617,7 +640,7 @@
 .jut-route {
   stroke-dasharray: 120;
   stroke-dashoffset: 120;
-  animation: jut-draw 1.9s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+  animation: jut-draw 3.5s linear infinite;
 }
 
 .jut-ping {
