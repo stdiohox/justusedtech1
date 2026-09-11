@@ -26,7 +26,19 @@ export function PartnersMarquee() {
         </h2>
       </div>
 
-      <div className="marquee-fade mt-8 overflow-hidden">
+      {/*
+        py-3 is load-bearing, not decoration. PartnerMark deliberately lets a scaled mark
+        overflow its slot so the row's baseline holds, but overflow-hidden here was
+        clipping at the padding box, which was the 36px slot exactly. Seven of the
+        eighteen marks carry a scale above 1, and the tallest render 54px, so they were
+        being cut by up to 9px top and bottom. 12px of padding clears the tallest with
+        room to spare, and since clipping happens at the padding edge the overflow now
+        has somewhere to go.
+
+        mt-5 rather than mt-8: the same uppercase label takes mt-5 in the footer and mt-6
+        in the mission strip, so 32px was the odd one out.
+      */}
+      <div className="marquee-fade mt-5 overflow-hidden py-3">
         <div
           className="animate-marquee flex w-max"
           style={{ ["--marquee-duration" as string]: "52s" }}
@@ -53,7 +65,7 @@ export function PartnersMarquee() {
         </div>
       </div>
 
-      <div className="shell mt-8">
+      <div className="shell mt-5">
         <Link
           href="/partners"
           className="text-[0.875rem] font-bold text-brand-green-dark underline-offset-4 hover:underline"
