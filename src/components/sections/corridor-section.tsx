@@ -1,7 +1,7 @@
 import { SectionHead } from "@/components/common/primitives";
 import { Reveal } from "@/components/common/reveal";
-import { CorridorGlobe } from "@/components/sections/corridor-globe";
 import { CorridorLegend } from "@/components/sections/corridor-legend";
+import { WorldMap } from "@/components/sections/world-map";
 import { communitiesReached } from "@/content/impact";
 
 export function CorridorSection() {
@@ -9,10 +9,10 @@ export function CorridorSection() {
     <section className="bg-white py-20 md:py-28">
       <div className="shell">
         {/*
-          Even columns. The globe carried a 0.85fr column while it still sat in a filled
-          card, where the card's own padding ate the difference. Bare on the page it can
-          use the whole half: at the 1240px shell that is a 556px column against a 544px
-          cap, so the sphere sets its own size and the column is not what limits it.
+          Even columns, carried over from the globe that used to sit here. The map is a
+          wide rectangle rather than a square, so it no longer needs the halved column a
+          sphere did, and it would take more width if the split went back to the
+          0.85fr/1.15fr this section ran before the globe.
         */}
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           <Reveal>
@@ -64,12 +64,12 @@ export function CorridorSection() {
 
           <Reveal delay={0.1}>
             {/*
-              No bezel here, unlike most visuals on the site. The globe is a lit sphere with
-              its own soft edge, and boxing it in a filled card put a hard rectangle around
-              something already round. This div is sizing only, no surface of its own.
+              No bezel, kept from the globe treatment. The map is a loose dot field that
+              fades out at its own edges, so a filled card would draw a hard rectangle
+              around something with no edge of its own. This div is sizing only.
             */}
             <div className="mx-auto w-full max-w-[34rem] lg:max-w-none">
-              <CorridorGlobe />
+              <WorldMap />
             </div>
           </Reveal>
         </div>

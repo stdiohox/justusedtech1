@@ -1,17 +1,12 @@
 import DottedMap from "dotted-map";
 import { corridors } from "@/content/impact";
-import { cn } from "@/lib/utils";
-
-/** Per-city label placement, so the West African pair does not collide. */
-const PLACEMENT: Record<string, string> = {
-  "St. Louis, MO": "-translate-x-1/2 -translate-y-[calc(100%+0.4rem)]",
-  "Lagos, Nigeria": "translate-x-3 -translate-y-[calc(100%+0.15rem)]",
-  "Accra, Ghana": "-translate-x-[calc(100%+0.5rem)] translate-y-1",
-  "Nairobi, Kenya": "translate-x-3 translate-y-1",
-};
 
 /**
  * The device corridor: St. Louis out to Lagos, Accra, and Nairobi.
+ *
+ * No inline city labels. CorridorSection names all four in its "Corridor cities" legend,
+ * so printing them over the map as well would say each one twice in the same section. The
+ * markers stay; the SVG's aria-label carries the route description.
  *
  * Rendered entirely on the server. The dot field comes from dotted-map, the arcs are
  * plain SVG, and the draw-on animation is CSS stroke-dashoffset, so this ships zero
@@ -110,23 +105,6 @@ export function WorldMap() {
         ))}
       </svg>
 
-      {/*
-        Labels sit in HTML rather than SVG so the type stays crisp and selectable.
-        Lagos and Accra are 1.5 map units apart, so placement is set per city to stop
-        the two labels overlapping.
-      */}
-      {[origin, ...destinations].filter(Boolean).map((node) => (
-        <span
-          key={node!.label}
-          className={cn(
-            "absolute rounded-full bg-white/92 px-2 py-0.5 text-[0.5625rem] font-extrabold tracking-[0.03em] whitespace-nowrap text-ink-soft shadow-[0_2px_10px_-4px_rgba(18,33,26,0.35)] sm:px-2.5 sm:py-1 sm:text-[0.6875rem]",
-            PLACEMENT[node!.label] ?? "-translate-x-1/2 translate-y-2",
-          )}
-          style={{ left: `${(node!.x / W) * 100}%`, top: `${(node!.y / H) * 100}%` }}
-        >
-          {node!.label}
-        </span>
-      ))}
     </div>
   );
 }
