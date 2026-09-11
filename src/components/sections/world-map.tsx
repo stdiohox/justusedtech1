@@ -66,10 +66,20 @@ export function WorldMap() {
           .join(", ")}.`}
       >
         <defs>
+          {/*
+            Symmetric fade. The line is --brand-blue along its whole length and falls to
+            transparent in the outer 5% at each end, so neither endpoint terminates in a
+            hard cap. Runs in objectBoundingBox units, so 0% and 100% land on each path's
+            own horizontal extremes, which for these arcs are the two cities.
+
+            This replaced a --brand-green to --brand-blue traverse. Green has not left the
+            map, it just belongs to the origin marker now rather than to the routes.
+          */}
           <linearGradient id="jut-route" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="var(--brand-green)" stopOpacity="0.15" />
-            <stop offset="35%" stopColor="var(--brand-green)" />
-            <stop offset="100%" stopColor="var(--brand-blue)" />
+            <stop offset="0%" stopColor="var(--brand-blue)" stopOpacity="0" />
+            <stop offset="5%" stopColor="var(--brand-blue)" />
+            <stop offset="95%" stopColor="var(--brand-blue)" />
+            <stop offset="100%" stopColor="var(--brand-blue)" stopOpacity="0" />
           </linearGradient>
         </defs>
 
