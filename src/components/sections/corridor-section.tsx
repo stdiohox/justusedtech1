@@ -11,8 +11,14 @@ export function CorridorSection() {
         {/*
           Even columns, carried over from the globe that used to sit here. The map is a
           wide rectangle rather than a square, so it no longer needs the halved column a
-          sphere did, and it would take more width if the split went back to the
-          0.85fr/1.15fr this section ran before the globe.
+          sphere did.
+
+          The 0.85fr/1.15fr split this section ran before the globe was tried again and
+          reverted. It buys the map 83px, from 556 to 639, and costs the text column 63,
+          from 556 to 493. At 493 the headline breaks to four lines and the lede to three,
+          which is a worse trade than the map is wide. The reference renders at roughly
+          1280px and nothing short of giving it the whole shell gets close to that, so
+          there is no width here worth chasing at the text's expense.
         */}
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           <Reveal>
