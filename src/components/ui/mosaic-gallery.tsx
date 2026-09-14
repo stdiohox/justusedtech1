@@ -7,20 +7,22 @@ import { Lightbox } from "@/components/ui/lightbox";
 import type { GalleryPhoto } from "@/components/ui/elastic-gallery";
 
 /*
-  Mosaic gallery: a static asymmetric grid, every photograph visible at once.
+  Mosaic gallery: every photograph visible at rest, and none of them cropped.
 
-  This is the fourth style, and it exists because the other three all hide something until
-  you interact. Elastic and the accordion collapse the frames you are not on, and the bento
-  runs off the side of the screen. For a programme whose photographs are a set rather than a
-  sequence, showing all of them at rest is the right answer, and it is the one layout here
-  that needs no hover to be complete.
+  This started as a fixed-height span grid, which was wrong for the set it holds. GreenBin's
+  photographs are mostly portrait at a ratio of 0.75, and the grid's cells ran from 2.26 to
+  4.61 wide, so object-cover was showing about a third of a tall frame and, in the wide cells,
+  about a sixth. The boxes it framed were tidy; what they framed was the middle band of
+  somebody's arms.
 
-  The span pattern is the bento-grid reference's idea applied to photographs rather than
-  cards: a lead cell spanning two columns and two rows, then singles around it, cycling.
+  It is a masonry column flow now. Each photograph sets its own height from its real width and
+  height, so a portrait stays portrait, a landscape stays landscape, and nothing is cut. That
+  also removes the tiling arithmetic the span version needed, because columns simply fill.
 
-  Same rules as the rest of the family: cells are buttons, they open the shared lightbox,
-  hover scale drops under reduced motion, and the index is the only thing printed on the
-  photograph, with the description in alt text.
+  The trade is that the bottom edge of the columns is ragged rather than flush. That is the
+  correct trade here: a straight edge is worth having, and it is not worth a third of a
+  photograph. The other three galleries still crop, deliberately, because they are built to
+  open one frame at a time rather than show a whole set at rest.
 */
 
 export function MosaicGallery({
@@ -34,27 +36,14 @@ export function MosaicGallery({
 
   if (photos.length === 0) return null;
 
-  /*
-    A five-cell pattern that tiles a three-column grid exactly: a 2x2 lead, three singles,
-    then a 2x1 to close. Areas are 4 + 1 + 1 + 1 + 2 = 9, which is three full rows.
-
-    The arithmetic is the point. The first pattern here mixed spans that summed to 10 in a
-    four-column grid, which cannot divide evenly, and it left a hole under the lead cell that
-    read as a missing photograph rather than as negative space. Dense flow does not rescue
-    that: there is nothing left to backfill with. It is still set, so a programme whose count
-    is not a multiple of five packs as tightly as it can rather than stair-stepping.
-  */
-  const spans = [
-    "sm:col-span-2 sm:row-span-2",
-    "sm:col-span-1 sm:row-span-1",
-    "sm:col-span-1 sm:row-span-1",
-    "sm:col-span-1 sm:row-span-1",
-    "sm:col-span-2 sm:row-span-1",
-  ];
-
   return (
     <div className={className}>
-      <div className="grid auto-rows-[11rem] grid-flow-dense grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
+      {/*
+        CSS multi-column rather than grid. Grid cannot do masonry without fixed row heights,
+        which is the thing that was cropping. `break-inside-avoid` keeps a photograph from
+        being split across a column boundary.
+      */}
+      <div className="columns-1 gap-3 sm:columns-2 sm:gap-4 lg:columns-3">
         {photos.map((photo, i) => (
           <button
             key={photo.src}
@@ -62,30 +51,37 @@ export function MosaicGallery({
             aria-label={`Open photograph ${i + 1} of ${photos.length}`}
             onClick={() => setOpen(i)}
             className={cn(
-              "group relative overflow-hidden rounded-inner border border-edge bg-mint",
+              "group relative mb-3 block w-full break-inside-avoid overflow-hidden",
+              "rounded-inner border border-edge bg-mint sm:mb-4",
               "focus-visible:ring-2 focus-visible:ring-brand-green-dark focus-visible:ring-offset-2",
               "focus-visible:outline-none",
-              spans[i % spans.length],
             )}
           >
             <Image
               src={photo.src}
               alt={photo.alt}
-              fill
+              /*
+                Intrinsic sizing. The fallback is 4:3 rather than a square, so a photograph
+                that somehow arrives without dimensions still lands on a plausible shape
+                instead of a box that distorts it.
+              */
+              width={photo.width ?? 1200}
+              height={photo.height ?? 900}
               quality={90}
-              sizes="(min-width: 1024px) 420px, (min-width: 640px) 33vw, 100vw"
+              sizes="(min-width: 1024px) 400px, (min-width: 640px) 50vw, 100vw"
               className={cn(
-                "object-cover transition-transform duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]",
-                "group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100",
+                "h-auto w-full transition-transform duration-700",
+                "ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-[1.03]",
+                "motion-reduce:transition-none motion-reduce:group-hover:scale-100",
               )}
             />
             <span
               aria-hidden
-              className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-ink/70 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none"
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-ink/70 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none"
             />
             <span
               aria-hidden
-              className="absolute bottom-3 left-4 text-[0.8125rem] font-extrabold tracking-[0.14em] text-white tabular-nums opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none"
+              className="pointer-events-none absolute bottom-3 left-4 text-[0.8125rem] font-extrabold tracking-[0.14em] text-white tabular-nums opacity-0 transition-opacity duration-500 group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none"
             >
               {String(i + 1).padStart(2, "0")}
             </span>
@@ -93,9 +89,7 @@ export function MosaicGallery({
         ))}
       </div>
 
-      <p className="mt-3 text-[0.8125rem] text-ink-faint">
-        Select any frame to open it.
-      </p>
+      <p className="mt-1 text-[0.8125rem] text-ink-faint">Select any frame to open it.</p>
 
       <Lightbox photos={photos} index={open} onClose={() => setOpen(null)} onIndexChange={setOpen} />
     </div>

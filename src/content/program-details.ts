@@ -53,7 +53,15 @@ export type ProgramDetail = {
   outcomes?: string[];
   measurement?: string[];
   sdgs?: { code: string; detail: string }[];
-  gallery?: { src: string; alt: string }[];
+  /**
+   * `width` and `height` are the file's real pixel dimensions, not a display size.
+   *
+   * They are here so a gallery can lay a photograph out at its own aspect instead of forcing
+   * it into a fixed box. The mosaic needs that: GreenBin's set is mostly portrait at 0.75,
+   * and the fixed-height grid it used before had cells between 2.26 and 4.61 wide, so cover
+   * was showing a third of a tall frame and sometimes a sixth.
+   */
+  gallery?: { src: string; alt: string; width?: number; height?: number }[];
   /**
    * The line under "From the field".
    *
@@ -208,22 +216,32 @@ export const programDetails: Record<string, ProgramDetail> = {
       {
         src: "/programs/school-tour-initiative/01.jpg",
         alt: "A large group of students in purple and blue school uniforms crowded together outside a school building, smiling towards the camera.",
+        width: 2400,
+        height: 1506,
       },
       {
         src: "/programs/school-tour-initiative/02.jpg",
         alt: "A person in a JustUsedTech shirt standing beside a roll-up banner reading Building A Sustainable Future.",
+        width: 1800,
+        height: 2400,
       },
       {
         src: "/programs/school-tour-initiative/03.jpg",
         alt: "Students in navy and cream uniforms gathered outside a school entrance, several with their hands raised.",
+        width: 2400,
+        height: 1800,
       },
       {
         src: "/programs/school-tour-initiative/04.jpg",
         alt: "Students in green and cream uniforms crowded together inside a classroom during a session.",
+        width: 2400,
+        height: 1646,
       },
       {
         src: "/programs/school-tour-initiative/05.jpg",
         alt: "Black and white photograph of students at classroom desks leaning over open exercise books.",
+        width: 828,
+        height: 413,
       },
     ],
     galleryLede:
@@ -319,22 +337,32 @@ export const programDetails: Record<string, ProgramDetail> = {
       {
         src: "/programs/breakthrough-series/01.jpg",
         alt: "Four people standing together indoors, two of them in JustUsedTech shirts.",
+        width: 1340,
+        height: 893,
       },
       {
         src: "/programs/breakthrough-series/02.jpg",
         alt: "Young people working at laptops around a long table, with team members alongside them.",
+        width: 1340,
+        height: 893,
       },
       {
         src: "/programs/breakthrough-series/03.jpg",
         alt: "A child holding a laptop, standing beside a JustUsedTech roll-up banner.",
+        width: 596,
+        height: 893,
       },
       {
         src: "/programs/breakthrough-series/04.jpg",
         alt: "Team members in JustUsedTech shirts talking with visitors at an indoor event.",
+        width: 1340,
+        height: 893,
       },
       {
         src: "/programs/breakthrough-series/05.jpg",
         alt: "Two people sharing a laptop at a table, one of them typing.",
+        width: 1109,
+        height: 1477,
       },
     ],
     galleryLede:
@@ -426,42 +454,62 @@ export const programDetails: Record<string, ProgramDetail> = {
       {
         src: "/programs/project-9-12/01.jpg",
         alt: "Children in coloured bibs playing football on a sandy pitch.",
+        width: 2400,
+        height: 1590,
       },
       {
         src: "/programs/project-9-12/02.jpg",
         alt: "Sports kit bags, boots, balls, and training cones laid out on the ground with people standing behind them.",
+        width: 2400,
+        height: 1347,
       },
       {
         src: "/programs/project-9-12/03.jpg",
         alt: "Young people crouching on a sandy pitch trying on football boots, with more boots laid out in front of them.",
+        width: 2048,
+        height: 1365,
       },
       {
         src: "/programs/project-9-12/04.jpg",
         alt: "Two young players in team kit holding a Project 9-12 photo frame.",
+        width: 1590,
+        height: 2400,
       },
       {
         src: "/programs/project-9-12/05.jpg",
         alt: "Students in school uniform crowded around a registration table while a volunteer writes on a form.",
+        width: 2048,
+        height: 1365,
       },
       {
         src: "/programs/project-9-12/06.jpg",
         alt: "A volunteer in a JustUsedTech shirt speaking with a seated young person at an outdoor event.",
+        width: 2048,
+        height: 1365,
       },
       {
         src: "/programs/project-9-12/07.jpg",
         alt: "A person handing equipment to young people in front of a Passback and JustUsedTech backdrop.",
+        width: 2400,
+        height: 1347,
       },
       {
         src: "/programs/project-9-12/08.jpg",
         alt: "Two people standing together holding a Project 9-12 photo frame in front of an event backdrop.",
+        width: 2400,
+        height: 1590,
       },
       {
         src: "/programs/project-9-12/09.jpg",
         alt: "Four people in formal dress standing with Project 9-12 photo props in front of a Passback and JustUsedTech backdrop.",
+        width: 2400,
+        height: 1347,
       },
       {
         src: "/programs/project-9-12/10.jpg",
         alt: "People moving between wooden canoes at a waterfront community, with stilt houses behind them.",
+        width: 2400,
+        height: 1590,
       },
     ],
     galleryLede:
@@ -546,22 +594,32 @@ export const programDetails: Record<string, ProgramDetail> = {
       {
         src: "/programs/greenbin-360/01.jpg",
         alt: "Two people carrying boxes across a plaza towards a collection point.",
+        width: 810,
+        height: 1080,
       },
       {
         src: "/programs/greenbin-360/02.jpg",
         alt: "Team members loading equipment into the back of a van at an outdoor collection event.",
+        width: 1536,
+        height: 1024,
       },
       {
         src: "/programs/greenbin-360/03.jpg",
         alt: "People working at a collection table under a canopy at an outdoor event.",
+        width: 810,
+        height: 1080,
       },
       {
         src: "/programs/greenbin-360/04.jpg",
         alt: "A person sorting laptops in a storage area stacked with cartons and boxed equipment.",
+        width: 1080,
+        height: 810,
       },
       {
         src: "/programs/greenbin-360/05.jpg",
         alt: "Two people packing a box at an outdoor collection table.",
+        width: 1800,
+        height: 2400,
       },
     ],
     galleryLede:
@@ -591,6 +649,8 @@ export const programDetails: Record<string, ProgramDetail> = {
       {
         src: "/programs/skillsync_initiative.jpg",
         alt: "Five people standing together for a photograph at a device handover event, with a desktop computer in front of them.",
+        width: 1400,
+        height: 933,
       },
     ],
     galleryLede: "From a handover event.",
@@ -714,6 +774,8 @@ export const programDetails: Record<string, ProgramDetail> = {
       {
         src: "/programs/circular_tech_bootcamp.jpg",
         alt: "Three people examining an opened laptop, one holding the chassis up by its exposed board while the others study it, with a slide about motherboards on the screen behind them.",
+        width: 2400,
+        height: 1690,
       },
     ],
     galleryLede: "Inside a session, on a machine that is headed back out to somebody.",

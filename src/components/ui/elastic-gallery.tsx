@@ -35,7 +35,13 @@ import { cn } from "@/lib/utils";
   anything about the people photographed.
 */
 
-export type GalleryPhoto = { src: string; alt: string };
+export type GalleryPhoto = {
+  src: string;
+  alt: string;
+  /** The file's real pixel dimensions. Used by galleries that lay out at natural aspect. */
+  width?: number;
+  height?: number;
+};
 
 export function ElasticGallery({
   photos,
