@@ -282,6 +282,7 @@ export function ProgramMedia({
           alt={photo.alt}
           fill
           sizes={photoSizes}
+          quality={90}
           className={cn("object-cover", position)}
         />
       </div>

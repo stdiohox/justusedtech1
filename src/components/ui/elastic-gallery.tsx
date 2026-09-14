@@ -67,6 +67,7 @@ export function ElasticGallery({
           alt={photos[0]!.alt}
           fill
           sizes="(min-width: 1280px) 1200px, 100vw"
+          quality={90}
           className="object-cover"
         />
       </div>
@@ -105,6 +106,7 @@ export function ElasticGallery({
               alt={photo.alt}
               fill
               sizes="(min-width: 1280px) 800px, (min-width: 640px) 60vw, 100vw"
+              quality={90}
               className={cn(
                 "object-cover transition-transform duration-1000 ease-[cubic-bezier(0.32,0.72,0,1)]",
                 "motion-reduce:transition-none",

@@ -31,7 +31,11 @@ import {
 } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
-import { ElasticGallery } from "@/components/ui/elastic-gallery";
+import { BentoGallery } from "@/components/ui/bento-gallery";
+import { ElasticGallery, type GalleryPhoto } from "@/components/ui/elastic-gallery";
+import { ImageAccordion } from "@/components/ui/image-accordion";
+import { MosaicGallery } from "@/components/ui/mosaic-gallery";
+import type { ProgramDetail } from "@/content/program-details";
 import { programDetails } from "@/content/program-details";
 import { programs } from "@/content/programs";
 
@@ -64,6 +68,15 @@ const OBJECTIVE_ICONS: Record<string, LucideIcon[]> = {
   "greenbin-360": [Truck, Wrench, Handshake, Layers],
   "circular-tech-bootcamp": [Cpu, Leaf, Lightbulb, Recycle],
 };
+
+function GALLERY_LEDE(count: number, style: ProgramDetail["galleryStyle"]) {
+  if (count < 2) return "A photograph from the programme.";
+  if (style === "bento")
+    return `${count} photographs from sessions and events. Drag or scroll the strip, and select a frame to open it.`;
+  if (style === "mosaic")
+    return `${count} photographs from collection events and the refurbishment floor. Select any frame to open it.`;
+  return `${count} photographs from sessions and events. Hover a panel to open it in place.`;
+}
 
 export default async function ProgramDetailPage({ params }: Params) {
   const { slug } = await params;
@@ -334,15 +347,16 @@ export default async function ProgramDetailPage({ params }: Params) {
           <Reveal>
             <SectionHead
               title="From the field"
-              lede={
-                detail.gallery.length > 1
-                  ? "Photographs from sessions and events. Hover or tap a frame to open it."
-                  : "A photograph from the programme."
-              }
+              /*
+                The lede describes the gallery the reader is actually looking at. One line
+                for all four styles told a mosaic reader to hover something that opens on
+                click, and a bento reader to hover a strip that scrolls.
+              */
+              lede={GALLERY_LEDE(detail.gallery.length, detail.galleryStyle)}
             />
           </Reveal>
           <Reveal className="mt-12">
-            <ElasticGallery photos={detail.gallery} />
+            <ProgramGallery photos={detail.gallery} style={detail.galleryStyle} />
           </Reveal>
         </Section>
       )}
@@ -462,6 +476,27 @@ export default async function ProgramDetailPage({ params }: Params) {
       </Section>
     </>
   );
+}
+
+/**
+ * Picks the gallery treatment for a programme.
+ *
+ * A single photograph short-circuits every style: there is nothing to accordion, drag, or
+ * lay out against, so ElasticGallery's one-frame branch renders it plainly. That check lives
+ * here rather than in four components, so no style has to carry the case.
+ */
+function ProgramGallery({
+  photos,
+  style,
+}: {
+  photos: GalleryPhoto[];
+  style: ProgramDetail["galleryStyle"];
+}) {
+  if (photos.length < 2) return <ElasticGallery photos={photos} />;
+  if (style === "bento") return <BentoGallery photos={photos} />;
+  if (style === "accordion") return <ImageAccordion photos={photos} />;
+  if (style === "mosaic") return <MosaicGallery photos={photos} />;
+  return <ElasticGallery photos={photos} />;
 }
 
 /* Missing slug is a 404 rather than a silent empty page. */

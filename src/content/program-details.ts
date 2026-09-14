@@ -54,6 +54,22 @@ export type ProgramDetail = {
   measurement?: string[];
   sdgs?: { code: string; detail: string }[];
   gallery?: { src: string; alt: string }[];
+  /**
+   * Which gallery treatment this programme's photographs get.
+   *
+   * Four styles, one per programme, so the pages do not all move alike. The choice is not
+   * decoration: it follows what the set of photographs actually is.
+   *
+   * `elastic`  one panel opens against its siblings and fills the row. For a short sequence.
+   * `accordion` fixed-width panel against narrow spines. Also short, different rhythm.
+   * `bento`    a draggable run of mixed-size cells. For a set too large to accordion, where
+   *            collapsed panels would be slivers. Project 9-12 has ten frames.
+   * `mosaic`   every frame visible at rest in an asymmetric grid. For a set rather than a
+   *            sequence, where hiding frames behind hover would hide the point.
+   *
+   * A single photograph ignores this and renders as one frame.
+   */
+  galleryStyle?: "elastic" | "accordion" | "bento" | "mosaic";
 };
 
 export const programDetails: Record<string, ProgramDetail> = {
@@ -201,6 +217,7 @@ export const programDetails: Record<string, ProgramDetail> = {
         alt: "Black and white photograph of students at classroom desks leaning over open exercise books.",
       },
     ],
+    galleryStyle: "elastic",
   },
 
   /* ---------------------------------------------------------------- */
@@ -309,6 +326,7 @@ export const programDetails: Record<string, ProgramDetail> = {
         alt: "Two people sharing a laptop at a table, one of them typing.",
       },
     ],
+    galleryStyle: "accordion",
   },
 
   /* ---------------------------------------------------------------- */
@@ -410,13 +428,30 @@ export const programDetails: Record<string, ProgramDetail> = {
       },
       {
         src: "/programs/project-9-12/05.jpg",
-        alt: "A volunteer in a JustUsedTech shirt speaking with a seated young person at an outdoor event.",
+        alt: "Students in school uniform crowded around a registration table while a volunteer writes on a form.",
       },
       {
         src: "/programs/project-9-12/06.jpg",
+        alt: "A volunteer in a JustUsedTech shirt speaking with a seated young person at an outdoor event.",
+      },
+      {
+        src: "/programs/project-9-12/07.jpg",
         alt: "A person handing equipment to young people in front of a Passback and JustUsedTech backdrop.",
       },
+      {
+        src: "/programs/project-9-12/08.jpg",
+        alt: "Two people standing together holding a Project 9-12 photo frame in front of an event backdrop.",
+      },
+      {
+        src: "/programs/project-9-12/09.jpg",
+        alt: "Four people in formal dress standing with Project 9-12 photo props in front of a Passback and JustUsedTech backdrop.",
+      },
+      {
+        src: "/programs/project-9-12/10.jpg",
+        alt: "People moving between wooden canoes at a waterfront community, with stilt houses behind them.",
+      },
     ],
+    galleryStyle: "bento",
   },
 
   /* ---------------------------------------------------------------- */
@@ -514,6 +549,7 @@ export const programDetails: Record<string, ProgramDetail> = {
         alt: "Two people packing a box at an outdoor collection table.",
       },
     ],
+    galleryStyle: "mosaic",
   },
 
   /* ---------------------------------------------------------------- */
