@@ -3,7 +3,6 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { PillLink } from "@/components/common/pill-button";
 import { OrbitBackdrop } from "@/components/sections/orbit-backdrop";
-import { heroTrustPartners } from "@/content/partners";
 
 /**
  * Home hero: two-column split on a flat green gradient with a dashed orbit backdrop.
@@ -48,22 +47,38 @@ export function Hero() {
           800 held back for the headline alone so it stays the only thing shouting.
           Spacing uses the 4px token scale rather than raw values.
         */}
-        <div className="max-w-[640px] lg:flex lg:flex-col lg:pb-20">
+        {/*
+          Centred against the photo column at lg rather than pinned to the top. The trust
+          row used to hold the base of this block with `lg:mt-auto`; with it gone the copy
+          would otherwise sit high against a square that is itself centred in the row.
+        */}
+        <div className="max-w-[640px] lg:flex lg:flex-col lg:justify-center lg:pb-20">
+          {/*
+            Not "Tech access for Africa". Africa is where devices are redistributed, but it
+            is half the model at most: collection, refurbishment, and the warehouse are in
+            St. Louis, 60% of upcycled devices go back into that community, and the US
+            operation has its own 800+ devices and 20+ partners. An Africa-only line reads
+            as the whole organisation and writes the US work out of it.
+          */}
           <p className="text-[12px] leading-none font-semibold tracking-[var(--tracking-eyebrow)] text-white/90 uppercase">
-            Tech access for Africa
+            Technology access, US and Africa
           </p>
 
           {/*
-            Two sentences, sized so the first holds one line. The second runs to 34
-            characters and cannot fit a single line at hero scale inside a split layout,
-            so it breaks after "futures" rather than being shrunk to fit.
+            Two sentences, sized so the first holds one line. The second breaks after
+            "futures" rather than being shrunk to fit.
           */}
-          <h1 className="mt-[var(--space-24)] text-[2.375rem] leading-[1.06] font-extrabold tracking-[var(--tracking-headline)] text-white text-balance sm:text-[2.75rem] lg:text-5xl">
+          <h1 className="mt-[var(--space-28)] text-[2.375rem] leading-[1.06] font-extrabold tracking-[var(--tracking-headline)] text-white text-balance sm:text-[2.75rem] lg:text-5xl">
             Give tech a second life.
-            <span className="block">Power young futures across Africa.</span>
+            <span className="block">Power young futures on two continents.</span>
           </h1>
 
-          <p className="mt-[var(--space-24)] text-[1.0625rem] leading-relaxed font-normal tracking-[var(--tracking-body)] text-white/90 text-pretty">
+          {/*
+            Capped at 52 characters. The column runs to 640px, which is wider than this
+            size wants to be read at, and the cap is what stops the paragraph from becoming
+            the densest thing in a section whose whole job is to breathe.
+          */}
+          <p className="mt-[var(--space-32)] max-w-[52ch] text-[1.0625rem] leading-relaxed font-normal tracking-[var(--tracking-body)] text-white/90 text-pretty">
             JustUsedTech collects, refurbishes, and redistributes technology to
             underserved students and youth across Nigeria, Ghana, Kenya, and the US,
             turning e-waste into opportunity.
@@ -73,7 +88,7 @@ export function Hero() {
             Filled primary plus ghost-outlined secondary: the standard two-button pair,
             expressed white-on-green rather than ink-on-white.
           */}
-          <div className="mt-[var(--space-40)] flex flex-wrap items-center gap-[var(--space-16)]">
+          <div className="mt-[var(--space-48)] flex flex-wrap items-center gap-[var(--space-16)]">
             <PillLink href="/get-involved#donate-devices" variant="onDark">
               Donate a device
             </PillLink>
@@ -90,53 +105,6 @@ export function Hero() {
             </Link>
           </div>
 
-          {/*
-            Trust row. The marks are full-colour on transparent and this band is deep
-            green, so each one sits on its own white chip. That is what retires the old
-            request for reversed or knocked-out artwork: a white ground needs no recoloured
-            version of anyone's logo, and asking four organisations for one would have been
-            asking for work nobody needs.
-
-            Radius is --radius-badge, per the locked scale in globals.css. Not
-            --radius-pill, which that scale reserves for the PillLink family: the two CTAs
-            directly above are pills, and giving the same shape to something inert would
-            read as two more buttons.
-
-            No shadow and no border. The locked elevation rule puts a hairline on content
-            cards, but --edge is a light grey meant for paper, and on green it would only
-            fog the chip's edge. White on this gradient separates on its own.
-          */}
-          {/* Pushed to the base of the block at lg, so it sits on the hero's floor. */}
-          <div className="mt-[var(--space-48)] border-t border-white/20 pt-[var(--space-28)] lg:mt-auto">
-            <p className="text-[0.8125rem] font-semibold tracking-[var(--tracking-body)] text-white/90">
-              Backed by 18 partners across two continents
-            </p>
-            {/*
-              Gap is smaller than the /partners strip's, deliberately. That strip sets bare
-              marks on an open page, where the gap is the only thing separating one from
-              the next. Here each chip carries its own padding, so the strip's value would
-              be counting the same separation twice and would push the row wider than the
-              copy column it sits under.
-            */}
-            <ul className="mt-[var(--space-16)] flex flex-wrap items-center gap-[var(--space-12)]">
-              {heroTrustPartners.map((partner) => (
-                <li
-                  key={partner.name}
-                  className="flex items-center rounded-[var(--radius-badge)] bg-white px-[var(--space-12)] py-[var(--space-8)]"
-                >
-                  <Image
-                    src={partner.logo.src}
-                    alt={partner.name}
-                    width={partner.logo.width}
-                    height={partner.logo.height}
-                    /* Height fixed, width auto: the marks run from a 0.77 portrait to a
-                       3.67 wordmark, so the chips vary in width and share a height. */
-                    className="h-6 w-auto object-contain"
-                  />
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
 
         {/* Right column: the image window, with floating cards from lg up. */}

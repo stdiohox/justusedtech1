@@ -17,12 +17,12 @@
  * documents for the team, not public programme copy. The workplan in particular was removed
  * from this site once before for exactly that reason.
  *
- * SkillSync's entry is deliberately thin. No project design document exists for it, and
- * content/programs.ts is explicit that nothing may be invented there, so its page carries
- * only what the brief already established: the partner, who the work is for, and what it
- * connects people to. It has no objectives grid, no targets, no activities, and no timeline,
- * because inventing any of those to fill the template is exactly what the rule forbids. The
- * page says so in `pending` rather than leaving the reader to wonder.
+ * SkillSync is still the thin one, but less so than it was. The 2026 organisation profile
+ * carries a real description of it, so its overview and objectives are now drawn from that
+ * document like every other programme's. What it still has no source for is numbers: no
+ * targets, no delivery timeline, and no dated results, which is what `pending` says. That
+ * absence is stated rather than filled, because content/programs.ts forbids inventing
+ * figures for this programme specifically.
  *
  * The GreenBin document describes both the running collection operation and the future
  * ecosystem. Only the operating half is here. Smart bins, GreenPoints, the entrepreneurship
@@ -632,11 +632,34 @@ export const programDetails: Record<string, ProgramDetail> = {
     tagline:
       "Support for emerging Nigerian creative talent, with entrepreneurship and income-generation pathways.",
     overview: [
-      "SkillSync works across Nigeria's creative economy, connecting emerging talent to entrepreneurship support and to routes for earning from their craft. It runs with the Office of the Special Assistant to the President on Art, Culture and the Creative Economy.",
-      "The programme sits alongside the device work rather than inside it. Where the Breakthrough Series answers the question of what a young person builds with a machine, SkillSync answers what a creative practitioner does with a skill they already have and no route to market.",
+      "SkillSync sets out to empower emerging creative talent in Nigeria. Its focus is the skills of indigenous creatives, and its aim is to nurture and empower the next generation of creative minds. It runs with the Office of the Special Assistant to the President on Art, Culture and the Creative Economy.",
+      "The programme seeks to provide opportunities for employment, entrepreneurship, and income generation, particularly for youth, women, and persons living with disabilities. Nigeria's creative industry has boundless possibilities for closing the unemployment gap, and through SkillSync the Office aims to strengthen employment in arts and culture, provide an entrepreneurship support programme, and make investments for innovation.",
+      "It sits alongside the device work rather than inside it. Where the Breakthrough Series answers what a young person builds with a machine, SkillSync answers what a creative practitioner does with a skill they already have and no route to market.",
+    ],
+    objectives: [
+      {
+        label: "Develop indigenous creative skill",
+        detail:
+          "Build the skills of indigenous creatives, nurturing and empowering the next generation of creative minds across Nigeria's creative industry.",
+      },
+      {
+        label: "Open routes to income",
+        detail:
+          "Provide opportunities for employment, entrepreneurship, and income generation from creative work.",
+      },
+      {
+        label: "Reach who is left out",
+        detail:
+          "Prioritise youth, women, and persons living with disabilities, the groups least served by existing routes into the creative economy.",
+      },
+      {
+        label: "Strengthen the sector",
+        detail:
+          "Strengthen employment in arts and culture through entrepreneurship support and investment for innovation.",
+      },
     ],
     pending:
-      "A full programme design for SkillSync has not been published yet, so this page carries no objectives, targets, activities, or timeline. Those will be added here when the document exists rather than estimated in the meantime.",
+      "SkillSync has no separate project design document, so this page carries no targets, delivery timeline, or dated results. Those will be added when the document exists rather than estimated in the meantime.",
     audience: {
       primary: [
         "Youth across Nigeria's creative economy",
