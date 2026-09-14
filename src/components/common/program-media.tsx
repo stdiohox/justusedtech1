@@ -9,13 +9,14 @@ import {
   Wrench,
   type LucideIcon,
 } from "lucide-react";
+import { PhotoPending } from "@/components/ui/photo-pending";
 import { cn } from "@/lib/utils";
 import type { ProgramStatus } from "@/content/programs";
 
 /*
   The media band at the top of a programme card.
 
-  Five programmes now have real photographs and take them. The rest keep the icon on a
+  Six programmes now have real photographs and take them. The rest keep the icon on a
   branded wash, which was the original treatment for the whole set while no photography had
   been delivered: obviously a graphic device, obviously not a photograph, so nothing here
   ever implies a stock image shows our sessions.
@@ -39,9 +40,9 @@ const PROGRAM_ICONS: Record<string, LucideIcon> = {
 
   Every file is the complete frame at its own aspect, and each band fills itself with
   object-cover, so what a card shows is a crop of the whole picture rather than a picture
-  fitted into a box. school_tour was trimmed above the JUSTUSED watermark burned into the
-  bottom of its source before anything else was done to it, rather than left for a crop
-  window to miss.
+  fitted into a box. school_tour and circular_tech_bootcamp were trimmed above the JUSTUSED
+  watermark burned into the bottom of their sources before anything else was done to them,
+  rather than left for a crop window to miss.
 
   Alt text describes what is in the frame and stops there, the same standard as the hero
   photograph: no names, and no claim about who any person pictured is or which programme
@@ -122,6 +123,24 @@ const PROGRAM_PHOTOS: Record<
   "skillsync-initiative": {
     src: "/programs/skillsync_initiative.jpg",
     alt: "Five people standing together for a photograph at a device handover event, with a desktop computer in front of them.",
+  },
+  "circular-tech-bootcamp": {
+    src: "/programs/circular_tech_bootcamp.jpg",
+    /*
+      /programs is the only surface this one renders on: the home bento takes the first five
+      active programmes and this is the sixth, so the panel band is the crop worth tuning and
+      the card and featured bands are theory. Worth knowing if the catalogue order changes.
+
+      The panel shows 51% of the file's height, and the frame spans more than that: the
+      standing figure's head sits at 2%, the seated faces at 42% to 58%, the board he is
+      holding at 56% to 73%, and the laptops on the table at 81%. No window that height holds
+      the head and the work at once, so it holds the work. 65% starts the window at 32%, which
+      keeps headroom above both seated faces and the whole board inside the frame; centred it
+      cut the board off at the bottom edge, and anything higher started slicing the faces to
+      buy back a head that a 2.79 band was never going to fit.
+    */
+    position: "object-[center_65%]",
+    alt: "Three people examining an opened laptop, one holding the chassis up by its exposed board while the others study it, with a slide about motherboards on the screen behind them.",
   },
 };
 
@@ -265,6 +284,28 @@ export function ProgramMedia({
           sizes={photoSizes}
           className={cn("object-cover", position)}
         />
+      </div>
+    );
+  }
+
+  /*
+    An upcoming programme has no photograph for a reason the reader can be told: it is a
+    concept at pitch stage, so the session it would show has not happened. PhotoPending says
+    that in the band, where the icon wash previously said nothing at all.
+
+    Scoped to upcoming deliberately. An active programme without a photograph has simply not
+    been shot yet, which is a different fact and not one this copy would state truthfully, so
+    that case keeps the icon wash below. onDark is excluded because it belongs to the home
+    bento's featured cell, which draws from activePrograms and can never be upcoming; the
+    guard is here so the combination cannot render an untested light panel on a green fill.
+
+    Same height and same hairline as every other band, so a programme moving onto this
+    treatment cannot shift the card beside it.
+  */
+  if (upcoming && !onDark) {
+    return (
+      <div className={cn(height, "overflow-hidden border-b border-edge", className)}>
+        <PhotoPending />
       </div>
     );
   }

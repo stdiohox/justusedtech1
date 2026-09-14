@@ -12,6 +12,12 @@ const nextConfig: NextConfig = {
       and 15.5 already warns on one, which is what surfaced this.
     */
     qualities: [75, 90],
+    /*
+      The ghost artwork in components/ui/ghost-404-page-1.tsx is loaded from 21st.dev's CDN,
+      and next/image throws on any host not listed here. Every other image on the site is a
+      local file under public/, so this is the only remote host in the build.
+    */
+    remotePatterns: [{ protocol: "https", hostname: "cdn.21st.dev" }],
   },
 };
 

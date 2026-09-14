@@ -4,6 +4,7 @@ import { PillLink } from "@/components/common/pill-button";
 import { ProgramMedia } from "@/components/common/program-media";
 import { Section, SectionHead, StatusBadge } from "@/components/common/primitives";
 import { Reveal } from "@/components/common/reveal";
+import { hasDetailPage } from "@/content/program-details";
 import {
   activePrograms,
   upcomingPrograms,
@@ -82,6 +83,39 @@ export default function ProgramsPage() {
 
 function ProgramPanel({ program, tone }: { program: Program; tone: number }) {
   const upcoming = program.status === "upcoming";
+
+  /*
+    Whether the right-hand rail has anything to hold. Four programmes carry a target, dated
+    results, or running totals; SkillSync, Circular Tech Bootcamp, and the GreenBin ecosystem
+    carry none of the three, and content/programs.ts is explicit that no figures may be
+    invented for them. So the rail cannot be filled with new content, only with content the
+    panel already has.
+  */
+  const hasRail = Boolean(program.target || program.results || program.stats);
+  const detailed = hasDetailPage(program.slug);
+
+  /*
+    The body prose, rendered into whichever column needs it.
+
+    With a rail it stays under the summary on the left, which is the layout every panel has
+    always had and which is left untouched. Without one it moves across, so a rail-less panel
+    keeps the same two-column silhouette as its neighbours and fills the right side with real
+    copy instead of half a card of air. Lede on the left, prose on the right, which is an
+    ordinary editorial split rather than a special case invented for three panels.
+
+    The two shapes this beat: centring the prose at a narrow measure, which makes those panels
+    a visibly different object partway down a stacked list, and letting the prose span the
+    full panel, which runs the line measure to about 1170px and well past reading width.
+  */
+  const body = program.body.map((para) => (
+    <p
+      key={para.slice(0, 24)}
+      className="text-[0.9375rem] leading-relaxed text-ink-soft text-pretty"
+    >
+      {para}
+    </p>
+  ));
+
   return (
     <article
       id={program.slug}
@@ -104,14 +138,21 @@ function ProgramPanel({ program, tone }: { program: Program; tone: number }) {
           <p className="mt-4 text-[1.0625rem] leading-relaxed font-semibold text-ink text-pretty">
             {program.summary}
           </p>
-          {program.body.map((para) => (
-            <p
-              key={para.slice(0, 24)}
-              className="mt-4 text-[0.9375rem] leading-relaxed text-ink-soft text-pretty"
-            >
-              {para}
-            </p>
-          ))}
+          {hasRail && <div className="mt-4 space-y-4">{body}</div>}
+
+          {/*
+            Learn more, on every programme that has a detail page to reach. The one that does
+            not is GreenBin 360 Smart Bin Ecosystem, which is a concept at pitch stage: there
+            is no programme to describe at length, and a link promising more detail would be
+            promising something that does not exist.
+          */}
+          {detailed && (
+            <div className="mt-7">
+              <PillLink href={`/programs/${program.slug}`} variant="outline">
+                Learn more
+              </PillLink>
+            </div>
+          )}
         </div>
 
         <div className="lg:pt-1">
@@ -171,13 +212,12 @@ function ProgramPanel({ program, tone }: { program: Program; tone: number }) {
             </div>
           )}
 
-          {!program.target && !program.results && !program.stats && (
-            <p className="text-[0.875rem] leading-relaxed font-semibold text-ink-faint">
-              {upcoming
-                ? "Not yet running. No results to report."
-                : "No dated results published for this programme yet."}
-            </p>
-          )}
+          {/*
+            No rail, so the body prose takes this column. What used to sit here was a line
+            announcing the absence, which told the reader something the empty column already
+            said, and which the Upcoming badge above says again for a programme not running.
+          */}
+          {!hasRail && <div className="space-y-4">{body}</div>}
         </div>
       </div>
     </article>

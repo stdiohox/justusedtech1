@@ -4,6 +4,7 @@ import { PillLink } from "@/components/common/pill-button";
 import { ProgramMedia } from "@/components/common/program-media";
 import { SectionHead, StatusBadge } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
+import { hasDetailPage } from "@/content/program-details";
 import { activePrograms } from "@/content/programs";
 import { cn } from "@/lib/utils";
 
@@ -91,7 +92,13 @@ function ProgramCard({
     : (program.results ?? program.stats);
   return (
     <Link
-      href={`/programs#${program.slug}`}
+      /*
+        The detail page, not the anchor on /programs. Every card in this bento comes from
+        activePrograms and every active programme has a page, so there is no case here where
+        this resolves to nothing. Checked with hasDetailPage rather than assumed, because the
+        catalogue is what would change first.
+      */
+      href={hasDetailPage(program.slug) ? `/programs/${program.slug}` : `/programs#${program.slug}`}
       className={cn(
         "group/card card card-flush flex h-full flex-col",
         "transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1",
@@ -150,15 +157,23 @@ function ProgramCard({
             status={program.status}
             className={featured ? "bg-white text-brand-green-dark" : undefined}
           />
-          <ArrowUpRight
+          {/*
+            The arrow used to sit here alone. It now carries a label, because the cards point
+            at a detail page per programme rather than at an anchor further down /programs,
+            and a bare glyph does not say that a whole page is behind it. Both move together
+            on hover, so the affordance still reads as one object.
+          */}
+          <span
             className={cn(
-              "size-5 shrink-0 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]",
+              "flex shrink-0 items-center gap-1.5 text-[0.8125rem] font-bold",
+              "transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]",
               "group-hover/card:translate-x-0.5 group-hover/card:-translate-y-0.5",
-              featured ? "text-white/70" : "text-ink-faint",
+              featured ? "text-white/80" : "text-ink-faint",
             )}
-            strokeWidth={1.75}
-            aria-hidden
-          />
+          >
+            Learn more
+            <ArrowUpRight className="size-4" strokeWidth={2} aria-hidden />
+          </span>
         </div>
 
         <h3
