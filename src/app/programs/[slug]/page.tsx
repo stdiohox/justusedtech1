@@ -153,17 +153,42 @@ export default async function ProgramDetailPage({ params }: Params) {
           </div>
         </Reveal>
 
+        {/*
+          The overview reads as a lede beside its own body, not as one narrow column.
+
+          It used to be a single max-w-[60ch] stack. At 60 characters inside a 1226px shell
+          that fills a little under half the width and leaves the rest of the band empty, so
+          the section read as text pushed to one side rather than as a measured column. The
+          fix is the one the /programs panels already use: the opening paragraph takes the
+          left at lede weight, the rest flow down the right, and both halves carry real copy.
+
+          The measure is still protected. Each column is roughly half the shell, so neither
+          runs past a comfortable line length; widening the original block would have fixed
+          the balance by breaking the thing the cap was there to protect.
+        */}
         <Reveal className="mt-14">
-          <div className="max-w-[60ch] space-y-5">
-            {detail.overview.map((para) => (
-              <p
-                key={para.slice(0, 24)}
-                className="text-[1.0625rem] leading-relaxed text-ink-soft text-pretty"
-              >
-                {para}
+          {detail.overview.length > 1 ? (
+            <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">
+              <p className="text-[1.25rem] leading-[1.6] font-semibold text-ink text-pretty">
+                {detail.overview[0]}
               </p>
-            ))}
-          </div>
+              <div className="space-y-5">
+                {detail.overview.slice(1).map((para) => (
+                  <p
+                    key={para.slice(0, 24)}
+                    className="text-[1.0625rem] leading-relaxed text-ink-soft text-pretty"
+                  >
+                    {para}
+                  </p>
+                ))}
+              </div>
+            </div>
+          ) : (
+            /* One paragraph has nothing to sit beside, so it keeps the single measure. */
+            <p className="max-w-[60ch] text-[1.0625rem] leading-relaxed text-ink-soft text-pretty">
+              {detail.overview[0]}
+            </p>
+          )}
         </Reveal>
 
         {/*
