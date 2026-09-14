@@ -69,6 +69,24 @@ const OBJECTIVE_ICONS: Record<string, LucideIcon[]> = {
   "circular-tech-bootcamp": [Cpu, Leaf, Lightbulb, Recycle],
 };
 
+/**
+ * Column span for one objective cell, so the grid tiles instead of ending on a hole.
+ *
+ * The lead cell is double width, which makes the run `count + 1` units wide against a
+ * three-column grid. Every programme currently has four objectives, so that was 5 units in a
+ * grid that fills in multiples of 3, and the last row ended with one empty cell sitting
+ * beside the final card.
+ *
+ * Widening the last cell closes it: 5 units becomes 6. The remainder is computed rather than
+ * hard-coded to four, so a programme with three or five objectives tiles too.
+ */
+function bentoSpan(index: number, count: number) {
+  if (index === 0) return "sm:col-span-2";
+  const units = count + 1;
+  if (index === count - 1 && units % 3 === 2) return "sm:col-span-2";
+  return undefined;
+}
+
 export default async function ProgramDetailPage({ params }: Params) {
   const { slug } = await params;
   const program = programs.find((p) => p.slug === slug);
@@ -206,7 +224,7 @@ export default async function ProgramDetailPage({ params }: Params) {
           </Reveal>
           <Reveal className="mt-12">
             <BentoGrid>
-              {detail.objectives.map((objective, i) => (
+              {detail.objectives.map((objective, i, all) => (
                 <BentoCard
                   key={objective.label}
                   name={objective.label}
@@ -214,7 +232,7 @@ export default async function ProgramDetailPage({ params }: Params) {
                   Icon={icons[i % icons.length]}
                   /* One weighted cell per grid, and it leads. */
                   tone={i === 0 ? "mint" : "paper"}
-                  className={i === 0 ? "sm:col-span-2" : undefined}
+                  className={bentoSpan(i, all.length)}
                 />
               ))}
             </BentoGrid>
