@@ -39,3 +39,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Raw photo drop-ins at the public/ root.
+# Every asset the site actually serves lives in a subfolder (brand, hero, partners,
+# programs, about) and is committed. These are the untouched camera originals dropped
+# here before processing: ~97MB against 6MB of derived assets, and they would also be
+# served publicly at URLs containing spaces. Keep them locally, out of git history.
+/public/*.jpg
+/public/*.jpeg
+/public/*.JPG
+/public/*.JPEG
+/public/*.png
+/public/*.PNG

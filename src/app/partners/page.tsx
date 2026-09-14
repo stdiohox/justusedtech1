@@ -4,6 +4,7 @@ import { PillLink } from "@/components/common/pill-button";
 import { Section, SectionHead, TagPill } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
 import { PartnerMark } from "@/components/common/partner-mark";
+import { PartnerSphere } from "@/components/sections/partner-sphere";
 import { nigeriaPartners, usPartners, type Partner } from "@/content/partners";
 
 export const metadata: Metadata = {
@@ -19,6 +20,7 @@ export default function PartnersPage() {
         eyebrow="Partners"
         title="Eighteen organisations, two continents, one pipeline."
         lede="Collection partners supply the hardware. Delivery partners get it to the people who need it. Both lists below are current."
+        media={<PartnerSphere />}
       />
 
       <Section tone="white">

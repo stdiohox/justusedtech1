@@ -478,6 +478,176 @@
     );
     height: 1px;
   }
+
+  /*
+    Photo mosaic tiles on the About masthead. See components/ui/photo-showcase.tsx.
+
+    The whole treatment is scoped to `@media (hover: hover)` on purpose. Greyscale that
+    resolves on hover is a reveal on a pointer device and a dead end on a phone, where the
+    reader would simply never see the photographs in colour. Touch devices get no filter and
+    no dimming at all, which is the correct fallback rather than a lesser version of one.
+
+    Greyscale rests at brightness 0.94 rather than the 0.77 the source component uses. These
+    are group photographs shot indoors and in overcast Lagos daylight, not lit headshots, and
+    a quarter of the brightness off them puts faces into mud. The contrast nudge keeps the
+    monochrome from going flat at that brightness.
+
+    filter and transform only, both compositor-friendly. 420ms is slow enough that colour
+    arriving reads as a fade rather than a switch, and the same bezier the route lines draw
+    on keeps the scale settled rather than bouncy: nothing here was thrown, so nothing here
+    should overshoot.
+  */
+  .showcase-photo img {
+    transition:
+      filter 420ms ease-out,
+      transform 420ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  @media (hover: hover) {
+    .showcase-photo {
+      transition: opacity 300ms ease-out;
+    }
+
+    .showcase-photo img {
+      filter: grayscale(1) brightness(0.94) contrast(1.04);
+    }
+
+    .showcase-photo.is-active img {
+      filter: none;
+      transform: scale(1.03);
+    }
+
+    /* Quieter than the label rows drop to: a dimmed photograph is already greyscale. */
+    .showcase-photo.is-dimmed {
+      opacity: 0.62;
+    }
+  }
+
+  /*
+    Reduced motion keeps the colour and the dimming, which are what tell you which row you
+    are on, and drops the scale, which is the only part that moves.
+  */
+  @media (prefers-reduced-motion: reduce) {
+    .showcase-photo.is-active img {
+      transform: none;
+    }
+  }
+
+  /*
+    Vision and mission switcher. See components/ui/statement-switcher.tsx.
+
+    Every pane is mounted and stacked in one grid cell, so a switch is two panes crossing
+    rather than one element changing its text. Crossing panes read as two objects overlapping
+    unless something blends them, which is what the 4px blur is doing: it costs nothing at
+    this size, stays far below the point where Safari starts hurting, and it is the
+    difference between a swap and a dissolve.
+
+    Out in 150ms, in over 280ms. The reader asked for the new statement, so the old one
+    should get out of the way faster than the new one arrives.
+  */
+  .statement-pane {
+    opacity: 0;
+    transform: translateY(8px);
+    filter: blur(4px);
+    pointer-events: none;
+    transition:
+      opacity 150ms ease-out,
+      transform 150ms ease-out,
+      filter 150ms ease-out;
+  }
+
+  .statement-pane.is-active {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+    pointer-events: auto;
+    transition-duration: 280ms;
+  }
+
+  /*
+    The thumb carries the whole sense of position, so it gets the site's own draw curve
+    rather than a stock ease: it leaves immediately and settles long, which reads as a
+    control being moved rather than a colour being changed somewhere else.
+  */
+  .statement-thumb {
+    transition: transform 300ms cubic-bezier(0.32, 0.72, 0, 1);
+  }
+
+  .statement-tab {
+    transition: color 180ms ease;
+  }
+
+  .statement-step {
+    transition:
+      transform 150ms ease-out,
+      border-color 180ms ease,
+      background-color 180ms ease,
+      color 180ms ease;
+  }
+
+  /* Presses read on the button itself, not a quarter second later somewhere else. */
+  .statement-step:active:not(:disabled) {
+    transform: scale(0.94);
+  }
+
+  /*
+    Reduced motion keeps the cross-fade and the colours, which are what say the statement
+    changed, and drops the travel: no rise on the pane, no blur, and the thumb moves to its
+    new slot without sliding there.
+  */
+  @media (prefers-reduced-motion: reduce) {
+    .statement-pane {
+      transform: none;
+      filter: none;
+    }
+
+    .statement-thumb {
+      transition-duration: 1ms;
+    }
+
+    .statement-step:active:not(:disabled) {
+      transform: none;
+    }
+  }
+
+  /*
+    Sequenced arrival for a list. See components/ui/animated-list.tsx.
+
+    The resting state is visible, exactly as `.rise` is: the animation is added only once the
+    list has been seen and JavaScript is there to add the class, and `backwards` holds each
+    item at the keyframe's start through its own delay. Nothing here is what makes the
+    content present, so nothing here can stop it being present.
+
+    From 0.97 and 10px above, not from scale(0). Things do not arrive out of nowhere, and an
+    item that grows from a point reads as a balloon inflating rather than a card dropping
+    into a stack.
+
+    240ms between items is the sequence, so it is deliberately longer than a decorative
+    stagger: this is three steps of a pipeline in order, and the order is the content. Three
+    items are done in under a second either way.
+  */
+  @keyframes jut-arrive {
+    from {
+      opacity: 0;
+      transform: translate3d(0, -10px, 0) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .animated-list.is-arriving > .animated-list-item {
+    animation: jut-arrive 380ms cubic-bezier(0.32, 0.72, 0, 1) backwards;
+    animation-delay: calc(var(--arrive-index, 0) * var(--arrive-step, 240ms));
+  }
+
+  /* Reduced motion gets the finished list, which is the state the animation was heading to. */
+  @media (prefers-reduced-motion: reduce) {
+    .animated-list.is-arriving > .animated-list-item {
+      animation: none;
+    }
+  }
 }
 
 @layer utilities {
