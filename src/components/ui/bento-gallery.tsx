@@ -145,7 +145,7 @@ export function BentoGallery({
       </div>
 
       <p className="mt-2 text-[0.8125rem] text-ink-faint">
-        Drag or scroll to see all {photos.length}. Select a frame to open it.
+        Drag or scroll for more. Select a frame to open it.
       </p>
 
       <Lightbox photos={photos} index={open} onClose={() => setOpen(null)} onIndexChange={setOpen} />

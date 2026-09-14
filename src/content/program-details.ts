@@ -55,6 +55,15 @@ export type ProgramDetail = {
   sdgs?: { code: string; detail: string }[];
   gallery?: { src: string; alt: string }[];
   /**
+   * The line under "From the field".
+   *
+   * Written per programme, about what is actually in that programme's frames. It replaced a
+   * generated line that counted the photographs and then explained how to work the widget,
+   * which told the reader two things they could already see and nothing about the pictures.
+   * How to work the widget still gets said, once, by the gallery itself underneath.
+   */
+  galleryLede?: string;
+  /**
    * Which gallery treatment this programme's photographs get.
    *
    * Four styles, one per programme, so the pages do not all move alike. The choice is not
@@ -217,6 +226,8 @@ export const programDetails: Record<string, ProgramDetail> = {
         alt: "Black and white photograph of students at classroom desks leaning over open exercise books.",
       },
     ],
+    galleryLede:
+      "School compounds, classrooms, and the crowd that forms the moment the team walks in.",
     galleryStyle: "elastic",
   },
 
@@ -326,6 +337,8 @@ export const programDetails: Record<string, ProgramDetail> = {
         alt: "Two people sharing a laptop at a table, one of them typing.",
       },
     ],
+    galleryLede:
+      "Handover days, mentoring tables, and the first hours somebody spends on a machine that is now theirs.",
     galleryStyle: "accordion",
   },
 
@@ -451,6 +464,8 @@ export const programDetails: Record<string, ProgramDetail> = {
         alt: "People moving between wooden canoes at a waterfront community, with stilt houses behind them.",
       },
     ],
+    galleryLede:
+      "Boots being fitted on the touchline, kit laid out across the sand, and the match that follows.",
     galleryStyle: "bento",
   },
 
@@ -549,6 +564,8 @@ export const programDetails: Record<string, ProgramDetail> = {
         alt: "Two people packing a box at an outdoor collection table.",
       },
     ],
+    galleryLede:
+      "Collection days across St. Louis, and the room where all of it lands before anything is repaired.",
     galleryStyle: "mosaic",
   },
 
@@ -576,6 +593,7 @@ export const programDetails: Record<string, ProgramDetail> = {
         alt: "Five people standing together for a photograph at a device handover event, with a desktop computer in front of them.",
       },
     ],
+    galleryLede: "From a handover event.",
   },
 
   /* ---------------------------------------------------------------- */
@@ -698,6 +716,7 @@ export const programDetails: Record<string, ProgramDetail> = {
         alt: "Three people examining an opened laptop, one holding the chassis up by its exposed board while the others study it, with a slide about motherboards on the screen behind them.",
       },
     ],
+    galleryLede: "Inside a session, on a machine that is headed back out to somebody.",
   },
 };
 

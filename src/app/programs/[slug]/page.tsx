@@ -69,15 +69,6 @@ const OBJECTIVE_ICONS: Record<string, LucideIcon[]> = {
   "circular-tech-bootcamp": [Cpu, Leaf, Lightbulb, Recycle],
 };
 
-function GALLERY_LEDE(count: number, style: ProgramDetail["galleryStyle"]) {
-  if (count < 2) return "A photograph from the programme.";
-  if (style === "bento")
-    return `${count} photographs from sessions and events. Drag or scroll the strip, and select a frame to open it.`;
-  if (style === "mosaic")
-    return `${count} photographs from collection events and the refurbishment floor. Select any frame to open it.`;
-  return `${count} photographs from sessions and events. Hover a panel to open it in place.`;
-}
-
 export default async function ProgramDetailPage({ params }: Params) {
   const { slug } = await params;
   const program = programs.find((p) => p.slug === slug);
@@ -348,11 +339,12 @@ export default async function ProgramDetailPage({ params }: Params) {
             <SectionHead
               title="From the field"
               /*
-                The lede describes the gallery the reader is actually looking at. One line
-                for all four styles told a mosaic reader to hover something that opens on
-                click, and a bento reader to hover a strip that scrolls.
+                Copy about the photographs, written per programme. It is not generated from
+                the count and the gallery style any more: that line counted the frames the
+                reader can see and then explained the widget, which the gallery says for
+                itself underneath.
               */
-              lede={GALLERY_LEDE(detail.gallery.length, detail.galleryStyle)}
+              lede={detail.galleryLede}
             />
           </Reveal>
           <Reveal className="mt-12">
