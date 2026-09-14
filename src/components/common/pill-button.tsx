@@ -64,7 +64,23 @@ type BaseProps = {
   Reduced motion gets the end state instantly rather than no state change. That is the call
   this codebase already made for the programme card's hover lift: what the setting asks us to
   remove is the travel between two states, not the fact that hovering changes something.
+
+  On the easing, which is the one place this deliberately leaves the house curve.
+
+  Everything else on the site moves on cubic-bezier(0.32, 0.72, 0, 1), a hard ease-out that
+  is right for the distances it was chosen for: a 2px card lift, a half-pixel icon nudge, a
+  panel sliding its own height. Over those, front-loading the motion reads as responsive.
+
+  This disc crosses about 150px. Measured on that curve it was 82% of the way there at 150ms
+  of a 500ms transition, then spent the remaining 350ms covering the last 18%. That is a snap
+  followed by a drift, and it is what made this feel less smooth than the reference rather
+  than more. TRAVEL_EASE is the symmetric ease-in-out the reference uses, which accelerates
+  and decelerates evenly and holds a constant-looking speed across the middle of the move.
+
+  Applied to the travel only. Buttons that are not travelling keep the house curve, so this
+  is an exception earned by one long distance, not a new default.
 */
+const TRAVEL_EASE = "ease-[cubic-bezier(0.4,0,0.2,1)]";
 function classes(
   variant: Variant,
   bare: boolean,
@@ -73,7 +89,8 @@ function classes(
 ) {
   return cn(
     "group/pill inline-flex items-center rounded-full font-bold tracking-[-0.01em]",
-    "text-[0.9375rem] leading-none transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]",
+    "text-[0.9375rem] leading-none transition-all duration-500",
+    travel ? TRAVEL_EASE : "ease-[cubic-bezier(0.32,0.72,0,1)]",
     "active:scale-[0.98] motion-reduce:transition-none",
     travel
       ? [
@@ -104,14 +121,15 @@ function Inner({
   if (travel) {
     return (
       <>
-        <span className="relative z-10 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none">
+        <span className={cn("relative z-10 transition-all duration-500 motion-reduce:transition-none", TRAVEL_EASE)}>
           {children}
         </span>
         <span
           className={cn(
             "absolute top-1 right-1 flex size-10 items-center justify-center rounded-full",
-            "transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]",
-            "motion-reduce:transition-none",
+            /* Only the two properties that move, so nothing else is dragged onto the curve. */
+            "transition-[right,transform] duration-500 motion-reduce:transition-none",
+            TRAVEL_EASE,
             /* 2.75rem is the 0.25rem inset plus the 2.5rem disc. */
             "[@media(hover:hover)]:group-hover/pill:right-[calc(100%-2.75rem)]",
             "[@media(hover:hover)]:group-hover/pill:rotate-45",
