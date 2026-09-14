@@ -63,19 +63,19 @@ export function ProgramsPreview() {
   );
 }
 
-/**
- * Programmes whose figures are withheld from the home bento specifically.
- *
- * Breakthrough Series is here because its only result is one named individual's story. That
- * is established, verified content and it stays on /programs, where it has always been: this
- * is not a retraction. What it should not get is the extra prominence of the home page, and
- * a card wide enough for figures is not a reason to promote a person's story onto it.
- *
- * Scoped here rather than in content/programs.ts on purpose. The data is fine; it is this
- * one surface that should not carry it, so the rule belongs to the surface. Anything added
- * here needs the same kind of reason, not just a wish for a tidier card.
- */
-const HOME_FIGURES_WITHHELD = new Set(["breakthrough-series"]);
+/*
+  There was a HOME_FIGURES_WITHHELD set here, holding one slug.
+
+  It existed to keep Breakthrough Series' figures off the home bento, because its only
+  result was a named individual's story and a card wide enough for figures is not a reason
+  to promote a person onto the home page. That result has since been removed from the
+  catalogue at the client's request, so the set had nothing left to withhold: with no
+  results and no stats the card renders no figures either way, and the check was dead.
+
+  Worth knowing if per-surface suppression is wanted again. The reasoning above was the bar
+  for adding a slug, and it should stay the bar: a real reason a surface must not carry
+  something, not a wish for a tidier card.
+*/
 
 function ProgramCard({
   program,
@@ -87,9 +87,7 @@ function ProgramCard({
   featured?: boolean;
 }) {
   /* No card-quiet branch: every cell here comes from activePrograms now. */
-  const metrics = HOME_FIGURES_WITHHELD.has(program.slug)
-    ? undefined
-    : (program.results ?? program.stats);
+  const metrics = program.results ?? program.stats;
   return (
     <Link
       /*

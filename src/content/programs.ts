@@ -70,13 +70,15 @@ export const programs: Program[] = [
     body: [
       "A device on its own rarely changes a trajectory. The Breakthrough Series pairs each refurbished machine with mentorship and a platform to tell the story of what gets built with it.",
     ],
-    results: [
-      {
-        label: "Faith Ojo, University of Lagos",
-        detail:
-          "A student interested in video editing and digital storytelling received one refurbished laptop in 2025, enabling consistent skill development.",
-      },
-    ],
+    /*
+      No `results`. The only entry was a named individual's 2025 story, removed at the
+      client's request. Nothing replaced it: the programme's other 2025 figures are targets
+      rather than delivery, and those live in content/program-details.ts under `targets`
+      where they are labelled as plans.
+
+      The same person is still written up at length in content/voices.ts. That is a separate
+      surface and a separate decision, flagged rather than assumed.
+    */
   },
   {
     slug: "project-9-12",
