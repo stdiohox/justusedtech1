@@ -255,8 +255,8 @@ export const programDetails: Record<string, ProgramDetail> = {
       "Refurbished devices, mentorship, and documented journeys for underserved youth aged 18 to 35.",
     overview: [
       "Digital exclusion compounds. Without a device a young person cannot build digital skills. Without the skills they cannot reach income. Without income they cannot afford the device. The Breakthrough Series exists to break that loop at the point where it is cheapest to break: the machine itself.",
-      "A device on its own rarely changes a trajectory, so each one is paired with structured mentorship from industry professionals, freelancers, and digital career coaches. Recipients are identified through social media campaigns, school partnerships, and referrals from youth organisations, with selection prioritising underserved youth, women in technology, and unemployed graduates.",
-      "The programme also documents. Each recipient's journey is followed from selection through to early outcomes, in their own words, so the work can be evidenced rather than asserted.",
+      "A laptop on its own is rarely enough, so each one is paired with structured mentorship from industry professionals, freelancers, and digital career coaches. Recipients are found through social media campaigns, school partnerships, and referrals from youth organisations, and selection prioritises underserved youth, women in technology, and unemployed graduates.",
+      "Then the team follows up. Recipients are surveyed and called at three and six months to record what they have built, learned, or earned, and their account of it is filmed and edited into a short documentary and social cuts.",
     ],
     objectives: [
       {
@@ -377,7 +377,7 @@ export const programDetails: Record<string, ProgramDetail> = {
     overview: [
       "Young people in underserved communities face a double barrier: no equipment, and no structured programme to use it in. Sports materials sit financially out of reach for most families, schools have nothing to lend, and usable gear elsewhere is routinely thrown away rather than passed on.",
       "Project 9-12 closes that distribution gap. Working with Passback, an organisation that specialises in collecting and redistributing used sports equipment, JustUsedTech receives, sorts, and quality-assesses donated gear, then puts it into the hands of schools and communities through a collect, refurbish, and distribute model.",
-      "Sport opens the door and technology access follows. The events double as platforms for talent identification and community cohesion, with reuse and responsible consumption built into the messaging rather than bolted on.",
+      "The events are not only distributions. Coaches use them to spot players worth developing, and the sessions carry the same reuse and responsible consumption message the school tours do, on the grounds that the gear being handed out is itself second hand.",
     ],
     objectives: [
       {

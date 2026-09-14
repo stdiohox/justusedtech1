@@ -34,7 +34,7 @@ export const programs: Program[] = [
     summary:
       "E-waste literacy and digital awareness sessions delivered inside Lagos schools.",
     body: [
-      "We take the circular economy into classrooms. Sessions cover what happens to a device at the end of its first life, why e-waste matters where students live, and how digital skills open a path forward.",
+      "We take the circular economy into classrooms. Sessions cover what happens to a device at the end of its first life, why e-waste matters in the neighbourhood students live in, and what responsible disposal involves in practice.",
     ],
     target:
       "1,000 students across 10 schools in 12 months, with a 60% literacy improvement measured pre and post session.",
@@ -67,8 +67,16 @@ export const programs: Program[] = [
     status: "active",
     summary:
       "Refurbished device distribution paired with mentorship and storytelling for underserved youth aged 18 to 35.",
+    /*
+      Rewritten in plain terms. The previous line ran "A device on its own rarely changes a
+      trajectory. The Breakthrough Series pairs each refurbished machine with mentorship and
+      a platform to tell the story of what gets built with it." Grammatical, but it said
+      almost nothing: "changes a trajectory" and "a platform to tell the story of what gets
+      built with it" are both abstractions standing in for facts the concept note states
+      outright. This says what actually happens and when.
+    */
     body: [
-      "A device on its own rarely changes a trajectory. The Breakthrough Series pairs each refurbished machine with mentorship and a platform to tell the story of what gets built with it.",
+      "A laptop on its own is rarely enough. Each machine goes out with mentorship from people already working in digital fields, and the team checks back at three and six months to record what the recipient has been able to do with it.",
     ],
     /*
       No `results`. The only entry was a named individual's 2025 story, removed at the
@@ -87,7 +95,7 @@ export const programs: Program[] = [
     partner: "Passback",
     summary: "Sports gear and technology access for young people aged 10 to 18.",
     body: [
-      "Run with Passback, Project 9-12 meets young people where they already gather. Sport opens the door, and technology access follows.",
+      "Passback collects used sports equipment and sends it on. JustUsedTech sorts it by condition, distributes what is usable through schools and community events, and runs the clinics and tournaments those distributions happen at.",
     ],
     results: [
       {
