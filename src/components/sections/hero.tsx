@@ -1,6 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { PillLink } from "@/components/common/pill-button";
 import { OrbitBackdrop } from "@/components/sections/orbit-backdrop";
 
@@ -92,21 +90,23 @@ export function Hero() {
             Filled primary plus ghost-outlined secondary: the standard two-button pair,
             expressed white-on-green rather than ink-on-white.
           */}
-          <div className="mt-[var(--space-48)] flex flex-wrap items-center gap-[var(--space-16)]">
-            <PillLink href="/get-involved#donate-devices" variant="onDark">
+          {/*
+            Set lower than the copy block needs, on purpose. At --space-48 the pair sat
+            tight under the paragraph and read as a third line of it; the wider gap lets the
+            hero breathe and gives the buttons their own footing.
+
+            Both take `travel`, so they behave as one pair. The secondary used to be a
+            hand-rolled Link with an inline arrow, which meant the two CTAs beside each other
+            were two different components with two different hover behaviours. It is a
+            PillLink on the new ghostOnDark variant now, so the disc crosses on both.
+          */}
+          <div className="mt-[var(--space-64)] flex flex-wrap items-center gap-[var(--space-16)]">
+            <PillLink href="/get-involved#donate-devices" variant="onDark" travel>
               Donate a device
             </PillLink>
-            <Link
-              href="/impact"
-              className="group/link inline-flex items-center gap-[var(--space-8)] rounded-full border border-[rgba(255,255,255,0.7)] px-[var(--space-24)] py-[var(--space-12)] text-[0.9375rem] leading-none font-semibold tracking-[var(--tracking-body)] text-white transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-white/10"
-            >
+            <PillLink href="/impact" variant="ghostOnDark" travel>
               See our impact
-              <ArrowRight
-                className="size-4 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover/link:translate-x-1"
-                strokeWidth={2.25}
-                aria-hidden
-              />
-            </Link>
+            </PillLink>
           </div>
 
         </div>
