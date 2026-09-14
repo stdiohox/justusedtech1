@@ -23,9 +23,13 @@ import { OrbitBackdrop } from "@/components/sections/orbit-backdrop";
  * the only thing a further re-export would change.
  *
  * On the floating cards. Card A originally read "Laptop #482 / Today", which asserts a
- * specific delivery that did not happen. The visual pattern is unchanged, but every
- * string now comes from the confirmed 2025 figures: Gbagada Junior High is a real School
- * Tour Initiative site with 60+ students reached.
+ * specific delivery that did not happen. The visual pattern is unchanged, but every string
+ * comes from confirmed figures.
+ *
+ * It no longer names one school. The card read "Gbagada Junior High / 60+ students
+ * reached", and the 60+ is not attributable to that school in anything supplied: the
+ * organisation profile gives 100+ students across the three 2025 sites as a single figure.
+ * The card now reports it the same way the source does.
  */
 export function Hero() {
   return (
@@ -194,14 +198,14 @@ export function Hero() {
                     aria-hidden
                     className="size-2 shrink-0 rounded-full bg-brand-green"
                   />
-                  Devices delivered
+                  School tour sessions
                 </p>
                 <p className="mt-2 text-[0.875rem] leading-snug font-semibold text-ink-soft">
-                  Gbagada Junior High, Lagos
+                  Three schools across Lagos State
                 </p>
                 {/* ink-soft, not ink-faint: the lighter token loses AA on the glass fill. */}
                 <p className="mt-1.5 text-[0.75rem] font-bold text-ink-soft">
-                  60+ students reached
+                  100+ students reached in 2025
                 </p>
               </FloatingCard>
 

@@ -38,13 +38,27 @@ export const programs: Program[] = [
     ],
     target:
       "1,000 students across 10 schools in 12 months, with a 60% literacy improvement measured pre and post session.",
+    /*
+      Restated against the 2026 organisation profile, which gives the 2025 reach as three
+      named schools, over 100 students engaged, and 5 refurbished laptops donated.
+
+      The per-school split that used to sit here credited 100+ to Lagos City School and 60+
+      to Gbagada Junior High, which sums to 160+ against a source that says 100+ in total.
+      Neither number was attributable to a single school in anything supplied, so the count
+      is reported the way the profile reports it: once, across the three sites.
+    */
     results: [
       {
-        label: "Whanyinna School, Makoko",
-        detail: "Session delivered and 5 laptops donated.",
+        label: "Three schools reached",
+        detail:
+          "Whanyinna School in Makoko, Lagos City School, and Gbagada Junior High School.",
       },
-      { label: "Lagos City School", detail: "100+ students reached." },
-      { label: "Gbagada Junior High", detail: "60+ students reached." },
+      {
+        label: "100+ students",
+        detail:
+          "Engaged in structured e-waste and digital sustainability sessions.",
+      },
+      { label: "5 laptops", detail: "Refurbished laptops donated." },
     ],
   },
   {
@@ -76,7 +90,12 @@ export const programs: Program[] = [
     results: [
       {
         label: "Phase 1, June 2025, Lagos District IV",
-        detail: "5 schools, 200+ students engaged, 5 laptops awarded.",
+        /*
+          The five schools are named rather than counted. The profile lists them, and a
+          named school is a checkable claim where "5 schools" is only an assertion.
+        */
+        detail:
+          "200+ students engaged across Mainland Senior High School, Lagos City Senior School, Mobolaji Bank Anthony High School, Saint Francis Junior Grammar School, and Akoka Junior Grammar School. 5 laptops awarded and upcycled sports gear donated.",
       },
       {
         label: "Phase 2, August 2025, Makoko",
