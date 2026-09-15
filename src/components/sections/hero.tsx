@@ -55,12 +55,12 @@ export function Hero() {
           would otherwise sit high against a square that is itself centred in the row.
         */}
         {/*
-          The bottom padding is what sets how low the block sits. With justify-center the
-          content centres in the column minus this padding, so every pixel taken off it moves
-          the whole block down by half that. It came down from 80px to 48px to drop the CTAs
-          further without opening a gap the copy would have to stretch across.
+          justify-center is gone: with mt-auto on the button row the leftover space is already
+          spoken for, and centring on top of it would only fight the same pixels. The copy
+          sits at the top of the column, the buttons at the bottom, and pb-12 is the footing
+          left under them.
         */}
-        <div className="max-w-[640px] lg:flex lg:flex-col lg:justify-center lg:pb-12">
+        <div className="max-w-[640px] lg:flex lg:flex-col lg:pb-12">
           {/*
             Not "Tech access for Africa". Africa is where devices are redistributed, but it
             is half the model at most: collection, refurbishment, and the warehouse are in
@@ -107,12 +107,16 @@ export function Hero() {
             PillLink on the new ghostOnDark variant now, so the disc crosses on both.
           */}
           {/*
-            The large gap is a desktop measure and is scoped to it. At lg the column is tall
-            and centred, so the extra space is what carries the pair down towards the hero's
-            floor. On a phone the column just stacks and there is no floor to reach: 96px
-            there is a quarter of the viewport spent on nothing, so it stays at 40.
+            Pinned to the floor of the column at lg with mt-auto, rather than pushed down by
+            a fixed gap. The margin approach had reached its limit: the block is centred, so
+            every pixel added above the buttons moved the copy up by half of it, and the pair
+            stopped gaining much. auto takes all the leftover space instead, which puts the
+            buttons as low as the column allows and leaves the copy where it was.
+
+            Below lg the column does not flex, so mt-auto is inert there and the fixed 40
+            does the spacing. That is the right split: a phone has no floor to reach.
           */}
-          <div className="mt-[var(--space-40)] flex flex-wrap items-center gap-[var(--space-16)] lg:mt-[var(--space-96)]">
+          <div className="mt-[var(--space-40)] flex flex-wrap items-center gap-[var(--space-16)] lg:mt-auto">
             <PillLink href="/get-involved#donate-devices" variant="onDark" travel>
               Donate a device
             </PillLink>
