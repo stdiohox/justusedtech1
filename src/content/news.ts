@@ -66,7 +66,7 @@ export const posts: Post[] = [
       "A two-track summer programme run with Thomas Dunn Learning Center in St. Louis, covering ethical AI use and computer hardware refurbishment for participants aged 15 and up.",
     body: [
       "JustUsedTech ran a summer technology programme with Thomas Dunn Learning Center in St. Louis, open to participants aged 15 and up. It is the St. Louis delivery of the Circular Tech Bootcamp, the same programme that runs in Lagos, adapted for a US community learning hub.",
-      "The programme was built on two tracks. The first covered ethical AI use: what these tools are good for, where they fail, and how to think about using them responsibly. The second covered computer hardware, taking participants through coupling and refurbishment on real machines rather than on diagrams.",
+      "The programme was built on two tracks. The first covered ethical AI use: what these tools are good for, where they fail, and how to think about using them responsibly. The second covered computer hardware, taking participants through coupling and refurbishment on real laptops rather than on diagrams.",
       "An e-waste collection component ran alongside both tracks, which is the same route every JustUsedTech programme depends on: hardware comes in, gets assessed, and goes back out.",
     ],
     tags: ["Ethical AI", "Thomas Dunn Learning Center", "St. Louis"],

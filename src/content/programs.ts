@@ -76,7 +76,7 @@ export const programs: Program[] = [
       outright. This says what actually happens and when.
     */
     body: [
-      "A laptop on its own is rarely enough. Each machine goes out with mentorship from people already working in digital fields, and the team checks back at three and six months to record what the recipient has been able to do with it.",
+      "A laptop on its own is rarely enough. Each one goes out with mentorship from people already working in digital fields, and the team checks back at three and six months to record what the recipient has been able to do with it.",
     ],
     /*
       No `results`. The only entry was a named individual's 2025 story, removed at the
@@ -118,7 +118,7 @@ export const programs: Program[] = [
     name: "GreenBin 360",
     status: "active",
     summary:
-      "US-based corporate e-waste collection. This is the supply side of the whole device pipeline.",
+      "E-waste collection from US companies and institutions. This is where the devices every other programme hands out come from.",
     body: [
       "GreenBin 360 is how devices reach us. We collect end-of-life and surplus hardware from companies and institutions across St. Louis, then route it into assessment and refurbishment.",
     ],
@@ -166,7 +166,7 @@ export const programs: Program[] = [
     summary:
       "Refurbished devices become the training ground. Underserved youth learn diagnosis, repair, and certification in hardware technology, in Lagos and in St. Louis.",
     body: [
-      "Every device that arrives needs assessment before it can be redistributed. The bootcamp turns that work into a curriculum, so the people learning hardware repair are learning on real machines headed to real recipients. It runs in two places: Lagos, and St. Louis with Thomas Dunn Learning Center.",
+      "Every device that arrives needs assessment before it can be redistributed. The bootcamp turns that work into a curriculum, so the people learning hardware repair are learning on real laptops headed to real recipients. It runs in two places: Lagos, and St. Louis with Thomas Dunn Learning Center.",
     ],
   },
 ];

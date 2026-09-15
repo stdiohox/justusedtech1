@@ -318,7 +318,7 @@ export const programDetails: Record<string, ProgramDetail> = {
       {
         title: "Device assessment and handover",
         detail:
-          "Each machine is assessed and prepared before distribution, and the handover is tracked through distribution records.",
+          "Each laptop is assessed and prepared before distribution, and the handover is tracked through distribution records.",
       },
       {
         title: "Mentorship and follow-up",
@@ -375,7 +375,7 @@ export const programDetails: Record<string, ProgramDetail> = {
       },
     ],
     galleryLede:
-      "Laptop handovers, mentoring sessions, and recipients getting started on the machines they were given.",
+      "Laptop handovers, mentoring sessions, and recipients getting started on the laptops they were given.",
     galleryStyle: "accordion",
   },
 
@@ -533,7 +533,7 @@ export const programDetails: Record<string, ProgramDetail> = {
     overview: [
       "Existing e-waste solutions mostly stop at collection and recycling. They rarely touch digital poverty, youth employment, or community participation, which means the material moves but nothing else does. GreenBin 360 treats a discarded device as a community asset rather than a disposal problem.",
       "In practice this is the operation that feeds everything else JustUsedTech runs. Companies and institutions across St. Louis hand over end-of-life and surplus hardware, and the programme routes it into sorting, data destruction, repair, and refurbishment. What can be brought back is brought back; what cannot is dismantled for material recovery.",
-      "Recovered machines then go out through the redistribution pillar, to schools, libraries, innovation hubs, women-led businesses, and community centres. One organisation's retired hardware becomes another person's first computer.",
+      "Recovered devices then go out through the redistribution pillar, to schools, libraries, innovation hubs, women-led businesses, and community centres. One organisation's retired hardware becomes another person's first computer.",
     ],
     context: [
       {
@@ -564,7 +564,7 @@ export const programDetails: Record<string, ProgramDetail> = {
       {
         label: "Supply the programmes",
         detail:
-          "Every refurbished machine that reaches the Breakthrough Series or a school donation started here.",
+          "Every refurbished device that reaches the Breakthrough Series or a school donation started here.",
       },
     ],
     audience: {
@@ -591,7 +591,7 @@ export const programDetails: Record<string, ProgramDetail> = {
       {
         title: "Refurbishment",
         detail:
-          "Repair, re-imaging, and quality testing, turning recoverable machines back into working computers.",
+          "Repair, re-imaging, and quality testing, turning recoverable devices back into working computers.",
       },
       {
         title: "Redistribution",
@@ -643,7 +643,7 @@ export const programDetails: Record<string, ProgramDetail> = {
     overview: [
       "SkillSync sets out to empower emerging creative talent in Nigeria. Its focus is the skills of indigenous creatives, and its aim is to nurture and empower the next generation of creative minds. It runs with the Office of the Special Assistant to the President on Art, Culture and the Creative Economy.",
       "The programme seeks to provide opportunities for employment, entrepreneurship, and income generation, particularly for youth, women, and persons living with disabilities. Nigeria's creative industry has boundless possibilities for closing the unemployment gap, and through SkillSync the Office aims to strengthen employment in arts and culture, provide an entrepreneurship support programme, and make investments for innovation.",
-      "It sits alongside the device work rather than inside it. Where the Breakthrough Series answers what a young person builds with a machine, SkillSync answers what a creative practitioner does with a skill they already have and no route to market.",
+      "It sits alongside the device work rather than inside it. Where the Breakthrough Series answers what a young person builds with a laptop, SkillSync answers what a creative practitioner does with a skill they already have and no route to market.",
     ],
     objectives: [
       {
@@ -693,7 +693,7 @@ export const programDetails: Record<string, ProgramDetail> = {
     tagline:
       "Hands-on hardware training in Lagos and St. Louis, on the same laptops that go back out to the community afterwards.",
     overview: [
-      "Every device that arrives at JustUsedTech needs assessment before it can be redistributed. The bootcamp turns that necessary work into a curriculum, so the people learning hardware repair are learning on real machines with real destinations rather than on training rigs.",
+      "Every device that arrives at JustUsedTech needs assessment before it can be redistributed. The bootcamp turns that necessary work into a curriculum, so the people learning hardware repair are learning on real laptops that are going to real people afterwards, not on spare hardware kept for practice.",
       "The same programme runs in two places. In Lagos it is a jobs-focused course, taking participants through computer hardware from the component level up: identification, assembly and disassembly, troubleshooting, RAM, SSD and battery replacement, maintenance and optimisation, refurbishment, quality testing, and networking basics. Alongside that runs the circular economy and e-waste half, covering environmental impact, reuse and repair principles, safe disposal of damaged components, and community awareness.",
       "In St. Louis it runs with Thomas Dunn Learning Center as a summer programme for participants aged 15 and up, and carries a second track alongside the hardware one: the ethical use of artificial intelligence, covering where these tools fail, bias, privacy, accountability, and digital citizenship. Both cohorts use Google Classroom for materials, assignments, and progress, and both close on a capstone exhibition where teams present what they refurbished or built.",
     ],
@@ -712,7 +712,7 @@ export const programDetails: Record<string, ProgramDetail> = {
       },
       {
         title: "What both share",
-        body: "Both are blended: instructor-led sessions and hands-on lab work in the room, Google Classroom for materials and assessment, e-waste collection feeding the machines the training runs on, and a capstone exhibition to finish.",
+        body: "Both are blended: instructor-led sessions and hands-on lab work in the room, Google Classroom for materials and assessment, e-waste collection supplying the laptops the training runs on, and a capstone exhibition to finish.",
       },
     ],
     objectives: [
