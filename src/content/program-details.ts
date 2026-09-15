@@ -743,7 +743,7 @@ export const programDetails: Record<string, ProgramDetail> = {
       },
     ],
     targets: [
-      { figure: "50", detail: "Youth enrolled and trained in the Lagos cohort" },
+      { figure: "50", detail: "Youth enrolled and trained on hardware and circular economy skills" },
       { figure: "85%", detail: "Training completion rate" },
       { figure: "70%", detail: "Knowledge improvement, pre and post assessment" },
       { figure: "20", detail: "Devices refurbished and presented at the capstone exhibition" },
