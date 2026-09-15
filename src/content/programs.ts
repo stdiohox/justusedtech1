@@ -156,10 +156,17 @@ export const programs: Program[] = [
     slug: "circular-tech-bootcamp",
     name: "Circular Tech Bootcamp",
     status: "active",
+    /*
+      The partner belongs to one of the two deliveries, not to the whole programme. Thomas
+      Dunn Learning Center hosts and co-runs the St. Louis cohort; the Lagos cohort runs
+      without them. Credited here because the alternative was leaving a real partner off the
+      programme entirely, and the detail page says which cohort is theirs.
+    */
+    partner: "Thomas Dunn Learning Center, in St. Louis",
     summary:
-      "Refurbished devices become the training ground. Underserved youth learn diagnosis, repair, and certification in hardware technology.",
+      "Refurbished devices become the training ground. Underserved youth learn diagnosis, repair, and certification in hardware technology, in Lagos and in St. Louis.",
     body: [
-      "Every device that arrives needs assessment before it can be redistributed. The bootcamp turns that work into a curriculum, so the people learning hardware repair are learning on real machines headed to real recipients.",
+      "Every device that arrives needs assessment before it can be redistributed. The bootcamp turns that work into a curriculum, so the people learning hardware repair are learning on real machines headed to real recipients. It runs in two places: Lagos, and St. Louis with Thomas Dunn Learning Center.",
     ],
   },
 ];

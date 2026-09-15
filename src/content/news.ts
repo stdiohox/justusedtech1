@@ -65,44 +65,44 @@ export const posts: Post[] = [
     excerpt:
       "A two-track summer programme run with Thomas Dunn Learning Center in St. Louis, covering ethical AI use and computer hardware refurbishment for participants aged 15 and up.",
     body: [
-      "JustUsedTech ran a summer technology programme with Thomas Dunn Learning Center in St. Louis, open to participants aged 15 and up.",
+      "JustUsedTech ran a summer technology programme with Thomas Dunn Learning Center in St. Louis, open to participants aged 15 and up. It is the St. Louis delivery of the Circular Tech Bootcamp, the same programme that runs in Lagos, adapted for a US community learning hub.",
       "The programme was built on two tracks. The first covered ethical AI use: what these tools are good for, where they fail, and how to think about using them responsibly. The second covered computer hardware, taking participants through coupling and refurbishment on real machines rather than on diagrams.",
       "An e-waste collection component ran alongside both tracks, which is the same route every JustUsedTech programme depends on: hardware comes in, gets assessed, and goes back out.",
     ],
     tags: ["Ethical AI", "Thomas Dunn Learning Center", "St. Louis"],
     gallery: [
       {
-        src: "/news/tdlc-summer/01.jpg",
+        src: "/programs/circular-tech-bootcamp/11.jpg",
         alt: "Close-up of an opened laptop with its back panel removed, hands working on the internals.",
         width: 2400,
         height: 1600,
       },
       {
-        src: "/news/tdlc-summer/02.jpg",
+        src: "/programs/circular-tech-bootcamp/12.jpg",
         alt: "Two participants seated at a table behind a laptop that has been opened up, its back panel laid beside it.",
         width: 2400,
         height: 1600,
       },
       {
-        src: "/news/tdlc-summer/03.jpg",
+        src: "/programs/circular-tech-bootcamp/13.jpg",
         alt: "A team member in a JustUsedTech shirt handing a laptop to a participant in front of a JustUsedTech banner.",
         width: 2400,
         height: 1600,
       },
       {
-        src: "/news/tdlc-summer/04.jpg",
+        src: "/programs/circular-tech-bootcamp/14.jpg",
         alt: "A team member handing a laptop to a young participant in a red shirt.",
         width: 2400,
         height: 1600,
       },
       {
-        src: "/news/tdlc-summer/05.jpg",
+        src: "/programs/circular-tech-bootcamp/15.jpg",
         alt: "A team member handing a laptop to a participant beside a JustUsedTech banner.",
         width: 2400,
         height: 1600,
       },
       {
-        src: "/news/tdlc-summer/06.jpg",
+        src: "/programs/circular-tech-bootcamp/16.jpg",
         alt: "A team member and a participant holding a laptop between them for a photograph.",
         width: 2400,
         height: 1600,

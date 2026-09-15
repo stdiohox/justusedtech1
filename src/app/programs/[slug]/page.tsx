@@ -217,9 +217,17 @@ export default async function ProgramDetailPage({ params }: Params) {
       {detail.context && (
         <Section tone="deep">
           <Reveal>
+            {/*
+              Heading comes from the programme where it sets one. Most use this band for the
+              conditions they were designed against, so that stays the default; Circular Tech
+              uses it for its two cohorts, where "Why this exists" would have been wrong.
+            */}
             <SectionHead
-              title="Why this exists"
-              lede="The conditions the programme was designed against."
+              title={detail.contextHeading?.title ?? "Why this exists"}
+              lede={
+                detail.contextHeading?.lede ??
+                "The conditions the programme was designed against."
+              }
             />
           </Reveal>
           <RevealGroup className="mt-12 grid gap-4 md:grid-cols-3">

@@ -35,8 +35,17 @@ export type ProgramDetail = {
   tagline: string;
   /** Opening prose. Two or three paragraphs, no headings. */
   overview: string[];
-  /** Why the programme exists. Drawn from the document's background or rationale section. */
+  /**
+   * A three-card band under the overview.
+   *
+   * It began as "why this exists", drawn from each document's background section, and most
+   * programmes still use it that way. Circular Tech uses it for something else: that
+   * programme runs in two places, so its cards describe the Lagos cohort, the St. Louis
+   * cohort, and what they share. `contextHeading` is how a programme says which it is,
+   * rather than the page asserting one heading over both uses.
+   */
   context?: { title: string; body: string }[];
+  contextHeading?: { title: string; lede: string };
   /** What the programme is trying to do. Rendered as the bento grid. */
   objectives?: { label: string; detail: string }[];
   /**
@@ -682,11 +691,29 @@ export const programDetails: Record<string, ProgramDetail> = {
   /* ---------------------------------------------------------------- */
   "circular-tech-bootcamp": {
     tagline:
-      "Hands-on hardware training on the machines that are headed back out to the community.",
+      "Hands-on hardware training on the machines that are headed back out, in Lagos and in St. Louis.",
     overview: [
       "Every device that arrives at JustUsedTech needs assessment before it can be redistributed. The bootcamp turns that necessary work into a curriculum, so the people learning hardware repair are learning on real machines with real destinations rather than on training rigs.",
-      "The programme is a workforce development initiative first. Participants work through computer hardware from the component level up: identification, assembly and disassembly, troubleshooting, RAM, SSD and battery replacement, maintenance and optimisation, refurbishment, quality testing, and networking basics. Alongside that runs the circular economy and e-waste half, covering environmental impact, reuse and repair principles, safe disposal of damaged components, and community awareness.",
-      "It closes with a capstone. Teams refurbish functional devices, design sustainability solutions, or build awareness campaigns, and present them at a final exhibition.",
+      "One programme, two deliveries. In Lagos it is a workforce development initiative, taking participants through computer hardware from the component level up: identification, assembly and disassembly, troubleshooting, RAM, SSD and battery replacement, maintenance and optimisation, refurbishment, quality testing, and networking basics. Alongside that runs the circular economy and e-waste half, covering environmental impact, reuse and repair principles, safe disposal of damaged components, and community awareness.",
+      "In St. Louis it runs with Thomas Dunn Learning Center as a summer programme for participants aged 15 and up, and carries a second track alongside the hardware one: the ethical use of artificial intelligence, covering where these tools fail, bias, privacy, accountability, and digital citizenship. Both cohorts use Google Classroom for materials, assignments, and progress, and both close on a capstone exhibition where teams present what they refurbished or built.",
+    ],
+    contextHeading: {
+      title: "Where it runs",
+      lede: "One programme, two cohorts, and the spine they have in common.",
+    },
+    context: [
+      {
+        title: "Lagos",
+        body: "A workforce development cohort, built around hardware assembly, troubleshooting, and refurbishment, with circular economy and e-waste education running alongside and participants supporting real collection drives.",
+      },
+      {
+        title: "St. Louis",
+        body: "Run with Thomas Dunn Learning Center, a community learning hub with over 9,000 annual visits and 900+ classes delivered. Open to participants aged 15 and up, across two tracks: ethical AI use, and computer hardware coupling and refurbishment.",
+      },
+      {
+        title: "Shared spine",
+        body: "Both are blended: instructor-led sessions and hands-on lab work in the room, Google Classroom for materials and assessment, e-waste collection feeding the machines the training runs on, and a capstone exhibition to finish.",
+      },
     ],
     objectives: [
       {
@@ -700,6 +727,11 @@ export const programDetails: Record<string, ProgramDetail> = {
           "Build practical understanding of circular economy principles, e-waste reduction, and the environmental impact of electronic waste.",
       },
       {
+        label: "Ethical AI use",
+        detail:
+          "In the St. Louis cohort, a full track on what AI tools are good for, where they fail, and the bias, privacy, and accountability questions around them, alongside digital citizenship and online safety.",
+      },
+      {
         label: "Responsible technology use",
         detail:
           "Promote digital citizenship and sustainability practice alongside the technical curriculum.",
@@ -711,7 +743,7 @@ export const programDetails: Record<string, ProgramDetail> = {
       },
     ],
     targets: [
-      { figure: "50", detail: "Youth enrolled and trained on hardware and circular economy skills" },
+      { figure: "50", detail: "Youth enrolled and trained in the Lagos cohort" },
       { figure: "85%", detail: "Training completion rate" },
       { figure: "70%", detail: "Knowledge improvement, pre and post assessment" },
       { figure: "20", detail: "Devices refurbished and presented at the capstone exhibition" },
@@ -749,6 +781,11 @@ export const programDetails: Record<string, ProgramDetail> = {
         title: "E-waste collection drives",
         detail:
           "Participants support collection, sorting exercises, and reusable device recovery in their own communities.",
+      },
+      {
+        title: "Ethical AI track",
+        detail:
+          "In St. Louis, a parallel track on artificial intelligence in everyday life, bias, privacy, accountability, responsible use of AI tools, and online safety, taught through case studies.",
       },
       {
         title: "Capstone innovation challenge",
@@ -854,9 +891,45 @@ export const programDetails: Record<string, ProgramDetail> = {
         width: 2400,
         height: 1600,
       },
+      {
+        src: "/programs/circular-tech-bootcamp/11.jpg",
+        alt: "Close-up of an opened laptop with its back panel removed, hands working on the internals.",
+        width: 2400,
+        height: 1600,
+      },
+      {
+        src: "/programs/circular-tech-bootcamp/12.jpg",
+        alt: "Two participants seated at a table behind a laptop that has been opened up, its back panel laid beside it.",
+        width: 2400,
+        height: 1600,
+      },
+      {
+        src: "/programs/circular-tech-bootcamp/13.jpg",
+        alt: "A team member in a JustUsedTech shirt handing a laptop to a participant in front of a JustUsedTech banner.",
+        width: 2400,
+        height: 1600,
+      },
+      {
+        src: "/programs/circular-tech-bootcamp/14.jpg",
+        alt: "A team member handing a laptop to a young participant in a red shirt.",
+        width: 2400,
+        height: 1600,
+      },
+      {
+        src: "/programs/circular-tech-bootcamp/15.jpg",
+        alt: "A team member handing a laptop to a participant beside a JustUsedTech banner.",
+        width: 2400,
+        height: 1600,
+      },
+      {
+        src: "/programs/circular-tech-bootcamp/16.jpg",
+        alt: "A team member and a participant holding a laptop between them for a photograph.",
+        width: 2400,
+        height: 1600,
+      },
     ],
     galleryLede:
-      "Component slides, a chassis held up to the room, and the benches where the machines are actually opened.",
+      "Component slides and open chassis in Lagos, then the St. Louis cohort with Thomas Dunn: teardowns on the table and machines going home with the people who worked on them.",
     galleryStyle: "bento",
   },
 };
