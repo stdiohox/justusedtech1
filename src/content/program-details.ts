@@ -254,14 +254,14 @@ export const programDetails: Record<string, ProgramDetail> = {
       },
     ],
     galleryLede:
-      "School compounds, classrooms, and the crowd that forms the moment the team walks in.",
+      "Students gathering outside their schools and in classrooms during the sessions we run in Lagos.",
     galleryStyle: "elastic",
   },
 
   /* ---------------------------------------------------------------- */
   "breakthrough-series": {
     tagline:
-      "Refurbished devices, mentorship, and documented journeys for underserved youth aged 18 to 35.",
+      "Refurbished laptops and mentorship for underserved young people aged 18 to 35, with their progress recorded over the following months.",
     overview: [
       "Digital exclusion compounds. Without a device a young person cannot build digital skills. Without the skills they cannot reach income. Without income they cannot afford the device. The Breakthrough Series exists to break that loop at the point where it is cheapest to break: the machine itself.",
       "A laptop on its own is rarely enough, so each one is paired with structured mentorship from industry professionals, freelancers, and digital career coaches. Recipients are found through social media campaigns, school partnerships, and referrals from youth organisations, and selection prioritises underserved youth, women in technology, and unemployed graduates.",
@@ -375,7 +375,7 @@ export const programDetails: Record<string, ProgramDetail> = {
       },
     ],
     galleryLede:
-      "Handover days, mentoring tables, and the first hours somebody spends on a machine that is now theirs.",
+      "Laptop handovers, mentoring sessions, and recipients getting started on the machines they were given.",
     galleryStyle: "accordion",
   },
 
@@ -522,14 +522,14 @@ export const programDetails: Record<string, ProgramDetail> = {
       },
     ],
     galleryLede:
-      "Boots being fitted on the touchline, kit laid out across the sand, and the match that follows.",
+      "Children trying on donated football boots, the kit laid out before it is handed over, and the matches that follow.",
     galleryStyle: "bento",
   },
 
   /* ---------------------------------------------------------------- */
   "greenbin-360": {
     tagline:
-      "Corporate and institutional e-waste collection across St. Louis. The supply side of every other programme.",
+      "E-waste collection from companies and institutions across St. Louis. This is where the devices every other programme hands out come from.",
     overview: [
       "Existing e-waste solutions mostly stop at collection and recycling. They rarely touch digital poverty, youth employment, or community participation, which means the material moves but nothing else does. GreenBin 360 treats a discarded device as a community asset rather than a disposal problem.",
       "In practice this is the operation that feeds everything else JustUsedTech runs. Companies and institutions across St. Louis hand over end-of-life and surplus hardware, and the programme routes it into sorting, data destruction, repair, and refurbishment. What can be brought back is brought back; what cannot is dismantled for material recovery.",
@@ -632,7 +632,7 @@ export const programDetails: Record<string, ProgramDetail> = {
       },
     ],
     galleryLede:
-      "Collection days across St. Louis, and the room where all of it lands before anything is repaired.",
+      "Collection days around St. Louis, and the storage room where donated equipment is sorted before repair.",
     galleryStyle: "mosaic",
   },
 
@@ -685,21 +685,21 @@ export const programDetails: Record<string, ProgramDetail> = {
         height: 933,
       },
     ],
-    galleryLede: "From a handover event.",
+    galleryLede: "A photograph taken at a device handover event.",
   },
 
   /* ---------------------------------------------------------------- */
   "circular-tech-bootcamp": {
     tagline:
-      "Hands-on hardware training on the machines that are headed back out, in Lagos and in St. Louis.",
+      "Hands-on hardware training in Lagos and St. Louis, on the same laptops that go back out to the community afterwards.",
     overview: [
       "Every device that arrives at JustUsedTech needs assessment before it can be redistributed. The bootcamp turns that necessary work into a curriculum, so the people learning hardware repair are learning on real machines with real destinations rather than on training rigs.",
-      "One programme, two deliveries. In Lagos it is a workforce development initiative, taking participants through computer hardware from the component level up: identification, assembly and disassembly, troubleshooting, RAM, SSD and battery replacement, maintenance and optimisation, refurbishment, quality testing, and networking basics. Alongside that runs the circular economy and e-waste half, covering environmental impact, reuse and repair principles, safe disposal of damaged components, and community awareness.",
+      "The same programme runs in two places. In Lagos it is a jobs-focused course, taking participants through computer hardware from the component level up: identification, assembly and disassembly, troubleshooting, RAM, SSD and battery replacement, maintenance and optimisation, refurbishment, quality testing, and networking basics. Alongside that runs the circular economy and e-waste half, covering environmental impact, reuse and repair principles, safe disposal of damaged components, and community awareness.",
       "In St. Louis it runs with Thomas Dunn Learning Center as a summer programme for participants aged 15 and up, and carries a second track alongside the hardware one: the ethical use of artificial intelligence, covering where these tools fail, bias, privacy, accountability, and digital citizenship. Both cohorts use Google Classroom for materials, assignments, and progress, and both close on a capstone exhibition where teams present what they refurbished or built.",
     ],
     contextHeading: {
       title: "Where it runs",
-      lede: "One programme, two cohorts, and the spine they have in common.",
+      lede: "The same programme runs in two places. Here is what each one does, and what they have in common.",
     },
     context: [
       {
@@ -711,7 +711,7 @@ export const programDetails: Record<string, ProgramDetail> = {
         body: "Run with Thomas Dunn Learning Center, a community learning hub with over 9,000 annual visits and 900+ classes delivered. Open to participants aged 15 and up, across two tracks: ethical AI use, and computer hardware coupling and refurbishment.",
       },
       {
-        title: "Shared spine",
+        title: "What both share",
         body: "Both are blended: instructor-led sessions and hands-on lab work in the room, Google Classroom for materials and assessment, e-waste collection feeding the machines the training runs on, and a capstone exhibition to finish.",
       },
     ],
@@ -929,7 +929,7 @@ export const programDetails: Record<string, ProgramDetail> = {
       },
     ],
     galleryLede:
-      "Component slides and open chassis in Lagos, then the St. Louis cohort with Thomas Dunn: teardowns on the table and machines going home with the people who worked on them.",
+      "Training sessions in Lagos, where participants take laptops apart to learn what is inside them, and the St. Louis sessions run with Thomas Dunn, where they take a repaired laptop home at the end.",
     galleryStyle: "bento",
   },
 };

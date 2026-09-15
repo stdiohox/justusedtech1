@@ -252,7 +252,7 @@ export default async function ProgramDetailPage({ params }: Params) {
           <Reveal>
             <SectionHead
               title="What the programme is for"
-              lede="The objectives the design document sets, in its own terms."
+              lede="What the programme sets out to achieve."
             />
           </Reveal>
           <Reveal className="mt-12">
@@ -305,8 +305,8 @@ export default async function ProgramDetailPage({ params }: Params) {
               title={program.results ? "Delivered in 2025" : "US operations to date"}
               lede={
                 program.results
-                  ? "Dated delivery, verified. Nothing here is a projection."
-                  : "Running totals for the collection operation, cumulative rather than dated."
+                  ? "Work that has already happened, with the dates it happened on."
+                  : "Totals for the collection operation since it began, rather than for one year."
               }
             />
           </Reveal>
@@ -360,7 +360,7 @@ export default async function ProgramDetailPage({ params }: Params) {
       {detail.phases && (
         <Section tone="white">
           <Reveal>
-            <SectionHead title="Timeline" lede="The delivery phases as planned." />
+            <SectionHead title="Timeline" lede="How the programme is planned to run, month by month." />
           </Reveal>
           <RevealGroup className="mt-12 space-y-0">
             {detail.phases.map((phase) => (
@@ -479,7 +479,7 @@ export default async function ProgramDetailPage({ params }: Params) {
           <Reveal>
             <SectionHead
               title="Aligned goals"
-              lede="The Sustainable Development Goal targets this programme is designed against."
+              lede="The United Nations Sustainable Development Goals this programme was designed around."
             />
           </Reveal>
           <RevealGroup className="mt-12 grid gap-8 md:grid-cols-3">
