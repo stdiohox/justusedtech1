@@ -54,7 +54,13 @@ export function Hero() {
           row used to hold the base of this block with `lg:mt-auto`; with it gone the copy
           would otherwise sit high against a square that is itself centred in the row.
         */}
-        <div className="max-w-[640px] lg:flex lg:flex-col lg:justify-center lg:pb-20">
+        {/*
+          The bottom padding is what sets how low the block sits. With justify-center the
+          content centres in the column minus this padding, so every pixel taken off it moves
+          the whole block down by half that. It came down from 80px to 48px to drop the CTAs
+          further without opening a gap the copy would have to stretch across.
+        */}
+        <div className="max-w-[640px] lg:flex lg:flex-col lg:justify-center lg:pb-12">
           {/*
             Not "Tech access for Africa". Africa is where devices are redistributed, but it
             is half the model at most: collection, refurbishment, and the warehouse are in
@@ -100,7 +106,13 @@ export function Hero() {
             were two different components with two different hover behaviours. It is a
             PillLink on the new ghostOnDark variant now, so the disc crosses on both.
           */}
-          <div className="mt-[var(--space-64)] flex flex-wrap items-center gap-[var(--space-16)]">
+          {/*
+            The large gap is a desktop measure and is scoped to it. At lg the column is tall
+            and centred, so the extra space is what carries the pair down towards the hero's
+            floor. On a phone the column just stacks and there is no floor to reach: 96px
+            there is a quarter of the viewport spent on nothing, so it stays at 40.
+          */}
+          <div className="mt-[var(--space-40)] flex flex-wrap items-center gap-[var(--space-16)] lg:mt-[var(--space-96)]">
             <PillLink href="/get-involved#donate-devices" variant="onDark" travel>
               Donate a device
             </PillLink>
