@@ -795,13 +795,69 @@ export const programDetails: Record<string, ProgramDetail> = {
     ],
     gallery: [
       {
-        src: "/programs/circular_tech_bootcamp.jpg",
-        alt: "Three people examining an opened laptop, one holding the chassis up by its exposed board while the others study it, with a slide about motherboards on the screen behind them.",
+        src: "/programs/circular-tech-bootcamp/01.jpg",
+        alt: "A facilitator in a JustUsedTech shirt standing at the front of a training room, with participants seated at desks.",
         width: 2400,
-        height: 1690,
+        height: 1722,
+      },
+      {
+        src: "/programs/circular-tech-bootcamp/02.jpg",
+        alt: "Participants seated at a long desk taking notes during a session.",
+        width: 2400,
+        height: 1722,
+      },
+      {
+        src: "/programs/circular-tech-bootcamp/03.jpg",
+        alt: "A facilitator pointing at a screen showing slides on CPUs, motherboards, and RAM, with a JustUsedTech banner beside it.",
+        width: 2400,
+        height: 1722,
+      },
+      {
+        src: "/programs/circular-tech-bootcamp/04.jpg",
+        alt: "Two participants leaning over an opened laptop on a desk while a third looks on.",
+        width: 2400,
+        height: 1722,
+      },
+      {
+        src: "/programs/circular-tech-bootcamp/05.jpg",
+        alt: "A facilitator holding an opened laptop chassis up to the room, with the component slide on the screen behind.",
+        width: 2400,
+        height: 1722,
+      },
+      {
+        src: "/programs/circular-tech-bootcamp/06.jpg",
+        alt: "Two participants working together over a tablet at a desk.",
+        width: 2400,
+        height: 1722,
+      },
+      {
+        src: "/programs/circular-tech-bootcamp/07.jpg",
+        alt: "A group of participants talking together during a break, one in a JustUsedTech shirt.",
+        width: 2400,
+        height: 1697,
+      },
+      {
+        src: "/programs/circular-tech-bootcamp/08.jpg",
+        alt: "A facilitator presenting a slide headed Computer Hardware Coupling and Refurbishment to a seated audience.",
+        width: 2400,
+        height: 1600,
+      },
+      {
+        src: "/programs/circular-tech-bootcamp/09.jpg",
+        alt: "A team member leaning across a table to show a laptop to a young participant, beside a JustUsedTech poster.",
+        width: 960,
+        height: 1280,
+      },
+      {
+        src: "/programs/circular-tech-bootcamp/10.jpg",
+        alt: "Participants at a table examining an open laptop together.",
+        width: 2400,
+        height: 1600,
       },
     ],
-    galleryLede: "Inside a session, on a machine that is headed back out to somebody.",
+    galleryLede:
+      "Component slides, a chassis held up to the room, and the benches where the machines are actually opened.",
+    galleryStyle: "bento",
   },
 };
 

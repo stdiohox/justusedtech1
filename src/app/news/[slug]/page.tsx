@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { PhotoPlaceholder, TagPill } from "@/components/common/primitives";
 import { Reveal } from "@/components/common/reveal";
+import { MosaicGallery } from "@/components/ui/mosaic-gallery";
 import { posts } from "@/content/news";
 
 type Params = { params: Promise<{ slug: string }> };
@@ -23,6 +25,9 @@ export default async function PostPage({ params }: Params) {
   const { slug } = await params;
   const post = posts.find((p) => p.slug === slug);
   if (!post) notFound();
+
+  /* First frame leads the article, the rest go in the gallery under the body. */
+  const [lead, ...rest] = post.gallery ?? [];
 
   return (
     <article className="pt-14 pb-24 md:pt-20">
@@ -58,12 +63,33 @@ export default async function PostPage({ params }: Params) {
         {/* Sentinel for the Quick Actions dock: it rises once the masthead is scrolled past. */}
         <div id="dock-sentinel" aria-hidden className="h-px w-full" />
 
+        {/*
+          The lead frame. A post with photographs leads on the first of them; one without
+          keeps the branded placeholder block, which is what every post had while no event
+          photography existed. The placeholder is not dead code: only one of the two posts
+          has pictures.
+        */}
         <Reveal delay={0.08}>
-          <PhotoPlaceholder
-            tone={1}
-            caption={`${post.title}, ${post.location}`}
-            className="mt-10 aspect-[16/9]"
-          />
+          {lead ? (
+            <div className="mt-10 overflow-hidden rounded-card border border-edge">
+              <Image
+                src={lead.src}
+                alt={lead.alt}
+                width={lead.width}
+                height={lead.height}
+                quality={90}
+                sizes="(min-width: 768px) 736px, 100vw"
+                priority
+                className="h-auto w-full"
+              />
+            </div>
+          ) : (
+            <PhotoPlaceholder
+              tone={1}
+              caption={`${post.title}, ${post.location}`}
+              className="mt-10 aspect-[16/9]"
+            />
+          )}
         </Reveal>
 
         <Reveal delay={0.12}>
@@ -77,6 +103,20 @@ export default async function PostPage({ params }: Params) {
               </p>
             ))}
           </div>
+
+          {/*
+            The rest of the frames, uncropped. Two columns rather than the mosaic's usual
+            three: this article column is 736px, and three tracks inside it would set each
+            photograph at about 230px.
+          */}
+          {rest.length > 0 && (
+            <div className="mt-12">
+              <p className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
+                From the session
+              </p>
+              <MosaicGallery photos={rest} className="mt-5 lg:[&>div]:columns-2" />
+            </div>
+          )}
 
           <ul className="mt-12 flex flex-wrap gap-2 border-t border-edge pt-8">
             {post.tags.map((tag) => (

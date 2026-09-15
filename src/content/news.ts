@@ -18,6 +18,14 @@ export type Post = {
   excerpt: string;
   body: string[];
   tags: string[];
+  /**
+   * Photographs from the event, shown under the body.
+   *
+   * `width` and `height` are the file's real pixel dimensions, so the gallery can lay each
+   * frame out at its own aspect rather than crop it into a fixed box. Same contract as the
+   * programme galleries in content/program-details.ts.
+   */
+  gallery?: { src: string; alt: string; width: number; height: number }[];
 };
 
 export const posts: Post[] = [
@@ -62,6 +70,44 @@ export const posts: Post[] = [
       "An e-waste collection component ran alongside both tracks, which is the same route every JustUsedTech programme depends on: hardware comes in, gets assessed, and goes back out.",
     ],
     tags: ["Ethical AI", "Thomas Dunn Learning Center", "St. Louis"],
+    gallery: [
+      {
+        src: "/news/tdlc-summer/01.jpg",
+        alt: "Close-up of an opened laptop with its back panel removed, hands working on the internals.",
+        width: 2400,
+        height: 1600,
+      },
+      {
+        src: "/news/tdlc-summer/02.jpg",
+        alt: "Two participants seated at a table behind a laptop that has been opened up, its back panel laid beside it.",
+        width: 2400,
+        height: 1600,
+      },
+      {
+        src: "/news/tdlc-summer/03.jpg",
+        alt: "A team member in a JustUsedTech shirt handing a laptop to a participant in front of a JustUsedTech banner.",
+        width: 2400,
+        height: 1600,
+      },
+      {
+        src: "/news/tdlc-summer/04.jpg",
+        alt: "A team member handing a laptop to a young participant in a red shirt.",
+        width: 2400,
+        height: 1600,
+      },
+      {
+        src: "/news/tdlc-summer/05.jpg",
+        alt: "A team member handing a laptop to a participant beside a JustUsedTech banner.",
+        width: 2400,
+        height: 1600,
+      },
+      {
+        src: "/news/tdlc-summer/06.jpg",
+        alt: "A team member and a participant holding a laptop between them for a photograph.",
+        width: 2400,
+        height: 1600,
+      },
+    ],
   },
 ];
 
