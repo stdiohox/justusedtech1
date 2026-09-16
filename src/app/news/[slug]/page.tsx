@@ -40,7 +40,7 @@ export default async function PostPage({ params }: Params) {
     <article className="pt-14 pb-24 md:pt-20">
       <div className="shell max-w-[46rem]">
         <Reveal>
-          <div className="text-flow">
+          <div className="text-flow-load">
             <Link
               href="/news"
               className="inline-flex items-center gap-2 text-[0.875rem] font-bold text-ink-soft transition-colors duration-300 hover:text-brand-green-dark"

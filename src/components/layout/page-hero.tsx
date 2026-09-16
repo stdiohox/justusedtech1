@@ -73,8 +73,8 @@ export function PageHero({
           )}
         >
           <Reveal>
-            {/* The words cascade line by line rather than rising as one slab. See .text-flow. */}
-            <div className="text-flow">
+            {/* The words cascade line by line on load; a masthead never scrolls into view. See .text-flow-load. */}
+            <div className="text-flow-load">
               <p className="inline-flex rounded-full bg-mint px-4 py-1.5 text-[0.6875rem] font-extrabold tracking-[0.18em] text-brand-green-dark uppercase">
                 {eyebrow}
               </p>

@@ -61,7 +61,7 @@ export function Hero() {
           sits at the top of the column, the buttons at the bottom, and pb-12 is the footing
           left under them.
         */}
-        <div className="text-flow max-w-[640px] lg:flex lg:flex-col lg:pb-12">
+        <div className="text-flow-load max-w-[640px] lg:flex lg:flex-col lg:pb-12">
           {/*
             Not "Tech access for Africa". Africa is where devices are redistributed, but it
             is half the model at most: collection, refurbishment, and the warehouse are in

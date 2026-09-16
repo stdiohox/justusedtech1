@@ -909,6 +909,46 @@
 }
 
 /*
+  Text flow for a masthead: the same cascade, played once on load instead of on scroll.
+
+  A scroll timeline measures how far an element has travelled since it entered from the
+  bottom of the viewport. A masthead never enters: it is on screen at load, so its lower
+  lines, which finish latest, sit part-way along their range with nowhere to go, and the
+  buttons under a hero stayed blurred until the reader scrolled. That is the wrong tool for
+  the top of a page. Apple plays a masthead in on arrival and reserves scroll-driven reveals
+  for what follows, and this does the same.
+
+  Same keyframe, same order, same offsets expressed in time: 90ms between lines on a 720ms
+  curve, on the house ease. Time-based rather than a view timeline, so it runs in every
+  browser that runs CSS animations, and the reduced-motion guard is the whole gate: with
+  motion reduced the words are simply there.
+*/
+@media (prefers-reduced-motion: no-preference) {
+  .text-flow-load > * {
+    animation: jut-text 720ms cubic-bezier(0.32, 0.72, 0, 1) both;
+  }
+
+  .text-flow-load > :nth-child(2) {
+    animation-delay: 90ms;
+  }
+
+  .text-flow-load > :nth-child(3) {
+    animation-delay: 180ms;
+  }
+
+  .text-flow-load > :nth-child(n + 4) {
+    animation-delay: 270ms;
+  }
+
+  @supports (animation-timeline: view()) {
+    /* A Reveal wrapper around a loading masthead stands aside, the same as for .text-flow. */
+    .rise:has(> .text-flow-load) {
+      animation: none;
+    }
+  }
+}
+
+/*
   The proportion bar on the impact dashboard, unrolling as it is scrolled into view.
   See components/sections/impact-2025.tsx.
 

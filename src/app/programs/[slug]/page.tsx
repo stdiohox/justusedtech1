@@ -122,7 +122,7 @@ export default async function ProgramDetailPage({ params }: Params) {
         />
         <div className="shell">
           <Reveal>
-            <div className="text-flow">
+            <div className="text-flow-load">
               <Link
                 href="/programs"
                 className="inline-flex items-center gap-2 text-[0.875rem] font-bold text-ink-soft transition-colors duration-300 hover:text-brand-green-dark"
