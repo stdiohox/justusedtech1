@@ -40,31 +40,33 @@ export default async function PostPage({ params }: Params) {
     <article className="pt-14 pb-24 md:pt-20">
       <div className="shell max-w-[46rem]">
         <Reveal>
-          <Link
-            href="/news"
-            className="inline-flex items-center gap-2 text-[0.875rem] font-bold text-ink-soft transition-colors duration-300 hover:text-brand-green-dark"
-          >
-            <ArrowLeft className="size-4" strokeWidth={2} aria-hidden />
-            All news
-          </Link>
+          <div className="text-flow">
+            <Link
+              href="/news"
+              className="inline-flex items-center gap-2 text-[0.875rem] font-bold text-ink-soft transition-colors duration-300 hover:text-brand-green-dark"
+            >
+              <ArrowLeft className="size-4" strokeWidth={2} aria-hidden />
+              All news
+            </Link>
 
-          {/*
+            {/*
             The separator belongs to the date, not to the line, so a post with no confirmed
             date shows its location alone rather than a stray leading slash.
           */}
-          <p className="mt-10 text-[0.875rem] font-bold text-ink-faint">
-            {post.date && (
-              <>
-                <time dateTime={post.iso}>{post.date}</time>
-                <span className="mx-2 text-ink-faint/50">/</span>
-              </>
-            )}
-            {post.location}
-          </p>
+            <p className="mt-10 text-[0.875rem] font-bold text-ink-faint">
+              {post.date && (
+                <>
+                  <time dateTime={post.iso}>{post.date}</time>
+                  <span className="mx-2 text-ink-faint/50">/</span>
+                </>
+              )}
+              {post.location}
+            </p>
 
-          <h1 className="mt-5 text-[2.25rem] leading-[1.06] font-extrabold tracking-[-0.035em] text-balance sm:text-5xl">
-            {post.title}
-          </h1>
+            <h1 className="mt-5 text-[2.25rem] leading-[1.06] font-extrabold tracking-[-0.035em] text-balance sm:text-5xl">
+              {post.title}
+            </h1>
+          </div>
         </Reveal>
 
         {/* Sentinel for the Quick Actions dock: it rises once the masthead is scrolled past. */}

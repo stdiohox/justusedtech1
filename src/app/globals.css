@@ -275,7 +275,8 @@
     the top of this file. The old --shadow-lift, a heavy green glow for the featured
     programme cell, is gone rather than left sitting here as an invitation.
   */
-  --shadow-soft: 0 1px 2px rgba(18, 33, 26, 0.04), 0 12px 32px -12px rgba(18, 33, 26, 0.12);
+  --shadow-soft:
+    0 1px 2px rgba(18, 33, 26, 0.04), 0 12px 32px -12px rgba(18, 33, 26, 0.12);
 }
 
 @layer base {
@@ -291,7 +292,56 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-synthesis-weight: none;
+    font-optical-sizing: auto;
     text-rendering: optimizeLegibility;
+  }
+
+  /*
+    Type changes shape with size. This is the optical-sizing rule from Apple's typography
+    guidance, set once as the default for every heading and paragraph rather than trusted to
+    each call site: large text wants negative tracking and tight leading because letters
+    drift apart and lines drift open as they grow, and body text wants neither.
+
+    The scale runs from display to caption:
+
+      display (h1)      -0.035em  1.04
+      section (h2)      -0.030em  1.08
+      subhead (h3, h4)  -0.020em  1.20
+      body (p)           0        1.60
+      caption (small)   +0.010em  1.45
+
+    Headings balance their line breaks and paragraphs avoid orphans, which is the other half
+    of text reading as set rather than poured. Every existing utility on an element still
+    wins over these, since utilities sit in a later layer; this is the floor, not a cap.
+  */
+  h1 {
+    letter-spacing: -0.035em;
+    line-height: 1.04;
+    text-wrap: balance;
+  }
+
+  h2 {
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  h3,
+  h4 {
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  p {
+    letter-spacing: 0;
+    text-wrap: pretty;
+  }
+
+  small,
+  figcaption {
+    letter-spacing: 0.01em;
+    line-height: 1.45;
   }
 
   ::selection {
@@ -440,7 +490,9 @@
   }
 
   /* Browsers without backdrop-filter get an opaque fill instead of an unreadable wash. */
-  @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  @supports not (
+    (-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))
+  ) {
     .glass-card,
     .glass-sheer {
       background: rgba(255, 255, 255, 0.94);
@@ -713,7 +765,13 @@
       black 92%,
       transparent
     );
-    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
   }
 
   /* World map dot field: the reference's vertical fade, so the field has no hard edge. */
@@ -725,7 +783,13 @@
       black 90%,
       transparent
     );
-    mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
   }
 }
 
@@ -767,6 +831,78 @@
       animation-range: entry 4% cover 35%;
     }
     .rise-group > .rise:nth-child(n + 5) {
+      animation-range: entry 4% cover 40%;
+    }
+  }
+}
+
+/*
+  Text flow: the lines of a text block arrive one after another.
+
+  The block reveal above moves a whole section as one slab. Apple's pages do something
+  quieter with words: the eyebrow lands, then the headline, then the paragraph, then the
+  buttons, each a beat behind the last, and each sharpening as it settles rather than only
+  fading. Read in order, the eye is led down the block the way it will read it.
+
+  Mechanics. `.text-flow` marks a block whose direct children cascade; the block itself does
+  not move. Each child runs the same keyframe on the same scroll timeline, and the cascade
+  is nothing but a later end to each child's range, so it is one animation rule and four
+  offsets. Scroll-driven, like `.rise`, so it is tied to the reader's own movement and can
+  be scrubbed back and forth; it is not a timer that fires once and is gone.
+
+  The blur is 6px and rides on the same transform, so it costs a filter on four small text
+  elements for the length of the entry range and nothing afterwards: the keyframe's end
+  state is `filter: none`, which lets the browser drop the layer.
+
+  Where a `.rise` wrapper holds a `.text-flow` as a direct child, the wrapper gives up its
+  own animation, otherwise the block would rise and its lines would rise again inside it.
+  The wrapper's other children, a list or a card beside the text, take the rise themselves
+  so they still arrive, after the text has.
+
+  Same contract as `.rise`: the resting state is the finished text. Nothing here is what
+  makes a headline visible, so nothing here can hide one. Reduced motion gets the words
+  where they are.
+*/
+@keyframes jut-text {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .text-flow > * {
+      animation: jut-text linear both;
+      animation-timeline: view();
+      animation-range: entry 4% cover 18%;
+    }
+
+    .text-flow > :nth-child(2) {
+      animation-range: entry 4% cover 24%;
+    }
+
+    .text-flow > :nth-child(3) {
+      animation-range: entry 4% cover 30%;
+    }
+
+    .text-flow > :nth-child(n + 4) {
+      animation-range: entry 4% cover 36%;
+    }
+
+    .rise:has(> .text-flow) {
+      animation: none;
+    }
+
+    .rise:has(> .text-flow) > :not(.text-flow) {
+      animation: jut-rise linear both;
+      animation-timeline: view();
       animation-range: entry 4% cover 40%;
     }
   }

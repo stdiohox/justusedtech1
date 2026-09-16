@@ -61,7 +61,7 @@ export function Hero() {
           sits at the top of the column, the buttons at the bottom, and pb-12 is the footing
           left under them.
         */}
-        <div className="max-w-[640px] lg:flex lg:flex-col lg:pb-12">
+        <div className="text-flow max-w-[640px] lg:flex lg:flex-col lg:pb-12">
           {/*
             Not "Tech access for Africa". Africa is where devices are redistributed, but it
             is half the model at most: collection, refurbishment, and the warehouse are in
@@ -79,7 +79,9 @@ export function Hero() {
           */}
           <h1 className="mt-[var(--space-28)] text-[2.375rem] leading-[1.06] font-extrabold tracking-[var(--tracking-headline)] text-white text-balance sm:text-[2.75rem] lg:text-5xl">
             Give tech a second life.
-            <span className="block">Power young futures on two continents.</span>
+            <span className="block">
+              Power young futures on two continents.
+            </span>
           </h1>
 
           {/*
@@ -89,8 +91,8 @@ export function Hero() {
           */}
           <p className="mt-[var(--space-32)] max-w-[52ch] text-[1.0625rem] leading-relaxed font-normal tracking-[var(--tracking-body)] text-white/90 text-pretty">
             JustUsedTech collects, refurbishes, and redistributes technology to
-            underserved students and youth across Nigeria, Ghana, Kenya, and the US,
-            turning e-waste into opportunity.
+            underserved students and youth across Nigeria, Ghana, Kenya, and the
+            US, turning e-waste into opportunity.
           </p>
 
           {/*
@@ -125,7 +127,6 @@ export function Hero() {
               See our impact
             </PillLink>
           </div>
-
         </div>
 
         {/* Right column: the image window, with floating cards from lg up. */}

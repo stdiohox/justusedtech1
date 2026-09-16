@@ -73,30 +73,33 @@ export function PageHero({
           )}
         >
           <Reveal>
-            <p className="inline-flex rounded-full bg-mint px-4 py-1.5 text-[0.6875rem] font-extrabold tracking-[0.18em] text-brand-green-dark uppercase">
-              {eyebrow}
-            </p>
-            <h1
-              className={cn(
-                "mt-6 max-w-[18ch] leading-[1.04] font-extrabold tracking-[-0.035em] text-balance",
-                size === "display"
-                  ? "text-[2.75rem] sm:text-[3.75rem] lg:text-[4.75rem] xl:text-[5.25rem]"
-                  : "text-[2.25rem] sm:text-5xl lg:text-[3.75rem]",
-              )}
-            >
-              {title}
-            </h1>
-            <p
-              className={cn(
-                "mt-6 max-w-[58ch] leading-relaxed text-ink-soft text-pretty",
-                size === "display"
-                  ? "text-[1.125rem] sm:text-xl"
-                  : "text-[1.0625rem] sm:text-lg",
-              )}
-            >
-              {lede}
-            </p>
-            {actions && <div className="mt-9">{actions}</div>}
+            {/* The words cascade line by line rather than rising as one slab. See .text-flow. */}
+            <div className="text-flow">
+              <p className="inline-flex rounded-full bg-mint px-4 py-1.5 text-[0.6875rem] font-extrabold tracking-[0.18em] text-brand-green-dark uppercase">
+                {eyebrow}
+              </p>
+              <h1
+                className={cn(
+                  "mt-6 max-w-[18ch] leading-[1.04] font-extrabold tracking-[-0.035em] text-balance",
+                  size === "display"
+                    ? "text-[2.75rem] sm:text-[3.75rem] lg:text-[4.75rem] xl:text-[5.25rem]"
+                    : "text-[2.25rem] sm:text-5xl lg:text-[3.75rem]",
+                )}
+              >
+                {title}
+              </h1>
+              <p
+                className={cn(
+                  "mt-6 max-w-[58ch] leading-relaxed text-ink-soft text-pretty",
+                  size === "display"
+                    ? "text-[1.125rem] sm:text-xl"
+                    : "text-[1.0625rem] sm:text-lg",
+                )}
+              >
+                {lede}
+              </p>
+              {actions && <div className="mt-9">{actions}</div>}
+            </div>
           </Reveal>
           {media && <Reveal delay={0.1}>{media}</Reveal>}
         </div>

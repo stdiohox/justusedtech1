@@ -54,7 +54,8 @@ export function SectionHead({
   return (
     <div
       className={cn(
-        "max-w-2xl",
+        /* text-flow: eyebrow, title, and lede arrive in that order. See globals.css. */
+        "text-flow max-w-2xl",
         align === "center" && "mx-auto text-center",
         className,
       )}
@@ -63,7 +64,9 @@ export function SectionHead({
         <p
           className={cn(
             "mb-4 inline-flex rounded-full px-3.5 py-1.5 text-[0.6875rem] font-extrabold tracking-[0.18em] uppercase",
-            onGreen ? "bg-white/15 text-white" : "bg-mint text-brand-green-dark",
+            onGreen
+              ? "bg-white/15 text-white"
+              : "bg-mint text-brand-green-dark",
           )}
         >
           {eyebrow}
@@ -108,7 +111,9 @@ export function Bezel({
 }) {
   return (
     <div className={cn("bezel", className)}>
-      <div className={cn("bezel-core h-full bg-white p-6 sm:p-8", coreClassName)}>
+      <div
+        className={cn("bezel-core h-full bg-white p-6 sm:p-8", coreClassName)}
+      >
         {children}
       </div>
     </div>
@@ -181,9 +186,7 @@ export function TagPill({
         size === "sm"
           ? "px-2 py-1 text-[0.8125rem]"
           : "px-3.5 py-2 text-[0.9375rem]",
-        onGreen
-          ? "border-white/30 text-white"
-          : "border-edge text-ink-soft",
+        onGreen ? "border-white/30 text-white" : "border-edge text-ink-soft",
         className,
       )}
     >
@@ -215,7 +218,13 @@ export function StatBlock({
   className?: string;
 }) {
   return (
-    <div className={cn("border-t pt-6", onGreen ? "border-white/25" : "border-edge", className)}>
+    <div
+      className={cn(
+        "border-t pt-6",
+        onGreen ? "border-white/25" : "border-edge",
+        className,
+      )}
+    >
       <p
         className={cn(
           "text-[2.75rem] leading-[0.95] font-bold tracking-[-0.04em] sm:text-[3.5rem]",

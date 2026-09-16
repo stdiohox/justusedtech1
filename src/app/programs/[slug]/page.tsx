@@ -122,47 +122,49 @@ export default async function ProgramDetailPage({ params }: Params) {
         />
         <div className="shell">
           <Reveal>
-            <Link
-              href="/programs"
-              className="inline-flex items-center gap-2 text-[0.875rem] font-bold text-ink-soft transition-colors duration-300 hover:text-brand-green-dark"
-            >
-              <ArrowLeft className="size-4" strokeWidth={2} aria-hidden />
-              All programmes
-            </Link>
+            <div className="text-flow">
+              <Link
+                href="/programs"
+                className="inline-flex items-center gap-2 text-[0.875rem] font-bold text-ink-soft transition-colors duration-300 hover:text-brand-green-dark"
+              >
+                <ArrowLeft className="size-4" strokeWidth={2} aria-hidden />
+                All programmes
+              </Link>
 
-            <div className="mt-9 flex flex-wrap items-center gap-3">
-              <StatusBadge status={program.status} />
-              {program.partner && (
-                <span className="text-[0.875rem] font-bold text-brand-green-dark">
-                  With {program.partner}
-                </span>
-              )}
-            </div>
+              <div className="mt-9 flex flex-wrap items-center gap-3">
+                <StatusBadge status={program.status} />
+                {program.partner && (
+                  <span className="text-[0.875rem] font-bold text-brand-green-dark">
+                    With {program.partner}
+                  </span>
+                )}
+              </div>
 
-            <h1 className="mt-5 max-w-[20ch] text-[2.25rem] leading-[1.04] font-extrabold tracking-[-0.035em] text-balance sm:text-5xl lg:text-[3.5rem]">
-              {program.name}
-            </h1>
-            <p className="mt-6 max-w-[58ch] text-[1.0625rem] leading-relaxed text-ink-soft text-pretty sm:text-lg">
-              {detail.tagline}
-            </p>
-            {/*
+              <h1 className="mt-5 max-w-[20ch] text-[2.25rem] leading-[1.04] font-extrabold tracking-[-0.035em] text-balance sm:text-5xl lg:text-[3.5rem]">
+                {program.name}
+              </h1>
+              <p className="mt-6 max-w-[58ch] text-[1.0625rem] leading-relaxed text-ink-soft text-pretty sm:text-lg">
+                {detail.tagline}
+              </p>
+              {/*
               The application, where a programme has one open. Primary and in the masthead:
               this is the one thing on the page a reader might have arrived to do, and the
               programme design below is long. A form off the site opens in a new tab so the
               page is still here when they come back, and the pill's arrow says as much.
             */}
-            {detail.apply && (
-              <div className="mt-9">
-                <PillAnchor
-                  href={detail.apply.href}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  travel
-                >
-                  {detail.apply.label}
-                </PillAnchor>
-              </div>
-            )}
+              {detail.apply && (
+                <div className="mt-9">
+                  <PillAnchor
+                    href={detail.apply.href}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    travel
+                  >
+                    {detail.apply.label}
+                  </PillAnchor>
+                </div>
+              )}
+            </div>
           </Reveal>
         </div>
         <div id="dock-sentinel" aria-hidden className="h-px w-full" />
