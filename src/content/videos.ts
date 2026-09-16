@@ -42,10 +42,10 @@ export const videos = {
     src: "/video/volunteer.mp4",
     poster: "/video/volunteer.jpg",
     title:
-      "Volunteers sorting donated equipment into green collection bins in a car park on a collection day in Missouri.",
-    caption: "Volunteers on a collection day in Missouri.",
+      "A JustUsedTech volunteer in a JUSTUSED shirt speaking to camera, seated in a training room in front of the JustUsedTech banner.",
+    caption: "A JustUsedTech volunteer, on camera in the training room.",
     width: 720,
     height: 1280,
-    duration: 11,
+    duration: 74,
   },
 } satisfies Record<string, VideoClip>;

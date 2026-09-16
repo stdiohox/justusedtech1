@@ -462,10 +462,10 @@ export default function GetInvolvedPage() {
           <Reveal delay={0.1}>
             {/*
               The volunteer clip, where a photo card used to be. This is the one section on
-              the page that is about people giving time, and there is now footage of people
-              doing exactly that: a collection day, volunteers loading the green bins. A
-              still frame said "session in a room"; eleven seconds of the real thing says
-              more, and it is client footage, not stock.
+              the page that is about people giving time, and there is now one of them on
+              camera, in the shirt, in the training room. A still frame said "session in a
+              room"; a volunteer speaking for themselves says more, and it is client
+              footage, not stock.
 
               Portrait, because that is how it was shot, and capped by VideoFeature at a
               width that keeps a 9:16 clip shorter than the viewport. Centred in the column
