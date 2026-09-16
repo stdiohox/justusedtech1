@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { ComponentProps, ReactNode } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
@@ -47,6 +47,63 @@ type BaseProps = {
    * label slides the other way. Overrides `bare`, which has no disc to travel.
    */
   travel?: boolean;
+  /**
+   * The flooding hover: arrows sweep through, a disc grows from the centre until it fills
+   * the pill in a second colour, and the corners tighten from a pill to the button radius.
+   * Overrides `bare` and is exclusive with `travel`; the site uses one or the other per
+   * button, split about evenly, so no page moves all one way.
+   */
+  flow?: boolean;
+};
+
+/*
+  `flow` is the flooding hover, adapted from a registry "flow button". The mechanic is the
+  reference's: an arrow parked off the left edge sweeps in as the one on the right sweeps
+  out, the label slides right to make room, a circle at the centre grows from 16px to larger
+  than the pill so it reads as a flood, and the radius tightens from a pill to a rounded
+  rectangle. Its timings are kept, 600ms on the shell and 800ms on the parts, and so are
+  its three curves: a soft ease-out for the shell and label, an overshoot for the arrows so
+  they arrive with a little spring, and a long tail for the flood.
+
+  What changed is colour and scale. The reference is a single black-on-grey button; the
+  site's pill has five variants, so each one gets its own flood pair below: what the pill
+  rests as, and what it floods to. Filled variants flood to a darker or contrasting fill
+  rather than to an outline, so a primary CTA stays a primary CTA at rest. The reference's
+  arrows are hard-coded black and white; here they take currentColor, so they change with
+  the label. And the reference's 12px hover radius is the site's --radius-button, which is
+  the same number and already the radius every non-pill control here uses.
+
+  Hover-gated the same way `travel` is: on a touch screen nothing moves, and the pill rests
+  in its ordinary state rather than mid-flood.
+*/
+const FLOW_SHELL_EASE = "ease-[cubic-bezier(0.23,1,0.32,1)]";
+const FLOW_ARROW_EASE = "ease-[cubic-bezier(0.34,1.56,0.64,1)]";
+const FLOW_FLOOD_EASE = "ease-[cubic-bezier(0.19,1,0.22,1)]";
+
+/*
+  Rest shell and hover label colour per variant, for `flow`. The flood fill is `flood`. On
+  hover the 1.5px border takes the flood colour too: the flood disc grows inside the border
+  box while the rest fill runs under the border, so without this a hairline ring of the rest
+  colour survives around the flooded pill.
+*/
+const flowShell: Record<Variant, string> = {
+  primary:
+    "border-[1.5px] border-transparent bg-brand-green-dark text-white shadow-[0_10px_30px_-12px_rgba(0,122,55,0.6)] [@media(hover:hover)]:hover:border-ink [@media(hover:hover)]:hover:shadow-none",
+  gold: "border-[1.5px] border-transparent bg-brand-gold text-ink [@media(hover:hover)]:hover:border-ink [@media(hover:hover)]:hover:text-white",
+  outline:
+    "border-[1.5px] border-[color:var(--hairline)] bg-white text-ink [@media(hover:hover)]:hover:border-brand-green-dark [@media(hover:hover)]:hover:text-white",
+  onDark:
+    "border-[1.5px] border-transparent bg-white text-brand-green-dark [@media(hover:hover)]:hover:border-brand-gold [@media(hover:hover)]:hover:text-ink",
+  ghostOnDark:
+    "border-[1.5px] border-[rgba(255,255,255,0.7)] bg-transparent text-white [@media(hover:hover)]:hover:border-white [@media(hover:hover)]:hover:text-brand-green-dark",
+};
+
+const flood: Record<Variant, string> = {
+  primary: "bg-ink",
+  gold: "bg-ink",
+  outline: "bg-brand-green-dark",
+  onDark: "bg-brand-gold",
+  ghostOnDark: "bg-white",
 };
 
 /*
@@ -85,8 +142,22 @@ function classes(
   variant: Variant,
   bare: boolean,
   travel: boolean,
+  flow: boolean,
   className?: string,
 ) {
+  if (flow) {
+    return cn(
+      "group/pill relative inline-flex h-12 items-center justify-center overflow-hidden rounded-full px-8",
+      "font-bold tracking-[-0.01em] text-[0.9375rem] leading-none",
+      "transition-all duration-[600ms] motion-reduce:transition-none",
+      FLOW_SHELL_EASE,
+      "active:scale-[0.95]",
+      "[@media(hover:hover)]:hover:rounded-[var(--radius-button)]",
+      flowShell[variant],
+      className,
+    );
+  }
+
   return cn(
     "group/pill inline-flex items-center rounded-full font-bold tracking-[-0.01em]",
     "text-[0.9375rem] leading-none transition-all duration-500",
@@ -114,14 +185,77 @@ function Inner({
   icon,
   bare,
   travel,
-}: Required<Pick<BaseProps, "children" | "variant" | "bare" | "travel">> &
+  flow,
+}: Required<
+  Pick<BaseProps, "children" | "variant" | "bare" | "travel" | "flow">
+> &
   Pick<BaseProps, "icon">) {
-  const mark = icon ?? <ArrowUpRight className="size-4" strokeWidth={2.25} aria-hidden />;
+  const mark = icon ?? (
+    <ArrowUpRight className="size-4" strokeWidth={2.25} aria-hidden />
+  );
+
+  if (flow) {
+    const arrow = cn(
+      "pointer-events-none absolute top-1/2 z-10 size-4 -translate-y-1/2 text-current",
+      "transition-all duration-[800ms] motion-reduce:transition-none",
+      FLOW_ARROW_EASE,
+    );
+    return (
+      <>
+        {/* Parked off the left edge; sweeps in to sit before the label on hover. */}
+        <ArrowRight
+          aria-hidden
+          strokeWidth={2.25}
+          className={cn(
+            arrow,
+            "left-[-25%] [@media(hover:hover)]:group-hover/pill:left-4",
+          )}
+        />
+        <span
+          className={cn(
+            "relative z-10 -translate-x-3 transition-transform duration-[800ms] ease-out motion-reduce:transition-none",
+            "[@media(hover:hover)]:group-hover/pill:translate-x-3",
+          )}
+        >
+          {children}
+        </span>
+        {/*
+          The flood. A 16px disc at the centre, invisible, that grows past the pill's
+          longest edge on hover. 220px covers a pill up to about 200px wide; the widest
+          label on the site, "Apply to volunteer", sits well inside that.
+        */}
+        <span
+          aria-hidden
+          className={cn(
+            "pointer-events-none absolute top-1/2 left-1/2 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-0",
+            "transition-all duration-[800ms] motion-reduce:transition-none",
+            FLOW_FLOOD_EASE,
+            "[@media(hover:hover)]:group-hover/pill:size-[260px] [@media(hover:hover)]:group-hover/pill:opacity-100",
+            flood[variant],
+          )}
+        />
+        {/* Sits after the label at rest; sweeps out through the right edge on hover. */}
+        <ArrowRight
+          aria-hidden
+          strokeWidth={2.25}
+          className={cn(
+            arrow,
+            "right-4 [@media(hover:hover)]:group-hover/pill:right-[-25%]",
+          )}
+        />
+      </>
+    );
+  }
 
   if (travel) {
     return (
       <>
-        <span className={cn("relative z-10 transition-all duration-500 motion-reduce:transition-none", TRAVEL_EASE)}>
+        <span
+          className={cn(
+            "relative z-10 transition-all duration-500 motion-reduce:transition-none",
+            TRAVEL_EASE,
+          )}
+        >
           {children}
         </span>
         <span
@@ -168,11 +302,21 @@ export function PillLink({
   className,
   bare = false,
   travel = false,
+  flow = false,
   ...props
 }: BaseProps & ComponentProps<typeof Link>) {
   return (
-    <Link className={classes(variant, bare, travel, className)} {...props}>
-      <Inner variant={variant} icon={icon} bare={bare} travel={travel}>
+    <Link
+      className={classes(variant, bare, travel, flow, className)}
+      {...props}
+    >
+      <Inner
+        variant={variant}
+        icon={icon}
+        bare={bare}
+        travel={travel}
+        flow={flow}
+      >
         {children}
       </Inner>
     </Link>
@@ -186,11 +330,21 @@ export function PillButton({
   className,
   bare = false,
   travel = false,
+  flow = false,
   ...props
 }: BaseProps & ComponentProps<"button">) {
   return (
-    <button className={classes(variant, bare, travel, className)} {...props}>
-      <Inner variant={variant} icon={icon} bare={bare} travel={travel}>
+    <button
+      className={classes(variant, bare, travel, flow, className)}
+      {...props}
+    >
+      <Inner
+        variant={variant}
+        icon={icon}
+        bare={bare}
+        travel={travel}
+        flow={flow}
+      >
         {children}
       </Inner>
     </button>
@@ -204,11 +358,18 @@ export function PillAnchor({
   className,
   bare = false,
   travel = false,
+  flow = false,
   ...props
 }: BaseProps & ComponentProps<"a">) {
   return (
-    <a className={classes(variant, bare, travel, className)} {...props}>
-      <Inner variant={variant} icon={icon} bare={bare} travel={travel}>
+    <a className={classes(variant, bare, travel, flow, className)} {...props}>
+      <Inner
+        variant={variant}
+        icon={icon}
+        bare={bare}
+        travel={travel}
+        flow={flow}
+      >
         {children}
       </Inner>
     </a>

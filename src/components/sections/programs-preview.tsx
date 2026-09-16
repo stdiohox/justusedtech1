@@ -54,7 +54,7 @@ export function ProgramsPreview() {
         </RevealGroup>
 
         <Reveal className="mt-10">
-          <PillLink href="/programs" variant="outline">
+          <PillLink href="/programs" variant="outline" flow>
             All programmes
           </PillLink>
         </Reveal>
@@ -96,7 +96,11 @@ function ProgramCard({
         this resolves to nothing. Checked with hasDetailPage rather than assumed, because the
         catalogue is what would change first.
       */
-      href={hasDetailPage(program.slug) ? `/programs/${program.slug}` : `/programs#${program.slug}`}
+      href={
+        hasDetailPage(program.slug)
+          ? `/programs/${program.slug}`
+          : `/programs#${program.slug}`
+      }
       className={cn(
         "group/card card card-flush flex h-full flex-col",
         "transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1",

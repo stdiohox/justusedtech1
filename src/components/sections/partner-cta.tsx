@@ -100,10 +100,10 @@ export function PartnerCta() {
           the reporting in between.
         </p>
         <div className="mt-10 flex flex-wrap justify-center gap-3">
-          <PillAnchor href={asks.partner} variant="gold">
+          <PillAnchor href={asks.partner} variant="gold" flow>
             Partner with us
           </PillAnchor>
-          <PillLink href="/contact" variant="onDark">
+          <PillLink href="/contact" variant="onDark" flow>
             Talk to the team
           </PillLink>
         </div>

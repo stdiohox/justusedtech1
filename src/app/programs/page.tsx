@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/page-hero";
 import { PillAnchor, PillLink } from "@/components/common/pill-button";
 import { ProgramMedia } from "@/components/common/program-media";
-import { Section, SectionHead, StatusBadge } from "@/components/common/primitives";
+import {
+  Section,
+  SectionHead,
+  StatusBadge,
+} from "@/components/common/primitives";
 import { Reveal } from "@/components/common/reveal";
 import { hasDetailPage } from "@/content/program-details";
 import {
@@ -73,7 +77,7 @@ export default function ProgramsPage() {
             lede="If your organisation is retiring devices, that is where a programme starts."
             className="max-w-xl"
           />
-          <PillAnchor href={asks.donateDevice} variant="onDark">
+          <PillAnchor href={asks.donateDevice} variant="onDark" flow>
             Donate a device
           </PillAnchor>
         </div>
@@ -123,7 +127,12 @@ function ProgramPanel({ program, tone }: { program: Program; tone: number }) {
       className={cn("card card-flush scroll-mt-28", upcoming && "card-quiet")}
     >
       {/* panel: full shell width, so the band takes its own height. See the prop. */}
-      <ProgramMedia slug={program.slug} status={program.status} tone={tone} panel />
+      <ProgramMedia
+        slug={program.slug}
+        status={program.status}
+        tone={tone}
+        panel
+      />
 
       <div className="grid gap-8 p-7 lg:grid-cols-[1fr_1fr] lg:gap-14">
         <div>
@@ -149,7 +158,11 @@ function ProgramPanel({ program, tone }: { program: Program; tone: number }) {
           */}
           {detailed && (
             <div className="mt-7">
-              <PillLink href={`/programs/${program.slug}`} variant="outline">
+              <PillLink
+                href={`/programs/${program.slug}`}
+                variant="outline"
+                flow
+              >
                 Learn more
               </PillLink>
             </div>

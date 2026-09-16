@@ -103,7 +103,10 @@ export function ContactForm() {
       />
 
       <div className="grid gap-2">
-        <label htmlFor="topic" className="text-[0.875rem] font-extrabold text-ink">
+        <label
+          htmlFor="topic"
+          className="text-[0.875rem] font-extrabold text-ink"
+        >
           What is this about?
         </label>
         <select
@@ -121,7 +124,10 @@ export function ContactForm() {
       </div>
 
       <div className="grid gap-2">
-        <label htmlFor="message" className="text-[0.875rem] font-extrabold text-ink">
+        <label
+          htmlFor="message"
+          className="text-[0.875rem] font-extrabold text-ink"
+        >
           Message
         </label>
         <textarea
@@ -151,13 +157,17 @@ export function ContactForm() {
       </div>
 
       <div className="flex flex-wrap items-center gap-4 pt-1">
-        <PillButton type="submit" disabled={status === "pending"}>
+        <PillButton type="submit" disabled={status === "pending"} travel>
           {status === "pending" ? "Opening your email" : "Send message"}
         </PillButton>
 
         {status === "pending" && (
           <span className="flex items-center gap-2 text-[0.875rem] font-bold text-ink-soft">
-            <Loader2 className="size-4 animate-spin" strokeWidth={2} aria-hidden />
+            <Loader2
+              className="size-4 animate-spin"
+              strokeWidth={2}
+              aria-hidden
+            />
             Working
           </span>
         )}
@@ -183,8 +193,8 @@ export function ContactForm() {
       </div>
 
       <p className="text-[0.8125rem] leading-relaxed text-ink-soft">
-        This form opens your email client with the message ready to send. If it does not,
-        write to{" "}
+        This form opens your email client with the message ready to send. If it
+        does not, write to{" "}
         <a
           href={`mailto:${contact.emails[0].address}`}
           className="font-bold text-brand-green-dark underline underline-offset-4"
@@ -221,16 +231,23 @@ function Field({
         name={name}
         type={type}
         aria-invalid={Boolean(error)}
-        aria-describedby={error ? `${name}-error` : hint ? `${name}-hint` : undefined}
+        aria-describedby={
+          error ? `${name}-error` : hint ? `${name}-hint` : undefined
+        }
         className={cn(
           "h-[3.25rem] w-full rounded-[var(--radius-field)] border bg-white px-4 font-medium text-ink",
           "placeholder:text-ink-faint",
-          error ? "border-[color:var(--destructive)]" : "border-[color:var(--input)]",
+          error
+            ? "border-[color:var(--destructive)]"
+            : "border-[color:var(--input)]",
         )}
         {...props}
       />
       {hint && !error && (
-        <p id={`${name}-hint`} className="text-[0.8125rem] font-semibold text-ink-soft">
+        <p
+          id={`${name}-hint`}
+          className="text-[0.8125rem] font-semibold text-ink-soft"
+        >
           {hint}
         </p>
       )}

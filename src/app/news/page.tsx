@@ -146,6 +146,7 @@ export default function NewsPage() {
               <PillLink
                 href="/programs/school-tour-initiative"
                 variant="outline"
+                travel
               >
                 About the programme
               </PillLink>

@@ -134,7 +134,9 @@ export default function GetInvolvedPage() {
               ))}
             </ul>
             <div className="mt-9">
-              <PillAnchor href={asks.donateDevice}>Donate a device</PillAnchor>
+              <PillAnchor href={asks.donateDevice} travel>
+                Donate a device
+              </PillAnchor>
             </div>
           </Reveal>
 
@@ -272,7 +274,7 @@ export default function GetInvolvedPage() {
               lede="A financial gift covers what donated hardware cannot: replacement parts, shipping to Lagos, session materials, and the staff time that gets a device into a student's hands."
             />
             <div className="mt-9">
-              <PillAnchor href={asks.fundProgramme} variant="gold">
+              <PillAnchor href={asks.fundProgramme} variant="gold" travel>
                 Fund a programme
               </PillAnchor>
             </div>
@@ -425,7 +427,9 @@ export default function GetInvolvedPage() {
           ))}
         </div>
         <Reveal className="mt-9">
-          <PillAnchor href={asks.partner}>Partner with us</PillAnchor>
+          <PillAnchor href={asks.partner} flow>
+            Partner with us
+          </PillAnchor>
         </Reveal>
       </Section>
 
@@ -454,6 +458,7 @@ export default function GetInvolvedPage() {
                 href={forms.volunteer}
                 target="_blank"
                 rel="noreferrer noopener"
+                flow
               >
                 Apply to volunteer
               </PillAnchor>

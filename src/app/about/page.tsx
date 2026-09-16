@@ -315,7 +315,7 @@ export default function AboutPage() {
           </Reveal>
         </div>
         <Reveal className="mt-10">
-          <PillLink href="/team" variant="outline">
+          <PillLink href="/team" variant="outline" flow>
             Meet the team
           </PillLink>
         </Reveal>

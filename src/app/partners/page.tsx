@@ -54,7 +54,7 @@ export default function PartnersPage() {
             lede="Whether you are retiring hardware, funding a programme, or running community sessions, there is a way in."
             className="max-w-xl"
           />
-          <PillAnchor href={asks.partner} variant="onDark">
+          <PillAnchor href={asks.partner} variant="onDark" travel>
             Partner with us
           </PillAnchor>
         </div>

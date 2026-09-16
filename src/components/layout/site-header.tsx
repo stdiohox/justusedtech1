@@ -26,7 +26,12 @@ import {
 import { LogoLink } from "@/components/brand/logo";
 import { PillAnchor } from "@/components/common/pill-button";
 import { StatusBadge } from "@/components/common/primitives";
-import { nav, type NavEntry, type NavIcon, type NavMenuItem } from "@/content/nav";
+import {
+  nav,
+  type NavEntry,
+  type NavIcon,
+  type NavMenuItem,
+} from "@/content/nav";
 import { asks } from "@/content/site";
 import { cn } from "@/lib/utils";
 
@@ -129,7 +134,11 @@ export function SiteHeader() {
               Contact
             </Link>
 
-            <PillAnchor href={asks.donateDevice} className="hidden sm:inline-flex">
+            <PillAnchor
+              href={asks.donateDevice}
+              travel
+              className="hidden sm:inline-flex"
+            >
               Donate a device
             </PillAnchor>
 
@@ -206,7 +215,9 @@ export function SiteHeader() {
                 }}
                 className="pt-7"
               >
-                <PillAnchor href={asks.donateDevice}>Donate a device</PillAnchor>
+                <PillAnchor href={asks.donateDevice} travel>
+                  Donate a device
+                </PillAnchor>
               </motion.div>
             </nav>
           </motion.div>
@@ -282,7 +293,9 @@ function DesktopNav({
             }}
             className={cn(
               "relative rounded-full px-3.5 py-2 text-[0.9375rem] font-bold transition-colors duration-300",
-              isActive(item.href) ? "text-brand-green-dark" : "text-ink-soft hover:text-ink",
+              isActive(item.href)
+                ? "text-brand-green-dark"
+                : "text-ink-soft hover:text-ink",
             )}
           >
             {pillKey === item.label && <NavPill reduced={reduced} />}
@@ -340,7 +353,8 @@ function NavMenu({
       onFocusCapture={onOpen}
       /* Closes only when focus leaves the trigger AND the panel, not on every inner move. */
       onBlurCapture={(e) => {
-        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) onClose();
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null))
+          onClose();
       }}
       onKeyDown={(e) => {
         if (e.key !== "Escape" || !isOpen) return;
@@ -419,7 +433,9 @@ function NavMenu({
               <div
                 className={cn(
                   "grid gap-x-5 gap-y-4",
-                  wide ? "grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)]" : "grid-cols-1",
+                  wide
+                    ? "grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)]"
+                    : "grid-cols-1",
                 )}
               >
                 {item.columns?.map((column) => (
@@ -484,7 +500,9 @@ function MenuLink({ item }: { item: NavMenuItem }) {
       <span
         className={cn(
           "rounded-badge mt-px flex size-8 shrink-0 items-center justify-center",
-          upcoming ? "border border-edge text-ink-faint" : "bg-mint text-brand-green-dark",
+          upcoming
+            ? "border border-edge text-ink-faint"
+            : "bg-mint text-brand-green-dark",
         )}
       >
         <Icon className="size-4" strokeWidth={1.75} aria-hidden />
@@ -589,7 +607,11 @@ function MobileAccordion({
                   className="mt-1 flex items-center gap-1.5 rounded-[var(--radius-button)] px-2.5 py-2.5 text-[0.875rem] font-bold text-brand-green-dark"
                 >
                   {item.overview}
-                  <ArrowRight aria-hidden strokeWidth={2.25} className="size-4" />
+                  <ArrowRight
+                    aria-hidden
+                    strokeWidth={2.25}
+                    className="size-4"
+                  />
                 </Link>
               )}
             </div>

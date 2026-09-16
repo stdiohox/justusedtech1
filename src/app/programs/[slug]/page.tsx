@@ -157,6 +157,7 @@ export default async function ProgramDetailPage({ params }: Params) {
                   href={detail.apply.href}
                   target="_blank"
                   rel="noreferrer noopener"
+                  travel
                 >
                   {detail.apply.label}
                 </PillAnchor>
@@ -567,7 +568,7 @@ export default async function ProgramDetailPage({ params }: Params) {
             className="max-w-xl"
           />
           <div className="flex flex-wrap gap-3">
-            <PillAnchor href={asks.donateDevice} variant="onDark">
+            <PillAnchor href={asks.donateDevice} variant="onDark" travel>
               Donate a device
             </PillAnchor>
             <PillLink href="/programs" variant="onDark" bare>
