@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { HandHeart, Handshake, Laptop, Mail } from "lucide-react";
+import { asks } from "@/content/site";
 
 /**
  * Quick Actions dock. Fixed bottom-centre on desktop only. Hidden below lg so it never
@@ -14,10 +15,11 @@ import { HandHeart, Handshake, Laptop, Mail } from "lucide-react";
  * then rises into place, so the primary actions are reachable from any scroll position.
  */
 
+/* The three asks open mail, like every other ask button on the site. See `asks`. */
 const actions = [
-  { label: "Donate", href: "/get-involved#fund", Icon: HandHeart },
-  { label: "Give a device", href: "/get-involved#donate-devices", Icon: Laptop },
-  { label: "Partner", href: "/get-involved#partner", Icon: Handshake },
+  { label: "Donate", href: asks.fundProgramme, Icon: HandHeart },
+  { label: "Give a device", href: asks.donateDevice, Icon: Laptop },
+  { label: "Partner", href: asks.partner, Icon: Handshake },
   { label: "Contact", href: "/contact", Icon: Mail },
 ];
 

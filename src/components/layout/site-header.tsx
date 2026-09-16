@@ -24,9 +24,10 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { LogoLink } from "@/components/brand/logo";
-import { PillLink } from "@/components/common/pill-button";
+import { PillAnchor } from "@/components/common/pill-button";
 import { StatusBadge } from "@/components/common/primitives";
 import { nav, type NavEntry, type NavIcon, type NavMenuItem } from "@/content/nav";
+import { asks } from "@/content/site";
 import { cn } from "@/lib/utils";
 
 const EASE = [0.32, 0.72, 0, 1] as const;
@@ -128,12 +129,9 @@ export function SiteHeader() {
               Contact
             </Link>
 
-            <PillLink
-              href="/get-involved#donate-devices"
-              className="hidden sm:inline-flex"
-            >
+            <PillAnchor href={asks.donateDevice} className="hidden sm:inline-flex">
               Donate a device
-            </PillLink>
+            </PillAnchor>
 
             <button
               type="button"
@@ -208,7 +206,7 @@ export function SiteHeader() {
                 }}
                 className="pt-7"
               >
-                <PillLink href="/get-involved#donate-devices">Donate a device</PillLink>
+                <PillAnchor href={asks.donateDevice}>Donate a device</PillAnchor>
               </motion.div>
             </nav>
           </motion.div>

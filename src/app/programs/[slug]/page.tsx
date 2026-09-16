@@ -38,6 +38,7 @@ import { MosaicGallery } from "@/components/ui/mosaic-gallery";
 import type { ProgramDetail } from "@/content/program-details";
 import { programDetails } from "@/content/program-details";
 import { programs } from "@/content/programs";
+import { asks } from "@/content/site";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -521,9 +522,9 @@ export default async function ProgramDetailPage({ params }: Params) {
             className="max-w-xl"
           />
           <div className="flex flex-wrap gap-3">
-            <PillLink href="/get-involved#donate-devices" variant="onDark">
+            <PillAnchor href={asks.donateDevice} variant="onDark">
               Donate a device
-            </PillLink>
+            </PillAnchor>
             <PillLink href="/programs" variant="onDark" bare>
               All programmes
             </PillLink>

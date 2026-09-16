@@ -5,7 +5,7 @@ import { PageHero } from "@/components/layout/page-hero";
 import { PillAnchor, PillLink } from "@/components/common/pill-button";
 import { Section, SectionHead } from "@/components/common/primitives";
 import { Reveal } from "@/components/common/reveal";
-import { contact, forms } from "@/content/site";
+import { asks, contact, forms } from "@/content/site";
 import { volunteerAreas } from "@/content/team";
 import { galleryFrame } from "@/content/program-details";
 import { ClipMosaic } from "@/components/ui/clip-mosaic";
@@ -124,7 +124,7 @@ export default function GetInvolvedPage() {
               ))}
             </ul>
             <div className="mt-9">
-              <PillAnchor href={`mailto:${contact.emails[0].address}?subject=Device donation`}>
+              <PillAnchor href={asks.donateDevice}>
                 Donate a device
               </PillAnchor>
             </div>
@@ -264,10 +264,7 @@ export default function GetInvolvedPage() {
               lede="A financial gift covers what donated hardware cannot: replacement parts, shipping to Lagos, session materials, and the staff time that gets a device into a student's hands."
             />
             <div className="mt-9">
-              <PillAnchor
-                href={`mailto:${contact.emails[0].address}?subject=Funding a programme`}
-                variant="gold"
-              >
+              <PillAnchor href={asks.fundProgramme} variant="gold">
                 Fund a programme
               </PillAnchor>
             </div>
@@ -412,7 +409,7 @@ export default function GetInvolvedPage() {
           ))}
         </div>
         <Reveal className="mt-9">
-          <PillAnchor href={`mailto:${contact.emails[1].address}?subject=Partnership enquiry`}>
+          <PillAnchor href={asks.partner}>
             Partner with us
           </PillAnchor>
         </Reveal>

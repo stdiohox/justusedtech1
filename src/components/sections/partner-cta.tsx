@@ -8,7 +8,8 @@ import {
   useReducedMotion,
   useSpring,
 } from "motion/react";
-import { PillLink } from "@/components/common/pill-button";
+import { PillAnchor, PillLink } from "@/components/common/pill-button";
+import { asks } from "@/content/site";
 
 /**
  * Partner With Us.
@@ -72,9 +73,9 @@ export function PartnerCta() {
           it. We handle the collection, the refurbishment, and the reporting in between.
         </p>
         <div className="mt-10 flex flex-wrap justify-center gap-3">
-          <PillLink href="/get-involved#partner" variant="gold">
+          <PillAnchor href={asks.partner} variant="gold">
             Partner with us
-          </PillLink>
+          </PillAnchor>
           <PillLink href="/contact" variant="onDark">
             Talk to the team
           </PillLink>

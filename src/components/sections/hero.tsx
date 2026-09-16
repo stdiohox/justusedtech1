@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { PillLink } from "@/components/common/pill-button";
+import { PillAnchor, PillLink } from "@/components/common/pill-button";
+import { asks } from "@/content/site";
 import { OrbitBackdrop } from "@/components/sections/orbit-backdrop";
 
 /**
@@ -117,9 +118,9 @@ export function Hero() {
             does the spacing. That is the right split: a phone has no floor to reach.
           */}
           <div className="mt-[var(--space-40)] flex flex-wrap items-center gap-[var(--space-16)] lg:mt-auto">
-            <PillLink href="/get-involved#donate-devices" variant="onDark" travel>
+            <PillAnchor href={asks.donateDevice} variant="onDark" travel>
               Donate a device
-            </PillLink>
+            </PillAnchor>
             <PillLink href="/impact" variant="ghostOnDark" travel>
               See our impact
             </PillLink>

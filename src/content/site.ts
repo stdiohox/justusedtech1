@@ -36,6 +36,23 @@ export const contact = {
     "https://www.google.com/maps/search/?api=1&query=725+Kingsland+Ave+Suite+100,+University+City,+MO+63130",
 } as const;
 
+function mailto(address: string, subject: string) {
+  return `mailto:${address}?subject=${encodeURIComponent(subject)}`;
+}
+
+/**
+ * The three asks open the reader's mail client rather than a form. Every "Donate a device",
+ * "Fund a programme", and "Partner with us" button on the site reads its href from here, so
+ * the address and the subject line change once. Each ask has its own subject so the inbox
+ * can sort them on arrival; partnerships go to the collabs address because that is who
+ * answers them.
+ */
+export const asks = {
+  donateDevice: mailto(contact.emails[0].address, "Device donation"),
+  fundProgramme: mailto(contact.emails[0].address, "Funding a programme"),
+  partner: mailto(contact.emails[1].address, "Partnership enquiry"),
+} as const;
+
 /**
  * The newsletter, on Substack. Kept apart from `socials` on purpose: those are places the
  * organisation posts, this is a thing a reader signs up for, and the footer and contact page

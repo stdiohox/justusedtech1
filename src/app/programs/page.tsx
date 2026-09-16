@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/page-hero";
-import { PillLink } from "@/components/common/pill-button";
+import { PillAnchor, PillLink } from "@/components/common/pill-button";
 import { ProgramMedia } from "@/components/common/program-media";
 import { Section, SectionHead, StatusBadge } from "@/components/common/primitives";
 import { Reveal } from "@/components/common/reveal";
@@ -10,6 +10,7 @@ import {
   upcomingPrograms,
   type Program,
 } from "@/content/programs";
+import { asks } from "@/content/site";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -72,9 +73,9 @@ export default function ProgramsPage() {
             lede="If your organisation is retiring devices, that is where a programme starts."
             className="max-w-xl"
           />
-          <PillLink href="/get-involved#donate-devices" variant="onDark">
+          <PillAnchor href={asks.donateDevice} variant="onDark">
             Donate a device
-          </PillLink>
+          </PillAnchor>
         </div>
       </Section>
     </>

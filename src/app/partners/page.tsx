@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/page-hero";
-import { PillLink } from "@/components/common/pill-button";
+import { PillAnchor } from "@/components/common/pill-button";
+import { asks } from "@/content/site";
 import { Section, SectionHead, TagPill } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
 import { PartnerMark } from "@/components/common/partner-mark";
@@ -53,9 +54,9 @@ export default function PartnersPage() {
             lede="Whether you are retiring hardware, funding a programme, or running community sessions, there is a way in."
             className="max-w-xl"
           />
-          <PillLink href="/get-involved#partner" variant="onDark">
+          <PillAnchor href={asks.partner} variant="onDark">
             Partner with us
-          </PillLink>
+          </PillAnchor>
         </div>
       </Section>
     </>
