@@ -36,6 +36,28 @@ export const contact = {
     "https://www.google.com/maps/search/?api=1&query=725+Kingsland+Ave+Suite+100,+University+City,+MO+63130",
 } as const;
 
+/**
+ * The newsletter, on Substack. Kept apart from `socials` on purpose: those are places the
+ * organisation posts, this is a thing a reader signs up for, and the footer and contact page
+ * each give it its own line rather than burying it at the end of the platform row.
+ */
+export const newsletter = {
+  name: "Newsletter",
+  platform: "Substack",
+  href: "https://justusedtech.substack.com/",
+} as const;
+
+/**
+ * External forms the site sends people to. Every one is a link off the site, so each opens
+ * in a new tab and says so in its label's icon; none of them is embedded here.
+ *
+ * URLs live here and nowhere else, so when a form is replaced the change lands once.
+ */
+export const forms = {
+  volunteer: "https://forms.gle/uUpehQ1UneYHQsju7",
+  circularTechBootcamp: "https://bit.ly/JUTCircularTechBootcamp",
+} as const;
+
 export const socials = [
   { name: "Facebook", href: "https://facebook.com/profile.php?id=61561340373391" },
   { name: "X", href: "https://x.com/JustusedTech", handle: "@JustusedTech" },

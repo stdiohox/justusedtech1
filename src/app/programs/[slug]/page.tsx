@@ -20,7 +20,7 @@ import {
   Wrench,
   type LucideIcon,
 } from "lucide-react";
-import { PillLink } from "@/components/common/pill-button";
+import { PillAnchor, PillLink } from "@/components/common/pill-button";
 import { ProgramMedia } from "@/components/common/program-media";
 import {
   Section,
@@ -140,6 +140,19 @@ export default async function ProgramDetailPage({ params }: Params) {
             <p className="mt-6 max-w-[58ch] text-[1.0625rem] leading-relaxed text-ink-soft text-pretty sm:text-lg">
               {detail.tagline}
             </p>
+            {/*
+              The application, where a programme has one open. Primary and in the masthead:
+              this is the one thing on the page a reader might have arrived to do, and the
+              programme design below is long. A form off the site opens in a new tab so the
+              page is still here when they come back, and the pill's arrow says as much.
+            */}
+            {detail.apply && (
+              <div className="mt-9">
+                <PillAnchor href={detail.apply.href} target="_blank" rel="noreferrer noopener">
+                  {detail.apply.label}
+                </PillAnchor>
+              </div>
+            )}
           </Reveal>
         </div>
         <div id="dock-sentinel" aria-hidden className="h-px w-full" />

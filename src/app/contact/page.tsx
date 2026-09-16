@@ -3,7 +3,7 @@ import { PageHero } from "@/components/layout/page-hero";
 import { Section, SectionHead } from "@/components/common/primitives";
 import { Reveal } from "@/components/common/reveal";
 import { ContactForm } from "@/components/sections/contact-form";
-import { contact, socials } from "@/content/site";
+import { contact, newsletter, socials } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -84,6 +84,20 @@ export default function ContactPage() {
                   Follow along
                 </h3>
                 <ul className="mt-4 flex flex-wrap gap-2">
+                  {/*
+                    The newsletter leads the row and takes the mint fill, so it reads as the
+                    one chip here that is a subscription rather than a profile.
+                  */}
+                  <li>
+                    <a
+                      href={newsletter.href}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="rounded-button inline-flex border border-edge bg-mint px-4 py-2 text-[0.875rem] font-bold text-brand-green-dark transition-colors duration-300 hover:border-[color:rgba(0,122,55,0.3)]"
+                    >
+                      {newsletter.name} on {newsletter.platform}
+                    </a>
+                  </li>
                   {socials.map((social) => (
                     <li key={social.name}>
                       <a

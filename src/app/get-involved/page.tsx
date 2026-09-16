@@ -5,7 +5,7 @@ import { PageHero } from "@/components/layout/page-hero";
 import { PillAnchor, PillLink } from "@/components/common/pill-button";
 import { Section, SectionHead } from "@/components/common/primitives";
 import { Reveal } from "@/components/common/reveal";
-import { contact } from "@/content/site";
+import { contact, forms } from "@/content/site";
 import { volunteerAreas } from "@/content/team";
 import { galleryFrame } from "@/content/program-details";
 import { ClipMosaic } from "@/components/ui/clip-mosaic";
@@ -430,9 +430,17 @@ export default function GetInvolvedPage() {
               title="Volunteer"
               lede="More than 20 volunteers already support content, training, outreach, and operations. If you have hardware repair skills, teaching experience, or time for outreach, there is work for you."
             />
+            {/*
+              The application form rather than a mailto. It used to open an email with the
+              subject filled in, which put the reader in front of a blank message and asked
+              them to guess what to say. The form asks the questions.
+
+              It is a Google Form off the site, so it opens in a new tab: nobody should lose
+              their place on this page to fill it in. The pill's arrow already says so.
+            */}
             <div className="mt-9">
-              <PillAnchor href={`mailto:${contact.emails[0].address}?subject=Volunteering`}>
-                Volunteer with us
+              <PillAnchor href={forms.volunteer} target="_blank" rel="noreferrer noopener">
+                Apply to volunteer
               </PillAnchor>
             </div>
           </Reveal>

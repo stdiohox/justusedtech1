@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { LogoLink } from "@/components/brand/logo";
-import { contact, footerNav, site, socials } from "@/content/site";
+import { ArrowUpRight } from "lucide-react";
+import { contact, footerNav, newsletter, site, socials } from "@/content/site";
 
 const involvement = [
   { label: "Donate a device", href: "/get-involved#donate-devices" },
@@ -23,6 +24,24 @@ export function SiteFooter() {
             <p className="mt-5 text-[0.8125rem] text-white/70">
               Founded {site.founded}. Incorporated {site.incorporated}.
             </p>
+            {/*
+              The newsletter gets the brand column rather than a slot in the platform row at
+              the foot. That row is seven names at 13px and nothing in it stands out from
+              anything else, which is right for a list of places we post and wrong for the one
+              thing here a reader can subscribe to.
+            */}
+            <a
+              href={newsletter.href}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="group/news mt-6 inline-flex items-center gap-2 rounded-full border border-white/25 py-2 pr-4 pl-4 text-[0.875rem] font-bold text-white transition-colors duration-300 hover:border-white/60 hover:bg-white/10"
+            >
+              Read the newsletter
+              <span className="text-white/60 transition-colors duration-300 group-hover/news:text-white">
+                on {newsletter.platform}
+              </span>
+              <ArrowUpRight className="size-4" strokeWidth={2.25} aria-hidden />
+            </a>
           </div>
 
           <nav aria-label="Footer">

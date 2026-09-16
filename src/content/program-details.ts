@@ -30,9 +30,20 @@
  * has no detail page.
  */
 
+import { forms } from "@/content/site";
+
 export type ProgramDetail = {
   /** One line under the title on the detail page. Not the same as the catalogue summary. */
   tagline: string;
+  /**
+   * An application form, for a programme that is taking people in. Rendered as the primary
+   * action in the masthead, above everything else on the page, because a reader who came to
+   * apply should not have to read the programme design first to find out how.
+   *
+   * Only for a programme whose form is actually open. Nothing renders when it is absent, and
+   * an upcoming programme must never carry one.
+   */
+  apply?: { label: string; href: string };
   /** Opening prose. Two or three paragraphs, no headings. */
   overview: string[];
   /**
@@ -692,6 +703,8 @@ export const programDetails: Record<string, ProgramDetail> = {
   "circular-tech-bootcamp": {
     tagline:
       "Hands-on hardware training in Lagos and St. Louis, on the same laptops that go back out to the community afterwards.",
+    /* The URL is in site.ts with the other external forms, so a replacement lands once. */
+    apply: { label: "Apply for the bootcamp", href: forms.circularTechBootcamp },
     overview: [
       "Every device that arrives at JustUsedTech needs assessment before it can be redistributed. The bootcamp turns that necessary work into a curriculum, so the people learning hardware repair are learning on real laptops that are going to real people afterwards, not on spare hardware kept for practice.",
       "The same programme runs in two places. In Lagos it is a jobs-focused course, taking participants through computer hardware from the component level up: identification, assembly and disassembly, troubleshooting, RAM, SSD and battery replacement, maintenance and optimisation, refurbishment, quality testing, and networking basics. Alongside that runs the circular economy and e-waste half, covering environmental impact, reuse and repair principles, safe disposal of damaged components, and community awareness.",
