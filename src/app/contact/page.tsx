@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/page-hero";
 import { Section, SectionHead } from "@/components/common/primitives";
 import { Reveal } from "@/components/common/reveal";
-import { ContactForm } from "@/components/sections/contact-form";
-import { contact, newsletter, socials } from "@/content/site";
+import { ContactSplit } from "@/components/sections/contact-split";
+import { contact } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -27,97 +27,16 @@ export default function ContactPage() {
         lede="Device donations, partnerships, volunteering, or press. Whichever it is, this reaches the right person."
       />
 
-      <Section tone="white">
-        <div className="grid gap-12 lg:grid-cols-[1fr_0.9fr] lg:gap-16">
-          <Reveal>
-            <SectionHead title="Send a message" />
-            <div className="mt-9">
-              <ContactForm />
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.1}>
-            <div className="space-y-8">
-              <div className="rounded-[var(--radius-card)] bg-paper-deep p-7 sm:p-8">
-                <h3 className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
-                  {contact.hqLabel}
-                </h3>
-                <address className="mt-4 text-[1.0625rem] leading-relaxed font-bold text-ink not-italic">
-                  {contact.hqAddress}
-                  <br />
-                  {contact.hqCity}
-                  <br />
-                  {contact.hqCountry}
-                </address>
-                <a
-                  href={contact.phoneHref}
-                  className="mt-5 inline-block font-bold text-brand-green-dark underline-offset-4 hover:underline"
-                >
-                  {contact.phone}
-                </a>
-                <div className="mt-5 space-y-1.5">
-                  {contact.emails.map((email) => (
-                    <p key={email.address} className="text-[0.9375rem]">
-                      <span className="font-semibold text-ink-soft">{email.label}: </span>
-                      <a
-                        href={`mailto:${email.address}`}
-                        className="font-bold text-brand-green-dark underline-offset-4 hover:underline"
-                      >
-                        {email.address}
-                      </a>
-                    </p>
-                  ))}
-                </div>
-              </div>
-
-              <div className="rounded-[var(--radius-card)] bg-mint p-7 sm:p-8">
-                <h3 className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-brand-green-dark uppercase">
-                  {contact.fieldLabel}
-                </h3>
-                <p className="mt-4 text-[1.0625rem] font-bold text-ink">
-                  {contact.fieldAddress}
-                </p>
-              </div>
-
-              <div>
-                <h3 className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
-                  Follow along
-                </h3>
-                <ul className="mt-4 flex flex-wrap gap-2">
-                  {/*
-                    The newsletter leads the row and takes the mint fill, so it reads as the
-                    one chip here that is a subscription rather than a profile.
-                  */}
-                  <li>
-                    <a
-                      href={newsletter.href}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      className="rounded-button inline-flex border border-edge bg-mint px-4 py-2 text-[0.875rem] font-bold text-brand-green-dark transition-colors duration-300 hover:border-[color:rgba(0,122,55,0.3)]"
-                    >
-                      {newsletter.name} on {newsletter.platform}
-                    </a>
-                  </li>
-                  {socials.map((social) => (
-                    <li key={social.name}>
-                      <a
-                        href={social.href}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className="rounded-button inline-flex border border-edge bg-white px-4 py-2 text-[0.875rem] font-bold text-ink-soft transition-colors duration-300 hover:border-[color:rgba(0,122,55,0.3)] hover:text-brand-green-dark"
-                      >
-                        {social.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </Reveal>
-        </div>
+      {/*
+        The split: form on the left, details on the green shader panel on the right. Both
+        panels are bezelled, so the section sits on the paper canvas rather than a white one,
+        which is what lets the bezels read as frames at all.
+      */}
+      <Section tone="paper">
+        <ContactSplit />
       </Section>
 
-      <Section tone="paper">
+      <Section tone="deep">
         <Reveal>
           <SectionHead
             title="Find the warehouse"
