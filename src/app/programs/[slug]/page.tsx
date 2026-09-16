@@ -586,6 +586,18 @@ export default async function ProgramDetailPage({ params }: Params) {
  * A single photograph short-circuits every style: there is nothing to accordion, drag, or
  * lay out against, so ElasticGallery's one-frame branch renders it plainly. That check lives
  * here rather than in four components, so no style has to carry the case.
+ *
+ * Below md, every style is the mosaic. The bento, accordion, and elastic treatments are
+ * built around a pointer and a wide row: bento is a sideways strip with drag layered on
+ * native scroll, which on a phone catches any swipe that is not dead vertical and stops the
+ * page; accordion is fixed-width panels wider than a phone, so another sideways strip; and
+ * elastic squeezes five panels into one fixed-height box, leaving the closed ones as
+ * slivers. None of that is a gallery on a phone. The mosaic is two columns that scroll with
+ * the page and open a lightbox, which is what a phone gallery should be.
+ *
+ * Both are rendered and CSS shows one. A media-query hook would have to pick after
+ * hydration and flash the wrong one first; the hidden copy's images do not load, since a
+ * lazy image with no layout box is never fetched.
  */
 function ProgramGallery({
   photos,
@@ -595,10 +607,23 @@ function ProgramGallery({
   style: ProgramDetail["galleryStyle"];
 }) {
   if (photos.length < 2) return <ElasticGallery photos={photos} />;
-  if (style === "bento") return <BentoGallery photos={photos} />;
-  if (style === "accordion") return <ImageAccordion photos={photos} />;
   if (style === "mosaic") return <MosaicGallery photos={photos} />;
-  return <ElasticGallery photos={photos} />;
+
+  const wide =
+    style === "bento" ? (
+      <BentoGallery photos={photos} />
+    ) : style === "accordion" ? (
+      <ImageAccordion photos={photos} />
+    ) : (
+      <ElasticGallery photos={photos} />
+    );
+
+  return (
+    <>
+      <MosaicGallery photos={photos} className="md:hidden [&>div]:columns-2" />
+      <div className="hidden md:block">{wide}</div>
+    </>
+  );
 }
 
 /* Missing slug is a 404 rather than a silent empty page. */

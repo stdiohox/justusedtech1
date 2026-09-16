@@ -30,7 +30,11 @@ import type { GalleryPhoto } from "@/components/ui/elastic-gallery";
   dragConstraints; that number goes stale on any layout change it does not observe, and on
   touch it fights the browser. Here the track is a real overflow-x container, so touch
   scrolling, trackpads, and scroll-into-view all work for free, and drag is an enhancement
-  for mouse users.
+  for mouse users only: it is switched on by a (pointer: fine) query, never on touch.
+
+  Phones do not see this component at all. The programme page swaps in the mosaic below
+  md, because a sideways strip of a dozen photographs is the wrong shape for a phone
+  however well it scrolls. This is the tablet-and-up treatment.
 
   Reduced motion drops the drag, the stagger, and the hover scale, leaving a plain scrollable
   strip that still shows every photograph.
@@ -51,11 +55,27 @@ export function BentoGallery({
   const trackRef = useRef<HTMLDivElement>(null);
   const [dragRange, setDragRange] = useState(0);
   const [open, setOpen] = useState<number | null>(null);
+  /*
+    Drag is for a mouse. On a touch screen the track's native scroll already does the job,
+    and layering drag over it catches any swipe that is not dead vertical, so the page
+    stops moving under the reader's thumb. False until measured, so the server render and
+    the first client render agree.
+  */
+  const [finePointer, setFinePointer] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(pointer: fine)");
+    const update = () => setFinePointer(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
 
   useEffect(() => {
     const el = trackRef.current;
     if (!el) return;
-    const measure = () => setDragRange(Math.max(0, el.scrollWidth - el.clientWidth));
+    const measure = () =>
+      setDragRange(Math.max(0, el.scrollWidth - el.clientWidth));
     measure();
     /* Observed rather than bound to resize alone, so a font or image load re-measures too. */
     const ro = new ResizeObserver(measure);
@@ -84,7 +104,7 @@ export function BentoGallery({
         className="w-full overflow-x-auto overscroll-x-contain pb-4 [scrollbar-width:thin]"
       >
         <motion.div
-          drag={reduced || dragRange === 0 ? false : "x"}
+          drag={reduced || !finePointer || dragRange === 0 ? false : "x"}
           dragConstraints={{ left: -dragRange, right: 0 }}
           dragElastic={0.04}
           dragMomentum={false}
@@ -148,7 +168,12 @@ export function BentoGallery({
         Drag or scroll for more. Select a frame to open it.
       </p>
 
-      <Lightbox photos={photos} index={open} onClose={() => setOpen(null)} onIndexChange={setOpen} />
+      <Lightbox
+        photos={photos}
+        index={open}
+        onClose={() => setOpen(null)}
+        onIndexChange={setOpen}
+      />
     </div>
   );
 }

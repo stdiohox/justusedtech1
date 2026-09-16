@@ -41,8 +41,9 @@ export function ImageAccordion({
     <div className={className}>
       {/*
         Scrolls rather than wraps below its natural width. The panels have fixed widths, which
-        is what makes the effect read, so on a narrow screen the row moves instead of
+        is what makes the effect read, so on a narrow tablet the row moves instead of
         collapsing into stacked full-width blocks that would not be an accordion at all.
+        Phones never see it: the programme page swaps in the mosaic below md.
       */}
       <div className="w-full overflow-x-auto overscroll-x-contain pb-3 [scrollbar-width:thin]">
         <div className="flex w-max gap-2 sm:gap-3">
@@ -108,7 +109,12 @@ export function ImageAccordion({
         Hover or focus a panel to open it. Select it to see the full frame.
       </p>
 
-      <Lightbox photos={photos} index={open} onClose={() => setOpen(null)} onIndexChange={setOpen} />
+      <Lightbox
+        photos={photos}
+        index={open}
+        onClose={() => setOpen(null)}
+        onIndexChange={setOpen}
+      />
     </div>
   );
 }
