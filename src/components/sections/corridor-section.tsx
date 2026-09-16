@@ -2,7 +2,7 @@ import { SectionHead } from "@/components/common/primitives";
 import { Reveal } from "@/components/common/reveal";
 import { CorridorLegend } from "@/components/sections/corridor-legend";
 import { WorldMap } from "@/components/sections/world-map";
-import { communitiesReached } from "@/content/impact";
+import { communitiesReached, corridors } from "@/content/impact";
 
 export function CorridorSection() {
   return (
@@ -25,7 +25,7 @@ export function CorridorSection() {
             <SectionHead
               eyebrow="Where devices go"
               title="One warehouse in Missouri. Three countries on the other end."
-              lede="Recovery and refurbishment happen in University City, MO. From there, working machines travel to communities in Nigeria, Ghana, and Kenya."
+              lede="Recovery and refurbishment happen in St. Louis, Missouri. From there, working laptops travel to communities in Nigeria, Ghana, and Kenya."
             />
             {/*
               gap, not space-y-4. The @theme block defines --space-4: 4px, and Tailwind
@@ -39,8 +39,13 @@ export function CorridorSection() {
                 <dt className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
                   Operations base
                 </dt>
+                {/*
+                  Reads from the corridor data, so this value and the map's hub pin cannot
+                  name different cities. This used to say University City, the mailing
+                  address, while the legend beneath it said St. Louis.
+                */}
                 <dd className="mt-1.5 text-[1.0625rem] font-bold text-ink">
-                  University City, Missouri
+                  {corridors[0]!.from.label}
                 </dd>
               </div>
               <div>
