@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { PhotoPlaceholder, TagPill } from "@/components/common/primitives";
 import { Reveal } from "@/components/common/reveal";
 import { MosaicGallery } from "@/components/ui/mosaic-gallery";
@@ -26,8 +26,15 @@ export default async function PostPage({ params }: Params) {
   const post = posts.find((p) => p.slug === slug);
   if (!post) notFound();
 
-  /* First frame leads the article, the rest go in the gallery under the body. */
-  const [lead, ...rest] = post.gallery ?? [];
+  /*
+    The cover leads the article where the post has one. Otherwise the first gallery frame
+    does, and the rest go in the gallery under the body; with a cover, every gallery frame
+    is "the rest", since none of them has been used up above.
+  */
+  const lead = post.cover ?? post.gallery?.[0];
+  const rest = post.cover
+    ? (post.gallery ?? [])
+    : (post.gallery ?? []).slice(1);
 
   return (
     <article className="pt-14 pb-24 md:pt-20">
@@ -104,6 +111,18 @@ export default async function PostPage({ params }: Params) {
             ))}
           </div>
 
+          {post.related && (
+            <p className="mt-8">
+              <Link
+                href={post.related.href}
+                className="inline-flex items-center gap-1.5 text-[1rem] font-bold text-brand-green-dark underline-offset-4 hover:underline"
+              >
+                {post.related.label}
+                <ArrowRight className="size-4" strokeWidth={2.25} aria-hidden />
+              </Link>
+            </p>
+          )}
+
           {/*
             The rest of the frames, uncropped. Two columns rather than the mosaic's usual
             three: this article column is 736px, and three tracks inside it would set each
@@ -114,7 +133,10 @@ export default async function PostPage({ params }: Params) {
               <p className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
                 From the session
               </p>
-              <MosaicGallery photos={rest} className="mt-5 lg:[&>div]:columns-2" />
+              <MosaicGallery
+                photos={rest}
+                className="mt-5 lg:[&>div]:columns-2"
+              />
             </div>
           )}
 

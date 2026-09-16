@@ -10,6 +10,7 @@ export function PageHero({
   size = "default",
   actions,
   media,
+  align = "center",
 }: {
   eyebrow: string;
   title: string;
@@ -42,6 +43,16 @@ export function PageHero({
    * per breakpoint and a headline reflows, so the one that can give is the one that does.
    */
   media?: ReactNode;
+  /**
+   * How the words sit against the media column from lg up.
+   *
+   * Centred is right when the two are close in height, which is the case on About, where
+   * the mosaic's labels run two columns and the block is squat. When the media block is much
+   * taller than the words, centring drops the headline to the middle of the page with empty
+   * paper above it, and the eye has to find it. Start puts the eyebrow level with the top of
+   * the pictures, where a masthead's first line belongs.
+   */
+  align?: "center" | "start";
 }) {
   return (
     // Full width and unframed: the rounded frame is the home hero gradient block only.
@@ -55,7 +66,12 @@ export function PageHero({
         }}
       />
       <div className="shell">
-        <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-12 xl:gap-16">
+        <div
+          className={cn(
+            "grid gap-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-12 xl:gap-16",
+            align === "center" ? "lg:items-center" : "lg:items-start",
+          )}
+        >
           <Reveal>
             <p className="inline-flex rounded-full bg-mint px-4 py-1.5 text-[0.6875rem] font-extrabold tracking-[0.18em] text-brand-green-dark uppercase">
               {eyebrow}

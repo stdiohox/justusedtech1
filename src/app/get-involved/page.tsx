@@ -5,8 +5,9 @@ import { PageHero } from "@/components/layout/page-hero";
 import { PillAnchor, PillLink } from "@/components/common/pill-button";
 import { Section, SectionHead } from "@/components/common/primitives";
 import { Reveal } from "@/components/common/reveal";
+import { VideoFeature } from "@/components/sections/video-feature";
 import { asks, contact, forms } from "@/content/site";
-import { volunteerAreas } from "@/content/team";
+import { videos } from "@/content/videos";
 import { galleryFrame } from "@/content/program-details";
 import { ClipMosaic } from "@/components/ui/clip-mosaic";
 
@@ -51,7 +52,13 @@ export default function GetInvolvedPage() {
               ["Volunteer", "#volunteer"],
             ].map(([label, href]) => (
               <li key={href}>
-                <PillLink href={href} variant="outline" bare className="text-[0.9375rem]">
+                {/* A size down from the bare pill's default, same as the News masthead: a table of contents, not a row of CTAs. */}
+                <PillLink
+                  href={href}
+                  variant="outline"
+                  bare
+                  className="px-4 py-2.5 text-[0.875rem]"
+                >
                   {label}
                 </PillLink>
               </li>
@@ -79,7 +86,10 @@ export default function GetInvolvedPage() {
               their subject low, and the classroom has its faces high.
             */
             frames={[
-              { ...galleryFrame("/programs/greenbin-360/02.jpg"), position: "object-[center_72%]" },
+              {
+                ...galleryFrame("/programs/greenbin-360/02.jpg"),
+                position: "object-[center_72%]",
+              },
               {
                 ...galleryFrame("/programs/breakthrough-series/02.jpg"),
                 position: "object-[center_66%]",
@@ -124,9 +134,7 @@ export default function GetInvolvedPage() {
               ))}
             </ul>
             <div className="mt-9">
-              <PillAnchor href={asks.donateDevice}>
-                Donate a device
-              </PillAnchor>
+              <PillAnchor href={asks.donateDevice}>Donate a device</PillAnchor>
             </div>
           </Reveal>
 
@@ -241,8 +249,8 @@ export default function GetInvolvedPage() {
                   {contact.phone}
                 </a>
                 <p className="mt-5 text-[0.875rem] leading-relaxed font-normal text-ink">
-                  Please email ahead so we can log the donation and give you a collection
-                  window.
+                  Please email ahead so we can log the donation and give you a
+                  collection window.
                 </p>
               </div>
             </aside>
@@ -351,8 +359,14 @@ export default function GetInvolvedPage() {
                 <ul className="mt-4 space-y-3.5">
                   {[
                     ["Refurbishment", "Parts, tooling, and technician time."],
-                    ["Delivery", "Shipping and logistics into Nigeria, Ghana, and Kenya."],
-                    ["Programmes", "School sessions, mentorship, and training materials."],
+                    [
+                      "Delivery",
+                      "Shipping and logistics into Nigeria, Ghana, and Kenya.",
+                    ],
+                    [
+                      "Programmes",
+                      "School sessions, mentorship, and training materials.",
+                    ],
                   ].map(([label, detail]) => (
                     <li key={label}>
                       <p className="font-extrabold text-ink">{label}</p>
@@ -400,7 +414,9 @@ export default function GetInvolvedPage() {
           ].map(([title, detail], i) => (
             <Reveal key={title} delay={i * 0.06}>
               <article className="card h-full">
-                <h3 className="text-xl font-extrabold tracking-[-0.025em]">{title}</h3>
+                <h3 className="text-xl font-extrabold tracking-[-0.025em]">
+                  {title}
+                </h3>
                 <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-soft">
                   {detail}
                 </p>
@@ -409,9 +425,7 @@ export default function GetInvolvedPage() {
           ))}
         </div>
         <Reveal className="mt-9">
-          <PillAnchor href={asks.partner}>
-            Partner with us
-          </PillAnchor>
+          <PillAnchor href={asks.partner}>Partner with us</PillAnchor>
         </Reveal>
       </Section>
 
@@ -436,119 +450,31 @@ export default function GetInvolvedPage() {
               their place on this page to fill it in. The pill's arrow already says so.
             */}
             <div className="mt-9">
-              <PillAnchor href={forms.volunteer} target="_blank" rel="noreferrer noopener">
+              <PillAnchor
+                href={forms.volunteer}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
                 Apply to volunteer
               </PillAnchor>
             </div>
           </Reveal>
           <Reveal delay={0.1}>
             {/*
-              The third card on the page to run the treatment the drop-off and funding cards
-              run: photograph for the card, the site's glass material for the text, the pane
-              at the foot. It used to be a mint panel with a list on it, which left the one
-              section here that is about people with nothing to look at.
+              The volunteer clip, where a photo card used to be. This is the one section on
+              the page that is about people giving time, and there is now footage of people
+              doing exactly that: a collection day, volunteers loading the green bins. A
+              still frame said "session in a room"; eleven seconds of the real thing says
+              more, and it is client footage, not stock.
 
-              What keeps three of them from reading as one device repeated is what each frame
-              is of. The drop-off card is a wide outdoor scene, the funding card a close
-              detail of a machine open on a bench, and this one is a session in a room.
-              Hardware arriving, hardware being worked on, and someone handing it over.
+              Portrait, because that is how it was shot, and capped by VideoFeature at a
+              width that keeps a 9:16 clip shorter than the viewport. Centred in the column
+              so the cap does not leave it hugging one edge.
             */}
-            {/*
-              The funding card's floors, and for the same reason: the column beside this one
-              is short, so nothing else sizes the card and the floor is what leaves the pane a
-              band worth looking at. The pane here is shorter than either of the other two, a
-              heading and four one-word lines, so the band is deeper at the same height.
-            */}
-            <aside className="relative flex h-full min-h-[38rem] flex-col justify-end overflow-hidden rounded-[var(--radius-card)] bg-mint p-4 lg:min-h-[34rem]">
-              {/* The mint fill above is a load state only, covered when the photo paints. */}
-              <div className="absolute inset-0">
-                {/*
-                  A portrait frame, which is what this card needs and is why the volunteers
-                  photograph from the About masthead is not here. That one is a wide group
-                  shot: in a card this shape the window is 62% of its width, which cuts two of
-                  the four people out at the left edge and leaves the rest pressed against the
-                  top of the pane. A treatment that crops to a tall card wants a tall picture,
-                  the same way the drop-off card does.
-
-                  This one also answers the list beside it. The four areas are content,
-                  training, outreach, and operations, and the frame is the training one: a
-                  team member handing a laptop across the table to a participant, in the shirt
-                  and beside the poster, which is the JustUsedTech room rather than a generic
-                  classroom.
-
-                  Alt text is the line already written for this frame in the Circular Tech
-                  gallery. It says team member, not volunteer: the picture cannot tell you
-                  which, and the card must not claim it.
-
-                  Cover crops on the vertical axis at lg, where the card is a little wider
-                  than the file, and on the horizontal below it. Centre holds in both. The
-                  standing figure's head sits at 24% of the frame and the seated participant's
-                  face at 38% to 48%, both well above the band the pane covers, and what goes
-                  behind the glass is the foreground table and the laptop open on it.
-                */}
-                <Image
-                  src="/programs/circular-tech-bootcamp/09.jpg"
-                  alt="A team member leaning across a table to show a laptop to a young participant, beside a JustUsedTech poster."
-                  fill
-                  sizes="(min-width: 1024px) 520px, 100vw"
-                  quality={90}
-                  className="object-cover object-[center_50%]"
-                />
-                {/*
-                  The same wash up from the foot as the two cards above. The foreground table
-                  in this frame is a pale laminate running the full width of the bottom edge,
-                  which is the brightest thing in the picture and the closest in luminance to
-                  the pane.
-                */}
-                <div
-                  aria-hidden
-                  className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-[rgba(10,31,20,0.45)] via-[rgba(10,31,20,0.14)] to-transparent"
-                />
-              </div>
-
-              {/*
-                Same sheer fill, same inset, same concentric radius as the other two panes, so
-                the three read as one material. The rule that fill carries comes with it: no
-                green on this surface, where --brand-green-dark falls to 1.8:1 over a dark
-                backdrop, so the four areas go to --ink and stay separated from the heading by
-                weight and size. Green is on the button beside the card, which is the thing
-                this section wants pressed.
-              */}
-              <div className="relative rounded-[calc(var(--radius-card)-1rem)] glass-card glass-sheer p-6 sm:p-7">
-                <h3 className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink uppercase">
-                  Where volunteers work
-                </h3>
-                {/*
-                  Two columns, and each area says what the work is.
-
-                  As four bare words in one column this was the weakest block on the page: a
-                  narrow stack down the left of a pane twice its width, with nothing to read
-                  and half the glass empty. The funding pane next to it had already solved
-                  that with label and detail pairs, so this takes the same pairs and lays them
-                  in a 2x2 instead of a run of four, which is what keeps the pane the same
-                  height it was. Four stacked pairs would have made it 340px, and the pane
-                  would have climbed into the participant's face in the photograph behind it.
-
-                  Two columns at every width, phone included. The detail lines are three and
-                  four words, so a 158px column wraps them to three lines at worst, which is
-                  still shorter than four pairs run down a single column.
-                */}
-                <dl className="mt-4 grid grid-cols-2 gap-x-5 gap-y-4">
-                  {volunteerAreas.map(({ area, detail }) => (
-                    <div key={area}>
-                      <dt className="text-[1.0625rem] font-extrabold text-ink">{area}</dt>
-                      <dd className="mt-0.5 text-[0.8125rem] leading-snug font-medium text-ink">
-                        {detail}
-                      </dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-            </aside>
+            <VideoFeature clip={videos.volunteer} />
           </Reveal>
         </div>
       </Section>
-
     </>
   );
 }

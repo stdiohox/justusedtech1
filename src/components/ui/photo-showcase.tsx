@@ -59,9 +59,28 @@ const COLUMN_OFFSET = ["", "mt-8 sm:mt-12 md:mt-16"];
 export function PhotoShowcase({
   items,
   className,
+  fitLabels = false,
 }: {
   items: ShowcaseItem[];
   className?: string;
+  /**
+   * Hold the label list to the mosaic's width from lg up, in two columns that wrap.
+   *
+   * The list is what sets the block's width inside a masthead. Left to its own size, two
+   * columns of labels make the block wider than the pictures, and since the masthead's
+   * media column is sized to its content, that extra width is taken from the words beside
+   * it and lands the mosaic hard against them. Capped at the mosaic, the block cannot grow
+   * past the pictures, sits at the far edge, and the gap between text and pictures falls
+   * out of the grid rather than being forced.
+   *
+   * Two columns rather than one because a stack of four rows is taller than the mosaic and
+   * drags the masthead out; and because dealt alternately, the first label lands under the
+   * first tile column and the second under the second, so the list reads as a key to the
+   * pictures above it. Kickers have to be short for this to hold; long ones wrap to three
+   * lines at lg and the point is lost. About keeps the default, since its block owns more of
+   * its masthead and its labels are short enough not to need the cap.
+   */
+  fitLabels?: boolean;
 }) {
   const [activeId, setActiveId] = useState<string | null>(null);
 
@@ -72,9 +91,7 @@ export function PhotoShowcase({
   ];
 
   return (
-    <div
-      className={cn("flex flex-col gap-8 md:gap-10", className)}
-    >
+    <div className={cn("flex flex-col gap-8 md:gap-10", className)}>
       <div className="flex shrink-0 gap-3 md:gap-4">
         {columns.map((column, index) => (
           <div
@@ -104,7 +121,15 @@ export function PhotoShowcase({
         not. lg is the narrow case, because that is where the masthead splits and the mosaic
         column drops to roughly 440px.
       */}
-      <ul className="grid gap-6 sm:grid-cols-2 sm:gap-7 lg:grid-cols-1 lg:gap-6 xl:grid-cols-2 xl:gap-7">
+      <ul
+        className={cn(
+          "grid gap-6 sm:grid-cols-2 sm:gap-7",
+          fitLabels
+            ? /* Cap is the two tile widths plus the 16px gap between them, per breakpoint. */
+              "lg:max-w-[440px] lg:gap-x-4 lg:gap-y-6 xl:max-w-[520px] xl:gap-x-5"
+            : "lg:grid-cols-1 lg:gap-6 xl:grid-cols-2 xl:gap-7",
+        )}
+      >
         {items.map((item) => (
           <LabelRow
             key={item.id}
