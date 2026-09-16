@@ -938,3 +938,23 @@ export const programDetails: Record<string, ProgramDetail> = {
 export function hasDetailPage(slug: string) {
   return slug in programDetails;
 }
+
+/**
+ * One gallery photograph, looked up by its path, so a surface outside the programme pages can
+ * show a frame without restating its alt text.
+ *
+ * Alt text is held to the same standard everywhere on this site and is written once, against
+ * the picture, in the gallery it belongs to. A second copy pasted into a page component is a
+ * second copy to keep true, and the one that drifts is always the copy nobody is looking at.
+ *
+ * It throws on a path that is not in any gallery rather than rendering an empty description.
+ * Every caller runs at build time on a statically prerendered page, so a wrong path fails the
+ * build rather than reaching a reader.
+ */
+export function galleryFrame(src: string): { src: string; alt: string } {
+  for (const detail of Object.values(programDetails)) {
+    const found = detail.gallery?.find((frame) => frame.src === src);
+    if (found) return { src: found.src, alt: found.alt };
+  }
+  throw new Error(`galleryFrame: no gallery entry for ${src}`);
+}

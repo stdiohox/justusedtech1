@@ -357,6 +357,31 @@
   }
 
   /*
+    A sheerer fill for a pane laid over a photograph, where 75% reads as a white box sitting
+    on the picture rather than a material you can see through. Modifier on .glass-card: it
+    changes the fill and the filter and inherits the edge and the shadow.
+
+    58% with a 26px blur, and what buys the extra 17 points of transparency is the text, not
+    the filter. The muted grey is what fails first: at 58% over a dark backdrop the pane
+    composites to about 0.30 luminance, where --ink-soft lands at 2.8:1 and --ink at 5.5:1.
+    So a pane using this fill carries every line at --ink and separates them by weight and
+    size instead of by a lighter grey, which is the rule for type on translucent surfaces
+    anyway. It is not a drop-in for a block written for the opaque card.
+
+    saturate keeps the picture's colour from washing out as the fill lightens it, which is
+    what makes it read as glass over a photograph rather than fog.
+
+    The limits, worst case first: over pure black the pane holds --ink at 5.5:1, and over the
+    bright end at 16.7:1. Green at --brand-green-dark is the one thing that does not survive
+    the drop, at 1.8:1 over a dark backdrop, so a green link belongs on the 75% fill.
+  */
+  .glass-sheer {
+    background: rgba(255, 255, 255, 0.58);
+    -webkit-backdrop-filter: blur(26px) saturate(140%);
+    backdrop-filter: blur(26px) saturate(140%);
+  }
+
+  /*
     Hero visual: a rounded window that crops an oversized image.
 
     The media layer is 120% of the window in both axes and pinned to its top-left corner, so
@@ -416,8 +441,28 @@
 
   /* Browsers without backdrop-filter get an opaque fill instead of an unreadable wash. */
   @supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
-    .glass-card {
+    .glass-card,
+    .glass-sheer {
       background: rgba(255, 255, 255, 0.94);
+    }
+  }
+
+  /*
+    A reader who has asked for less transparency gets the same opaque fill, for the same
+    reason: what is behind the pane stops showing through it. The blur goes with it, since
+    there is nothing left to blur, and the bright inner edge goes back to the hairline every
+    other surface uses, the highlight being there to read as light caught on glass.
+
+    Same treatment on prefers-contrast: more, where a translucent fill is the first thing to
+    go and a defined edge is the thing wanted in its place.
+  */
+  @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+    .glass-card,
+    .glass-sheer {
+      background: rgba(255, 255, 255, 0.97);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+      border-color: var(--edge);
     }
   }
 
@@ -723,6 +768,41 @@
     }
     .rise-group > .rise:nth-child(n + 5) {
       animation-range: entry 4% cover 40%;
+    }
+  }
+}
+
+/*
+  The proportion bar on the impact dashboard, unrolling as it is scrolled into view.
+  See components/sections/impact-2025.tsx.
+
+  Same contract as `.rise`: the resting state is the finished bar at its full width, and the
+  growth is layered on only where scroll-driven animations exist and motion is welcome. A
+  browser without `animation-timeline` shows the proportion immediately, which is the right
+  fallback for a figure.
+
+  The track is what animates, not the two segments inside it. Their widths are `fr` tracks of
+  this element, so one width animation carries both and the 20,000 to 25,000 ratio is correct
+  at every frame rather than only at the end. Animating each segment separately would have
+  raced them, and a bar whose split slides around while it opens is telling a small lie on
+  the way to the truth.
+
+  Width, not transform, and knowingly. scaleX on a pill flattens its end caps into ellipses
+  for the length of the animation, which is more visible on a 14px bar than one off-thread
+  layout of two spans is expensive.
+*/
+@keyframes jut-bar-open {
+  from {
+    width: 0;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .split-bar {
+      animation: jut-bar-open linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 34%;
     }
   }
 }

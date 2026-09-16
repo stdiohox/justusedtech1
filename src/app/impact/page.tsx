@@ -3,11 +3,8 @@ import Link from "next/link";
 import { PageHero } from "@/components/layout/page-hero";
 import { Section, SectionHead, StatBlock } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
-import {
-  communitiesReached,
-  impact2025,
-  usOperations,
-} from "@/content/impact";
+import { Impact2025 } from "@/components/sections/impact-2025";
+import { usOperations } from "@/content/impact";
 import { latestPost } from "@/content/news";
 
 export const metadata: Metadata = {
@@ -26,40 +23,18 @@ export default function ImpactPage() {
       />
 
       {/*
-        Stat blocks, not stat cards. Each figure is separated by a hairline rule instead of
-        being boxed, so the five numbers read as one set rather than as five objects, and
-        the figure keeps all of the weight.
+        The 2025 set reads as a dashboard rather than as five equal stat blocks: the
+        e-waste total takes a wide cell with its two routes drawn as a proportion, the reach
+        figure takes a green feature card, and the rest run as tiles. Ranked, because the
+        figures are not the same size of fact.
       */}
-      <Section tone="white">
-        <Reveal>
-          <SectionHead
-            title="2025 at a glance"
-            lede="Across 8 schools in Lagos State, plus US-side redistribution."
-          />
-        </Reveal>
-        <RevealGroup
-          as="ul"
-          className="mt-14 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3"
-        >
-          {impact2025.map((stat) => (
-            <RevealItem as="li" key={stat.label}>
-              <StatBlock
-                value={stat.value}
-                label={stat.label}
-                detail={stat.detail}
-              />
-            </RevealItem>
-          ))}
-        </RevealGroup>
+      <Impact2025 />
 
-        <Reveal className="mt-10">
-          <p className="text-[0.9375rem] leading-relaxed text-ink-soft">
-            <span className="font-extrabold text-ink">Communities reached: </span>
-            {communitiesReached.join(", ")}.
-          </p>
-        </Reveal>
-      </Section>
-
+      {/*
+        US operations stays on stat blocks. It is four peer figures with no part-of-a-whole
+        among them, so there is nothing for a dashboard to rank, and running a second
+        dashboard here would take the emphasis back off the 2025 one.
+      */}
       <Section tone="green">
         <Reveal>
           <SectionHead

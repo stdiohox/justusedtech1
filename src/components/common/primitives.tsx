@@ -258,6 +258,35 @@ const AVATAR_TONES = [
   { bg: "var(--brand-green-dark)", fg: "#ffffff" },
 ];
 
+/*
+  A second palette, for avatars that sit in a tight overlapping stack rather than one per card.
+
+  Why not AVATAR_TONES: those are meant to be seen one at a time beside a name, and four of
+  them butted together at 25% overlap fight each other, partly because #007A37 is far darker
+  than the other three so the row lands in clumps.
+
+  Why not one green stepping light to deep, which is what this was first: sleek, and too
+  quiet. A whole roster rendered in a single hue reads as a gradient swatch rather
+  than as a group of people, and this brand owns three colours, not one.
+
+  So: all three brand hues in rotation, with the value moving as well as the hue, which is
+  what keeps it from looking shuffled. No two neighbours share a hue or a weight, and the
+  sequence is even enough to survive wrapping on a nine person group.
+
+  Every pairing is measured, not guessed. The worst is #00A652 on ink at 5.23:1 and the rest
+  run to 12.22, so all clear WCAG AA for the small bold initials they carry. Check any new
+  entry before adding it: a deeper blue is the obvious next step and #0086BD already fails at
+  4.09:1 against ink and is worse against white, which is why there isn't one.
+*/
+const AVATAR_STACK = [
+  { bg: "#ffd966", fg: "#12211a" }, // gold
+  { bg: "#00a652", fg: "#12211a" }, // brand green
+  { bg: "#8ed8f5", fg: "#12211a" }, // blue, pale
+  { bg: "#007a37", fg: "#ffffff" }, // green, deep
+  { bg: "#00adef", fg: "#12211a" }, // brand blue
+  { bg: "#a8dcc0", fg: "#12211a" }, // green, pale
+];
+
 export function initialsOf(name: string) {
   return name
     .split(" ")
@@ -272,14 +301,22 @@ export function InitialsAvatar({
   index,
   className,
   circle = false,
+  palette = "brand",
 }: {
   name: string;
   index: number;
   className?: string;
   /** Circular rather than the default squircle. Used by the Community Voices cards. */
   circle?: boolean;
+  /**
+   * "brand" is the default and is what every standalone avatar uses. "stack" is for avatars
+   * overlapping each other in a row, where the tones have to hold up side by side rather than
+   * one at a time. See AVATAR_STACK.
+   */
+  palette?: "brand" | "stack";
 }) {
-  const tone = AVATAR_TONES[index % AVATAR_TONES.length]!;
+  const tones = palette === "stack" ? AVATAR_STACK : AVATAR_TONES;
+  const tone = tones[index % tones.length]!;
   return (
     <div
       aria-hidden

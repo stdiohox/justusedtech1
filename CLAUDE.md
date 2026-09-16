@@ -45,9 +45,20 @@ python3 ~/.claude/skills/user/ui-ux-pro-max/search.py "<query>" --design-system 
 ## Content integrity rules (non-negotiable)
 
 1. Never fabricate a quote attributed to a named real person beyond what the brief supplies.
-2. No real program/team/gallery photos exist yet. Use clearly-placeholder treatments
-   (branded gradient blocks, initials avatars). Never use stock photos of real people implied
-   to be JustUsedTech staff or beneficiaries.
+2. Client-supplied photographs of real people may be used against their own names. As of
+   2026-09-15 that means the two board members only: Titobi Oreolorun
+   (`public/titobi-services-sm.jpg`) and Christopher Wise (`public/team/christopher-wise.jpg`).
+   Christopher's came off the old justusedtech.org about page as a cut-out on flat white
+   (`wp-content/uploads/2024/04/2.png`), which read as a hole next to Titobi's studio shot. The
+   committed file has a rebuilt backdrop under him: neutral studio grey, one light upper left
+   falling to the lower right, matched to the tones sampled from Titobi's frame so the two read
+   as one shoot. Re-key from the source URL, do not paint over the committed file. Everyone
+   else on the roster still has no
+   photograph and renders an initials avatar, and a group only switches to the portrait
+   treatment once every member of it has one, so nobody is singled out. Programme and gallery
+   surfaces without real photography keep the placeholder treatments (branded gradient
+   blocks). Never use a stock photo of a real person implied to be JustUsedTech staff or a
+   beneficiary.
 3. Programs marked `[UPCOMING]` must be visually distinguished from `[ACTIVE]` everywhere.
 4. Do not invent metrics for SkillSync Initiative or Circular Tech Bootcamp. Description only.
 5. Use only the real University City, MO address. The old live site's London map and
