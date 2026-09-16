@@ -31,6 +31,7 @@
  */
 
 import { forms } from "@/content/site";
+import { videos, type VideoClip } from "@/content/videos";
 
 export type ProgramDetail = {
   /** One line under the title on the detail page. Not the same as the catalogue summary. */
@@ -107,6 +108,12 @@ export type ProgramDetail = {
    * A single photograph ignores this and renders as one frame.
    */
   galleryStyle?: "elastic" | "accordion" | "bento" | "mosaic";
+  /**
+   * A clip from someone the programme reached, shown in its own section after the
+   * photographs. Content lives in content/videos.ts; this only points at it. Programmes
+   * without one render no section, the same rule as the gallery.
+   */
+  video?: { heading: string; lede: string; clip: VideoClip };
 };
 
 export const programDetails: Record<string, ProgramDetail> = {
@@ -156,8 +163,14 @@ export const programDetails: Record<string, ProgramDetail> = {
       },
     ],
     targets: [
-      { figure: "1,000", detail: "Students across 10 schools within 12 months" },
-      { figure: "60%", detail: "Literacy improvement, measured pre and post session" },
+      {
+        figure: "1,000",
+        detail: "Students across 10 schools within 12 months",
+      },
+      {
+        figure: "60%",
+        detail: "Literacy improvement, measured pre and post session",
+      },
       { figure: "10", detail: "Schools onboarded, engaged, and evaluated" },
     ],
     audience: {
@@ -301,9 +314,20 @@ export const programDetails: Record<string, ProgramDetail> = {
       },
     ],
     targets: [
-      { figure: "10", detail: "Refurbished devices to underserved youth aged 18 to 35, within 12 months" },
-      { figure: "75%", detail: "Of recipients actively using devices for learning or income" },
-      { figure: "100%", detail: "Of recipients in at least one structured mentorship interaction" },
+      {
+        figure: "10",
+        detail:
+          "Refurbished devices to underserved youth aged 18 to 35, within 12 months",
+      },
+      {
+        figure: "75%",
+        detail: "Of recipients actively using devices for learning or income",
+      },
+      {
+        figure: "100%",
+        detail:
+          "Of recipients in at least one structured mentorship interaction",
+      },
     ],
     audience: {
       primary: [
@@ -388,6 +412,16 @@ export const programDetails: Record<string, ProgramDetail> = {
     galleryLede:
       "Laptop handovers, mentoring sessions, and recipients getting started on the laptops they were given.",
     galleryStyle: "accordion",
+    /*
+      The heading says who is speaking and the lede says what the clip is, and neither
+      says what is said in it, because no transcript was supplied. When one is, it belongs
+      in content/videos.ts against the clip, and this lede can quote from it.
+    */
+    video: {
+      heading: "Hear from a beneficiary",
+      lede: "A Breakthrough Series recipient, on camera in the training room with the laptop.",
+      clip: videos.breakthroughBeneficiary,
+    },
   },
 
   /* ---------------------------------------------------------------- */
@@ -422,8 +456,15 @@ export const programDetails: Record<string, ProgramDetail> = {
       },
     ],
     targets: [
-      { figure: "500", detail: "Children and youth engaged in sports activities within 12 months" },
-      { figure: "500+", detail: "Upcycled or donated kits distributed within 12 months" },
+      {
+        figure: "500",
+        detail:
+          "Children and youth engaged in sports activities within 12 months",
+      },
+      {
+        figure: "500+",
+        detail: "Upcycled or donated kits distributed within 12 months",
+      },
       { figure: "3", detail: "Community-based sports events and tournaments" },
     ],
     audience: {
@@ -704,7 +745,10 @@ export const programDetails: Record<string, ProgramDetail> = {
     tagline:
       "Hands-on hardware training in Lagos and St. Louis, on the same laptops that go back out to the community afterwards.",
     /* The URL is in site.ts with the other external forms, so a replacement lands once. */
-    apply: { label: "Apply for the bootcamp", href: forms.circularTechBootcamp },
+    apply: {
+      label: "Apply for the bootcamp",
+      href: forms.circularTechBootcamp,
+    },
     overview: [
       "Every device that arrives at JustUsedTech needs assessment before it can be redistributed. The bootcamp turns that necessary work into a curriculum, so the people learning hardware repair are learning on real laptops that are going to real people afterwards, not on spare hardware kept for practice.",
       "The same programme runs in two places. In Lagos it is a jobs-focused course, taking participants through computer hardware from the component level up: identification, assembly and disassembly, troubleshooting, RAM, SSD and battery replacement, maintenance and optimisation, refurbishment, quality testing, and networking basics. Alongside that runs the circular economy and e-waste half, covering environmental impact, reuse and repair principles, safe disposal of damaged components, and community awareness.",
@@ -756,10 +800,20 @@ export const programDetails: Record<string, ProgramDetail> = {
       },
     ],
     targets: [
-      { figure: "50", detail: "Youth enrolled and trained on hardware and circular economy skills" },
+      {
+        figure: "50",
+        detail:
+          "Youth enrolled and trained on hardware and circular economy skills",
+      },
       { figure: "85%", detail: "Training completion rate" },
-      { figure: "70%", detail: "Knowledge improvement, pre and post assessment" },
-      { figure: "20", detail: "Devices refurbished and presented at the capstone exhibition" },
+      {
+        figure: "70%",
+        detail: "Knowledge improvement, pre and post assessment",
+      },
+      {
+        figure: "20",
+        detail: "Devices refurbished and presented at the capstone exhibition",
+      },
     ],
     audience: {
       primary: [
@@ -822,12 +876,14 @@ export const programDetails: Record<string, ProgramDetail> = {
       {
         window: "Month 3",
         label: "Projects and exhibition",
-        detail: "Practical projects, mentorship, and the final capstone exhibition.",
+        detail:
+          "Practical projects, mentorship, and the final capstone exhibition.",
       },
       {
         window: "Month 4",
         label: "Reporting and evaluation",
-        detail: "Programme reporting and evaluation against the training targets.",
+        detail:
+          "Programme reporting and evaluation against the training targets.",
       },
     ],
     outcomes: [

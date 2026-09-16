@@ -30,9 +30,13 @@ import {
   TagPill,
 } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
+import { VideoFeature } from "@/components/sections/video-feature";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
 import { BentoGallery } from "@/components/ui/bento-gallery";
-import { ElasticGallery, type GalleryPhoto } from "@/components/ui/elastic-gallery";
+import {
+  ElasticGallery,
+  type GalleryPhoto,
+} from "@/components/ui/elastic-gallery";
 import { ImageAccordion } from "@/components/ui/image-accordion";
 import { MosaicGallery } from "@/components/ui/mosaic-gallery";
 import type { ProgramDetail } from "@/content/program-details";
@@ -149,7 +153,11 @@ export default async function ProgramDetailPage({ params }: Params) {
             */}
             {detail.apply && (
               <div className="mt-9">
-                <PillAnchor href={detail.apply.href} target="_blank" rel="noreferrer noopener">
+                <PillAnchor
+                  href={detail.apply.href}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
                   {detail.apply.label}
                 </PillAnchor>
               </div>
@@ -163,7 +171,12 @@ export default async function ProgramDetailPage({ params }: Params) {
       <Section tone="white" className="!pt-0">
         <Reveal>
           <div className="overflow-hidden rounded-card border border-edge">
-            <ProgramMedia slug={program.slug} status={program.status} tone={0} panel />
+            <ProgramMedia
+              slug={program.slug}
+              status={program.status}
+              tone={0}
+              panel
+            />
           </div>
         </Reveal>
 
@@ -287,7 +300,6 @@ export default async function ProgramDetailPage({ params }: Params) {
         </Section>
       )}
 
-
       {/*
         Targets and delivered results are deliberately two separate sections with two
         different headings, never one merged row of numbers. A target is a plan and a result
@@ -316,7 +328,9 @@ export default async function ProgramDetailPage({ params }: Params) {
         <Section tone="white">
           <Reveal>
             <SectionHead
-              title={program.results ? "Delivered in 2025" : "US operations to date"}
+              title={
+                program.results ? "Delivered in 2025" : "US operations to date"
+              }
               lede={
                 program.results
                   ? "Work that has already happened, with the dates it happened on."
@@ -342,39 +356,45 @@ export default async function ProgramDetailPage({ params }: Params) {
       )}
 
       {detail.activities && (
-      <Section tone="deep">
-        <Reveal>
-          <SectionHead title="How it runs" lede="The activities that make up the programme." />
-        </Reveal>
-        <RevealGroup className="mt-12 grid gap-4 md:grid-cols-2">
-          {detail.activities.map((activity, i) => (
-            <RevealItem key={activity.title}>
-              <div className="flex h-full gap-5 rounded-card border border-edge bg-white p-7">
-                <span
-                  aria-hidden
-                  className="mt-0.5 shrink-0 text-[0.875rem] font-extrabold text-brand-green-dark tabular-nums"
-                >
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <div>
-                  <h3 className="text-lg font-extrabold tracking-[-0.02em] text-ink">
-                    {activity.title}
-                  </h3>
-                  <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-ink-soft text-pretty">
-                    {activity.detail}
-                  </p>
+        <Section tone="deep">
+          <Reveal>
+            <SectionHead
+              title="How it runs"
+              lede="The activities that make up the programme."
+            />
+          </Reveal>
+          <RevealGroup className="mt-12 grid gap-4 md:grid-cols-2">
+            {detail.activities.map((activity, i) => (
+              <RevealItem key={activity.title}>
+                <div className="flex h-full gap-5 rounded-card border border-edge bg-white p-7">
+                  <span
+                    aria-hidden
+                    className="mt-0.5 shrink-0 text-[0.875rem] font-extrabold text-brand-green-dark tabular-nums"
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <h3 className="text-lg font-extrabold tracking-[-0.02em] text-ink">
+                      {activity.title}
+                    </h3>
+                    <p className="mt-2.5 text-[0.9375rem] leading-relaxed text-ink-soft text-pretty">
+                      {activity.detail}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </RevealItem>
-          ))}
-        </RevealGroup>
-      </Section>
+              </RevealItem>
+            ))}
+          </RevealGroup>
+        </Section>
       )}
 
       {detail.phases && (
         <Section tone="white">
           <Reveal>
-            <SectionHead title="Timeline" lede="How the programme is planned to run, month by month." />
+            <SectionHead
+              title="Timeline"
+              lede="How the programme is planned to run, month by month."
+            />
           </Reveal>
           <RevealGroup className="mt-12 space-y-0">
             {detail.phases.map((phase) => (
@@ -413,8 +433,33 @@ export default async function ProgramDetailPage({ params }: Params) {
             />
           </Reveal>
           <Reveal className="mt-12">
-            <ProgramGallery photos={detail.gallery} style={detail.galleryStyle} />
+            <ProgramGallery
+              photos={detail.gallery}
+              style={detail.galleryStyle}
+            />
           </Reveal>
+        </Section>
+      )}
+
+      {/*
+        The clip, after the photographs and before the audience. Words beside the player
+        rather than above it: at lg the copy is a short heading and one line, and stacked
+        over a 16:9 player at the shell's width it left the player alone on a wide row.
+        Beside, the two share the row and the player is still 60% of it.
+      */}
+      {detail.video && (
+        <Section tone="white">
+          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-16">
+            <Reveal>
+              <SectionHead
+                title={detail.video.heading}
+                lede={detail.video.lede}
+              />
+            </Reveal>
+            <Reveal delay={0.08}>
+              <VideoFeature clip={detail.video.clip} />
+            </Reveal>
+          </div>
         </Section>
       )}
 
