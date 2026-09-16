@@ -61,7 +61,7 @@ export const teamGroups: TeamGroup[] = [
         name: "Titobi Oreolorun",
         role: "Founder & CEO",
         photo: {
-          src: "/titobi-services-sm.jpg",
+          src: "/team/titobi-oreolorun.jpg",
           alt: "Titobi Oreolorun, Founder and CEO of JustUsedTech",
         },
         socials: [

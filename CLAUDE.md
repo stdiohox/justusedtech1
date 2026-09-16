@@ -47,7 +47,7 @@ python3 ~/.claude/skills/user/ui-ux-pro-max/search.py "<query>" --design-system 
 1. Never fabricate a quote attributed to a named real person beyond what the brief supplies.
 2. Client-supplied photographs of real people may be used against their own names. As of
    2026-09-15 that means the two board members only: Titobi Oreolorun
-   (`public/titobi-services-sm.jpg`) and Christopher Wise (`public/team/christopher-wise.jpg`).
+   (`public/team/titobi-oreolorun.jpg`) and Christopher Wise (`public/team/christopher-wise.jpg`).
    Christopher's came off the old justusedtech.org about page as a cut-out on flat white
    (`wp-content/uploads/2024/04/2.png`), which read as a hole next to Titobi's studio shot. The
    committed file has a rebuilt backdrop under him: neutral studio grey, one light upper left
