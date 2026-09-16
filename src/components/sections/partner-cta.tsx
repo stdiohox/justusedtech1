@@ -64,7 +64,7 @@ export function PartnerCta() {
       ref={ref}
       onPointerMove={reduced ? undefined : onPointerMove}
       onPointerLeave={reduced ? undefined : onPointerLeave}
-      className="relative isolate overflow-hidden bg-green-surface py-24 text-white md:py-32"
+      className="relative isolate overflow-hidden bg-green-surface py-16 text-white md:py-24"
     >
       {!reduced && (
         <>

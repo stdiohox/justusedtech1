@@ -11,9 +11,30 @@
  */
 
 const ORBITS = [
-  { rx: 330, ry: 132, tilt: "-24deg", duration: "78s", opacity: 0.2, dash: "5 11" },
-  { rx: 268, ry: 268, tilt: "16deg", duration: "94s", opacity: 0.15, dash: "4 12" },
-  { rx: 352, ry: 208, tilt: "62deg", duration: "64s", opacity: 0.17, dash: "6 14" },
+  {
+    rx: 330,
+    ry: 132,
+    tilt: "-24deg",
+    duration: "78s",
+    opacity: 0.2,
+    dash: "5 11",
+  },
+  {
+    rx: 268,
+    ry: 268,
+    tilt: "16deg",
+    duration: "94s",
+    opacity: 0.15,
+    dash: "4 12",
+  },
+  {
+    rx: 352,
+    ry: 208,
+    tilt: "62deg",
+    duration: "64s",
+    opacity: 0.17,
+    dash: "6 14",
+  },
 ];
 
 export function OrbitBackdrop({ className }: { className?: string }) {

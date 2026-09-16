@@ -111,7 +111,7 @@ export default async function ProgramDetailPage({ params }: Params) {
         band is copied from it, including the radial wash and the dock sentinel, so the two
         mastheads still read as the same object.
       */}
-      <section className="relative overflow-hidden bg-paper pt-14 pb-16 md:pt-20 md:pb-20">
+      <section className="relative overflow-hidden bg-paper pt-12 pb-12 md:pt-16 md:pb-16">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10"

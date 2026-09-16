@@ -64,7 +64,11 @@ export function Impact2025() {
       <RevealGroup as="ul" className="mt-4 grid gap-4 sm:grid-cols-3">
         {impactTiles2025.map((stat) => (
           <RevealItem as="li" key={stat.label}>
-            <StatTile value={stat.value} label={stat.label} detail={stat.detail} />
+            <StatTile
+              value={stat.value}
+              label={stat.label}
+              detail={stat.detail}
+            />
           </RevealItem>
         ))}
       </RevealGroup>

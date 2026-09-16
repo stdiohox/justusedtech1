@@ -32,7 +32,12 @@ import { cn } from "@/lib/utils";
  * sits well below the fold, so hydration is long finished before it is reached.
  */
 
-const SPRING = { type: "spring", stiffness: 120, damping: 18, mass: 0.9 } as const;
+const SPRING = {
+  type: "spring",
+  stiffness: 120,
+  damping: 18,
+  mass: 0.9,
+} as const;
 
 type VoiceCardProps = {
   name: string;
@@ -119,7 +124,9 @@ export function VoiceCard({
           <span className="block font-bold tracking-[var(--tracking-body)] text-ink">
             {name}
           </span>
-          <span className="block text-[0.875rem] font-normal text-ink-soft">{meta}</span>
+          <span className="block text-[0.875rem] font-normal text-ink-soft">
+            {meta}
+          </span>
         </span>
       </div>
     </div>

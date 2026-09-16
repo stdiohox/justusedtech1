@@ -32,7 +32,7 @@ export function ContactSplit() {
     <div className="grid gap-6 lg:grid-cols-[0.94fr_1.06fr]">
       {/* Left: the form. */}
       <Reveal className="bezel">
-        <div className="bezel-core bg-white px-6 py-10 sm:px-10 sm:py-12 lg:px-14 lg:py-16">
+        <div className="bezel-core bg-white px-6 py-8 sm:px-9 sm:py-10 lg:px-12 lg:py-12">
           <SectionHead
             title="Send a message"
             lede="Tell us what you need and it lands with the right person. Most replies go out within two working days."
@@ -45,7 +45,7 @@ export function ContactSplit() {
 
       {/* Right: the details, over the shader. */}
       <Reveal delay={0.1} className="bezel">
-        <div className="bezel-core relative isolate flex min-h-[40rem] flex-col overflow-hidden bg-green-surface px-6 py-10 text-white sm:px-10 sm:py-12 lg:min-h-0 lg:px-14 lg:py-16">
+        <div className="bezel-core relative isolate flex min-h-[40rem] flex-col overflow-hidden bg-green-surface px-6 py-8 text-white sm:px-9 sm:py-10 lg:min-h-0 lg:px-12 lg:py-12">
           {/*
             Fluted glass over a vertical fade to a deeper green. The light and dark flutes are
             pure white and pure black at low opacity, so they read as ridges in the surface

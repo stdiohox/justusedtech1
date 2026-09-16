@@ -13,13 +13,14 @@ const involvement = [
 export function SiteFooter() {
   return (
     <footer className="bg-green-surface text-white">
-      <div className="shell py-16 md:py-20">
+      <div className="shell py-12 md:py-16">
         <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr_1fr_1.2fr]">
           <div>
             <LogoLink onDark />
             <p className="mt-6 max-w-[34ch] text-[0.9375rem] leading-relaxed text-white/75">
-              {site.legalName} is a 501(c)(3) nonprofit reducing e-waste and putting
-              refurbished devices into the hands of students and young creatives.
+              {site.legalName} is a 501(c)(3) nonprofit reducing e-waste and
+              putting refurbished devices into the hands of students and young
+              creatives.
             </p>
             <p className="mt-5 text-[0.8125rem] text-white/70">
               Founded {site.founded}. Incorporated {site.incorporated}.
@@ -111,8 +112,8 @@ export function SiteFooter() {
 
         <div className="mt-14 flex flex-col gap-6 border-t border-white/15 pt-8 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[0.8125rem] text-white/70">
-            © {new Date().getFullYear()} {site.legalName}. A registered 501(c)(3)
-            nonprofit organisation.
+            © {new Date().getFullYear()} {site.legalName}. A registered
+            501(c)(3) nonprofit organisation.
           </p>
           <ul className="flex flex-wrap gap-x-5 gap-y-2">
             {socials.map((s) => (

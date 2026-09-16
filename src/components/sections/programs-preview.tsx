@@ -33,7 +33,7 @@ export function ProgramsPreview() {
   const [featured, ...rest] = activePrograms.slice(0, 5);
 
   return (
-    <section className="bg-paper py-20 md:py-28">
+    <section className="bg-paper py-14 md:py-20">
       <div className="shell">
         <Reveal>
           <SectionHead

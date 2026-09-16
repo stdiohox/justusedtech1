@@ -6,7 +6,7 @@ import { communitiesReached, corridors } from "@/content/impact";
 
 export function CorridorSection() {
   return (
-    <section className="bg-white py-20 md:py-28">
+    <section className="bg-white py-14 md:py-20">
       <div className="shell">
         {/*
           Even columns, carried over from the globe that used to sit here. The map is a

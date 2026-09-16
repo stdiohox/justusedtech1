@@ -91,7 +91,7 @@ export function StatementSwitcher({
 
   return (
     <div className={cn("bezel", className)}>
-      <div className="bezel-core grid gap-8 bg-white p-7 sm:p-9 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-14 lg:p-12">
+      <div className="bezel-core grid gap-8 bg-white p-6 sm:p-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:gap-12 lg:p-10">
         {/*
           The rail is first in the DOM, which is both the correct order for a tab set and the
           order it needs on a phone. Stacked, the tabs have to sit above the statement: the

@@ -108,7 +108,12 @@ export function WorldMap() {
               fill={marker.ping}
               className="jut-ping"
             />
-            <circle cx={marker.x} cy={marker.y} r={MARKER_R} fill={marker.fill} />
+            <circle
+              cx={marker.x}
+              cy={marker.y}
+              r={MARKER_R}
+              fill={marker.fill}
+            />
           </g>
         ))}
       </svg>

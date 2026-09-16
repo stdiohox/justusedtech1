@@ -12,7 +12,7 @@ import { site } from "@/content/site";
  */
 export function MissionStrip() {
   return (
-    <section className="bg-white py-20 md:py-28">
+    <section className="bg-white py-14 md:py-20">
       <div className="shell grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
         <Reveal>
           <p className="text-[0.6875rem] font-extrabold tracking-[0.18em] text-ink-faint uppercase">

@@ -334,18 +334,21 @@ export function CorridorGlobe() {
         to style from the render loop. The names are CorridorLegend's job, in the text
         column, since nothing here is readable text.
       */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-          {PINS.map((pin, index) => (
-            <span
-              key={pin.key}
-              ref={(node) => {
-                pinRefs.current[index] = node;
-              }}
-              aria-hidden
-              className="absolute top-0 left-0 will-change-transform"
-              style={{ visibility: "hidden" }}
-            >
-              {/*
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+      >
+        {PINS.map((pin, index) => (
+          <span
+            key={pin.key}
+            ref={(node) => {
+              pinRefs.current[index] = node;
+            }}
+            aria-hidden
+            className="absolute top-0 left-0 will-change-transform"
+            style={{ visibility: "hidden" }}
+          >
+            {/*
                 Pulse, anchored to the pin tip rather than the glyph's middle, which is
                 why it hangs off the bottom edge: the wrapper's bottom center is the
                 city. Three nested spans because each owns a transform that must not
@@ -356,39 +359,41 @@ export function CorridorGlobe() {
                 emphasis as the four the section is actually about, and would put six
                 more infinite animations on screen for nothing.
               */}
-              {!pin.decorative && (
+            {!pin.decorative && (
+              <span
+                className={
+                  pin.hub
+                    ? "absolute bottom-0 left-1/2 size-4 -translate-x-1/2 translate-y-1/2"
+                    : "absolute bottom-0 left-1/2 size-3.5 -translate-x-1/2 translate-y-1/2"
+                }
+              >
                 <span
                   className={
                     pin.hub
-                      ? "absolute bottom-0 left-1/2 size-4 -translate-x-1/2 translate-y-1/2"
-                      : "absolute bottom-0 left-1/2 size-3.5 -translate-x-1/2 translate-y-1/2"
+                      ? "jut-ping block size-full rounded-full bg-brand-green-dark/40"
+                      : "jut-ping block size-full rounded-full bg-brand-green/45"
                   }
-                >
-                  <span
-                    className={
-                      pin.hub
-                        ? "jut-ping block size-full rounded-full bg-brand-green-dark/40"
-                        : "jut-ping block size-full rounded-full bg-brand-green/45"
-                    }
-                    /* Out of phase, so four points breathe rather than blink in unison. */
-                    style={{ animationDelay: `${index * (PULSE_CYCLE / CITIES.length)}s` }}
-                  />
-                </span>
-              )}
+                  /* Out of phase, so four points breathe rather than blink in unison. */
+                  style={{
+                    animationDelay: `${index * (PULSE_CYCLE / CITIES.length)}s`,
+                  }}
+                />
+              </span>
+            )}
 
-              <MapPin
-                strokeWidth={1.5}
-                className={
-                  pin.decorative
-                    ? // Same glyph, markedly smaller and quieter, so the real four still lead.
-                      "relative size-3 fill-brand-green/55 stroke-white/80"
-                    : pin.hub
-                      ? "relative size-6 fill-brand-green-dark stroke-white drop-shadow-[0_1px_2px_rgba(18,33,26,0.45)]"
-                      : "relative size-5 fill-brand-green stroke-white drop-shadow-[0_1px_2px_rgba(18,33,26,0.4)]"
-                }
-              />
-            </span>
-          ))}
+            <MapPin
+              strokeWidth={1.5}
+              className={
+                pin.decorative
+                  ? // Same glyph, markedly smaller and quieter, so the real four still lead.
+                    "relative size-3 fill-brand-green/55 stroke-white/80"
+                  : pin.hub
+                    ? "relative size-6 fill-brand-green-dark stroke-white drop-shadow-[0_1px_2px_rgba(18,33,26,0.45)]"
+                    : "relative size-5 fill-brand-green stroke-white drop-shadow-[0_1px_2px_rgba(18,33,26,0.4)]"
+              }
+            />
+          </span>
+        ))}
       </div>
     </div>
   );

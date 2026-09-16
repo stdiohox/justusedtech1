@@ -37,7 +37,7 @@ export default async function PostPage({ params }: Params) {
     : (post.gallery ?? []).slice(1);
 
   return (
-    <article className="pt-14 pb-24 md:pt-20">
+    <article className="pt-12 pb-16 md:pt-16 md:pb-20">
       <div className="shell max-w-[46rem]">
         <Reveal>
           <div className="text-flow-load">

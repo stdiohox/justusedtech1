@@ -16,7 +16,7 @@ import { voices } from "@/content/voices";
  */
 export function CommunityVoices() {
   return (
-    <section className="relative isolate overflow-hidden bg-paper-deep py-20 md:py-28">
+    <section className="relative isolate overflow-hidden bg-paper-deep py-14 md:py-20">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10"
@@ -37,7 +37,12 @@ export function CommunityVoices() {
         <div className="mt-12 grid gap-5 lg:grid-cols-2">
           {voices.map((voice, i) =>
             voice.kind === "quote" ? (
-              <VoiceCard key={voice.name} name={voice.name} meta={voice.role} index={i}>
+              <VoiceCard
+                key={voice.name}
+                name={voice.name}
+                meta={voice.role}
+                index={i}
+              >
                 <blockquote className="text-xl leading-[1.45] font-bold tracking-[-0.015em] text-ink text-pretty sm:text-[1.375rem]">
                   &ldquo;{voice.body}&rdquo;
                 </blockquote>
