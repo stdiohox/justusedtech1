@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import {
   motion,
   useMotionTemplate,
@@ -32,6 +32,14 @@ const TRAIL = [
 export function PartnerCta() {
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
+  /*
+    Whether the mouse is inside the section. The spotlight and the trail dots fade out on
+    leave and back in on enter. Without this they simply stopped wherever the cursor
+    exited: the dots parked there as a small gold, blue, and white ring in the middle of
+    the section, and the glow stayed put too. Position is left alone on leave, so the fade
+    happens in place rather than the dots flying off to a corner.
+  */
+  const [inside, setInside] = useState(false);
 
   const x = useMotionValue(-400);
   const y = useMotionValue(-400);
@@ -43,23 +51,41 @@ export function PartnerCta() {
     if (!rect) return;
     x.set(e.clientX - rect.left);
     y.set(e.clientY - rect.top);
+    if (!inside) setInside(true);
+  }
+
+  function onPointerLeave(e: React.PointerEvent<HTMLElement>) {
+    if (e.pointerType !== "mouse") return;
+    setInside(false);
   }
 
   return (
     <section
       ref={ref}
       onPointerMove={reduced ? undefined : onPointerMove}
+      onPointerLeave={reduced ? undefined : onPointerLeave}
       className="relative isolate overflow-hidden bg-green-surface py-24 text-white md:py-32"
     >
       {!reduced && (
         <>
+          {/*
+            The glow is masked to nothing at the section's top and bottom edges. The section
+            clips at its box, and the footer under it carries no glow, so with the cursor
+            low in the section the 420px circle was cut off dead at the footer's top edge:
+            a hard horizontal line between two surfaces of the same green. The mask fades
+            the glow out over the last 18% of the height on each side, so it can never reach
+            an edge with any brightness left to clip.
+          */}
           <motion.div
             aria-hidden
-            className="pointer-events-none absolute inset-0 -z-10 hidden [@media(pointer:fine)]:block"
+            className="pointer-events-none absolute inset-0 -z-10 hidden [mask-image:linear-gradient(to_bottom,transparent,black_18%,black_82%,transparent)] [@media(pointer:fine)]:block"
             style={{ backgroundImage: spotlight }}
+            initial={false}
+            animate={{ opacity: inside ? 1 : 0 }}
+            transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
           />
           {TRAIL.map((dot, i) => (
-            <TrailDot key={i} x={x} y={y} {...dot} />
+            <TrailDot key={i} x={x} y={y} visible={inside} {...dot} />
           ))}
         </>
       )}
@@ -69,8 +95,9 @@ export function PartnerCta() {
           Partner With Us
         </h2>
         <p className="mx-auto mt-7 max-w-[54ch] text-[1.0625rem] leading-relaxed text-white/80">
-          Companies retire hardware every quarter. Schools and community programmes need
-          it. We handle the collection, the refurbishment, and the reporting in between.
+          Companies retire hardware every quarter. Schools and community
+          programmes need it. We handle the collection, the refurbishment, and
+          the reporting in between.
         </p>
         <div className="mt-10 flex flex-wrap justify-center gap-3">
           <PillAnchor href={asks.partner} variant="gold">
@@ -88,6 +115,7 @@ export function PartnerCta() {
 function TrailDot({
   x,
   y,
+  visible,
   size,
   stiffness,
   damping,
@@ -95,6 +123,7 @@ function TrailDot({
 }: {
   x: ReturnType<typeof useMotionValue<number>>;
   y: ReturnType<typeof useMotionValue<number>>;
+  visible: boolean;
   size: number;
   stiffness: number;
   damping: number;
@@ -106,7 +135,10 @@ function TrailDot({
   return (
     <motion.span
       aria-hidden
-      className="pointer-events-none absolute top-0 left-0 -z-10 hidden rounded-full opacity-70 [@media(pointer:fine)]:block"
+      className="pointer-events-none absolute top-0 left-0 -z-10 hidden rounded-full [@media(pointer:fine)]:block"
+      initial={false}
+      animate={{ opacity: visible ? 0.7 : 0 }}
+      transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
       style={{
         x: sx,
         y: sy,
