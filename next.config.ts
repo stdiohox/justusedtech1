@@ -13,11 +13,15 @@ const nextConfig: NextConfig = {
     */
     qualities: [75, 90],
     /*
-      The ghost artwork in components/ui/ghost-404-page-1.tsx is loaded from 21st.dev's CDN,
-      and next/image throws on any host not listed here. Every other image on the site is a
-      local file under public/, so this is the only remote host in the build.
+      next/image throws on any host not listed here. Two remote hosts: the ghost artwork in
+      components/ui/ghost-404-page-1.tsx comes from 21st.dev's CDN, and the YouTube embed on
+      the About page shows the film's own thumbnail from i.ytimg.com until it is pressed.
+      Every other image on the site is a local file under public/.
     */
-    remotePatterns: [{ protocol: "https", hostname: "cdn.21st.dev" }],
+    remotePatterns: [
+      { protocol: "https", hostname: "cdn.21st.dev" },
+      { protocol: "https", hostname: "i.ytimg.com" },
+    ],
   },
 };
 

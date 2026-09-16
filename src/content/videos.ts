@@ -49,3 +49,20 @@ export const videos = {
     duration: 74,
   },
 } satisfies Record<string, VideoClip>;
+
+/**
+ * The one video the previous site carried, on the old About page: a film from
+ * JustUsedTech's own YouTube channel. It stays on YouTube rather than being pulled down as
+ * a file, because the file was never supplied; the embed loads nothing from YouTube until
+ * the reader presses play. If the original arrives it can join the clips above and play in
+ * the site's own player.
+ *
+ * The channel's title is in capitals. It is set here in sentence case, which is how every
+ * other heading on the site is written.
+ */
+export const missionFilm = {
+  youtubeId: "q91A8GUkWhg",
+  title: "Our mission across Africa and America",
+  caption: "From JustUsedTech's YouTube channel.",
+  channelUrl: "https://www.youtube.com/@JustusedTech",
+} as const;

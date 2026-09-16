@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inbox, Send, Wrench } from "lucide-react";
+import { ArrowUpRight, Inbox, Send, Wrench } from "lucide-react";
 import { PageHero } from "@/components/layout/page-hero";
 import { AnimatedList } from "@/components/ui/animated-list";
 import { Flag } from "@/components/common/flag";
@@ -8,8 +8,10 @@ import { Section, SectionHead, TagPill } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
 import { PhotoShowcase } from "@/components/ui/photo-showcase";
 import { StatementSwitcher } from "@/components/ui/statement-switcher";
+import { YouTubeEmbed } from "@/components/ui/youtube-embed";
 import { coreValues, focusAreas, model } from "@/content/programs";
 import { site } from "@/content/site";
+import { missionFilm } from "@/content/videos";
 import { whoWeAreFrames } from "@/content/who-we-are";
 
 export const metadata: Metadata = {
@@ -75,6 +77,48 @@ export default function AboutPage() {
         </Reveal>
       </Section>
 
+      {/*
+        The mission, on film. Carried over from the old About page, where it was the one
+        video the previous site had. It sits under the statements because it is the same
+        content in another form, and words beside the player rather than above it, the same
+        arrangement the programme pages use for their clips.
+      */}
+      <Section tone="white">
+        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-16">
+          <Reveal>
+            <SectionHead
+              eyebrow="On film"
+              title={missionFilm.title}
+              lede="The organisation's own film on what it does, on both continents. Carried over from the previous site."
+            />
+            <a
+              href={missionFilm.channelUrl}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="mt-6 inline-flex items-center gap-1.5 text-[0.9375rem] font-bold text-brand-green-dark underline-offset-4 hover:underline"
+            >
+              More on the YouTube channel
+              <ArrowUpRight className="size-4" strokeWidth={2.25} aria-hidden />
+            </a>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <figure>
+              <div className="bezel">
+                <div className="bezel-core overflow-hidden bg-black">
+                  <YouTubeEmbed
+                    id={missionFilm.youtubeId}
+                    title={missionFilm.title}
+                  />
+                </div>
+              </div>
+              <figcaption className="mt-3 text-[0.8125rem] leading-relaxed text-ink-soft">
+                {missionFilm.caption}
+              </figcaption>
+            </figure>
+          </Reveal>
+        </div>
+      </Section>
+
       {/* Core values: numbered rows, no card grid. */}
       <Section id="values" tone="paper">
         <Reveal>
@@ -108,8 +152,8 @@ export default function AboutPage() {
           ))}
           <li className="hidden bg-mint p-8 lg:block">
             <p className="text-[0.9375rem] leading-relaxed font-bold text-brand-green-dark">
-              Every device that passes through our warehouse is assessed against these
-              before it goes anywhere.
+              Every device that passes through our warehouse is assessed against
+              these before it goes anywhere.
             </p>
           </li>
         </RevealGroup>
@@ -248,10 +292,10 @@ export default function AboutPage() {
                 United States
               </h3>
               <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-soft">
-                Headquartered in University City, MO. This is where corporate and
-                institutional e-waste collection happens, where devices are assessed and
-                repaired, and where a share of refurbished machines goes straight back
-                into the St. Louis community.
+                Headquartered in University City, MO. This is where corporate
+                and institutional e-waste collection happens, where devices are
+                assessed and repaired, and where a share of refurbished machines
+                goes straight back into the St. Louis community.
               </p>
             </article>
           </Reveal>
@@ -262,10 +306,10 @@ export default function AboutPage() {
                 Nigeria
               </h3>
               <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-soft">
-                Field operations run out of Lagos State, where the organisation began in
-                2017. School sessions, device distribution, mentorship, and partnerships
-                with government and community bodies are all delivered by the Nigeria
-                team, supported by volunteers.
+                Field operations run out of Lagos State, where the organisation
+                began in 2017. School sessions, device distribution, mentorship,
+                and partnerships with government and community bodies are all
+                delivered by the Nigeria team, supported by volunteers.
               </p>
             </article>
           </Reveal>
