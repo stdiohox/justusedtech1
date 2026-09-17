@@ -62,6 +62,24 @@ export const newsletter = {
   name: "Newsletter",
   platform: "Substack",
   href: "https://justusedtech.substack.com/",
+  /**
+   * Substack's subscribe page accepts a prefilled address, so the prompt below can collect
+   * the email on-site in the brand's own field and hand off with it already typed in.
+   */
+  subscribeHref: "https://justusedtech.substack.com/subscribe",
+  /**
+   * The site-wide prompt. It fires thirty seconds after every page load and thirty seconds
+   * after every dismiss, and remembers nothing across a reload. See `NewsletterPrompt`.
+   */
+  prompt: {
+    eyebrow: "Newsletter",
+    title: "Follow the devices from St. Louis to the classroom.",
+    body: "Refurbishment updates, programme news, and the students on the other end. A few times a month, never more.",
+    placeholder: "you@example.com",
+    cta: "Subscribe",
+    dismiss: "Not now",
+    footnote: "Delivered by Substack. Unsubscribe any time.",
+  },
 } as const;
 
 /**

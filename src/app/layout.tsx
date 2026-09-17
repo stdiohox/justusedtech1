@@ -4,6 +4,7 @@ import { AnnouncementBar } from "@/components/layout/announcement-bar";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { QuickActionsDock } from "@/components/layout/quick-actions-dock";
+import { NewsletterPrompt } from "@/components/layout/newsletter-prompt";
 import { site } from "@/content/site";
 import "./globals.css";
 
@@ -50,6 +51,7 @@ export default function RootLayout({
         <main id="main">{children}</main>
         <SiteFooter />
         <QuickActionsDock />
+        <NewsletterPrompt />
       </body>
     </html>
   );
