@@ -73,8 +73,8 @@ export const newsletter = {
    */
   prompt: {
     eyebrow: "Newsletter",
-    title: "Follow the devices from St. Louis to the classroom.",
-    body: "Refurbishment updates, programme news, and the students on the other end. A few times a month, never more.",
+    title: "Get JUSTUSED news in your inbox.",
+    body: "Programme updates, device drives, and stories from the students we reach. A few emails a month, no spam.",
     placeholder: "you@example.com",
     cta: "Subscribe",
     dismiss: "Not now",
