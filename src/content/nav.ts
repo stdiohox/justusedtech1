@@ -6,10 +6,14 @@
  * the programme card media picks its icon.
  *
  * Anchors are real: /about#vision, #model and #values are ids on the About page sections,
- * the /programs anchors are programme slugs from content/programs.ts, and the
- * /get-involved anchors are the section ids on that page. A menu entry pointing at an
- * anchor that does not exist lands the visitor at the top of the page with no explanation,
- * so check the target before adding one.
+ * and the /get-involved anchors are the section ids on that page. A menu entry pointing at
+ * an anchor that does not exist lands the visitor at the top of the page with no
+ * explanation, so check the target before adding one.
+ *
+ * Programme entries go to /programs/<slug>, the programme's own page, not to an anchor on
+ * the listing. They used to be anchors, which put a visitor who picked a programme by name
+ * partway down a page of all seven and left them to find the Learn more pill. Every slug
+ * here must exist in content/program-details.ts, since that is what the route renders.
  */
 
 export type NavIcon =
@@ -104,42 +108,42 @@ export const nav: NavEntry[] = [
           {
             label: "School Tour Initiative",
             description: "Digital awareness in schools",
-            href: "/programs#school-tour-initiative",
+            href: "/programs/school-tour-initiative",
             icon: "GraduationCap",
             status: "active",
           },
           {
             label: "Breakthrough Series",
             description: "Support for young professionals",
-            href: "/programs#breakthrough-series",
+            href: "/programs/breakthrough-series",
             icon: "Sparkles",
             status: "active",
           },
           {
             label: "Project 9-12",
             description: "Tech + sports integration",
-            href: "/programs#project-9-12",
+            href: "/programs/project-9-12",
             icon: "Trophy",
             status: "active",
           },
           {
             label: "GreenBin 360",
             description: "E-waste collection from organizations and institutions",
-            href: "/programs#greenbin-360",
+            href: "/programs/greenbin-360",
             icon: "Recycle",
             status: "active",
           },
           {
             label: "SkillSync Initiative",
             description: "Support for young creatives",
-            href: "/programs#skillsync-initiative",
+            href: "/programs/skillsync-initiative",
             icon: "Palette",
             status: "active",
           },
           {
             label: "Circular Tech Bootcamp",
             description: "Hardware repair & certification training",
-            href: "/programs#circular-tech-bootcamp",
+            href: "/programs/circular-tech-bootcamp",
             icon: "Wrench",
             status: "active",
           },

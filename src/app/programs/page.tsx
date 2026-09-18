@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { PageHero } from "@/components/layout/page-hero";
 import { PillAnchor, PillLink } from "@/components/common/pill-button";
 import { ProgramMedia } from "@/components/common/program-media";
@@ -124,7 +125,19 @@ function ProgramPanel({ program, tone }: { program: Program; tone: number }) {
   return (
     <article
       id={program.slug}
-      className={cn("card card-flush scroll-mt-28", upcoming && "card-quiet")}
+      className={cn(
+        "card card-flush relative scroll-mt-28",
+        upcoming && "card-quiet",
+        /*
+          The whole panel is the click target when a detail page exists. The title below
+          carries a stretched link (an ::after covering the panel), so the photograph, the
+          heading, and the prose all go to the programme's page, and the panel gets the same
+          lift the home bento cards have so it reads as one pressable object rather than a
+          block of text with a pill at the bottom.
+        */
+        detailed &&
+          "group/panel transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:-translate-y-1 motion-reduce:transition-none",
+      )}
     >
       {/* panel: full shell width, so the band takes its own height. See the prop. */}
       <ProgramMedia
@@ -138,7 +151,16 @@ function ProgramPanel({ program, tone }: { program: Program; tone: number }) {
         <div>
           <StatusBadge status={program.status} />
           <h3 className="mt-5 text-2xl font-extrabold tracking-[-0.03em] text-balance sm:text-[1.75rem]">
-            {program.name}
+            {detailed ? (
+              <Link
+                href={`/programs/${program.slug}`}
+                className="after:absolute after:inset-0 after:rounded-[var(--radius-card)] focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-brand-green focus-visible:after:ring-inset"
+              >
+                {program.name}
+              </Link>
+            ) : (
+              program.name
+            )}
           </h3>
           {program.partner && (
             <p className="mt-3 text-[0.875rem] font-bold text-brand-green-dark">
@@ -157,7 +179,8 @@ function ProgramPanel({ program, tone }: { program: Program; tone: number }) {
             promising something that does not exist.
           */}
           {detailed && (
-            <div className="mt-7">
+            /* Above the title's stretched ::after, so the pill stays a button of its own. */
+            <div className="relative z-[1] mt-7">
               <PillLink
                 href={`/programs/${program.slug}`}
                 variant="outline"
