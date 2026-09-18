@@ -14,12 +14,14 @@ import { newsletter } from "@/content/site";
  * cadence instead.
  *
  * Cadence, at the client's request. Thirty seconds after the page loads, and thirty seconds
- * after each dismiss, for as long as the page is open. Nothing is remembered across a
- * reload or between pages, so every load starts the clock again. The one exception is a
- * subscribe click: that stops the prompt for the rest of the session, because asking again
- * thirty seconds after someone has just said yes is the one repeat nobody wants. The
- * conversion literature would set this far looser (once per session, a week's rest after a
- * dismiss); if sign-ups look low, DWELL_MS and that memory are the first things to revisit.
+ * after the first dismiss, then no more: two showings per session, counted in
+ * sessionStorage so a reload or a move to another page does not start the count over.
+ * It used to repeat every thirty seconds for as long as the page was open, and the client
+ * asked for it cut to twice. A subscribe click also stops the prompt for the session,
+ * because asking again thirty seconds after someone has just said yes is the one repeat
+ * nobody wants. The conversion literature would set this looser still (once per session,
+ * a week's rest after a dismiss); if sign-ups look low, DWELL_MS and MAX_SHOWS are the
+ * first things to revisit.
  *
  * Shape. A centred modal on desktop, a bottom sheet on mobile so it never covers the whole
  * viewport, which is also the shape a thumb expects to swipe away.
@@ -29,7 +31,9 @@ import { newsletter } from "@/content/site";
  */
 
 const DWELL_MS = 30_000;
+const MAX_SHOWS = 2;
 const SUBSCRIBED_KEY = "ju:newsletter:subscribed";
+const SHOWN_KEY = "ju:newsletter:shown";
 const EASE = [0.32, 0.72, 0, 1] as const;
 
 function subscribedThisSession(): boolean {
@@ -46,6 +50,21 @@ function markSubscribed() {
   } catch {}
 }
 
+function showsThisSession(): number {
+  try {
+    return Number(sessionStorage.getItem(SHOWN_KEY)) || 0;
+  } catch {
+    return 0;
+  }
+}
+
+/* Counted on open, not on dismiss, so a reload mid-prompt does not earn a third showing. */
+function markShown() {
+  try {
+    sessionStorage.setItem(SHOWN_KEY, String(showsThisSession() + 1));
+  } catch {}
+}
+
 export function NewsletterPrompt() {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
@@ -55,12 +74,13 @@ export function NewsletterPrompt() {
   const inputRef = useRef<HTMLInputElement>(null);
   const returnFocus = useRef<HTMLElement | null>(null);
 
-  // Whenever the prompt is closed, the clock is running. Opening it stops the clock;
-  // closing it starts a fresh one. A reload remounts the component and starts over.
+  // Whenever the prompt is closed and showings remain, the clock is running. Opening it
+  // stops the clock; closing it starts a fresh one, until the session's count is spent.
   useEffect(() => {
-    if (open || subscribedThisSession()) return;
+    if (open || subscribedThisSession() || showsThisSession() >= MAX_SHOWS) return;
     const timer = window.setTimeout(() => {
       returnFocus.current = document.activeElement as HTMLElement | null;
+      markShown();
       setOpen(true);
     }, DWELL_MS);
     return () => window.clearTimeout(timer);
