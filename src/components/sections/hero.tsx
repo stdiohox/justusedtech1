@@ -232,7 +232,7 @@ export function Hero() {
                 delay="1.6s"
               >
                 <p className="text-3xl leading-none font-extrabold tracking-[-0.035em] text-brand-green-dark">
-                  45,000+ lbs
+                  90,000+ lbs
                 </p>
                 <p className="mt-2 text-[0.875rem] font-semibold text-ink-soft">
                   E-waste diverted
