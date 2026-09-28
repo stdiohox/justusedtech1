@@ -10,6 +10,12 @@
  *     any person pictured is, no assertion about what a person in shot received from us.
  *   - `kicker` is a fact that already exists elsewhere in src/content (dates from site.ts,
  *     school and volunteer counts from impact.ts). Nothing is invented for the caption.
+ *
+ * The US kicker says Saint Louis, Missouri, not the mailing address. It used to read
+ * "University City, MO", taken from `contact.hqCity`, and was changed to match how the
+ * About page now names the US base in its hero and its US card. `contact.hqCity` still
+ * holds the postal address and is still what the contact page and the map embed use, so
+ * do not sync this line back to it.
  */
 
 export type WhoWeAreFrame = {
@@ -26,7 +32,7 @@ export const whoWeAreFrames: WhoWeAreFrame[] = [
   {
     id: "us-operations",
     title: "US operations",
-    kicker: "University City, Missouri",
+    kicker: "Saint Louis, Missouri",
     src: "/about/who-we-are-us-operations.jpg",
     alt: "Five people, most in JustUsedTech shirts, standing in conversation around a high table in a community space.",
   },
