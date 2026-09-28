@@ -21,7 +21,9 @@ import {
   posts,
   press,
   schoolVisits,
+  MONTHS,
   schoolsVisited,
+  visitWindow,
   type Post,
   type PressItem,
   type SchoolVisit,
@@ -136,7 +138,7 @@ export default function NewsPage() {
             <div className="mt-10 grid grid-cols-2 gap-6 sm:gap-8">
               <StatBlock
                 value={String(schoolVisits.length)}
-                label="Visits between 1 July and 20 August 2026"
+                label={`Visits, ${visitWindow}`}
               />
               <StatBlock
                 value={String(schoolsVisited.length)}
@@ -327,21 +329,6 @@ function PostCard({
   ISO date, so a visit with no date falls into its own group at the end, labelled as such,
   rather than being sorted somewhere plausible.
 */
-const MONTHS = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
 function monthLabel(iso?: string) {
   if (!iso) return "Date to be confirmed";
   const [year, month] = iso.split("-");

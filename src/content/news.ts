@@ -83,6 +83,12 @@ export type SchoolVisit = {
  */
 export const schoolVisits: SchoolVisit[] = [
   {
+    school: "Jibowu Junior High School",
+    area: "Yaba",
+    date: "20 May 2026",
+    iso: "2026-05-20",
+  },
+  {
     school: "Wesley Girls' Senior Secondary School",
     date: "1 July 2026",
     iso: "2026-07-01",
@@ -128,12 +134,69 @@ export const schoolVisits: SchoolVisit[] = [
     date: "20 August 2026",
     iso: "2026-08-20",
   },
+  {
+    school: "Birrel Avenue Senior High School",
+    area: "Sabo, Yaba",
+    date: "23 September 2026",
+    iso: "2026-09-23",
+  },
+  {
+    school: "Eletu Odibo Senior High School",
+    area: "Abule Oja, Yaba",
+    date: "23 September 2026",
+    iso: "2026-09-23",
+  },
 ];
 
 /** Distinct schools in the log, for the summary post's count. */
 export const schoolsVisited = [
   ...new Set(schoolVisits.map((visit) => visit.school)),
 ];
+
+export const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+/**
+ * The span the log covers, as a phrase: "20 May to 23 September 2026".
+ *
+ * Derived, because it was written out by hand in two places and both said "1 July and 20
+ * August 2026". That was true of eight visits and stopped being true the moment three more
+ * arrived, one of them in May, which is a correction nobody would think to make when the
+ * counts beside it update themselves.
+ *
+ * Read off the ISO strings, not through the Date constructor, for the same reason the log
+ * rows are: "2026-05-20" parses as UTC midnight and comes back as the 19th in any zone west
+ * of Greenwich. Undated visits are skipped rather than sorted to one end.
+ */
+export const visitWindow = (() => {
+  const dated = schoolVisits
+    .map((visit) => visit.iso)
+    .filter((iso): iso is string => Boolean(iso))
+    .sort();
+  const first = dated[0];
+  const last = dated[dated.length - 1];
+  if (!first || !last) return "";
+  const say = (iso: string, withYear: boolean) => {
+    const [year, month, day] = iso.split("-");
+    const stem = `${Number(day)} ${MONTHS[Number(month) - 1]}`;
+    return withYear ? `${stem} ${year}` : stem;
+  };
+  /* The year is said once, on the later date, while both fall in the same one. */
+  const sameYear = first.slice(0, 4) === last.slice(0, 4);
+  return `${say(first, !sameYear)} to ${say(last, true)}`;
+})();
 
 /**
  * Coverage of JustUsedTech elsewhere. Every entry links out; nothing here is hosted.
@@ -288,19 +351,21 @@ export const posts: Post[] = [
       width: 2400,
       height: 1506,
     },
-    title: "School Tour Initiative visits seven Lagos schools",
-    date: "July to August 2026",
-    iso: "2026-07-01",
+    title: "School Tour Initiative visits ten Lagos schools",
+    date: "May to September 2026",
+    iso: "2026-05-20",
     location: "Lagos State",
     excerpt:
-      "Eight visits across seven schools in Yaba, Ebute Metta, Fadeyi, and Ikorodu between 1 July and 20 August, with the team returning to Aiyetoro Senior Grammar School for a second session.",
+      "Eleven visits across ten schools in Yaba, Ebute Metta, Fadeyi, and Ikorodu between 20 May and 23 September, with the team returning to Aiyetoro Senior Grammar School for a second session.",
     body: [
-      "The School Tour Initiative's 2026 run took the team into seven Lagos schools: Wesley Girls' Senior Secondary School, Lagos City Senior College in Sabo Yaba, Aiyetoro Senior Grammar School in Ebute Metta, Oke-Odo Junior High School, Mainland Senior High School and Mainland Junior High School in Fadeyi, and Victokev Schools in Ikorodu. The visits ran from 1 July to 20 August, with the Ikorodu session closing the run.",
+      "The School Tour Initiative's 2026 run took the team into ten Lagos schools: Jibowu Junior High School in Yaba, Wesley Girls' Senior Secondary School, Lagos City Senior College in Sabo Yaba, Aiyetoro Senior Grammar School in Ebute Metta, Oke-Odo Junior High School, Mainland Senior High School and Mainland Junior High School in Fadeyi, Victokev Schools in Ikorodu, Birrel Avenue Senior High School in Sabo Yaba, and Eletu Odibo Senior High School in Abule Oja, Yaba. The visits ran from 20 May to 23 September, with the two Yaba sessions on 23 September closing the run.",
       "Aiyetoro Senior Grammar School had two visits, on 2 July and 9 July. The programme is built for that: a first session introduces e-waste and the circular economy, and a follow-up visit is where selected students are trained as peer educators, so the material carries on inside the school after the team has left.",
     ],
+    /* Both read from the log above, which is the record. Typed out, they were "Seven" and
+       "Eight" within a day of three more visits arriving. */
     facts: [
-      { label: "Schools", value: "Seven" },
-      { label: "Visits", value: "Eight, 1 July to 20 August" },
+      { label: "Schools", value: String(schoolsVisited.length) },
+      { label: "Visits", value: `${schoolVisits.length}, ${visitWindow}` },
     ],
     tags: ["School Tour Initiative", "Lagos"],
     related: {
