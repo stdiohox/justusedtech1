@@ -43,6 +43,20 @@ export type Post = {
    * programme galleries in content/program-details.ts.
    */
   gallery?: { src: string; alt: string; width: number; height: number }[];
+  /**
+   * Extra labelled facts for the impact page's event recap, beyond the date and location
+   * every post already has.
+   *
+   * These used to be typed straight into the recap section, which pinned two Skate Lagos
+   * facts, "25 roller skates" and the LTV interview, into a card whose every other line
+   * came from `latestPost`. `latestPost` is the newest DATED post, so when the 2026 school
+   * tour was added it took that slot and the two rows stayed where they were, crediting the
+   * school tour with a skate donation and a television interview it had nothing to do with.
+   *
+   * Hanging them off the post is what stops that happening again: a post that says nothing
+   * about what it donated renders no Donated row, instead of inheriting someone else's.
+   */
+  facts?: { label: string; value: string }[];
 };
 
 /**
@@ -284,6 +298,10 @@ export const posts: Post[] = [
       "The School Tour Initiative's 2026 run took the team into seven Lagos schools: Wesley Girls' Senior Secondary School, Lagos City Senior College in Sabo Yaba, Aiyetoro Senior Grammar School in Ebute Metta, Oke-Odo Junior High School, Mainland Senior High School and Mainland Junior High School in Fadeyi, and Victokev Schools in Ikorodu. The visits ran from 1 July to 20 August, with the Ikorodu session closing the run.",
       "Aiyetoro Senior Grammar School had two visits, on 2 July and 9 July. The programme is built for that: a first session introduces e-waste and the circular economy, and a follow-up visit is where selected students are trained as peer educators, so the material carries on inside the school after the team has left.",
     ],
+    facts: [
+      { label: "Schools", value: "Seven" },
+      { label: "Visits", value: "Eight, 1 July to 20 August" },
+    ],
     tags: ["School Tour Initiative", "Lagos"],
     related: {
       label: "See every visit in the school tour log",
@@ -304,6 +322,13 @@ export const posts: Post[] = [
       "Lagos Television (LTV) conducted a media interview with the team on site.",
     ],
     tags: ["Project 9-12", "Passback", "Lagos"],
+    facts: [
+      { label: "Donated", value: "25 roller skates" },
+      {
+        label: "Media",
+        value: "Interview with Lagos Television (LTV) on site",
+      },
+    ],
     /*
       No `cover`. The first frame here is the skates themselves, which is what the post is
       about, so letting it front the post is better than nominating a separate cover that
@@ -465,9 +490,23 @@ export const latestPost = posts.find((post) => post.date) ?? posts[0]!;
  * are looked up from the posts and the programme gallery rather than restated, so their alt
  * text stays written once.
  */
+/**
+ * The picture that fronts a post: its own `cover`, or the first of its photographs where
+ * it has no cover, or nothing where it has neither.
+ *
+ * The rule is stated on `cover` in the Post type, and four surfaces ask the question: the
+ * post page, the card on the news index, the showcase below, and the event recap on the
+ * impact page. It was written out at each of them. Declaring it once means a post that
+ * gains photographs starts appearing everywhere at the same moment, rather than in three
+ * places and then in the fourth when somebody remembers.
+ */
+export function coverOf(post: Post) {
+  return post.cover ?? post.gallery?.[0];
+}
+
 function postCover(slug: string) {
   const post = posts.find((p) => p.slug === slug);
-  const frame = post?.cover ?? post?.gallery?.[0];
+  const frame = post && coverOf(post);
   if (!frame) throw new Error(`newsShowcase: post ${slug} has no picture`);
   return frame;
 }

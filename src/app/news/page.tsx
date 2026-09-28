@@ -16,6 +16,7 @@ import { MosaicGallery } from "@/components/ui/mosaic-gallery";
 import { PhotoShowcase } from "@/components/ui/photo-showcase";
 import { collections } from "@/content/gallery";
 import {
+  coverOf,
   newsShowcase,
   posts,
   press,
@@ -240,7 +241,7 @@ function PostCard({
   post: Post;
   featured?: boolean;
 }) {
-  const lead = post.cover ?? post.gallery?.[0];
+  const lead = coverOf(post);
   const tone = post.slug.length % 3;
 
   return (

@@ -6,7 +6,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { PhotoPlaceholder, TagPill } from "@/components/common/primitives";
 import { Reveal } from "@/components/common/reveal";
 import { MosaicGallery } from "@/components/ui/mosaic-gallery";
-import { posts } from "@/content/news";
+import { coverOf, posts } from "@/content/news";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -31,7 +31,7 @@ export default async function PostPage({ params }: Params) {
     does, and the rest go in the gallery under the body; with a cover, every gallery frame
     is "the rest", since none of them has been used up above.
   */
-  const lead = post.cover ?? post.gallery?.[0];
+  const lead = coverOf(post);
   const rest = post.cover
     ? (post.gallery ?? [])
     : (post.gallery ?? []).slice(1);
