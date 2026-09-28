@@ -223,16 +223,13 @@ export const programDetails: Record<string, ProgramDetail> = {
       Circular Tech Bootcamp still renders a Timeline, and Breakthrough Series and Project
       9-12 still render Expected outcomes. Nothing here affects them.
 
-      `measurement` is deliberately kept. It shares a section with `outcomes`, so dropping
-      both would have left the column empty next to "Who it is for"; with it, that column
-      still carries "How it is measured". The removed content is in the git history.
+      `measurement` has since gone the same way, so the section this page renders for those
+      three fields is now just "Who it is for". At lg that leaves the right half of the grid
+      empty. GreenBin 360 and SkillSync already sit like that, carrying none of the three
+      either, so this matches them rather than being a one-off.
+
+      The removed content is in the git history.
     */
-    measurement: [
-      "Pre and post session assessment scores",
-      "Follow-up surveys on disposal practice",
-      "Attendance sheets and session reports",
-      "Observation checklists and training assessments",
-    ],
     sdgs: [
       {
         code: "SDG 4.7",
