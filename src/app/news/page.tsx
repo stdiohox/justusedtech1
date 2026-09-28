@@ -348,6 +348,21 @@ function monthLabel(iso?: string) {
   return `${MONTHS[Number(month) - 1]} ${year}`;
 }
 
+/**
+ * The day of the month on its own, for a row that already sits under a month heading.
+ *
+ * The rows used to print `visit.date` in full, so a heading reading "August 2026" was
+ * followed by "20 August 2026", saying the month and the year twice within about 40px. The
+ * grouping exists precisely so each row does not have to carry them.
+ *
+ * Read off the ISO string rather than parsed into a Date. "2026-08-20" passed to the Date
+ * constructor is treated as UTC midnight and then rendered in the local zone, which is the
+ * day before anywhere west of Greenwich. Splitting the string cannot drift.
+ */
+function dayLabel(iso: string) {
+  return String(Number(iso.split("-")[2]));
+}
+
 function VisitLog({ visits }: { visits: SchoolVisit[] }) {
   const groups = new Map<string, SchoolVisit[]>();
   for (const visit of visits) {
@@ -366,15 +381,32 @@ function VisitLog({ visits }: { visits: SchoolVisit[] }) {
             {items.map((visit, i) => (
               <li
                 key={`${visit.school}-${visit.iso ?? i}`}
-                className="grid gap-1 px-6 py-5 sm:grid-cols-[7.5rem_1fr] sm:gap-6 sm:px-8"
+                className="grid gap-1 px-6 py-5 sm:grid-cols-[3.5rem_1fr] sm:gap-6 sm:px-8"
               >
                 {/*
                   An undated visit leaves the date cell empty rather than saying "TBC": its
                   group heading already says the date is to be confirmed, and the empty cell
                   keeps the school aligned with the dated rows above it on wide screens.
+
+                  The column dropped from 7.5rem to 3.5rem with the month and year, and the
+                  space went to the school names, which are long and were wrapping.
+
+                  tabular-nums so the single and double digit days sit on the same edge. A
+                  column of dates that does not line up is the kind of thing a reader feels
+                  without being able to say why.
+
+                  The full date stays for assistive tech. The visible text is now just "20",
+                  and the month heading above it is a paragraph, not a label tied to these
+                  rows, so a screen reader moving through the list on its own would otherwise
+                  lose the month.
                 */}
-                <p className="text-[0.875rem] font-bold text-ink-soft">
-                  {visit.date && <time dateTime={visit.iso}>{visit.date}</time>}
+                <p className="text-[0.875rem] font-bold text-ink-soft tabular-nums">
+                  {visit.date && visit.iso && (
+                    <time dateTime={visit.iso}>
+                      <span aria-hidden>{dayLabel(visit.iso)}</span>
+                      <span className="sr-only">{visit.date}</span>
+                    </time>
+                  )}
                 </p>
                 <div>
                   <p className="text-[1.0625rem] leading-snug font-extrabold text-ink">
