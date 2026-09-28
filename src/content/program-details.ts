@@ -69,6 +69,18 @@ export type ProgramDetail = {
   /** Numbers that have not happened yet. Never rendered without the "Target" framing. */
   targets?: { figure: string; detail: string }[];
   audience: { primary: string[]; secondary: string[] };
+  /**
+   * One paragraph under "Who it is for", above the two lists.
+   *
+   * The lists are bare noun phrases, which is right for a list and thin on its own once a
+   * programme has nothing else in that section. This says how the groups relate: who is in
+   * the room, and how the programme reaches the people who are not.
+   *
+   * Every claim in it has to be somewhere else in this file already. It is a restatement of
+   * the objectives and activities for readers who will not scroll back up, not a place to
+   * add facts that no supplied document carries.
+   */
+  audienceLede?: string;
   activities?: { title: string; detail: string }[];
   phases?: { window: string; label: string; detail: string }[];
   outcomes?: string[];
@@ -198,6 +210,14 @@ export const programDetails: Record<string, ProgramDetail> = {
       ],
       secondary: ["Parents and guardians", "Surrounding school communities"],
     },
+    /*
+      Nothing new is asserted here. "Delivered inside the school" and "between visits" are
+      from `activities`, "trained as environmental champions" and "carry the material back
+      into their own schools and communities" are from `objectives`, and the two groups
+      named at the end are the `secondary` list directly above.
+    */
+    audienceLede:
+      "The sessions run inside the school, so the room holds the students the programme is written for and the teachers and administrators who make the visit possible. Selected students are then trained as environmental champions and carry the material back into their own schools and communities between visits. That is how it reaches the second group below, none of whom sit in the session itself.",
     activities: [
       {
         title: "School sensitisation visits",

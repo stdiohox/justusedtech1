@@ -45,6 +45,7 @@ import { programDetails } from "@/content/program-details";
 import { schoolVisits } from "@/content/news";
 import { programs } from "@/content/programs";
 import { asks } from "@/content/site";
+import { cn } from "@/lib/utils";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -103,6 +104,8 @@ export default async function ProgramDetailPage({ params }: Params) {
   const icons = OBJECTIVE_ICONS[slug] ?? [Target];
   /* Dated delivery, kept distinct from `detail.targets` everywhere it appears. */
   const delivered = program.results ?? program.stats;
+  /* Whether the audience section has a second column to sit beside. See that section. */
+  const audienceHasAside = Boolean(detail.outcomes || detail.measurement);
 
   return (
     <>
@@ -503,38 +506,73 @@ export default async function ProgramDetailPage({ params }: Params) {
         </Section>
       )}
 
+      {/*
+        Who it is for, and beside it the outcomes and measures where a programme has them.
+
+        The layout follows whether that second column exists. With it, this is the two
+        column split it has always been and Primary sits above Secondary in the narrow left
+        half. Without it, School Tour, GreenBin 360 and SkillSync were left with one column
+        of short noun phrases hugging the left edge and the right half of the grid empty.
+        There, the heading runs full width and the two lists sit side by side from sm, which
+        uses the row instead of leaving half of it blank.
+
+        `audienceLede` fills the same gap in prose. It is optional and only School Tour sets
+        one; a programme without it renders the lists straight under the heading, exactly as
+        before.
+      */}
       <Section tone="white">
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+        <div
+          className={cn(
+            "grid gap-12 lg:gap-16",
+            audienceHasAside && "lg:grid-cols-2",
+          )}
+        >
           <Reveal>
             <h2 className="text-2xl font-extrabold tracking-[-0.03em] text-ink sm:text-3xl">
               Who it is for
             </h2>
-            <p className="mt-6 text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
-              Primary
-            </p>
-            <ul className="mt-4 space-y-2.5">
-              {detail.audience.primary.map((item) => (
-                <li
-                  key={item}
-                  className="text-[0.9375rem] leading-relaxed text-ink-soft text-pretty"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-            <p className="mt-8 text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
-              Secondary
-            </p>
-            <ul className="mt-4 space-y-2.5">
-              {detail.audience.secondary.map((item) => (
-                <li
-                  key={item}
-                  className="text-[0.9375rem] leading-relaxed text-ink-soft text-pretty"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
+            {detail.audienceLede && (
+              <p className="mt-6 max-w-[64ch] text-[1rem] leading-relaxed text-ink-soft text-pretty">
+                {detail.audienceLede}
+              </p>
+            )}
+            <div
+              className={cn(
+                "mt-8 grid gap-8",
+                !audienceHasAside && "sm:grid-cols-2 sm:gap-x-16",
+              )}
+            >
+              <div>
+                <p className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
+                  Primary
+                </p>
+                <ul className="mt-4 space-y-2.5">
+                  {detail.audience.primary.map((item) => (
+                    <li
+                      key={item}
+                      className="text-[0.9375rem] leading-relaxed text-ink-soft text-pretty"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
+                  Secondary
+                </p>
+                <ul className="mt-4 space-y-2.5">
+                  {detail.audience.secondary.map((item) => (
+                    <li
+                      key={item}
+                      className="text-[0.9375rem] leading-relaxed text-ink-soft text-pretty"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </Reveal>
 
           {(detail.outcomes || detail.measurement) && (
