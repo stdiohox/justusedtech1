@@ -546,12 +546,12 @@ export const programDetails: Record<string, ProgramDetail> = {
           "Participation data, community feedback, and impact evidence captured after each event.",
       },
     ],
-    outcomes: [
-      "Upcycled sports kits and equipment in the hands of underserved schools and communities.",
-      "Children and youth actively engaged in sport within the project period.",
-      "A documented reuse and redistribution model showing the circular economy value of donated gear.",
-      "A final impact report shared with Passback, partner schools, and community stakeholders.",
-    ],
+    /*
+      `outcomes` was here and is out at the client's request, which has now been made for
+      every programme that had one. `measurement` stays, so this page keeps its second
+      column and the section keeps its two column layout. The removed content is in the git
+      history.
+    */
     measurement: [
       "Inventory distribution logs and equipment condition records",
       "Participant attendance sheets from events and sessions",
@@ -933,13 +933,12 @@ export const programDetails: Record<string, ProgramDetail> = {
           "Programme reporting and evaluation against the training targets.",
       },
     ],
-    outcomes: [
-      "Increased hardware and refurbishment skills among participants.",
-      "Increased awareness of e-waste management and circular economy practice.",
-      "Improved youth employability and growth in local circular economy activity.",
-      "Refurbished devices supporting future cohorts, community learning hubs, and low-income recipients.",
-      "An alumni network for mentorship, volunteering, job referrals, and collaboration.",
-    ],
+    /*
+      `outcomes` was here and is out at the client's request, which has now been made for
+      every programme that had one. `measurement` stays, so this page keeps its second
+      column and the section keeps its two column layout. The removed content is in the git
+      history.
+    */
     measurement: [
       "Registration forms and attendance records",
       "Pre and post assessment results",
