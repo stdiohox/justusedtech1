@@ -1,16 +1,20 @@
 /**
  * Real roster. No personal social links exist for anyone here, and no card renders one.
  *
- * Portraits: twelve of the fifteen have a real photograph, all client-supplied. Titobi's is
- * their own studio headshot; Christopher's is the one carried on the old justusedtech.org
- * about page; the other ten arrived together as a folder of headshots. Five people still have
- * none and still render an initials avatar: Olumide Kolawole, Adrian Weinberg, and
- * Barnabas Usman.
+ * Portraits: everyone on the roster has one, all client-supplied. Titobi's is their own
+ * studio headshot; Christopher's is the one carried on the old justusedtech.org about page;
+ * ten more arrived together as a folder of headshots, and Olumide Kolawole's came last.
  *
- * The all-or-nothing group rule is gone, at the client's instruction. A group whose members
- * all have photographs still opens as the portrait accordion, which is Board and US Team; a
- * group with some opens as the avatar stack and shows a photograph per person where one
- * exists and initials where it does not. Nigeria Team and Advisors are mixed that way now.
+ * Nobody renders an initials avatar today. The branch that draws one is still there and is
+ * still the right default, because the next person to join will not arrive with a photograph.
+ *
+ * The all-or-nothing group rule is gone, at the client's instruction: a group shows a
+ * photograph per person where one exists and initials where it does not, rather than
+ * holding every member on initials until the set is complete.
+ *
+ * Which of the two layouts a group gets is a separate question, and now that every member
+ * has a photograph it is decided entirely by `display` below. Board opens as the portrait
+ * accordion. US Team and Nigeria Team are pinned to the roster list.
  *
  * The old blanket rule was "no headshots exist, do not add any". That was true when written
  * and is no longer. The part that has not changed: never put a stock portrait against a real
@@ -103,13 +107,13 @@ export const teamGroups: TeamGroup[] = [
     blurb: "Device recovery, refurbishment, and warehouse operations in Saint Louis, Missouri.",
     /*
       Both members have a photograph, so this group would default to the portrait accordion.
-      It is held on the stack instead, to match the Nigeria Team and Advisors sections below.
+      It is held on the roster list instead, to match the Nigeria Team below.
 
       There is a practical reason as well as the client's preference. The accordion renders a
       panel around 420px tall, and moses-fajimokun.jpg is 242x358, the smallest file on the
-      roster. At 36 to 48px in the stack it is sharp; blown up to a panel it is visibly soft
-      next to gospel-ajibade.jpg, which is a full studio frame. Revisit if a larger file of
-      his arrives.
+      roster. At 80px in the list it is sharp; blown up to a panel it is visibly soft next to
+      gospel-ajibade.jpg, which is a full studio frame. Revisit if a larger file of his
+      arrives.
     */
     display: "stack",
     members: [
@@ -135,6 +139,14 @@ export const teamGroups: TeamGroup[] = [
     id: "nigeria",
     title: "Nigeria Team",
     blurb: "Programme delivery, partnerships, and field operations across Lagos State.",
+    /*
+      Pinned to the roster list. This group was mixed until Olumide Kolawole's photograph
+      arrived and so had no choice; now that everyone here has one it would otherwise flip to
+      the accordion, which is not what it should do. Eight faces is a long accordion, the
+      client picked this layout for the US Team by asking for it to match this section, and
+      the page changing shape because a photograph arrived is not a decision anybody made.
+    */
+    display: "stack",
     members: [
       {
         name: "Hazel Iwendi",
@@ -199,30 +211,29 @@ export const teamGroups: TeamGroup[] = [
           alt: "Ebenezer Dada, Technician at JustUsedTech",
         },
       },
-      { name: "Olumide Kolawole", role: "Lagos State Coordinator" },
-    ],
-  },
-  {
-    id: "advisors",
-    title: "Advisors",
-    blurb: "Senior guidance on hardware, brand, and sector strategy.",
-    members: [
-      { name: "Adrian Weinberg", role: "VP Systems Hardware", org: "IBM" },
       {
-        name: "Nenfort Gomwalk",
-        role: "Strategic Advisor, people management and brand communications",
+        name: "Olumide Kolawole",
+        role: "Lagos State Coordinator",
         photo: {
-          src: "/team/nenfort-gomwalk.jpg",
-          alt: "Nenfort Gomwalk, Strategic Advisor to JustUsedTech",
+          src: "/team/olumide-kolawole.jpg",
+          alt: "Olumide Kolawole, Lagos State Coordinator at JustUsedTech",
         },
       },
-      {
-        name: "Barnabas Usman",
-        role: "Director of Sector Networks",
-        org: "African Leadership Academy",
-      },
     ],
   },
+  /*
+    An "advisors" group sat here, removed at the client's request on 2026-09-28. It held
+    Adrian Weinberg (VP Systems Hardware, IBM), Nenfort Gomwalk (Strategic Advisor, people
+    management and brand communications), and Barnabas Usman (Director of Sector Networks,
+    African Leadership Academy), under the blurb "Senior guidance on hardware, brand, and
+    sector strategy."
+
+    Nenfort was the only one with a photograph and public/team/nenfort-gomwalk.jpg went with
+    the group, so restoring him means asking the client for that file again.
+
+    `org` is now unused by every remaining member. It is left on the Member type because it
+    is what an advisor entry needs and this group may come back.
+  */
 ];
 
 export const volunteerNote =

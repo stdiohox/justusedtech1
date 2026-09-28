@@ -19,19 +19,20 @@ import { cn } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "Team",
   description:
-    "The board, US team, Nigeria team, and advisors behind JustUsedTech, supported by more than 20 active volunteers.",
+    "The board, US team, and Nigeria team behind JustUsedTech, supported by more than 20 active volunteers.",
 };
 
 /*
   Two treatments, chosen per group by whether every member of it has a real photograph.
 
   A group where everyone has one opens as the portrait accordion. That is Board, and only
-  Board: US Team qualifies too but is held on the stack by `display: "stack"` in the content,
-  so it matches the two sections under it. See content/team.ts for why.
+  Board: US Team and Nigeria Team both qualify but are held on the roster list by
+  `display: "stack"` in the content. See content/team.ts for why.
 
-  A group where only some do opens as the avatar stack, and each avatar in that stack is the
-  person's photograph if they have one and their initials if they do not. Nigeria Team is
-  seven of ten, Advisors one of three.
+  A group where only some do opens as the roster list, and each avatar in it is the person's
+  photograph if they have one and their initials if they do not. No group is mixed today,
+  since everyone on the roster now has a photograph, but the next person to join will not
+  arrive with one.
 
   This used to be all-or-nothing: a partly photographed group stayed entirely on initials, on
   the reasoning that showing one face beside a row of monograms elevates that person over
@@ -51,7 +52,7 @@ export default function TeamPage() {
       <PageHero
         eyebrow="Team"
         title={`${teamCountWord} people across two countries.`}
-        lede={`${teamCount} people run the board, US operations, Nigeria programme delivery, and advisory. ${volunteerNote}`}
+        lede={`${teamCount} people run the board, US operations, and Nigeria programme delivery. ${volunteerNote}`}
       />
 
       {teamGroups.map((group, groupIndex) => {
