@@ -38,7 +38,7 @@ export function ProgramsPreview() {
         <Reveal>
           <SectionHead
             title="Six programmes, running on the same pipeline"
-            lede="Collection in St. Louis feeds refurbishment, and refurbishment feeds every programme below."
+            lede="Collection in St. Louis, Missouri, feeds refurbishment, and refurbishment feeds every programme below."
           />
         </Reveal>
 

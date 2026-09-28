@@ -120,7 +120,7 @@ export const usOperations: Stat[] = [
   ewasteToDate,
   {
     value: "60%",
-    label: "of devices upcycled back into St. Louis",
+    label: "of devices upcycled back into St. Louis, Missouri",
   },
   {
     value: "800+",
@@ -129,7 +129,7 @@ export const usOperations: Stat[] = [
   },
   {
     value: "20+",
-    label: "Community and corporate partners in St. Louis",
+    label: "Community and corporate partners in St. Louis, Missouri",
   },
 ];
 

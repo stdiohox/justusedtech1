@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     template: `%s | ${site.wordmark}`,
   },
   description:
-    "JustUsedTech is a 501(c)(3) nonprofit that collects and refurbishes used devices in St. Louis, then redistributes them to students and young creatives across Nigeria, Ghana, and Kenya.",
+    "JustUsedTech is a 501(c)(3) nonprofit that collects and refurbishes used devices in St. Louis, Missouri, then redistributes them to students and young creatives across Nigeria, Ghana, and Kenya.",
   openGraph: {
     title: `${site.wordmark} | ${site.legalName}`,
     description:

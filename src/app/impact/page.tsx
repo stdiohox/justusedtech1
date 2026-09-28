@@ -40,7 +40,7 @@ export default function ImpactPage() {
           <SectionHead
             onGreen
             title="US operations, since inception"
-            lede="St. Louis is where the pipeline starts, and a majority of what we recover stays there."
+            lede="St. Louis, Missouri, is where the pipeline starts, and a majority of what we recover stays there."
           />
         </Reveal>
         <RevealGroup

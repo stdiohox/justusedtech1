@@ -581,10 +581,10 @@ export const programDetails: Record<string, ProgramDetail> = {
   /* ---------------------------------------------------------------- */
   "greenbin-360": {
     tagline:
-      "E-waste collection from companies and institutions across St. Louis. This is where the devices every other programme hands out come from.",
+      "E-waste collection from companies and institutions across St. Louis, Missouri. This is where the devices every other programme hands out come from.",
     overview: [
       "Existing e-waste solutions mostly stop at collection and recycling. They rarely touch digital poverty, youth employment, or community participation, which means the material moves but nothing else does. GreenBin 360 treats a discarded device as a community asset rather than a disposal problem.",
-      "In practice this is the operation that feeds everything else JustUsedTech runs. Companies and institutions across St. Louis hand over end-of-life and surplus hardware, and the programme routes it into sorting, data destruction, repair, and refurbishment. What can be brought back is brought back; what cannot is dismantled for material recovery.",
+      "In practice this is the operation that feeds everything else JustUsedTech runs. Companies and institutions across St. Louis, Missouri, hand over end-of-life and surplus hardware, and the programme routes it into sorting, data destruction, repair, and refurbishment. What can be brought back is brought back; what cannot is dismantled for material recovery.",
       "Recovered devices then go out through the redistribution pillar, to schools, libraries, innovation hubs, women-led businesses, and community centres. One organisation's retired hardware becomes another person's first computer.",
     ],
     context: [
@@ -621,7 +621,7 @@ export const programDetails: Record<string, ProgramDetail> = {
     ],
     audience: {
       primary: [
-        "Companies and institutions retiring hardware across St. Louis",
+        "Companies and institutions retiring hardware across St. Louis, Missouri",
         "Schools, libraries, and community centres receiving refurbished devices",
       ],
       secondary: [
@@ -684,7 +684,7 @@ export const programDetails: Record<string, ProgramDetail> = {
       },
     ],
     galleryLede:
-      "Collection days around St. Louis, and the storage room where donated equipment is sorted before repair.",
+      "Collection days around St. Louis, Missouri, and the storage room where donated equipment is sorted before repair.",
     galleryStyle: "mosaic",
   },
 
@@ -743,7 +743,7 @@ export const programDetails: Record<string, ProgramDetail> = {
   /* ---------------------------------------------------------------- */
   "circular-tech-bootcamp": {
     tagline:
-      "Hands-on hardware training in Lagos and St. Louis, on the same laptops that go back out to the community afterwards.",
+      "Hands-on hardware training in Lagos and St. Louis, Missouri, on the same laptops that go back out to the community afterwards.",
     /* The URL is in site.ts with the other external forms, so a replacement lands once. */
     apply: {
       label: "Apply for the bootcamp",
@@ -752,7 +752,7 @@ export const programDetails: Record<string, ProgramDetail> = {
     overview: [
       "Every device that arrives at JustUsedTech needs assessment before it can be redistributed. The bootcamp turns that necessary work into a curriculum, so the people learning hardware repair are learning on real laptops that are going to real people afterwards, not on spare hardware kept for practice.",
       "The same programme runs in two places. In Lagos it is a jobs-focused course, taking participants through computer hardware from the component level up: identification, assembly and disassembly, troubleshooting, RAM, SSD and battery replacement, maintenance and optimisation, refurbishment, quality testing, and networking basics. Alongside that runs the circular economy and e-waste half, covering environmental impact, reuse and repair principles, safe disposal of damaged components, and community awareness.",
-      "In St. Louis it runs with Thomas Dunn Learning Center as a summer programme for participants aged 15 and up, and carries a second track alongside the hardware one: the ethical use of artificial intelligence, covering where these tools fail, bias, privacy, accountability, and digital citizenship. Both cohorts use Google Classroom for materials, assignments, and progress, and both close on a capstone exhibition where teams present what they refurbished or built.",
+      "In St. Louis, Missouri, it runs with Thomas Dunn Learning Center as a summer programme for participants aged 15 and up, and carries a second track alongside the hardware one: the ethical use of artificial intelligence, covering where these tools fail, bias, privacy, accountability, and digital citizenship. Both cohorts use Google Classroom for materials, assignments, and progress, and both close on a capstone exhibition where teams present what they refurbished or built.",
     ],
     contextHeading: {
       title: "Where it runs",
@@ -764,7 +764,7 @@ export const programDetails: Record<string, ProgramDetail> = {
         body: "A workforce development cohort, built around hardware assembly, troubleshooting, and refurbishment, with circular economy and e-waste education running alongside and participants supporting real collection drives.",
       },
       {
-        title: "St. Louis",
+        title: "St. Louis, Missouri",
         body: "Run with Thomas Dunn Learning Center, a community learning hub with over 9,000 annual visits and 900+ classes delivered. Open to participants aged 15 and up, across two tracks: ethical AI use, and computer hardware coupling and refurbishment.",
       },
       {
@@ -852,7 +852,7 @@ export const programDetails: Record<string, ProgramDetail> = {
       {
         title: "Ethical AI track",
         detail:
-          "In St. Louis, a parallel track on artificial intelligence in everyday life, bias, privacy, accountability, responsible use of AI tools, and online safety, taught through case studies.",
+          "In St. Louis, Missouri, a parallel track on artificial intelligence in everyday life, bias, privacy, accountability, responsible use of AI tools, and online safety, taught through case studies.",
       },
       {
         title: "Capstone innovation challenge",

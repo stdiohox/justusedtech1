@@ -29,7 +29,7 @@ export default function PartnersPage() {
           <TagPill className="mb-5">US-based</TagPill>
           <SectionHead
             title="United States"
-            lede="Corporate, academic, and community partners supporting collection, refurbishment, and local redistribution around St. Louis."
+            lede="Corporate, academic, and community partners supporting collection, refurbishment, and local redistribution around St. Louis, Missouri."
           />
         </Reveal>
         <PartnerList partners={usPartners} />

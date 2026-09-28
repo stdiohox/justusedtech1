@@ -411,7 +411,7 @@ export default function GetInvolvedPage() {
             ],
             [
               "Community",
-              "Co-deliver programmes with us in St. Louis, in Lagos State, and across our partner network.",
+              "Co-deliver programmes with us in St. Louis, Missouri, in Lagos State, and across our partner network.",
             ],
           ].map(([title, detail], i) => (
             <Reveal key={title} delay={i * 0.06}>

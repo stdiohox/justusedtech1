@@ -122,7 +122,7 @@ export const programs: Program[] = [
     summary:
       "E-waste collection from US companies and institutions. This is where the devices every other programme hands out come from.",
     body: [
-      "GreenBin 360 is how devices reach us. We collect end-of-life and surplus hardware from companies and institutions across St. Louis, then route it into assessment and refurbishment.",
+      "GreenBin 360 is how devices reach us. We collect end-of-life and surplus hardware from companies and institutions across St. Louis, Missouri, then route it into assessment and refurbishment.",
     ],
     /* The US operations figures from content/impact.ts. Same numbers, not new ones: this
        programme IS the US collection operation, so its totals are that operation's. The
@@ -166,11 +166,11 @@ export const programs: Program[] = [
       without them. Credited here because the alternative was leaving a real partner off the
       programme entirely, and the detail page says which cohort is theirs.
     */
-    partner: "Thomas Dunn Learning Center, in St. Louis",
+    partner: "Thomas Dunn Learning Center, in St. Louis, Missouri",
     summary:
-      "Refurbished devices become the training ground. Underserved youth learn diagnosis, repair, and certification in hardware technology, in Lagos and in St. Louis.",
+      "Refurbished devices become the training ground. Underserved youth learn diagnosis, repair, and certification in hardware technology, in Lagos and in St. Louis, Missouri.",
     body: [
-      "Every device that arrives needs assessment before it can be redistributed. The bootcamp turns that work into a curriculum, so the people learning hardware repair are learning on real laptops headed to real recipients. It runs in two places: Lagos, and St. Louis with Thomas Dunn Learning Center.",
+      "Every device that arrives needs assessment before it can be redistributed. The bootcamp turns that work into a curriculum, so the people learning hardware repair are learning on real laptops headed to real recipients. It runs in two places: Lagos, and St. Louis, Missouri, with Thomas Dunn Learning Center.",
     ],
   },
 ];
