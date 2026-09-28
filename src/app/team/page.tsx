@@ -25,8 +25,9 @@ export const metadata: Metadata = {
 /*
   Two treatments, chosen per group by whether every member of it has a real photograph.
 
-  A group where everyone has one opens as the portrait accordion. That is Board and, since
-  the client's headshot folder arrived, US Team.
+  A group where everyone has one opens as the portrait accordion. That is Board, and only
+  Board: US Team qualifies too but is held on the stack by `display: "stack"` in the content,
+  so it matches the two sections under it. See content/team.ts for why.
 
   A group where only some do opens as the avatar stack, and each avatar in that stack is the
   person's photograph if they have one and their initials if they do not. Nigeria Team is
@@ -54,7 +55,13 @@ export default function TeamPage() {
       />
 
       {teamGroups.map((group, groupIndex) => {
-        const allPortraits = group.members.every((member) => member.photo);
+        /*
+          `display: "stack"` in the content can veto the accordion, but nothing can demand
+          one: the && ordering means a group without a full set of photographs falls to the
+          stack whatever it asks for, which is what keeps `member.photo!` below safe.
+        */
+        const allPortraits =
+          group.members.every((member) => member.photo) && group.display !== "stack";
 
         /*
           Every class the two stack avatars share. A photograph and a monogram have to come

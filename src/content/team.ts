@@ -42,6 +42,16 @@ export type TeamGroup = {
   id: string;
   title: string;
   blurb: string;
+  /**
+   * Force the avatar stack on a group that would otherwise qualify for the portrait
+   * accordion.
+   *
+   * Left off, the team page decides for itself: accordion when every member has a
+   * photograph, stack when only some do. That is still what Board, Nigeria Team, and
+   * Advisors do. This only exists to override it downward, never upward, so a group can
+   * never be asked for an accordion it has no photographs for.
+   */
+  display?: "stack";
   members: Member[];
 };
 
@@ -91,6 +101,17 @@ export const teamGroups: TeamGroup[] = [
     id: "us",
     title: "US Team",
     blurb: "Device recovery, refurbishment, and warehouse operations in Saint Louis, Missouri.",
+    /*
+      Both members have a photograph, so this group would default to the portrait accordion.
+      It is held on the stack instead, to match the Nigeria Team and Advisors sections below.
+
+      There is a practical reason as well as the client's preference. The accordion renders a
+      panel around 420px tall, and moses-fajimokun.jpg is 242x358, the smallest file on the
+      roster. At 36 to 48px in the stack it is sharp; blown up to a panel it is visibly soft
+      next to gospel-ajibade.jpg, which is a full studio frame. Revisit if a larger file of
+      his arrives.
+    */
+    display: "stack",
     members: [
       {
         name: "Gospel Ajibade",
