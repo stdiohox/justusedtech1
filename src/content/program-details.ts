@@ -412,11 +412,12 @@ export const programDetails: Record<string, ProgramDetail> = {
           "A baseline profile, handover footage, progress check-ins, and a final interview, edited into a documentary and short-form cuts.",
       },
     ],
-    outcomes: [
-      "Recipients using their devices for learning, freelance work, or business.",
-      "Documented success stories produced and shared across JustUsedTech platforms.",
-      "A recipient tracking report produced at the close of the programme.",
-    ],
+    /*
+      `outcomes` was here and is out at the client's request, the same call made for the
+      School Tour. `measurement` stays, so this programme keeps its second column and the
+      section keeps its two column layout, with "How it is measured" where Expected outcomes
+      used to sit above it. The removed content is in the git history.
+    */
     measurement: [
       "Device distribution records and recipient tracking",
       "Follow-up surveys at three and six months post-distribution",
