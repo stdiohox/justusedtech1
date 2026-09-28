@@ -1,0 +1,21 @@
+# Netlify build config.
+#
+# This file exists for one setting. Netlify's default image resolves bun through mise,
+# which pinned bun@1.3.12. Local bun is 1.4.1 and writes bun.lock at lockfileVersion 2,
+# which 1.3.12 cannot parse: it logged "Unknown lockfile version", then "Ignoring lockfile"
+# and carried on.
+#
+# That warning is the actual problem. With the lockfile discarded, bun re-resolved every
+# transitive dependency from its semver range against whatever was latest at that second,
+# so no two deploys installed the same tree. It surfaced as a 404 on
+# @typescript-eslint/eslint-plugin@8.71.0, pulled in through eslint-config-next's
+# "^5.4.2 || ^6.0.0 || ^7.0.0 || ^8.0.0". 8.71.0 had been published minutes earlier and its
+# tarball had not reached the CDN edge the build hit. The lockfile pins 8.69.0 and would
+# never have asked for it.
+#
+# Pinning bun to the version that wrote the lockfile makes the lockfile readable again, and
+# the install reproducible. vercel.json does the same thing for the other host with
+# "bunx bun@1.4.1 install". Both numbers move together, or neither does.
+
+[build.environment]
+  BUN_VERSION = "1.4.1"
