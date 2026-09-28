@@ -304,6 +304,36 @@ export const posts: Post[] = [
       "Lagos Television (LTV) conducted a media interview with the team on site.",
     ],
     tags: ["Project 9-12", "Passback", "Lagos"],
+    /*
+      No `cover`. The first frame here is the skates themselves, which is what the post is
+      about, so letting it front the post is better than nominating a separate cover that
+      would then need keeping in step with this list.
+
+      Alt text describes the frame and stops, the same rule the programme galleries follow.
+      Nobody is named, and nothing says who donated or received which pair: the post body is
+      where the 25 skates and the Passback partnership are stated, on the client's word, not
+      inferred from what a photograph appears to show.
+    */
+    gallery: [
+      {
+        src: "/news/skate-lagos-3/01.jpg",
+        alt: "Skaters in yellow event bibs and helmets holding pairs of inline skates, with a man in a white polo shirt holding another pair in front of them and more laid out on a table.",
+        width: 959,
+        height: 640,
+      },
+      {
+        src: "/news/skate-lagos-3/02.jpg",
+        alt: "Four skaters in yellow event bibs, helmets, and knee pads skating together along a road.",
+        width: 666,
+        height: 445,
+      },
+      {
+        src: "/news/skate-lagos-3/03.jpg",
+        alt: "A skater in a helmet and printed shirt mid-turn on a road, in front of a yellow Sporty Lagos banner.",
+        width: 667,
+        height: 889,
+      },
+    ],
   },
   {
     /*
