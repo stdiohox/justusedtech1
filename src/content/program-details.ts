@@ -252,12 +252,20 @@ export const programDetails: Record<string, ProgramDetail> = {
         width: 2400,
         height: 1506,
       },
-      {
-        src: "/programs/school-tour-initiative/02.jpg",
-        alt: "A person in a JustUsedTech shirt standing beside a roll-up banner reading Building A Sustainable Future.",
-        width: 1800,
-        height: 2400,
-      },
+      /*
+        02.jpg sat here and is out at the client's request. It is a solo portrait of a team
+        member posing beside the Building A Sustainable Future banner: a good photograph, but
+        the only frame in a School Tour gallery that is not of students, and it was landing
+        second, directly after the opening group shot.
+
+        Taken out rather than moved to the end, because the objection was to a staff portrait
+        being in a students' gallery at all, not to where it fell. The four frames left are
+        all of students in session, which is what the lede below promises.
+
+        The file is still in public/programs/school-tour-initiative/ and nothing else in the
+        site points at it. Put the block back here to restore it. If more school tour
+        photography arrives, this is also the obvious place for a real replacement.
+      */
       {
         src: "/programs/school-tour-initiative/03.jpg",
         alt: "Students in navy and cream uniforms gathered outside a school entrance, several with their hands raised.",
