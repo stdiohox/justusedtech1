@@ -125,7 +125,25 @@ export function SiteHeader() {
 
           <DesktopNav isActive={isActive} reduced={reduced} />
 
-          <div className="flex items-center gap-2 sm:gap-4">
+          {/*
+            Contact, the donate pill, and the menu button that replaces both below lg.
+
+            Contact and the pill sat 16px apart. That reads as 40px between the two labels,
+            but only 16px between the word "Contact" and the pill's solid green edge, and
+            the edge is what the eye lands on. It widens to 24px at xl.
+
+            xl, and not the 1100 this was first written as. Tailwind emits an arbitrary
+            min-[1100px] variant ahead of the named breakpoints in the stylesheet, so
+            sm:gap-4 came after it and won at every width: the class was generated, the
+            media query was correct, and the gap never moved off 16px. Named breakpoints do
+            sort among themselves, so xl lands after sm and applies. Worth remembering
+            before reaching for an arbitrary min-width variant to override a named one.
+
+            The cost is that 1100 to 1279 keeps the 16px. Nothing can be spent at 1024
+            anyway, where all three of the header's own gaps are already at the shell's
+            gap-4 floor.
+          */}
+          <div className="flex items-center gap-2 sm:gap-4 xl:gap-6">
             <Link
               href="/contact"
               aria-current={isActive("/contact") ? "page" : undefined}
