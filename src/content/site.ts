@@ -21,10 +21,14 @@ export const contact = {
   hqAddress: "725 Kingsland Ave, Suite 100",
   hqCity: "Saint Louis, MO 63130",
   hqCountry: "United States",
+  /* The St. Louis warehouse line. `fieldPhone` below is the Lagos one; the two are named
+     apart rather than as phone1/phone2 so a render site cannot pick the wrong country. */
   phone: "+1 314-643-1990",
   phoneHref: "tel:+13146431990",
   fieldLabel: "Nigeria Field Operations",
   fieldAddress: "Lagos State, Nigeria",
+  fieldPhone: "+234 812 967 1480",
+  fieldPhoneHref: "tel:+2348129671480",
   emails: [
     { label: "General enquiries", address: "info@justusedtech.org" },
     { label: "Partnerships", address: "collabs@justusedtech.org" },
@@ -102,12 +106,27 @@ export const forms = {
 } as const;
 
 export const socials = [
-  { name: "Facebook", href: "https://facebook.com/profile.php?id=61561340373391" },
+  {
+    name: "Facebook",
+    href: "https://facebook.com/profile.php?id=61561340373391",
+  },
   { name: "X", href: "https://x.com/JustusedTech", handle: "@JustusedTech" },
   { name: "LinkedIn", href: "https://linkedin.com/company/justused-tech" },
-  { name: "Instagram", href: "https://instagram.com/justusedtech", handle: "@justusedtech" },
-  { name: "TikTok", href: "https://tiktok.com/@justusedtech", handle: "@justusedtech" },
-  { name: "YouTube", href: "https://youtube.com/@justusedtech", handle: "@justusedtech" },
+  {
+    name: "Instagram",
+    href: "https://instagram.com/justusedtech",
+    handle: "@justusedtech",
+  },
+  {
+    name: "TikTok",
+    href: "https://tiktok.com/@justusedtech",
+    handle: "@justusedtech",
+  },
+  {
+    name: "YouTube",
+    href: "https://youtube.com/@justusedtech",
+    handle: "@justusedtech",
+  },
   { name: "Linktree", href: "https://linktr.ee/justusedtech" },
 ] as const;
 

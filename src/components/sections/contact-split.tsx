@@ -99,9 +99,23 @@ export function ContactSplit() {
                   aria-hidden
                 />
               }
-              label="Phone"
+              /* "Phone" alone was fine with one number. With two it would have been the
+                 reader's job to guess which country answers. */
+              label="US phone"
               value={contact.phone}
               href={contact.phoneHref}
+            />
+            <ContactRow
+              icon={
+                <Phone
+                  className="size-[1.125rem]"
+                  strokeWidth={2}
+                  aria-hidden
+                />
+              }
+              label="Nigeria phone"
+              value={contact.fieldPhone}
+              href={contact.fieldPhoneHref}
             />
             {contact.emails.map((email) => (
               <ContactRow

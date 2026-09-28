@@ -104,8 +104,21 @@ export function SiteFooter() {
                 </a>
               ))}
             </address>
+            {/*
+              Nigeria is one line rather than a second address block: the US block above is
+              a place you can post something to or drive to, and this is a country-level
+              presence with a number on the end of it. The number is a link here for the
+              same reason the US one is, so a reader on a phone can press it.
+            */}
             <p className="mt-5 text-[0.8125rem] text-white/70">
               {contact.fieldLabel}: {contact.fieldAddress}
+              <br />
+              <a
+                href={contact.fieldPhoneHref}
+                className="font-semibold transition-colors duration-300 hover:text-white"
+              >
+                {contact.fieldPhone}
+              </a>
             </p>
           </div>
         </div>
