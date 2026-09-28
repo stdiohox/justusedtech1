@@ -109,6 +109,15 @@ export type ProgramDetail = {
    */
   galleryStyle?: "elastic" | "accordion" | "bento" | "mosaic";
   /**
+   * The School Tour visit log, rendered on this programme's own page.
+   *
+   * Only the heading and lede live here; the visits themselves are `schoolVisits` in
+   * content/news.ts, which is the record and stays the record. This field exists so the
+   * page does not have to test the slug: a programme that should show the log says so, and
+   * every other programme renders no section.
+   */
+  visitLog?: { heading: string; lede: string };
+  /**
    * A clip from someone the programme reached, shown in its own section after the
    * photographs. Content lives in content/videos.ts; this only points at it. Programmes
    * without one render no section, the same rule as the gallery.
@@ -245,6 +254,15 @@ export const programDetails: Record<string, ProgramDetail> = {
           "Improve education and awareness raising on climate change mitigation and impact reduction.",
       },
     ],
+    /*
+      The log was only ever on /news, under a "Field log" heading, which is a page somebody
+      reading about this programme has no particular reason to open. It is the most concrete
+      thing the programme has, so it belongs on the programme too.
+    */
+    visitLog: {
+      heading: "Every visit, 2026",
+      lede: "The schools the team has been into this year and when. A visit without a confirmed date is listed without one rather than given a likely one.",
+    },
     gallery: [
       {
         src: "/programs/school-tour-initiative/01.jpg",

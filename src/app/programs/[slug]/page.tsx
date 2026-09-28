@@ -31,6 +31,7 @@ import {
 } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
 import { VideoFeature } from "@/components/sections/video-feature";
+import { VisitLog } from "@/components/sections/visit-log";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
 import { BentoGallery } from "@/components/ui/bento-gallery";
 import {
@@ -41,6 +42,7 @@ import { ImageAccordion } from "@/components/ui/image-accordion";
 import { MosaicGallery } from "@/components/ui/mosaic-gallery";
 import type { ProgramDetail } from "@/content/program-details";
 import { programDetails } from "@/content/program-details";
+import { schoolVisits } from "@/content/news";
 import { programs } from "@/content/programs";
 import { asks } from "@/content/site";
 
@@ -418,6 +420,30 @@ export default async function ProgramDetailPage({ params }: Params) {
               </RevealItem>
             ))}
           </RevealGroup>
+        </Section>
+      )}
+
+      {/*
+        The visit log, for the one programme that has one. Between the timeline above, which
+        is how the programme is planned to run, and the photographs below, which are what it
+        looked like: this is the record of what actually happened and when, so it sits
+        between the plan and the pictures.
+
+        The visits come from content/news.ts, the same array the news page reads, so the two
+        pages cannot disagree about where the team has been. mint rather than another white
+        or deep, so it does not run into the section on either side of it.
+      */}
+      {detail.visitLog && (
+        <Section tone="mint">
+          <Reveal>
+            <SectionHead
+              title={detail.visitLog.heading}
+              lede={detail.visitLog.lede}
+            />
+          </Reveal>
+          <Reveal delay={0.08} className="mt-10">
+            <VisitLog visits={schoolVisits} />
+          </Reveal>
         </Section>
       )}
 

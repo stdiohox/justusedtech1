@@ -128,7 +128,8 @@ export const nav: NavEntry[] = [
           },
           {
             label: "GreenBin 360",
-            description: "E-waste collection from organizations and institutions",
+            description:
+              "E-waste collection from organizations and institutions",
             href: "/programs/greenbin-360",
             icon: "Recycle",
             status: "active",
@@ -163,6 +164,14 @@ export const nav: NavEntry[] = [
     ],
   },
   { label: "Impact", href: "/impact" },
+  /*
+     Sits with Impact rather than at the end: both are "what has actually happened", and a
+     reader who has just looked at the numbers is the one most likely to want the write-ups
+     behind them. A plain link, not a dropdown, because the page is one page. Its own
+     sections already have ids (#school-tour, the gallery, the press list) if it ever earns
+     a menu.
+  */
+  { label: "News", href: "/news" },
   { label: "Team", href: "/team" },
   {
     label: "Get Involved",
