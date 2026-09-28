@@ -40,7 +40,7 @@ export default function AboutPage() {
     <>
       <PageHero
         eyebrow="Who we are"
-        title="Founded in Lagos. Incorporated in Missouri. Working across both."
+        title="Founded in Lagos. Incorporated in Saint Louis, Missouri. Working across both."
         lede={`${site.legalName} started in Lagos, Nigeria in 2017 and was formalized as a US 501(c)(3) nonprofit in February 2024. Device recovery and warehouse operations are based at our headquarters in University City, Missouri, and refurbished devices are redistributed to underserved communities across Nigeria, Ghana, and Kenya.`}
         /*
           Inside the masthead rather than under it, filling the right half that every page
