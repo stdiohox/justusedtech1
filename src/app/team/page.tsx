@@ -64,19 +64,11 @@ export default function TeamPage() {
           group.members.every((member) => member.photo) && group.display !== "stack";
 
         /*
-          Every class the two stack avatars share. A photograph and a monogram have to come
-          out the same size with the same ring, or the mixed stack stops reading as one row.
-
-          Sizes step at sm. Ten avatars at the reference's 48px with a 12px overlap come to
-          372px, which overflows a 320px phone once the page gutter is taken off. 36px with an
-          8px overlap comes to 288px and fits. The ring matches the section fill so the stack
-          reads as cut out of it.
+          Every class the two roster avatars share, so a photograph and a monogram come out
+          as the same circle. 64px, 80px from sm. See the note on the roster below for why
+          they are this size and no longer overlapping.
         */
-        const avatarRing = cn(
-          "size-9 shrink-0 rounded-full border-2",
-          "sm:size-12 sm:border-3",
-          groupIndex % 2 === 0 ? "border-white" : "border-paper",
-        );
+        const avatarBox = "size-16 shrink-0 rounded-full sm:size-20";
 
         return (
           <Section
@@ -113,60 +105,51 @@ export default function TeamPage() {
               ) : (
                 <Reveal>
                   {/*
-                    The overlapping stack, then the roster in full underneath.
+                    The roster, one row per person: their avatar, then their name and role.
 
-                    This is deliberately not components/ui/avatar-group.tsx, which is still in
-                    the repo and still works. That component put motion and a Base UI tooltip on
-                    this page and took it from 103kB to 193kB first load, making a page of
-                    names and roles the heaviest on the site, ahead of the home page and
-                    its WebGL globe. What the 90kB bought was a hover lift and a tooltip naming
-                    the person, 40px above a list that already names them. On a phone, where
-                    there is no hover, it bought the lift and nothing else.
+                    This replaced an overlapping avatar stack sitting above a plain name list.
+                    The stack was built when nobody but the board had a photograph, so it was a
+                    row of monograms and the overlap cost nothing. With real faces in it the
+                    overlap became the problem: each circle covered a third of the one behind
+                    it, and the sizes could not simply be raised to compensate. Ten avatars at
+                    64px with a 16px overlap come to 496px, and a 320px phone has 288px once the
+                    page gutter is off. Every size large enough to show a face overflowed, and
+                    every overlap tight enough to fit hid more of one.
 
-                    So the lift is CSS. The easing is the curve image-accordion.tsx already
-                    uses, which overshoots slightly and lands close to the spring it replaces.
-                    What is genuinely lost is real spring physics, which is nicer and which is
-                    not worth 90kB on a 30% translate.
+                    Unstacking them removes the constraint entirely. The avatars sit in the
+                    grid that already held the names, so they wrap and reflow like the rest of
+                    it, and at 64px, 80px from sm, each face is fully visible and roughly four
+                    times the area it had in the stack.
 
-                    The whole row is aria-hidden. The avatars carry initials, not names, and the
-                    roster below is the real list, so announcing a row of letter pairs ahead
-                    of it would be noise. That also keeps a row of do-nothing buttons out of the
-                    tab order, which is what the tooltip version needed.
+                    What is lost is the hover lift, which was a CSS translate standing in for
+                    components/ui/avatar-group.tsx. That component put motion and a Base UI
+                    tooltip on this page and took it from 103kB to 193kB first load, to show a
+                    tooltip naming the person 40px above a list that already named them. Neither
+                    version is here now, and nothing on these rows is clickable, so a hover
+                    affordance would only suggest otherwise.
 
-                    Sizes step at sm. Nine avatars at the reference's 48px with a 12px overlap
-                    come to 336px, which overflows a 320px phone once the page gutter is taken
-                    off. 36px with an 8px overlap comes to 260px and fits.
+                    The avatars carry empty alt. Each one sits beside that person's name in the
+                    same list item, so describing the face would say the name twice.
                   */}
-                  <div aria-hidden className="flex -space-x-2 sm:-space-x-3">
+                  <ul className="grid gap-x-8 gap-y-7 sm:grid-cols-2">
                     {group.members.map((member, i) => (
-                      <div
-                        key={member.name}
-                        className={cn(
-                          "relative transition-transform duration-300",
-                          "ease-[cubic-bezier(.5,.85,.25,1.15)]",
-                          "hover:z-10 hover:-translate-y-[30%]",
-                          "motion-reduce:transition-none motion-reduce:hover:translate-y-0",
-                        )}
-                      >
-                        {/*
-                          Photograph or initials, same box either way. `avatarRing` below holds
-                          every shared class so the two branches cannot drift apart in size or
-                          ring, which is the whole reason a mixed stack reads as even.
-                        */}
+                      <li key={member.name} className="flex items-center gap-4">
                         {member.photo ? (
                           <Image
                             src={member.photo.src}
-                            /*
-                              Empty alt, not the photo's own. The stack is aria-hidden and the
-                              roster underneath is the real list, so describing each face here
-                              would announce the group twice.
-                            */
                             alt=""
-                            width={96}
-                            height={96}
-                            /* 48px at most, doubled for retina. Nothing larger is ever shown. */
-                            sizes="48px"
-                            className={cn(avatarRing, "object-cover")}
+                            width={160}
+                            height={160}
+                            /* 80px at most, doubled for retina. */
+                            sizes="80px"
+                            /*
+                              object-top, not the default centre. These are portrait frames
+                              where the head sits in the upper part of the picture, so a
+                              centred square crop lands on the chest. Anchoring to the top
+                              keeps the face in the circle. The two square sources are
+                              unaffected: a square cropped to a square is not cropped.
+                            */
+                            className={cn(avatarBox, "object-cover object-top")}
                           />
                         ) : (
                           <InitialsAvatar
@@ -176,8 +159,8 @@ export default function TeamPage() {
                               Straight cycle, so neighbours never repeat a colour and the row
                               stays varied however long the group is. The earlier version spread
                               an index across a ramp to avoid restarting a gradient mid row; with
-                              hues rather than one value that maths worked against itself, landing
-                              the same colour on adjacent people in the larger groups.
+                              hues rather than one value that maths worked against itself,
+                              landing the same colour on adjacent people in the larger groups.
 
                               Indexed by position in the group, not by position among the members
                               without a photograph. Keeping the member's own index means adding
@@ -185,30 +168,24 @@ export default function TeamPage() {
                             */
                             index={i}
                             circle
-                            className={cn(
-                              avatarRing,
-                              "text-[0.6875rem] tracking-[0.01em] sm:text-[0.875rem]",
-                            )}
+                            className={cn(avatarBox, "text-lg sm:text-xl")}
                           />
                         )}
-                      </div>
-                    ))}
-                  </div>
 
-                  <ul className="mt-10 grid gap-x-8 gap-y-5 sm:grid-cols-2">
-                    {group.members.map((member) => (
-                      <li key={member.name}>
-                        <h3 className="text-[0.9375rem] leading-snug font-extrabold tracking-[-0.02em] text-ink">
-                          {member.name}
-                        </h3>
-                        <p className="mt-1 text-[0.8125rem] leading-snug font-semibold text-ink-soft">
-                          {member.role}
-                        </p>
-                        {member.org && (
-                          <p className="mt-1 text-[0.8125rem] font-bold text-brand-green-dark">
-                            {member.org}
+                        {/* min-w-0 so a long role wraps inside the row instead of widening it. */}
+                        <div className="min-w-0">
+                          <h3 className="text-[0.9375rem] leading-snug font-extrabold tracking-[-0.02em] text-ink">
+                            {member.name}
+                          </h3>
+                          <p className="mt-1 text-[0.8125rem] leading-snug font-semibold text-ink-soft">
+                            {member.role}
                           </p>
-                        )}
+                          {member.org && (
+                            <p className="mt-1 text-[0.8125rem] font-bold text-brand-green-dark">
+                              {member.org}
+                            </p>
+                          )}
+                        </div>
                       </li>
                     ))}
                   </ul>
