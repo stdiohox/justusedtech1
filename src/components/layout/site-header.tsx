@@ -252,7 +252,21 @@ function DesktopNav({
   return (
     <nav
       aria-label="Main"
-      className="hidden items-center lg:flex"
+      /*
+        The gap is the separation. Before it there was none at all: the items sat flush and
+        the only air between two labels was the px-3.5 inside each one, so "Impact" and
+        "News" read 28px apart with their boxes touching. That was survivable at five
+        entries and stopped being so when News made it six.
+
+        Gaps rather than wider padding, because padding is also the hover pill: NavPill is
+        inset-0 on each item, so growing px grows the pill and the labels stay just as close
+        to each other. A gap moves the items apart and leaves the pill the size it should be.
+
+        Two steps, sized against the measured slack. At 1024 the header has 96px spare, so
+        six items take 6px gaps, 30px in all. From xl the shell caps at 1240 and the spare
+        rises to 290px, so the gap doubles and the labels sit 40px apart.
+      */
+      className="hidden items-center gap-1 lg:flex xl:gap-3"
       onMouseLeave={() => {
         setHoverKey(null);
         setOpenKey(null);
@@ -292,7 +306,7 @@ function DesktopNav({
               setOpenKey(null);
             }}
             className={cn(
-              "relative rounded-full px-3.5 py-2 text-[0.9375rem] font-bold transition-colors duration-300",
+              "relative rounded-full px-3 py-2 xl:px-3.5 text-[0.9375rem] font-bold transition-colors duration-300",
               isActive(item.href)
                 ? "text-brand-green-dark"
                 : "text-ink-soft hover:text-ink",
@@ -373,7 +387,7 @@ function NavMenu({
         aria-current={isCurrent ? "page" : undefined}
         onClick={() => (isOpen ? onClose() : onOpen())}
         className={cn(
-          "relative flex items-center gap-1 rounded-full px-3.5 py-2 text-[0.9375rem] font-bold",
+          "relative flex items-center gap-1 rounded-full px-3 py-2 xl:px-3.5 text-[0.9375rem] font-bold",
           "transition-colors duration-300",
           isCurrent ? "text-brand-green-dark" : "text-ink-soft hover:text-ink",
         )}
