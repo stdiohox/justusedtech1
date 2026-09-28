@@ -215,31 +215,18 @@ export const programDetails: Record<string, ProgramDetail> = {
           "Selected students trained as environmental champions to continue the work between visits.",
       },
     ],
-    phases: [
-      {
-        window: "Month 1 to 3",
-        label: "Planning and preparation",
-        detail:
-          "Finalise the design and materials, identify partner schools, train facilitators and volunteers, develop the awareness materials.",
-      },
-      {
-        window: "Month 3 to 10",
-        label: "Implementation",
-        detail:
-          "Deliver sensitisation sessions across the selected schools and roll out the awareness campaigns.",
-      },
-      {
-        window: "Month 11 to 12",
-        label: "Evaluation and reporting",
-        detail:
-          "Post-assessment on knowledge and behaviour, lessons learned documented, impact report shared.",
-      },
-    ],
-    outcomes: [
-      "Students demonstrate improved knowledge of responsible e-waste disposal practices.",
-      "Schools integrate e-waste and sustainability lessons into their own activities.",
-      "A trained cohort of student environmental champions in each participating school.",
-    ],
+    /*
+      `phases` and `outcomes` were here and are out at the client's request, which removes
+      the Timeline section and the Expected outcomes column from this programme's page.
+
+      Both fields are optional, so this is a content removal and not a page change: the
+      Circular Tech Bootcamp still renders a Timeline, and Breakthrough Series and Project
+      9-12 still render Expected outcomes. Nothing here affects them.
+
+      `measurement` is deliberately kept. It shares a section with `outcomes`, so dropping
+      both would have left the column empty next to "Who it is for"; with it, that column
+      still carries "How it is measured". The removed content is in the git history.
+    */
     measurement: [
       "Pre and post session assessment scores",
       "Follow-up surveys on disposal practice",
