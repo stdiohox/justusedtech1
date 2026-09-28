@@ -418,12 +418,12 @@ export const programDetails: Record<string, ProgramDetail> = {
       section keeps its two column layout, with "How it is measured" where Expected outcomes
       used to sit above it. The removed content is in the git history.
     */
-    measurement: [
-      "Device distribution records and recipient tracking",
-      "Follow-up surveys at three and six months post-distribution",
-      "Mentorship session reports and attendance",
-      "Final outcome evaluation on skills, device use, and employment status",
-    ],
+    /*
+      `measurement` was here and is out at the client's request, following `outcomes`. With
+      both gone from every programme, no page renders a second column beside "Who it is
+      for", so every audience section now runs full width with Primary and Secondary side by
+      side. The removed content is in the git history.
+    */
     gallery: [
       {
         src: "/programs/breakthrough-series/01.jpg",
@@ -552,12 +552,12 @@ export const programDetails: Record<string, ProgramDetail> = {
       column and the section keeps its two column layout. The removed content is in the git
       history.
     */
-    measurement: [
-      "Inventory distribution logs and equipment condition records",
-      "Participant attendance sheets from events and sessions",
-      "Community feedback forms and post-event evaluation reports",
-      "Photographic and video documentation of activities",
-    ],
+    /*
+      `measurement` was here and is out at the client's request, following `outcomes`. With
+      both gone from every programme, no page renders a second column beside "Who it is
+      for", so every audience section now runs full width with Primary and Secondary side by
+      side. The removed content is in the git history.
+    */
     gallery: [
       {
         src: "/programs/project-9-12/01.jpg",
@@ -939,12 +939,12 @@ export const programDetails: Record<string, ProgramDetail> = {
       column and the section keeps its two column layout. The removed content is in the git
       history.
     */
-    measurement: [
-      "Registration forms and attendance records",
-      "Pre and post assessment results",
-      "Capstone project exhibition outputs",
-      "Participant evaluation forms and satisfaction surveys",
-    ],
+    /*
+      `measurement` was here and is out at the client's request, following `outcomes`. With
+      both gone from every programme, no page renders a second column beside "Who it is
+      for", so every audience section now runs full width with Primary and Secondary side by
+      side. The removed content is in the git history.
+    */
     gallery: [
       {
         src: "/programs/circular-tech-bootcamp/01.jpg",
