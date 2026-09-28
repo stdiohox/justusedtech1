@@ -115,8 +115,17 @@ export type ProgramDetail = {
    * content/news.ts, which is the record and stays the record. This field exists so the
    * page does not have to test the slug: a programme that should show the log says so, and
    * every other programme renders no section.
+   *
+   * `related` is one link out, the same shape Post uses. Deliberately not a link back to
+   * the log on /news: that is the identical component reading the identical array, so it
+   * would send a reader from a list to the same list. What this page has no version of is
+   * the write-up, so that is where it points.
    */
-  visitLog?: { heading: string; lede: string };
+  visitLog?: {
+    heading: string;
+    lede: string;
+    related?: { label: string; href: string };
+  };
   /**
    * A clip from someone the programme reached, shown in its own section after the
    * photographs. Content lives in content/videos.ts; this only points at it. Programmes
@@ -262,6 +271,13 @@ export const programDetails: Record<string, ProgramDetail> = {
     visitLog: {
       heading: "Every visit, 2026",
       lede: "The schools the team has been into this year and when. A visit without a confirmed date is listed without one rather than given a likely one.",
+      /* The post is the prose the log has none of: which schools were revisited and why,
+         and how the peer educator sessions work. The log answers where and when, the post
+         answers what happened. */
+      related: {
+        label: "Read the 2026 write-up",
+        href: "/news/school-tour-2026",
+      },
     },
     gallery: [
       {

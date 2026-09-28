@@ -444,6 +444,17 @@ export default async function ProgramDetailPage({ params }: Params) {
           <Reveal delay={0.08} className="mt-10">
             <VisitLog visits={schoolVisits} />
           </Reveal>
+          {detail.visitLog.related && (
+            <Reveal delay={0.16} className="mt-9">
+              <PillLink
+                href={detail.visitLog.related.href}
+                variant="outline"
+                travel
+              >
+                {detail.visitLog.related.label}
+              </PillLink>
+            </Reveal>
+          )}
         </Section>
       )}
 
