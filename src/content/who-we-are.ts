@@ -26,7 +26,7 @@ export const whoWeAreFrames: WhoWeAreFrame[] = [
   {
     id: "us-operations",
     title: "US operations",
-    kicker: "University City, MO",
+    kicker: "University City, Missouri",
     src: "/about/who-we-are-us-operations.jpg",
     alt: "Five people, most in JustUsedTech shirts, standing in conversation around a high table in a community space.",
   },

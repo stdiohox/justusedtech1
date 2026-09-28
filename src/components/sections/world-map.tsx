@@ -51,7 +51,7 @@ export function WorldMap() {
         viewBox={`0 0 ${W} ${H}`}
         className="pointer-events-none absolute inset-0 h-full w-full"
         role="img"
-        aria-label={`Device routes from ${origin?.label ?? "St. Louis, MO"} to ${destinations
+        aria-label={`Device routes from ${origin?.label ?? "St. Louis, Missouri"} to ${destinations
           .map((d) => d.label)
           .join(", ")}.`}
       >
