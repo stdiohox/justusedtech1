@@ -97,6 +97,22 @@
     Tailwind's numeric utilities already resolve to this same 4px grid (p-4 is 16px,
     p-12 is 48px). These tokens exist for authored CSS and arbitrary values, where a raw
     px number would otherwise slip off the scale.
+
+    One utility did not escape the rename: space-y-N and space-x-N still read this
+    namespace. Everything else compiles to calc(var(--spacing) * n), but space-y-4 compiles
+    to a literal 4px, space-y-16 to 16px, space-y-20 to 20px, and so on for every N with a
+    token below. So the collision is exactly the numbers in this list: 4, 8, 12, 16, 20,
+    24, 28, 32, 40, 48, 56, 64, 80, 96, 128, 144. space-y-1, space-y-3, space-y-5,
+    space-y-2.5 and the other fractions have no token and are correct.
+
+    It fails quietly, which is the problem. space-y-16 asks for 64px, renders 16px, and
+    nothing errors; it just looks a bit tight, and a bit tight is easy to read as a design
+    choice. It had reached the programme cards, where the delivered-results entries sat 4px
+    apart, and the news gallery, where the collections sat 16px apart instead of 64px.
+
+    Use gap on a flex or grid parent instead. gap resolves through --spacing and is not
+    affected. Do not add a --space-N token for a number only to make a space-y-N work: that
+    is the direction that caused this.
   */
   --space-4: 4px;
   --space-8: 8px;

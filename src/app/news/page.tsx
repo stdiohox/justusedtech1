@@ -191,7 +191,13 @@ export default function NewsPage() {
             lede="Photographs from JustUsedTech's own programmes and events. Open any frame to see it full size."
           />
         </Reveal>
-        <div className="mt-12 space-y-16 md:space-y-20">
+        {/*
+          gap, not space-y. space-y-16 was resolving to 16px and md:space-y-20 to 20px,
+          against the 64px and 80px they read as, because both numbers exist as --space-N
+          tokens. The gallery collections were sitting a quarter of their intended distance
+          apart. See the note on the spacing scale in globals.css.
+        */}
+        <div className="mt-12 flex flex-col gap-16 md:gap-20">
           {collections.map((collection, i) => (
             <Reveal key={collection.id} delay={Math.min(i, 3) * 0.04}>
               <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">

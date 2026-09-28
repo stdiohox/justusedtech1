@@ -170,7 +170,7 @@ function ProgramPanel({ program, tone }: { program: Program; tone: number }) {
           <p className="mt-4 text-[1.0625rem] leading-relaxed font-semibold text-ink text-pretty">
             {program.summary}
           </p>
-          {hasRail && <div className="mt-4 space-y-4">{body}</div>}
+          {hasRail && <div className="mt-4 flex flex-col gap-4">{body}</div>}
 
           {/*
             Learn more, on every programme that has a detail page to reach. The one that does
@@ -209,7 +209,18 @@ function ProgramPanel({ program, tone }: { program: Program; tone: number }) {
               <p className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
                 Delivered in 2025
               </p>
-              <dl className="mt-4 space-y-4">
+              {/*
+                gap, not space-y. See the note on the spacing scale in globals.css: a
+                space-y-N whose N matches a --space-N token resolves to that token's raw
+                pixel value, so space-y-4 here was 4px rather than 16px. Every entry is a
+                bold label over a two or three line detail with 4px between them, so the
+                entries were as close to each other as a label is to its own text, and
+                Project 9-12's two phases read as one paragraph.
+
+                gap-5 rather than the 16px that was meant: 20px against the 4px inside an
+                entry makes the boundary unambiguous at this density.
+              */}
+              <dl className="mt-4 flex flex-col gap-5">
                 {program.results.map((result) => (
                   <div key={result.label}>
                     <dt className="text-[0.9375rem] font-extrabold text-ink">
@@ -234,7 +245,8 @@ function ProgramPanel({ program, tone }: { program: Program; tone: number }) {
               <p className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
                 US operations to date
               </p>
-              <dl className="mt-4 space-y-4">
+              {/* Same fix as the results list above, same reason. */}
+              <dl className="mt-4 flex flex-col gap-5">
                 {program.stats.map((stat) => (
                   <div key={stat.label}>
                     <dt className="text-[0.9375rem] font-extrabold text-ink">
@@ -254,7 +266,7 @@ function ProgramPanel({ program, tone }: { program: Program; tone: number }) {
             announcing the absence, which told the reader something the empty column already
             said, and which the Upcoming badge above says again for a programme not running.
           */}
-          {!hasRail && <div className="space-y-4">{body}</div>}
+          {!hasRail && <div className="flex flex-col gap-4">{body}</div>}
         </div>
       </div>
     </article>
