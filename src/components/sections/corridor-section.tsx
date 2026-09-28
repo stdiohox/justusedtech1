@@ -42,7 +42,8 @@ export function CorridorSection() {
                 {/*
                   Reads from the corridor data, so this value and the map's hub pin cannot
                   name different cities. This used to say University City, the mailing
-                  address, while the legend beneath it said St. Louis.
+                  address, while the legend beneath it said St. Louis. The address itself
+                  now says Saint Louis too.
                 */}
                 <dd className="mt-1.5 text-[1.0625rem] font-bold text-ink">
                   {corridors[0]!.from.label}

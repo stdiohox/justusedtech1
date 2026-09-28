@@ -117,7 +117,7 @@ export default function GetInvolvedPage() {
             />
             <ul className="mt-8 space-y-3.5">
               {[
-                "Individuals can arrange a drop-off at our University City warehouse.",
+                "Individuals can arrange a drop-off at our Saint Louis warehouse.",
                 "Organisations retiring hardware in bulk get a scheduled collection.",
                 "Devices beyond repair are routed to responsible recycling, not landfill.",
               ].map((line) => (

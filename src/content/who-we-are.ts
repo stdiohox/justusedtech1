@@ -13,9 +13,8 @@
  *
  * The US kicker says Saint Louis, Missouri, not the mailing address. It used to read
  * "University City, MO", taken from `contact.hqCity`, and was changed to match how the
- * About page now names the US base in its hero and its US card. `contact.hqCity` still
- * holds the postal address and is still what the contact page and the map embed use, so
- * do not sync this line back to it.
+ * About page names the US base. `contact.hqCity` has since moved to Saint Louis, MO 63130
+ * as well, so the two agree again.
  */
 
 export type WhoWeAreFrame = {

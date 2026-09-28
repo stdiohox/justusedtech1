@@ -7,15 +7,16 @@ import { contact } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description:
-    "Reach JustUsedTech at 725 Kingsland Ave, Suite 100, University City, MO 63130, or by phone and email.",
+  description: `Reach JustUsedTech at ${contact.hqAddress}, ${contact.hqCity}, or by phone and email.`,
 };
 
 /*
   Address correctness note. The previous live site embedded a map of the London Eye and
   carried a "457 Morningview Lane, NY" placeholder in the contact form, neither of which
   matched the real footer address. Both are gone. Every address on this site now comes
-  from `contact` in src/content/site.ts, and the map embed points at University City, MO.
+  from `contact` in src/content/site.ts, and the map embed points at the Saint Louis
+  warehouse. The description and the map title below compose theirs from `contact` too,
+  rather than repeating the address as a literal that can drift out of step with it.
 */
 
 export default function ContactPage() {
@@ -47,7 +48,7 @@ export default function ContactPage() {
           <div className="bezel">
             <div className="bezel-core overflow-hidden bg-white p-0">
               <iframe
-                title="Map showing 725 Kingsland Ave, Suite 100, University City, MO 63130"
+                title={`Map showing ${contact.hqAddress}, ${contact.hqCity}`}
                 src={contact.mapEmbed}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"

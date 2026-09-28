@@ -85,7 +85,7 @@ export const teamGroups: TeamGroup[] = [
   {
     id: "us",
     title: "US Team",
-    blurb: "Device recovery, refurbishment, and warehouse operations in University City, Missouri.",
+    blurb: "Device recovery, refurbishment, and warehouse operations in Saint Louis, Missouri.",
     members: [
       { name: "Gospel Ajibade", role: "Technician" },
       { name: "Moses Kolawale Fajimokun", role: "US Operations" },

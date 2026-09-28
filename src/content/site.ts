@@ -19,7 +19,7 @@ export const site = {
 export const contact = {
   hqLabel: "US Headquarters",
   hqAddress: "725 Kingsland Ave, Suite 100",
-  hqCity: "University City, MO 63130",
+  hqCity: "Saint Louis, MO 63130",
   hqCountry: "United States",
   phone: "+1 314-643-1990",
   phoneHref: "tel:+13146431990",
@@ -29,11 +29,19 @@ export const contact = {
     { label: "General enquiries", address: "info@justusedtech.org" },
     { label: "Partnerships", address: "collabs@justusedtech.org" },
   ],
-  /** University City, MO. The old site embedded a London map by mistake. */
+  /**
+   * The warehouse. Saint Louis, MO 63130 is the USPS preferred city name for this
+   * address; University City is the acceptable alternate and is what this said before.
+   * Same street, same zip, same building: 63130 is University City, and its own post
+   * office is addressed "561 Kingsland Ave, Saint Louis, MO 63130", one block along.
+   *
+   * The old live site embedded a map of the London Eye here. That is why every address on
+   * this site is composed from this object and nothing hardcodes one.
+   */
   mapEmbed:
-    "https://www.google.com/maps?q=725+Kingsland+Ave+Suite+100,+University+City,+MO+63130&output=embed",
+    "https://www.google.com/maps?q=725+Kingsland+Ave+Suite+100,+Saint+Louis,+MO+63130&output=embed",
   mapLink:
-    "https://www.google.com/maps/search/?api=1&query=725+Kingsland+Ave+Suite+100,+University+City,+MO+63130",
+    "https://www.google.com/maps/search/?api=1&query=725+Kingsland+Ave+Suite+100,+Saint+Louis,+MO+63130",
 } as const;
 
 function mailto(address: string, subject: string) {

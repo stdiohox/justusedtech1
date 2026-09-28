@@ -71,7 +71,7 @@ const fromPosts: Collection[] = posts.flatMap((post) => {
 const fromTeam: Collection = {
   id: "who-we-are",
   title: "The team at work",
-  lede: "Operations in University City and field work in Lagos.",
+  lede: "Operations in Saint Louis and field work in Lagos.",
   href: "/about",
   hrefLabel: "About JustUsedTech",
   /*
