@@ -1,11 +1,16 @@
 /**
  * Real roster. No personal social links exist for anyone here, and no card renders one.
  *
- * Portraits: the two board members have real photographs, supplied by the client. Titobi's
- * is their own studio headshot; Christopher's is the one carried on the old justusedtech.org
- * about page. Everyone else still has no photograph and still renders an initials avatar.
- * The team page branches on whether a whole group has portraits, so a group only switches to
- * the portrait treatment once nobody in it would be left as the odd one out.
+ * Portraits: twelve of the seventeen have a real photograph, all client-supplied. Titobi's is
+ * their own studio headshot; Christopher's is the one carried on the old justusedtech.org
+ * about page; the other ten arrived together as a folder of headshots. Five people still have
+ * none and still render an initials avatar: Oreoluwa Adeniyi, Ajulo Olajide, Olumide Kolawole,
+ * Adrian Weinberg, and Barnabas Usman.
+ *
+ * The all-or-nothing group rule is gone, at the client's instruction. A group whose members
+ * all have photographs still opens as the portrait accordion, which is Board and US Team; a
+ * group with some opens as the avatar stack and shows a photograph per person where one
+ * exists and initials where it does not. Nigeria Team and Advisors are mixed that way now.
  *
  * The old blanket rule was "no headshots exist, do not add any". That was true when written
  * and is no longer. The part that has not changed: never put a stock portrait against a real
@@ -87,8 +92,22 @@ export const teamGroups: TeamGroup[] = [
     title: "US Team",
     blurb: "Device recovery, refurbishment, and warehouse operations in Saint Louis, Missouri.",
     members: [
-      { name: "Gospel Ajibade", role: "Technician" },
-      { name: "Moses Kolawale Fajimokun", role: "US Operations" },
+      {
+        name: "Gospel Ajibade",
+        role: "Technician",
+        photo: {
+          src: "/team/gospel-ajibade.jpg",
+          alt: "Gospel Ajibade, Technician at JustUsedTech",
+        },
+      },
+      {
+        name: "Moses Kolawale Fajimokun",
+        role: "US Operations",
+        photo: {
+          src: "/team/moses-fajimokun.jpg",
+          alt: "Moses Kolawale Fajimokun, US Operations at JustUsedTech",
+        },
+      },
     ],
   },
   {
@@ -96,19 +115,65 @@ export const teamGroups: TeamGroup[] = [
     title: "Nigeria Team",
     blurb: "Programme delivery, partnerships, and field operations across Lagos State.",
     members: [
-      { name: "Hazel Iwendi", role: "Operations & Programs Lead" },
-      { name: "Daniel Yashim", role: "MEL Officer" },
+      {
+        name: "Hazel Iwendi",
+        role: "Operations & Programs Lead",
+        photo: {
+          src: "/team/hazel-iwendi.jpg",
+          alt: "Hazel Iwendi, Operations and Programs Lead at JustUsedTech",
+        },
+      },
+      {
+        name: "Daniel Yashim",
+        role: "MEL Officer",
+        photo: {
+          src: "/team/daniel-yashim.jpg",
+          alt: "Daniel Yashim, MEL Officer at JustUsedTech",
+        },
+      },
       { name: "Oreoluwa Adeniyi", role: "Consultant HR Manager" },
       {
         name: "Eniola Adewodu",
         role: "Strategic Partnerships & Resource Mobilisation Officer",
+        photo: {
+          src: "/team/eniola-adewodu.jpg",
+          alt: "Eniola Adewodu, Strategic Partnerships and Resource Mobilisation Officer at JustUsedTech",
+        },
       },
-      { name: "Esther Fashola", role: "Communications & Digital Growth Associate" },
-      { name: "Gbenga Falope", role: "Digital Video Editor / Creative Director" },
+      {
+        name: "Esther Fashola",
+        role: "Communications & Digital Growth Associate",
+        photo: {
+          src: "/team/esther-fashola.jpg",
+          alt: "Esther Fashola, Communications and Digital Growth Associate at JustUsedTech",
+        },
+      },
+      {
+        name: "Gbenga Falope",
+        role: "Digital Video Editor / Creative Director",
+        photo: {
+          src: "/team/gbenga-falope.jpg",
+          alt: "Gbenga Falope, Digital Video Editor and Creative Director at JustUsedTech",
+        },
+      },
       /* Placed with the other creative roles rather than appended, which is how this list groups. */
-      { name: "Desmond Ronald", role: "Brand Designer" },
+      {
+        name: "Desmond Ronald",
+        role: "Brand Designer",
+        photo: {
+          src: "/team/desmond-ronald.jpg",
+          alt: "Desmond Ronald, Brand Designer at JustUsedTech",
+        },
+      },
       { name: "Ajulo Olajide", role: "Consultant Finance" },
-      { name: "Ebenezer Dada", role: "Technician" },
+      {
+        name: "Ebenezer Dada",
+        role: "Technician",
+        photo: {
+          src: "/team/ebenezer-dada.jpg",
+          alt: "Ebenezer Dada, Technician at JustUsedTech",
+        },
+      },
       { name: "Olumide Kolawole", role: "Lagos State Coordinator" },
     ],
   },
@@ -121,6 +186,10 @@ export const teamGroups: TeamGroup[] = [
       {
         name: "Nenfort Gomwalk",
         role: "Strategic Advisor, people management and brand communications",
+        photo: {
+          src: "/team/nenfort-gomwalk.jpg",
+          alt: "Nenfort Gomwalk, Strategic Advisor to JustUsedTech",
+        },
       },
       {
         name: "Barnabas Usman",
