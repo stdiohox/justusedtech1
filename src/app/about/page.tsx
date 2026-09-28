@@ -292,7 +292,7 @@ export default function AboutPage() {
                 United States
               </h3>
               <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-soft">
-                Headquartered in University City, Missouri. This is where corporate
+                Headquartered in Saint Louis, Missouri. This is where corporate
                 and institutional e-waste collection happens, where devices are
                 assessed and repaired, and where a share of refurbished machines
                 goes straight back into the St. Louis community.
