@@ -1,11 +1,11 @@
 /**
  * Real roster. No personal social links exist for anyone here, and no card renders one.
  *
- * Portraits: twelve of the seventeen have a real photograph, all client-supplied. Titobi's is
+ * Portraits: twelve of the fifteen have a real photograph, all client-supplied. Titobi's is
  * their own studio headshot; Christopher's is the one carried on the old justusedtech.org
  * about page; the other ten arrived together as a folder of headshots. Five people still have
- * none and still render an initials avatar: Oreoluwa Adeniyi, Ajulo Olajide, Olumide Kolawole,
- * Adrian Weinberg, and Barnabas Usman.
+ * none and still render an initials avatar: Olumide Kolawole, Adrian Weinberg, and
+ * Barnabas Usman.
  *
  * The all-or-nothing group rule is gone, at the client's instruction. A group whose members
  * all have photographs still opens as the portrait accordion, which is Board and US Team; a
@@ -152,7 +152,6 @@ export const teamGroups: TeamGroup[] = [
           alt: "Daniel Yashim, MEL Officer at JustUsedTech",
         },
       },
-      { name: "Oreoluwa Adeniyi", role: "Consultant HR Manager" },
       {
         name: "Eniola Adewodu",
         role: "Strategic Partnerships & Resource Mobilisation Officer",
@@ -186,7 +185,12 @@ export const teamGroups: TeamGroup[] = [
           alt: "Desmond Ronald, Brand Designer at JustUsedTech",
         },
       },
-      { name: "Ajulo Olajide", role: "Consultant Finance" },
+      /*
+        Oreoluwa Adeniyi (Consultant HR Manager) and Ajulo Olajide (Consultant Finance)
+        sat here and in the slot above. Removed at the client's request on 2026-09-28,
+        described as "for now", so they are recorded here rather than only in the history.
+        Neither had a photograph. Put them back with their roles as written above.
+      */
       {
         name: "Ebenezer Dada",
         role: "Technician",
