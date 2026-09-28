@@ -3,6 +3,8 @@
  * SkillSync and Circular Tech Bootcamp deliberately carry no metrics. Do not add any.
  */
 
+import { ewasteToDate } from "@/content/impact";
+
 export type ProgramStatus = "active" | "upcoming";
 
 export type Program = {
@@ -123,9 +125,11 @@ export const programs: Program[] = [
       "GreenBin 360 is how devices reach us. We collect end-of-life and surplus hardware from companies and institutions across St. Louis, then route it into assessment and refurbishment.",
     ],
     /* The US operations figures from content/impact.ts. Same numbers, not new ones: this
-       programme IS the US collection operation, so its totals are that operation's. */
+       programme IS the US collection operation, so its totals are that operation's. The
+       weight is read from `ewasteToDate` rather than retyped, because it was retyped once
+       and the copy here went stale at 95,000+ while the hero said 90,000+. */
     stats: [
-      { label: "95,000+ lbs", detail: "E-waste upcycled to date" },
+      { label: `${ewasteToDate.value} lbs`, detail: "E-waste upcycled to date" },
       { label: "60%", detail: "Devices returned to the St. Louis community" },
       { label: "800+", detail: "Devices redistributed" },
     ],

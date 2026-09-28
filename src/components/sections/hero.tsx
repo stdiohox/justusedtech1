@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { PillAnchor, PillLink } from "@/components/common/pill-button";
 import { asks } from "@/content/site";
+import { ewasteToDate } from "@/content/impact";
 import { OrbitBackdrop } from "@/components/sections/orbit-backdrop";
 
 /**
@@ -29,6 +30,10 @@ import { OrbitBackdrop } from "@/components/sections/orbit-backdrop";
  * reached", and the 60+ is not attributable to that school in anything supplied: the
  * organisation profile gives 100+ students across the three 2025 sites as a single figure.
  * The card now reports it the same way the source does.
+ *
+ * Card B's weight comes from `ewasteToDate` rather than a string in this file. It was a
+ * string, and it sat at 90,000+ while content/impact.ts said 95,000+, which is the whole
+ * reason the figure is declared once now.
  */
 export function Hero() {
   return (
@@ -232,7 +237,7 @@ export function Hero() {
                 delay="1.6s"
               >
                 <p className="text-3xl leading-none font-extrabold tracking-[-0.035em] text-brand-green-dark">
-                  90,000+ lbs
+                  {ewasteToDate.value} lbs
                 </p>
                 <p className="mt-2 text-[0.875rem] font-semibold text-ink-soft">
                   E-waste diverted

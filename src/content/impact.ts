@@ -9,12 +9,13 @@ export type Stat = {
   detail?: string;
 };
 
-/** The three headline pills in the hero. */
-export const heroStats: Stat[] = [
-  { value: "300+", label: "Laptops donated" },
-  { value: "460+", label: "Students and community reached" },
-  { value: "45,000+", label: "lbs e-waste diverted" },
-];
+/*
+  There was a `heroStats` list here, three pills for the home hero. Nothing imported it: the
+  hero renders floating cards, not pills, and had been carrying its own hardcoded strings
+  since. It was a third copy of the weight figure, reading 45,000+ against 95,000+ in
+  `usOperations` below, and the only reason it never showed a wrong number on screen is that
+  it never reached the screen at all. The hero now reads `ewasteToDate`.
+*/
 
 /*
   The 2025 set, one constant per fact.
@@ -101,11 +102,22 @@ export const impactTiles2025: Stat[] = [
 
 export const communitiesReached = ["Makoko", "Gbagada", "Lagos Mainland"];
 
+/**
+ * Lifetime weight recovered, US operations. Distinct from `ewasteTotal2025`, which is the
+ * 2025 slice of it and stays 45,000+.
+ *
+ * Declared on its own because three surfaces state it: the impact page's US operations row,
+ * the GreenBin 360 stats in content/programs.ts, and the hero's floating card. Those three
+ * had drifted to 95,000, 95,000, and 90,000. 90,000+ is the figure, confirmed by the client
+ * on 2026-09-28, and it is now stated once.
+ */
+export const ewasteToDate: Stat = {
+  value: "90,000+",
+  label: "lbs of e-waste upcycled to date",
+};
+
 export const usOperations: Stat[] = [
-  {
-    value: "95,000+",
-    label: "lbs of e-waste upcycled to date",
-  },
+  ewasteToDate,
   {
     value: "60%",
     label: "of devices upcycled back into St. Louis",
