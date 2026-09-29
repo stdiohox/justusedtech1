@@ -119,7 +119,26 @@ export function SiteHeader() {
   */
   return (
     <header className="sticky top-0 z-40">
-      <div className="border-b border-[color:var(--hairline)] bg-white/92 backdrop-blur-xl">
+      {/*
+        relative z-40 is what makes the close button reachable, and it is the whole fix for
+        "the menu cannot be closed".
+
+        The button was never missing. It is the same button, it already flips its bars into
+        an X and its aria-label to "Close menu", and it already toggles. But this bar was
+        position: static with z-index: auto, and the drawer below is position: fixed with
+        z-30. Both are children of <header>, so inside that stacking context the positioned
+        drawer paints over the static bar whatever the header's own z-40 says. The drawer is
+        bg-paper/96, so it hid the X and it took the tap: elementFromPoint over the button
+        returned DIV#mobile-menu rather than the button.
+
+        Giving the bar a position and a z-index above 30 puts it back on top. z-40 rather
+        than z-31 so it reads as "above the drawer" beside the header's own z-40.
+
+        position: relative does not create a containing block for fixed descendants, and the
+        drawer is a sibling of this div rather than a descendant, so the backdrop-filter
+        trap described above does not apply here.
+      */}
+      <div className="relative z-40 border-b border-[color:var(--hairline)] bg-white/92 backdrop-blur-xl">
         <div className="shell flex h-18 items-center justify-between gap-4">
           <LogoLink priority className="shrink-0" />
 
@@ -211,10 +230,15 @@ export function SiteHeader() {
                     }}
                   >
                     {item.columns ? (
-                      <MobileAccordion item={item} reduced={reduced} />
+                      <MobileAccordion
+                        item={item}
+                        reduced={reduced}
+                        onNavigate={() => setOpen(false)}
+                      />
                     ) : (
                       <Link
                         href={item.href}
+                        onClick={() => setOpen(false)}
                         className="block border-b border-[color:var(--hairline)] py-4 text-2xl font-extrabold tracking-[-0.02em] text-ink"
                       >
                         {item.label}
@@ -520,13 +544,21 @@ function NavMenu({
  * only rendered for Upcoming: a filled green badge on all six active rows would be exactly
  * the scattering that empties the filled variant of its meaning.
  */
-function MenuLink({ item }: { item: NavMenuItem }) {
+/* `onNavigate` is only passed by the mobile drawer; the desktop dropdowns omit it. */
+function MenuLink({
+  item,
+  onNavigate,
+}: {
+  item: NavMenuItem;
+  onNavigate?: () => void;
+}) {
   const Icon = NAV_ICONS[item.icon];
   const upcoming = item.status === "upcoming";
 
   return (
     <Link
       href={item.href}
+      onClick={onNavigate}
       className="flex gap-3 rounded-[var(--radius-button)] p-2.5 transition-colors duration-200 hover:bg-surface-subtle focus-visible:bg-surface-subtle"
     >
       <span
@@ -576,9 +608,20 @@ function MenuLink({ item }: { item: NavMenuItem }) {
 function MobileAccordion({
   item,
   reduced,
+  onNavigate,
 }: {
   item: NavEntry;
   reduced: boolean | null;
+  /*
+    Closes the drawer when a link inside it is followed.
+
+    The drawer already closed on a pathname change, which covers most taps. It does not
+    cover the two cases this menu is full of: a link to the page you are already on, and a
+    link to an anchor on it. usePathname ignores the hash, so /about#vision tapped from
+    /about is no change at all, and the drawer would sit over the section it just scrolled
+    to.
+  */
+  onNavigate: () => void;
 }) {
   const [expanded, setExpanded] = useState(false);
   const uid = useId();
@@ -626,7 +669,7 @@ function MobileAccordion({
                   <ul>
                     {column.items.map((menuItem) => (
                       <li key={menuItem.href}>
-                        <MenuLink item={menuItem} />
+                        <MenuLink item={menuItem} onNavigate={onNavigate} />
                       </li>
                     ))}
                   </ul>
@@ -636,6 +679,7 @@ function MobileAccordion({
               {item.overview && (
                 <Link
                   href={item.href}
+                  onClick={onNavigate}
                   className="mt-1 flex items-center gap-1.5 rounded-[var(--radius-button)] px-2.5 py-2.5 text-[0.875rem] font-bold text-brand-green-dark"
                 >
                   {item.overview}
