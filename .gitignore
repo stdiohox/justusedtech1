@@ -65,3 +65,20 @@ next-env.d.ts
 /public/*.arw
 /public/*.dng
 /public/*.DNG
+
+# Loose media sitting at the repo root.
+#
+# Nothing the site serves lives here: assets go in public/, and the root holds config and
+# nothing else. Files land here by being dropped into the project folder, and a `git add -A`
+# will happily commit them. That is how five unrelated files, about 35MB of personal images
+# and a video, reached a public repo in one commit.
+/*.png
+/*.PNG
+/*.jpg
+/*.JPG
+/*.jpeg
+/*.JPEG
+/*.mp4
+/*.MP4
+/*.mov
+/*.MOV
