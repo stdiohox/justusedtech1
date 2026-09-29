@@ -14,7 +14,12 @@ export function SiteFooter() {
   return (
     <footer className="bg-green-surface text-white">
       <div className="shell py-12 md:py-16">
-        <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr_1fr_1.2fr]">
+        {/*
+          gap-10 below md and gap-12 from there, so the stacked blocks sit closer on a
+          phone without moving anything on tablet or desktop. lg still resolves to the same
+          gap-12 it always did.
+        */}
+        <div className="grid gap-10 md:gap-12 lg:grid-cols-[1.3fr_1fr_1fr_1.2fr]">
           <div>
             <LogoLink onDark />
             <p className="mt-6 max-w-[34ch] text-[0.9375rem] leading-relaxed text-white/75">
@@ -45,41 +50,67 @@ export function SiteFooter() {
             </a>
           </div>
 
-          <nav aria-label="Footer">
-            <h2 className="text-[0.6875rem] font-extrabold tracking-[0.18em] text-white/70 uppercase">
-              Explore
-            </h2>
-            <ul className="mt-5 space-y-2.5">
-              {footerNav.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="text-[0.9375rem] font-semibold text-white/80 transition-colors duration-300 hover:text-white"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          {/*
+            Explore and Get involved, paired into two columns on a phone.
 
-          <nav aria-label="Get involved">
-            <h2 className="text-[0.6875rem] font-extrabold tracking-[0.18em] text-white/70 uppercase">
-              Get involved
-            </h2>
-            <ul className="mt-5 space-y-2.5">
-              {involvement.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="text-[0.9375rem] font-semibold text-white/80 transition-colors duration-300 hover:text-white"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+            Stacked, these two are fourteen short links in a single file down the left edge,
+            which is a lot of scrolling past a lot of empty right-hand side. Side by side
+            they cost one screenful instead of two.
+
+            md:contents is what keeps this to mobile. From md the wrapper stops generating a
+            box, so both navs become direct children of the footer grid again and the
+            lg:grid-cols-[1.3fr_1fr_1fr_1.2fr] track list lands on them exactly as before.
+            The alternative, spanning columns on the parent, would have had to restate the
+            single-column tablet layout as well.
+
+            gap-x-4, measured rather than picked. The shell gutter is px-5, so the content
+            box is the viewport less 40px, and each column is half of what is left after
+            the gutter between them. "Fund a programme" is the longest label at 130px:
+
+              320px  ->  132px per column   fits, barely
+              375px  ->  159px per column
+              400px  ->  172px per column
+
+            24px between the columns looked better and wrapped that label at 320, which is
+            still a live iPhone SE width. The gutter gave way instead of the label.
+          */}
+          <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:contents">
+            <nav aria-label="Footer">
+              <h2 className="text-[0.6875rem] font-extrabold tracking-[0.18em] text-white/70 uppercase">
+                Explore
+              </h2>
+              <ul className="mt-5 space-y-2.5">
+                {footerNav.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="text-[0.9375rem] font-semibold text-white/80 transition-colors duration-300 hover:text-white"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+
+            <nav aria-label="Get involved">
+              <h2 className="text-[0.6875rem] font-extrabold tracking-[0.18em] text-white/70 uppercase">
+                Get involved
+              </h2>
+              <ul className="mt-5 space-y-2.5">
+                {involvement.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      className="text-[0.9375rem] font-semibold text-white/80 transition-colors duration-300 hover:text-white"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
 
           <div>
             <h2 className="text-[0.6875rem] font-extrabold tracking-[0.18em] text-white/70 uppercase">
@@ -123,7 +154,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-6 border-t border-white/15 pt-8 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 flex flex-col gap-6 border-t border-white/15 pt-8 md:mt-14 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[0.8125rem] text-white/70">
             © {new Date().getFullYear()} {site.legalName}. A registered
             501(c)(3) nonprofit organisation.
