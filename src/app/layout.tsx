@@ -15,6 +15,24 @@ const nunito = Nunito({
   display: "swap",
 });
 
+/*
+  Icons are not declared here. Next picks up app/favicon.ico, app/icon.png and
+  app/apple-icon.png by filename and writes the link tags itself, so there is no import to
+  hang a note on. This is that note.
+
+  All three are generated from public/brand/jut-icon-mark.png, the "J" mark rather than the
+  lockup: the wordmark is 1248x272 and at 16px in a browser tab it is a smear.
+
+  The .ico carries 16, 32, 48, 64, 128 and 256 so the browser picks its own size instead of
+  downscaling one for us, and the mark keeps its transparent background, which reads on a
+  light tab strip and a dark one alike. apple-icon.png is the exception and is flattened
+  onto white: iOS composites a transparent touch icon onto black, and the mark's dark green
+  disappears into it. It also carries more margin, because iOS rounds the corners off.
+
+  TODO: swap for final vector/SVG logo when client delivers it. jut-icon-mark.png is a
+  cropped PNG placeholder, so these are placeholders too, and regenerating them is part of
+  that swap rather than a separate job.
+*/
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
