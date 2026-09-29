@@ -51,3 +51,17 @@ next-env.d.ts
 /public/*.JPEG
 /public/*.png
 /public/*.PNG
+
+# Camera raw. Not a format any browser can display, so a raw file under public/ is never
+# something the site serves, only something that got dropped in the same folder as the
+# shots it was developed from. Three 25MB .CR2 files reached the repo this way and were
+# publicly downloadable: the list above did not cover them because it only names the
+# formats the site does use.
+/public/*.CR2
+/public/*.cr2
+/public/*.NEF
+/public/*.nef
+/public/*.ARW
+/public/*.arw
+/public/*.dng
+/public/*.DNG
