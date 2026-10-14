@@ -1,5 +1,5 @@
 import DottedMap from "dotted-map";
-import { corridors } from "@/content/impact";
+import { corridors } from "@/content/corridors";
 
 /**
  * The dot field and route geometry for the corridor map, shared by the component that

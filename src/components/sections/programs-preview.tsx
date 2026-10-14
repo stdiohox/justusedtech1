@@ -5,7 +5,7 @@ import { ProgramMedia } from "@/components/common/program-media";
 import { SectionHead, StatusBadge } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
 import { hasDetailPage } from "@/content/program-details";
-import { activePrograms } from "@/content/programs";
+import { activePrograms, programsIntro } from "@/content/programs";
 import { cn } from "@/lib/utils";
 
 /**
@@ -36,10 +36,29 @@ export function ProgramsPreview() {
     <section className="bg-paper py-14 md:py-20">
       <div className="shell">
         <Reveal>
-          <SectionHead
-            title="Six programmes, running on the same pipeline"
-            lede="Collection in St. Louis, Missouri, feeds refurbishment, and refurbishment feeds every programme below."
-          />
+          <SectionHead title={programsIntro.title} lede={programsIntro.lede} />
+        </Reveal>
+
+        {/*
+          The review's three intro paragraphs, in the split the programme pages use for their
+          overview: the first at lede weight on the left, the other two down the right. One
+          stack at 62ch would leave the right half of the shell empty above the bento.
+        */}
+        <Reveal delay={0.06} className="mt-8 grid gap-6 lg:grid-cols-2 lg:gap-16">
+          <p className="text-[1.125rem] leading-[1.6] font-semibold text-ink text-pretty">
+            {programsIntro.body[0]}
+          </p>
+          {/* gap, not space-y-4: see the spacing-scale note in globals.css. */}
+          <div className="flex flex-col gap-4">
+            {programsIntro.body.slice(1).map((para) => (
+              <p
+                key={para}
+                className="text-[1rem] leading-relaxed text-ink-soft text-pretty"
+              >
+                {para}
+              </p>
+            ))}
+          </div>
         </Reveal>
 
         <RevealGroup className="mt-12 grid gap-4 md:grid-cols-6">

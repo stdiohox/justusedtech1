@@ -30,7 +30,9 @@ export type NavIcon =
   | "FileText"
   | "Laptop"
   | "HandCoins"
-  | "Users";
+  | "Users"
+  | "Leaf"
+  | "ChartColumn";
 
 export type NavMenuItem = {
   label: string;
@@ -50,7 +52,7 @@ export type NavMenuColumn = {
 export type NavEntry = {
   label: string;
   href: string;
-  /** Present on the three entries that open a dropdown. Absent means a plain link. */
+  /** Present on the four entries that open a dropdown. Absent means a plain link. */
   columns?: NavMenuColumn[];
   /**
    * Label for the link to the section's own page, shown at the foot of the menu.
@@ -163,7 +165,32 @@ export const nav: NavEntry[] = [
       */
     ],
   },
-  { label: "Impact", href: "/impact" },
+  /*
+    A dropdown since /impact/statistics arrived: two pages now sit behind Impact, and the
+    statistics page has no other route in from the header.
+  */
+  {
+    label: "Impact",
+    href: "/impact",
+    columns: [
+      {
+        items: [
+          {
+            label: "Our Impact",
+            description: "How we measure what we deliver",
+            href: "/impact",
+            icon: "Leaf",
+          },
+          {
+            label: "Statistics",
+            description: "E-waste by year since 2017, and every figure",
+            href: "/impact/statistics",
+            icon: "ChartColumn",
+          },
+        ],
+      },
+    ],
+  },
   /*
      Sits with Impact rather than at the end: both are "what has actually happened", and a
      reader who has just looked at the numbers is the one most likely to want the write-ups

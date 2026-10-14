@@ -336,13 +336,11 @@ export default async function ProgramDetailPage({ params }: Params) {
         <Section tone="white">
           <Reveal>
             <SectionHead
-              title={
-                program.results ? "Delivered in 2025" : "US operations to date"
-              }
+              title={program.results ? "Delivered" : "To date"}
               lede={
                 program.results
                   ? "Work that has already happened, with the dates it happened on."
-                  : "Totals for the collection operation since it began, rather than for one year."
+                  : "Totals since the programme began, rather than for one year."
               }
             />
           </Reveal>

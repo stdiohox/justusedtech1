@@ -21,7 +21,7 @@ import { cn } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "Programs",
   description:
-    "Six active JustUsedTech programmes plus the initiatives currently in development, with the dated results we can verify.",
+    `${activePrograms.length} active JustUsedTech programmes plus the initiatives currently in development, with the dated results we can verify.`,
 };
 
 export default function ProgramsPage() {
@@ -37,7 +37,7 @@ export default function ProgramsPage() {
         <Reveal>
           <SectionHead
             title="Running now"
-            lede="Six programmes currently delivering across the US and Nigeria."
+            lede={`${activePrograms.length} programmes currently delivering across the US and Nigeria.`}
           />
         </Reveal>
         <div className="mt-12 space-y-5">
@@ -91,11 +91,9 @@ function ProgramPanel({ program, tone }: { program: Program; tone: number }) {
   const upcoming = program.status === "upcoming";
 
   /*
-    Whether the right-hand rail has anything to hold. Four programmes carry a target, dated
-    results, or running totals; SkillSync, Circular Tech Bootcamp, and the GreenBin ecosystem
-    carry none of the three, and content/programs.ts is explicit that no figures may be
-    invented for them. So the rail cannot be filled with new content, only with content the
-    panel already has.
+    Whether the right-hand rail has anything to hold: a target, dated results, or running
+    totals. Every active programme has at least one since the October 2026 review; the
+    GreenBin ecosystem, which is Upcoming, has none, and no figure may be invented for it.
   */
   const hasRail = Boolean(program.target || program.results || program.stats);
   const detailed = hasDetailPage(program.slug);
@@ -206,8 +204,9 @@ function ProgramPanel({ program, tone }: { program: Program; tone: number }) {
 
           {program.results && (
             <div className={program.target ? "mt-6" : ""}>
+              {/* No year in the heading: results span 2025 and 2026, so each label carries its own. */}
               <p className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
-                Delivered in 2025
+                Delivered
               </p>
               {/*
                 gap, not space-y. See the note on the spacing scale in globals.css: a
@@ -236,14 +235,13 @@ function ProgramPanel({ program, tone }: { program: Program; tone: number }) {
           )}
 
           {/*
-            Running totals, under their own heading. They cannot go under "Delivered in
-            2025" above: these are cumulative "to date" figures, and that heading would date
-            them to a year none of them belong to.
+            Running totals, under their own heading. They cannot go under "Delivered" above:
+            these are cumulative figures with no year, and that list is dated delivery.
           */}
           {program.stats && (
             <div className={program.target || program.results ? "mt-6" : ""}>
               <p className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
-                US operations to date
+                To date
               </p>
               {/* Same fix as the results list above, same reason. */}
               <dl className="mt-4 flex flex-col gap-5">

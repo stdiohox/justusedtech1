@@ -3,7 +3,7 @@
 import createGlobe from "cobe";
 import { MapPin } from "lucide-react";
 import { useEffect, useRef } from "react";
-import { corridorCities, corridors } from "@/content/impact";
+import { corridorCities, corridors } from "@/content/corridors";
 
 /**
  * The device corridor as an interactive globe: St. Louis out to Lagos, Accra, and Nairobi.

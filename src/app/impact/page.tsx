@@ -7,15 +7,16 @@ import {
   StatBlock,
 } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
+import { PillLink } from "@/components/common/pill-button";
 import { Impact2025 } from "@/components/sections/impact-2025";
 import Image from "next/image";
-import { usOperations } from "@/content/impact";
+import { impactPage, usOperations } from "@/content/impact";
 import { coverOf, latestPost } from "@/content/news";
 
 export const metadata: Metadata = {
   title: "Impact",
   description:
-    "Confirmed 2025 results and lifetime US operations figures: devices redistributed, students reached, and e-waste diverted.",
+    "How JustUsedTech measures impact: e-waste recovered, devices redistributed, and the results of our education and youth programmes.",
 };
 
 export default function ImpactPage() {
@@ -26,29 +27,61 @@ export default function ImpactPage() {
     <>
       <PageHero
         eyebrow="Impact"
-        title="The numbers we can stand behind."
-        lede="Everything on this page is a confirmed figure from 2025 or from US operations since inception. Where a programme has no dated result, it is not listed here."
+        title={impactPage.title}
+        lede={impactPage.lede}
+        actions={
+          <PillLink href="/impact/statistics" variant="outline" flow>
+            See all statistics
+          </PillLink>
+        }
       />
+
+      {/* How the figures below are kept: the review's Monitoring, Evaluation and Learning copy. */}
+      {/* Paper, the masthead's own ground, so this reads as the hero continuing rather than a new band. */}
+      <Section tone="paper" className="!pt-0">
+        <Reveal>
+          <div className="grid gap-6 lg:grid-cols-2 lg:gap-16">
+            {impactPage.method.map((para, i) => (
+              <p
+                key={para}
+                className={
+                  i === 0
+                    ? "text-[1.125rem] leading-[1.6] font-semibold text-ink text-pretty"
+                    : "text-[1.0625rem] leading-relaxed text-ink-soft text-pretty"
+                }
+              >
+                {para}
+              </p>
+            ))}
+          </div>
+        </Reveal>
+      </Section>
 
       {/*
         The 2025 set reads as a dashboard rather than as five equal stat blocks: the
         e-waste total takes a wide cell with its two routes drawn as a proportion, the reach
         figure takes a green feature card, and the rest run as tiles. Ranked, because the
         figures are not the same size of fact.
+
+        TODO(client): Q21. Kept as it was: the review's Impact page does not mention it.
       */}
       <Impact2025 />
 
       {/*
-        US operations stays on stat blocks. It is four peer figures with no part-of-a-whole
-        among them, so there is nothing for a dashboard to rank, and running a second
-        dashboard here would take the emphasis back off the 2025 one.
+        Environmental impact, from the review, over the US operations figures it already
+        carried. The 2025 total is in the dashboard directly above, so it is not repeated
+        here; the review lists it under this heading as well.
+
+        Stat blocks rather than a second dashboard: four peer figures with no part-of-a-whole
+        among them, so there is nothing for a dashboard to rank.
       */}
       <Section tone="green">
         <Reveal>
           <SectionHead
             onGreen
-            title="US operations, since inception"
-            lede="St. Louis, Missouri, is where the pipeline starts, and a majority of what we recover stays there."
+            eyebrow="US operations, since inception"
+            title={impactPage.environment.title}
+            lede={impactPage.environment.lede}
           />
         </Reveal>
         <RevealGroup
@@ -66,6 +99,11 @@ export default function ImpactPage() {
             </RevealItem>
           ))}
         </RevealGroup>
+        <Reveal className="mt-12">
+          <p className="max-w-[62ch] text-[1.0625rem] leading-relaxed text-white/85 text-pretty">
+            {impactPage.environment.close}
+          </p>
+        </Reveal>
       </Section>
 
       {/*

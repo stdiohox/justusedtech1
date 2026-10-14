@@ -1,5 +1,6 @@
 import { Hero } from "@/components/sections/hero";
 import { MissionStrip } from "@/components/sections/mission-strip";
+import { ImpactGlance } from "@/components/sections/impact-glance";
 import { ProgramsPreview } from "@/components/sections/programs-preview";
 import { CorridorSection } from "@/components/sections/corridor-section";
 import { CommunityVoices } from "@/components/sections/community-voices";
@@ -11,6 +12,7 @@ export default function HomePage() {
     <>
       <Hero />
       <MissionStrip />
+      <ImpactGlance />
       <ProgramsPreview />
       <CorridorSection />
       <CommunityVoices />

@@ -60,7 +60,9 @@ python3 ~/.claude/skills/user/ui-ux-pro-max/search.py "<query>" --design-system 
    blocks). Never use a stock photo of a real person implied to be JustUsedTech staff or a
    beneficiary.
 3. Programs marked `[UPCOMING]` must be visually distinguished from `[ACTIVE]` everywhere.
-4. Do not invent metrics for SkillSync Initiative or Circular Tech Bootcamp. Description only.
+4. SkillSync Initiative and Circular Tech Bootcamp may carry metrics, but only figures the
+   client has supplied (first supplied in the 2026-10 website review). Never invent one, for
+   these two or any other programme.
 5. Use only the real University City, MO address. The old live site's London map and
    "457 Morningview Lane, NY" placeholder are wrong and must never reappear.
 

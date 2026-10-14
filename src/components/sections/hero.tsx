@@ -1,7 +1,11 @@
 import Image from "next/image";
 import { PillAnchor, PillLink } from "@/components/common/pill-button";
-import { asks } from "@/content/site";
-import { ewasteToDate } from "@/content/impact";
+import { asks, hero } from "@/content/site";
+import {
+  ewasteToDate,
+  schoolTourSchools2025,
+  schoolTourStudents2025,
+} from "@/content/impact";
 import { OrbitBackdrop } from "@/components/sections/orbit-backdrop";
 
 /**
@@ -75,7 +79,7 @@ export function Hero() {
             as the whole organisation and writes the US work out of it.
           */}
           <p className="text-[12px] leading-none font-semibold tracking-[var(--tracking-eyebrow)] text-white/90 uppercase">
-            Technology access, US and Africa
+            {hero.eyebrow}
           </p>
 
           {/*
@@ -83,21 +87,18 @@ export function Hero() {
             "futures" rather than being shrunk to fit.
           */}
           <h1 className="mt-[var(--space-28)] text-[2.375rem] leading-[1.06] font-extrabold tracking-[var(--tracking-headline)] text-white text-balance sm:text-[2.75rem] lg:text-5xl">
-            Give tech a second life.
-            <span className="block">
-              Power young futures on two continents.
-            </span>
+            {hero.headline[0]}
+            <span className="block">{hero.headline[1]}</span>
           </h1>
 
           {/*
-            Capped at 52 characters. The column runs to 640px, which is wider than this
-            size wants to be read at, and the cap is what stops the paragraph from becoming
-            the densest thing in a section whose whole job is to breathe.
+            Capped at 56 characters. The column runs to 640px, which is wider than this
+            size wants to be read at. The review's paragraph is four times the length of
+            the sentence this cap was set for, so it steps down to 1rem and the cap opens a
+            little, which keeps it to about seven lines at lg rather than ten.
           */}
-          <p className="mt-[var(--space-32)] max-w-[52ch] text-[1.0625rem] leading-relaxed font-normal tracking-[var(--tracking-body)] text-white/90 text-pretty">
-            JustUsedTech collects, refurbishes, and redistributes technology to
-            underserved students and youth across Nigeria, Ghana, Kenya, and the
-            US, turning e-waste into opportunity.
+          <p className="mt-[var(--space-32)] max-w-[56ch] text-[1rem] leading-relaxed font-normal tracking-[var(--tracking-body)] text-white/90 text-pretty">
+            {hero.body}
           </p>
 
           {/*
@@ -124,7 +125,12 @@ export function Hero() {
             Below lg the column does not flex, so mt-auto is inert there and the fixed 40
             does the spacing. That is the right split: a phone has no floor to reach.
           */}
-          <div className="mt-[var(--space-40)] flex flex-wrap items-center gap-[var(--space-16)] lg:mt-auto">
+          {/*
+            lg:pt-40 is the floor under mt-auto. With the review's longer paragraph, a narrow
+            lg viewport (1024) has no leftover height for auto to take, and the buttons sat
+            directly on the paragraph's last line.
+          */}
+          <div className="mt-[var(--space-40)] flex flex-wrap items-center gap-[var(--space-16)] lg:mt-auto lg:pt-[var(--space-40)]">
             <PillAnchor href={asks.donateDevice} variant="onDark" travel>
               Donate a device
             </PillAnchor>
@@ -223,12 +229,13 @@ export function Hero() {
                   />
                   School tour sessions
                 </p>
+                {/* Both lines read from content/impact.ts, the same figures as the School Tour page. */}
                 <p className="mt-2 text-[0.875rem] leading-snug font-semibold text-ink-soft">
-                  Three schools across Lagos State
+                  {schoolTourSchools2025.length} schools across Lagos State
                 </p>
                 {/* ink-soft, not ink-faint: the lighter token loses AA on the glass fill. */}
                 <p className="mt-1.5 text-[0.75rem] font-bold text-ink-soft">
-                  100+ students reached in 2025
+                  {schoolTourStudents2025.value} students reached in 2025
                 </p>
               </FloatingCard>
 

@@ -17,12 +17,10 @@
  * documents for the team, not public programme copy. The workplan in particular was removed
  * from this site once before for exactly that reason.
  *
- * SkillSync is still the thin one, but less so than it was. The 2026 organisation profile
- * carries a real description of it, so its overview and objectives are now drawn from that
- * document like every other programme's. What it still has no source for is numbers: no
- * targets, no delivery timeline, and no dated results, which is what `pending` says. That
- * absence is stated rather than filled, because content/programs.ts forbids inventing
- * figures for this programme specifically.
+ * Every tagline and overview follows the client's October 2026 website review. The review
+ * also supplies a "How we measure progress" or "Monitoring focus" paragraph per programme.
+ * Those are held in TODO(client): Q18 comments against each programme rather than rendered,
+ * because they bring back the measurement sections the client earlier asked to remove.
  *
  * The GreenBin document describes both the running collection operation and the future
  * ecosystem. Only the operating half is here. Smart bins, GreenPoints, the entrepreneurship
@@ -150,11 +148,11 @@ export const programDetails: Record<string, ProgramDetail> = {
   /* ---------------------------------------------------------------- */
   "school-tour-initiative": {
     tagline:
-      "E-waste literacy and environmental sustainability, taught inside Lagos secondary schools.",
+      "Building environmental awareness and digital responsibility among students.",
     overview: [
-      "Nigeria's digital consumption is rising faster than its capacity to deal with what that consumption leaves behind. Devices arrive, devices fail, and what happens next is usually a dump site or an open fire. The School Tour Initiative goes into secondary schools and closes the gap between knowing a device is finished and knowing what to do with it.",
-      "Sessions are interactive rather than lectured. Students work through what a device is made of, where its materials go, why e-waste matters in the neighbourhood they live in, and what the circular economy asks of them as consumers. Selected students are then trained as peer educators, so the session does not end when the team leaves the compound.",
-      "The initiative is measured on movement, not attendance. Every school is assessed before and after, so the change in what students know is a number rather than an impression.",
+      "The School Tour Initiative introduces students to electronic waste, responsible technology use, digital sustainability, and the importance of extending the useful life of electronic devices.",
+      "Through school-based engagement sessions, students learn how electronic waste affects the environment and how responsible disposal, reuse, and refurbishment can support a more sustainable digital future.",
+      "Our approach combines environmental awareness with practical learning and opportunities to understand how technology can be reused to support education and digital participation.",
     ],
     context: [
       {
@@ -331,12 +329,19 @@ export const programDetails: Record<string, ProgramDetail> = {
   /* ---------------------------------------------------------------- */
   "breakthrough-series": {
     tagline:
-      "Refurbished laptops and mentorship for underserved young people aged 18 to 35, with their progress recorded over the following months.",
+      "Connecting refurbished technology with mentorship and opportunity.",
     overview: [
-      "Digital exclusion compounds. Without a device a young person cannot build digital skills. Without the skills they cannot reach income. Without income they cannot afford the device. The Breakthrough Series exists to break that loop at the point where it is cheapest to break: the machine itself.",
-      "A laptop on its own is rarely enough, so each one is paired with structured mentorship from industry professionals, freelancers, and digital career coaches. Recipients are found through social media campaigns, school partnerships, and referrals from youth organisations, and selection prioritises underserved youth, women in technology, and unemployed graduates.",
-      "Then the team follows up. Recipients are surveyed and called at three and six months to record what they have built, learned, or earned, and their account of it is filmed and edited into a short documentary and social cuts.",
+      "The Breakthrough Series supports underserved young people aged 18 to 35 by connecting access to refurbished devices with mentorship, personal development, and opportunities to strengthen digital skills.",
+      "Access to a functional device can help young people practise new skills, explore creative interests, complete learning activities, and build portfolios that support their future opportunities.",
+      "The programme combines device redistribution with follow-up engagement to understand whether beneficiaries can use their devices effectively and whether the support contributes to their learning or professional development.",
     ],
+    /*
+      TODO(client): Q18. The review's "How we measure progress", held:
+      "We track devices handed over, beneficiary participation, mentorship engagement,
+      continued device use, and beneficiary-reported outcomes. Follow-up findings are reported
+      using the number of beneficiaries reached and the number who responded, so readers can
+      interpret the results accurately."
+    */
     objectives: [
       {
         label: "Put devices in hands",
@@ -359,6 +364,10 @@ export const programDetails: Record<string, ProgramDetail> = {
           "Produce short storytelling films following recipients from selection to early outcomes, for programme communications and advocacy.",
       },
     ],
+    /*
+      TODO(client): Q8. The review changes the first target to "100 refurbished devices to
+      underserved youth aged 18 to 35, from 2027 to 2030". Held at 10 within 12 months.
+    */
     targets: [
       {
         figure: "10",
@@ -474,12 +483,16 @@ export const programDetails: Record<string, ProgramDetail> = {
   /* ---------------------------------------------------------------- */
   "project-9-12": {
     tagline:
-      "Sports gear and technology access for children and youth aged 10 to 18, run with Passback.",
+      "Promoting youth development through sports, technology, and community engagement.",
     overview: [
-      "Young people in underserved communities face a double barrier: no equipment, and no structured programme to use it in. Sports materials sit financially out of reach for most families, schools have nothing to lend, and usable gear elsewhere is routinely thrown away rather than passed on.",
-      "Project 9-12 closes that distribution gap. Working with Passback, an organisation that specialises in collecting and redistributing used sports equipment, JustUsedTech receives, sorts, and quality-assesses donated gear, then puts it into the hands of schools and communities through a collect, refurbish, and distribute model.",
-      "The events are not only distributions. Coaches use them to spot players worth developing, and the sessions carry the same reuse and responsible consumption message the school tours do, on the grounds that the gear being handed out is itself second hand.",
+      "Project 9-12 combines access to sports equipment with opportunities for young people to participate in organised activities that encourage teamwork, inclusion, and personal development.",
+      "Through collaboration with Passback and other community partners, the programme supports the redistribution of usable sports equipment and technology to schools and youth communities.",
     ],
+    /*
+      TODO(client): Q18. The review's "Monitoring focus", held:
+      "We document participating schools and communities, attendance, equipment donated,
+      recipient confirmation, and feedback on the usefulness of the support."
+    */
     objectives: [
       {
         label: "Engage young people",
@@ -628,11 +641,11 @@ export const programDetails: Record<string, ProgramDetail> = {
   /* ---------------------------------------------------------------- */
   "greenbin-360": {
     tagline:
-      "E-waste collection from companies and institutions across St. Louis, Missouri. This is where the devices every other programme hands out come from.",
+      "Responsible e-waste recovery for a more circular technology economy.",
     overview: [
-      "Existing e-waste solutions mostly stop at collection and recycling. They rarely touch digital poverty, youth employment, or community participation, which means the material moves but nothing else does. GreenBin 360 treats a discarded device as a community asset rather than a disposal problem.",
-      "In practice this is the operation that feeds everything else JustUsedTech runs. Companies and institutions across St. Louis, Missouri, hand over end-of-life and surplus hardware, and the programme routes it into sorting, data destruction, repair, and refurbishment. What can be brought back is brought back; what cannot is dismantled for material recovery.",
-      "Recovered devices then go out through the redistribution pillar, to schools, libraries, innovation hubs, women-led businesses, and community centres. One organisation's retired hardware becomes another person's first computer.",
+      "GreenBin 360 connects businesses and institutions with responsible electronic waste collection and recovery services. The initiative supports the collection of retired technology, the identification of devices suitable for reuse or refurbishment, and the responsible management of equipment that cannot be reused.",
+      "Recovered devices can enter JustUsedTech's upcycling, refurbishment, and redistribution pipeline, helping extend the useful life of functional equipment and support digital inclusion programmes.",
+      "We work with corporate, institutional, and community partners to improve technology recovery, promote responsible resource management, and document the outcomes of collected equipment.",
     ],
     context: [
       {
@@ -738,12 +751,21 @@ export const programDetails: Record<string, ProgramDetail> = {
   /* ---------------------------------------------------------------- */
   "skillsync-initiative": {
     tagline:
-      "Support for emerging Nigerian creative talent, with entrepreneurship and income-generation pathways.",
+      "Equipping emerging creatives with the tools to develop their potential.",
     overview: [
-      "SkillSync sets out to empower emerging creative talent in Nigeria. Its focus is the skills of indigenous creatives, and its aim is to nurture and empower the next generation of creative minds. It runs with the Office of the Special Assistant to the President on Art, Culture and the Creative Economy.",
-      "The programme seeks to provide opportunities for employment, entrepreneurship, and income generation, particularly for youth, women, and persons living with disabilities. Nigeria's creative industry has boundless possibilities for closing the unemployment gap, and through SkillSync the Office aims to strengthen employment in arts and culture, provide an entrepreneurship support programme, and make investments for innovation.",
-      "It sits alongside the device work rather than inside it. Where the Breakthrough Series answers what a young person builds with a laptop, SkillSync answers what a creative practitioner does with a skill they already have and no route to market.",
+      "The SkillSync Initiative supports emerging Nigerian creatives by improving access to functional technology and opportunities that can strengthen digital creativity, entrepreneurship, and income generation.",
+      "The initiative focuses on connecting young people with tools that support creative practice, digital production, and the development of marketable skills.",
+      "Through collaboration with partners, including the Office of the Special Assistant to the President on Art, Culture and the Creative Economy, JustUsedTech aims to reduce technology barriers faced by emerging creatives.",
     ],
+    /*
+      TODO(client): Q18. The review's "Monitoring focus", held:
+      "We track devices distributed, recipient profiles, intended use, continued device
+      functionality, beneficiary feedback, and evidence of progress in creative or
+      entrepreneurial activities."
+
+      `pending` came out with the review: the programme now carries client-supplied figures,
+      so the note saying it had none was no longer true.
+    */
     objectives: [
       {
         label: "Develop indigenous creative skill",
@@ -766,8 +788,6 @@ export const programDetails: Record<string, ProgramDetail> = {
           "Strengthen employment in arts and culture through entrepreneurship support and investment for innovation.",
       },
     ],
-    pending:
-      "SkillSync has no separate project design document, so this page carries no targets, delivery timeline, or dated results. Those will be added when the document exists rather than estimated in the meantime.",
     audience: {
       primary: [
         "Youth across Nigeria's creative economy",
@@ -790,17 +810,27 @@ export const programDetails: Record<string, ProgramDetail> = {
   /* ---------------------------------------------------------------- */
   "circular-tech-bootcamp": {
     tagline:
-      "Hands-on hardware training in Lagos and St. Louis, Missouri, on the same laptops that go back out to the community afterwards.",
+      "Developing practical skills in technology refurbishment and responsible e-waste management.",
     /* The URL is in site.ts with the other external forms, so a replacement lands once. */
     apply: {
       label: "Apply for the bootcamp",
       href: forms.circularTechBootcamp,
     },
+    /*
+      The cohort detail that used to run here (the Lagos curriculum, the St. Louis ethical AI
+      track, Google Classroom, the capstone) is still on this page, in "Where it runs" and
+      "How it runs" below. The overview now carries the review's copy.
+    */
     overview: [
-      "Every device that arrives at JustUsedTech needs assessment before it can be redistributed. The bootcamp turns that necessary work into a curriculum, so the people learning hardware repair are learning on real laptops that are going to real people afterwards, not on spare hardware kept for practice.",
-      "The same programme runs in two places. In Lagos it is a jobs-focused course, taking participants through computer hardware from the component level up: identification, assembly and disassembly, troubleshooting, RAM, SSD and battery replacement, maintenance and optimisation, refurbishment, quality testing, and networking basics. Alongside that runs the circular economy and e-waste half, covering environmental impact, reuse and repair principles, safe disposal of damaged components, and community awareness.",
-      "In St. Louis, Missouri, it runs with Thomas Dunn Learning Center as a summer programme for participants aged 15 and up, and carries a second track alongside the hardware one: the ethical use of artificial intelligence, covering where these tools fail, bias, privacy, accountability, and digital citizenship. Both cohorts use Google Classroom for materials, assignments, and progress, and both close on a capstone exhibition where teams present what they refurbished or built.",
+      "The Circular Tech Bootcamp equips young people with practical knowledge and skills in electronic waste management, device recovery, refurbishment, and the circular technology economy. Through structured learning and practical engagement, participants explore how electronic devices can be assessed, repaired where feasible, and returned to productive use.",
+      "The programme also introduces the environmental and social value of extending device lifecycles, and connects technical skills development with digital inclusion and the potential for future employment and entrepreneurship.",
     ],
+    /*
+      TODO(client): Q18. The review's "Monitoring focus", held:
+      "We document enrolment, attendance, completion, practical skills gained, devices
+      assessed or refurbished, and participants' subsequent learning or employment pathways
+      where follow-up data are available."
+    */
     contextHeading: {
       title: "Where it runs",
       lede: "The same programme runs in two places. Here is what each one does, and what they have in common.",
