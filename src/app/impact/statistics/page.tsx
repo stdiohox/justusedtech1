@@ -93,6 +93,18 @@ const byYear: { year: string; stats: Stat[] }[] = [
 const EYEBROW =
   "text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase";
 
+/* Programme order for the one-column phone layout of "By programme". Literal, so Tailwind sees them. */
+const MOBILE_ORDER = [
+  "max-md:order-1",
+  "max-md:order-2",
+  "max-md:order-3",
+  "max-md:order-4",
+  "max-md:order-5",
+  "max-md:order-6",
+  "max-md:order-7",
+  "max-md:order-8",
+];
+
 export default function StatisticsPage() {
   return (
     <>
@@ -193,49 +205,67 @@ export default function StatisticsPage() {
             lede="What each programme has delivered, and its running totals. Targets are on each programme's own page, labelled as targets."
           />
         </Reveal>
-        <RevealGroup className="mt-12 grid gap-4 md:grid-cols-2">
-          {activePrograms.map((program) => (
-            <RevealItem key={program.slug}>
-              <article className="card h-full">
-                <h3 className="text-xl font-extrabold tracking-[-0.02em] text-ink">
-                  {hasDetailPage(program.slug) ? (
-                    <Link
-                      href={`/programs/${program.slug}`}
-                      className="underline-offset-4 hover:text-brand-green-dark hover:underline"
-                    >
-                      {program.name}
-                    </Link>
-                  ) : (
-                    program.name
-                  )}
-                </h3>
-                {[
-                  { heading: "Delivered", items: program.results },
-                  { heading: "To date", items: program.stats },
-                ].map(
-                  (list) =>
-                    list.items && (
-                      <div key={list.heading} className="mt-6">
-                        <p className={EYEBROW}>{list.heading}</p>
-                        <dl className="mt-3 flex flex-col gap-4">
-                          {list.items.map((item) => (
-                            <div key={item.label}>
-                              <dt className="text-[0.9375rem] font-extrabold text-ink">
-                                {item.label}
-                              </dt>
-                              <dd className="mt-1 text-[0.9375rem] leading-relaxed text-ink-soft">
-                                {item.detail}
-                              </dd>
+        {/*
+          Two independent stacks, not a grid: the cards run from two lines (GreenBin) to a
+          dozen (Project 9-12), and a grid row stretched the short one to the long one's
+          height, leaving most of that card blank. Programmes are dealt alternately, 1-3-5
+          left and 2-4-6 right, so the reading still zigzags in programme order across the
+          rows and the two stacks end within a card of each other (CSS columns, which fill
+          one column before the next, ended 700px apart). Below md the stacks dissolve
+          (`contents`) and `order` puts the cards back in programme order in one column.
+        */}
+        <div className="mt-12 flex flex-col gap-4 md:flex-row md:items-start">
+          {[0, 1].map((column) => (
+            <RevealGroup
+              key={column}
+              className="contents md:flex md:min-w-0 md:flex-1 md:flex-col md:gap-4"
+            >
+              {activePrograms.map((program, i) =>
+                i % 2 !== column ? null : (
+                  <RevealItem key={program.slug} className={MOBILE_ORDER[i]}>
+                    <article className="card">
+                      <h3 className="text-xl font-extrabold tracking-[-0.02em] text-ink">
+                        {hasDetailPage(program.slug) ? (
+                          <Link
+                            href={`/programs/${program.slug}`}
+                            className="underline-offset-4 hover:text-brand-green-dark hover:underline"
+                          >
+                            {program.name}
+                          </Link>
+                        ) : (
+                          program.name
+                        )}
+                      </h3>
+                      {[
+                        { heading: "Delivered", items: program.results },
+                        { heading: "To date", items: program.stats },
+                      ].map(
+                        (list) =>
+                          list.items && (
+                            <div key={list.heading} className="mt-6">
+                              <p className={EYEBROW}>{list.heading}</p>
+                              <dl className="mt-3 flex flex-col gap-4">
+                                {list.items.map((item) => (
+                                  <div key={item.label}>
+                                    <dt className="text-[0.9375rem] font-extrabold text-ink">
+                                      {item.label}
+                                    </dt>
+                                    <dd className="mt-1 text-[0.9375rem] leading-relaxed text-ink-soft">
+                                      {item.detail}
+                                    </dd>
+                                  </div>
+                                ))}
+                              </dl>
                             </div>
-                          ))}
-                        </dl>
-                      </div>
-                    ),
-                )}
-              </article>
-            </RevealItem>
+                          ),
+                      )}
+                    </article>
+                  </RevealItem>
+                ),
+              )}
+            </RevealGroup>
           ))}
-        </RevealGroup>
+        </div>
       </Section>
 
       <Section tone="white" id="schools">
