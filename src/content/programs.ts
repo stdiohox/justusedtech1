@@ -17,6 +17,8 @@ import {
   schoolTourStudents2025,
   schoolTourStudents2026,
   schoolTourUnderstanding2026,
+  schoolsToDate,
+  studentsToDate,
 } from "@/content/impact";
 
 export type ProgramStatus = "active" | "upcoming";
@@ -35,6 +37,13 @@ export type Program = {
    * rendered under "To date".
    */
   stats?: { label: string; detail: string }[];
+  /**
+   * The home page card's figures: up to three short figure + label pairs, so every card is
+   * the same shape whatever the length of its full results. Only set where `stats` and
+   * `results` are not already short figures; the card falls back to them otherwise. The full
+   * write-ups stay on the programme page the card links to.
+   */
+  highlights?: { label: string; detail: string }[];
   target?: string;
 };
 
@@ -93,6 +102,11 @@ export const programs: Program[] = [
         label: "Schools visited, 2026",
         detail: listOf(schoolTourSchools2026),
       },
+    ],
+    /* The review's running totals, the same two the home glance leads with. */
+    highlights: [
+      { label: schoolsToDate.value, detail: schoolsToDate.label },
+      { label: studentsToDate.value, detail: studentsToDate.label },
     ],
   },
   {
@@ -206,6 +220,14 @@ export const programs: Program[] = [
       },
       { label: "Location", detail: "St Louis USA and Lagos Nigeria" },
       { label: "14 Refurbished laptops", detail: "donated during this project" },
+    ],
+    /* The two figures from the stats above, without the Location line, which is not one. */
+    highlights: [
+      {
+        label: "21",
+        detail: "young persons trained on device upcycling, repair and refurbishment.",
+      },
+      { label: "14", detail: "Refurbished laptops donated during this project" },
     ],
   },
 ];
