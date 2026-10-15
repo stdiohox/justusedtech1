@@ -150,6 +150,15 @@ export const programs: Program[] = [
       { label: "425", detail: "students from 2025 till date" },
       { label: "700+", detail: "Sports gears donated in Lagos state" },
     ],
+    /*
+      The headline figures, all the review's own: the two running totals above (which the
+      home card shows) and the 2026 event's laptops. The programme page shows all three.
+    */
+    highlights: [
+      { label: "425", detail: "students from 2025 till date" },
+      { label: "700+", detail: "Sports gears donated in Lagos state" },
+      { label: "10", detail: "upcycled laptops donated to 10 schools in 2026" },
+    ],
   },
   {
     slug: "greenbin-360",

@@ -124,11 +124,17 @@ export default async function ProgramDetailPage({ params }: Params) {
           items: program.results,
         }
       : undefined,
-    program.stats && {
-      title: "To date",
-      lede: "Totals since the programme began, rather than for one year.",
-      items: program.stats,
-    },
+    /*
+      Running totals are short figures, so where the figure cards lead with a programme's
+      highlights they already carry them (Project 9-12's 425 and 700+); not repeated.
+    */
+    program.stats && !(detail.featureResults && program.highlights)
+      ? {
+          title: "To date",
+          lede: "Totals since the programme began, rather than for one year.",
+          items: program.stats,
+        }
+      : undefined,
   ].filter((group) => group !== undefined);
   /* Whether the audience section has a second column to sit beside. See that section. */
   const audienceHasAside = Boolean(detail.outcomes || detail.measurement);

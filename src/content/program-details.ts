@@ -518,10 +518,16 @@ export const programDetails: Record<string, ProgramDetail> = {
   "project-9-12": {
     tagline:
       "Promoting youth development through sports, technology, and community engagement.",
+    /*
+      The review's opening paragraph ("Project 9-12 combines access to sports equipment...")
+      is off this page at the client's request; the headline figures take its place, as on
+      Breakthrough Series and School Tour. It still opens the /programs panel.
+    */
     overview: [
-      "Project 9-12 combines access to sports equipment with opportunities for young people to participate in organised activities that encourage teamwork, inclusion, and personal development.",
       "Through collaboration with Passback and other community partners, the programme supports the redistribution of usable sports equipment and technology to schools and youth communities.",
     ],
+    featureResults: true,
+    spinTargets: true,
     sections: [
       {
         heading: "Schools engaged",
