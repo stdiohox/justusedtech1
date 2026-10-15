@@ -571,12 +571,14 @@ export default async function ProgramDetailPage({ params }: Params) {
                 itself underneath.
               */
               lede={detail.galleryLede}
+              align={detail.galleryCentered ? "center" : "left"}
             />
           </Reveal>
           <Reveal className="mt-12">
             <ProgramGallery
               photos={detail.gallery}
               style={detail.galleryStyle}
+              centered={detail.galleryCentered}
             />
           </Reveal>
         </Section>
@@ -778,9 +780,12 @@ export default async function ProgramDetailPage({ params }: Params) {
 function ProgramGallery({
   photos,
   style,
+  centered = false,
 }: {
   photos: GalleryPhoto[];
   style: ProgramDetail["galleryStyle"];
+  /* Centres the panel row and the hint line; wired for the accordion, which Breakthrough uses. */
+  centered?: boolean;
 }) {
   if (photos.length < 2) return <ElasticGallery photos={photos} />;
   if (style === "mosaic") return <MosaicGallery photos={photos} />;
@@ -802,14 +807,17 @@ function ProgramGallery({
     style === "bento" ? (
       <BentoGallery photos={photos} />
     ) : style === "accordion" ? (
-      <ImageAccordion photos={photos} />
+      <ImageAccordion photos={photos} centered={centered} />
     ) : (
       <ElasticGallery photos={photos} />
     );
 
   return (
     <>
-      <MosaicGallery photos={photos} className="md:hidden [&>div]:columns-2" />
+      <MosaicGallery
+        photos={photos}
+        className={cn("md:hidden [&>div]:columns-2", centered && "[&>p]:text-center")}
+      />
       <div className="hidden md:block">{wide}</div>
     </>
   );

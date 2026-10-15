@@ -76,6 +76,8 @@ export type ProgramDetail = {
   featureResults?: boolean;
   /** Spin the Targets figures as odometer reels when they come into view. */
   spinTargets?: boolean;
+  /** Centre the gallery section: heading, lede, the gallery itself, and its hint. */
+  galleryCentered?: boolean;
   /** Numbers that have not happened yet. Never rendered without the "Target" framing. */
   targets?: { figure: string; detail: string }[];
   audience: { primary: string[]; secondary: string[] };
@@ -365,6 +367,7 @@ export const programDetails: Record<string, ProgramDetail> = {
     ],
     featureResults: true,
     spinTargets: true,
+    galleryCentered: true,
     /*
       The review's "How we measure progress" section is off this page at the client's
       request. It is in git history if it is wanted back.

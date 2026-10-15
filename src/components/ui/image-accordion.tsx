@@ -28,9 +28,15 @@ import type { GalleryPhoto } from "@/components/ui/elastic-gallery";
 export function ImageAccordion({
   photos,
   className,
+  centered = false,
 }: {
   photos: GalleryPhoto[];
   className?: string;
+  /**
+   * Centre the row and its hint in the shell. mx-auto centres the row while it fits; once it
+   * is wider than the shell the auto margins resolve to 0 and it scrolls as before.
+   */
+  centered?: boolean;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [open, setOpen] = useState<number | null>(null);
@@ -46,7 +52,7 @@ export function ImageAccordion({
         Phones never see it: the programme page swaps in the mosaic below md.
       */}
       <div className="w-full overflow-x-auto overscroll-x-contain pb-3 [scrollbar-width:thin]">
-        <div className="flex w-max gap-2 sm:gap-3">
+        <div className={cn("flex w-max gap-2 sm:gap-3", centered && "mx-auto")}>
           {photos.map((photo, i) => {
             const active = i === activeIndex;
             return (
@@ -105,7 +111,7 @@ export function ImageAccordion({
         </div>
       </div>
 
-      <p className="mt-2 text-[0.8125rem] text-ink-faint">
+      <p className={cn("mt-2 text-[0.8125rem] text-ink-faint", centered && "text-center")}>
         Hover or focus a panel to open it. Select it to see the full frame.
       </p>
 
