@@ -27,6 +27,7 @@
  * has no detail page.
  */
 
+import { partnersNamed, type Partner } from "@/content/partners";
 import { forms } from "@/content/site";
 import { videos, type VideoClip } from "@/content/videos";
 
@@ -81,6 +82,11 @@ export type ProgramDetail = {
   galleryCentered?: boolean;
   /** Show the pounds-to-kilograms converter under the figures, for a weight-led programme. */
   weightConverter?: boolean;
+  /**
+   * Partner logos for the programme, from content/partners.ts. Only partners this content
+   * already ties to the programme, and only those with a supplied logo.
+   */
+  partners?: Partner[];
   /** Numbers that have not happened yet. Never rendered without the "Target" framing. */
   targets?: { figure: string; detail: string }[];
   audience: { primary: string[]; secondary: string[] };
@@ -520,6 +526,13 @@ export const programDetails: Record<string, ProgramDetail> = {
   "project-9-12": {
     tagline:
       "Promoting youth development through sports, technology, and community engagement.",
+    /* Passback is the named partner; Phase 1 ran in Lagos Education District IV; the Skate
+       Lagos donation was at the Lagos State Government's Sporty Lagos initiative. */
+    partners: partnersNamed("project-9-12", [
+      "Passback",
+      "Lagos Educational District IV",
+      "Sporty Lagos",
+    ]),
     /*
       The review's opening paragraph ("Project 9-12 combines access to sports equipment...")
       is off this page at the client's request; the headline figures take its place, as on
@@ -702,6 +715,8 @@ export const programDetails: Record<string, ProgramDetail> = {
   "greenbin-360": {
     tagline:
       "Responsible e-waste recovery for a more circular technology economy.",
+    /* The two names on the Green Bin partner list below that have supplied logos. */
+    partners: partnersNamed("greenbin-360", ["Cortex STL", "WashU IT"]),
     /*
       The opening sentences ("GreenBin 360 connects businesses and institutions...") are off
       this page at the client's request, as on the other programme pages; they still open the
@@ -836,6 +851,9 @@ export const programDetails: Record<string, ProgramDetail> = {
   "skillsync-initiative": {
     tagline:
       "Equipping emerging creatives with the tools to develop their potential.",
+    partners: partnersNamed("skillsync-initiative", [
+      "Office of the Special Assistant to the President on Art, Culture and the Creative Economy",
+    ]),
     overview: [
       "The SkillSync Initiative supports emerging Nigerian creatives by improving access to functional technology and opportunities that can strengthen digital creativity, entrepreneurship, and income generation.",
       "The initiative focuses on connecting young people with tools that support creative practice, digital production, and the development of marketable skills.",
@@ -911,6 +929,8 @@ export const programDetails: Record<string, ProgramDetail> = {
   "circular-tech-bootcamp": {
     tagline:
       "Developing practical skills in technology refurbishment and responsible e-waste management.",
+    /* The St. Louis delivery was run with Thomas Dunn Learning Center. */
+    partners: partnersNamed("circular-tech-bootcamp", ["Thomas Dunn Learning Center"]),
     /* The URL is in site.ts with the other external forms, so a replacement lands once. */
     apply: {
       label: "Apply for the bootcamp",

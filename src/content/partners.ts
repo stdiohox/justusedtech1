@@ -160,7 +160,7 @@ export const allPartners: Partner[] = [...usPartners, ...nigeriaPartners];
  * to keep the two in step, and it had already been broken once: the row still named Claim
  * Academy after that partner was dropped. The throw makes it a build failure instead.
  */
-export const heroTrustPartners: Partner[] = [
+export const heroTrustPartners: Partner[] = partnersNamed("heroTrustPartners", [
   "Passback",
   "Google",
   "Cortex STL",
@@ -170,8 +170,13 @@ export const heroTrustPartners: Partner[] = [
      and the chips share one height by design. Swapped for a single-line wordmark, which is
      the shape that survives at this size. */
   "WashU IT",
-].map((name) => {
-  const partner = allPartners.find((candidate) => candidate.name === name);
-  if (!partner) throw new Error(`heroTrustPartners: no partner named "${name}"`);
-  return partner;
-});
+]);
+
+/** Partners by name, from the list above. A name it does not carry fails the build. */
+export function partnersNamed(where: string, names: string[]): Partner[] {
+  return names.map((name) => {
+    const partner = allPartners.find((candidate) => candidate.name === name);
+    if (!partner) throw new Error(`${where}: no partner named "${name}"`);
+    return partner;
+  });
+}

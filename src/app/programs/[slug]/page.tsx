@@ -20,6 +20,7 @@ import {
   Wrench,
   type LucideIcon,
 } from "lucide-react";
+import { PartnerMark } from "@/components/common/partner-mark";
 import { PillAnchor, PillLink } from "@/components/common/pill-button";
 import { ProgramMedia } from "@/components/common/program-media";
 import {
@@ -370,6 +371,36 @@ export default async function ProgramDetailPage({ params }: Params) {
               </RevealItem>
             ))}
           </RevealGroup>
+        )}
+
+        {/*
+          The partners on this programme, as their logos. Centred tiles rather than the bare
+          /partners strip: one to three marks on a wide row read as a credit line, not a
+          list. Each tile carries the name too, because a crest or a stacked lockup at this
+          size does not always say who it is.
+        */}
+        {detail.partners && (
+          <div className="mt-14 border-t border-edge pt-10 text-center">
+            <Reveal>
+              <h2 className="text-xl font-extrabold tracking-[-0.02em] text-ink">
+                Partners
+              </h2>
+            </Reveal>
+            <RevealGroup as="ul" className="mt-7 flex flex-wrap justify-center gap-4">
+              {detail.partners.map((partner) => (
+                <RevealItem
+                  as="li"
+                  key={partner.name}
+                  className="flex w-full flex-col items-center justify-between gap-8 rounded-card border border-edge bg-white px-6 pt-10 pb-7 sm:w-[17rem]"
+                >
+                  <PartnerMark partner={partner} size="lg" />
+                  <p className="max-w-[24ch] text-[0.8125rem] leading-snug font-bold text-ink-soft text-balance">
+                    {partner.name}
+                  </p>
+                </RevealItem>
+              ))}
+            </RevealGroup>
+          </div>
         )}
 
         {detail.pending && (

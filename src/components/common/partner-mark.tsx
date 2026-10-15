@@ -30,6 +30,8 @@ const SIZES = {
   sm: { slot: 2.25, maxWidth: 7 },
   /** The /partners page, where the marks are the content rather than a passing credit. */
   md: { slot: 2.75, maxWidth: 8.5 },
+  /** A programme page's partner tiles: one to three marks, each in its own card. */
+  lg: { slot: 4, maxWidth: 11 },
 } as const;
 
 export function PartnerMark({
