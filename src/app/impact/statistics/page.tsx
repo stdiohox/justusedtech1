@@ -10,6 +10,7 @@ import {
 } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
 import { EwasteChart } from "@/components/sections/ewaste-chart";
+import { WeightConverter } from "@/components/sections/weight-converter";
 import {
   communitiesReached,
   devicesToDate,
@@ -30,6 +31,7 @@ import {
   stLouisPartners,
   stLouisShare,
   studentsToDate,
+  weightPresets,
   type Stat,
 } from "@/content/impact";
 import { hasDetailPage } from "@/content/program-details";
@@ -129,6 +131,14 @@ export default function StatisticsPage() {
           <div className="card">
             <EwasteChart caption={ewasteSeriesTitle} />
           </div>
+        </Reveal>
+        {/*
+          Right under the chart, because this is where the site's weights are: the lifetime
+          total and ten years of pounds. A reader who thinks in kilograms meets the question
+          here first, so the answer sits beside it.
+        */}
+        <Reveal delay={0.1} className="mt-6">
+          <WeightConverter presets={weightPresets} />
         </Reveal>
       </Section>
 

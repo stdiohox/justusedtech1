@@ -94,6 +94,18 @@ export const ewasteTotal2025: Stat = {
   label: "lbs of e-waste upcycled through reported US activities in 2025",
 };
 
+/**
+ * The weights the pounds-to-kilograms converter offers as one-tap presets: the lifetime
+ * total and the two most recent years. Declared here so every converter on the site offers
+ * the same figures, read off the same series.
+ */
+export const weightPresets = [
+  { label: "Since 2017", lbs: floorOf(ewasteToDate.value) },
+  ...ewasteByYear
+    .filter((y) => y.year >= 2025)
+    .map((y) => ({ label: y.partial ? `${y.year} so far` : String(y.year), lbs: y.lbs })),
+];
+
 /*
   The lifetime figure can never claim more than the years it is made of. Thrown at module
   load, which happens at build time for every page that imports this file, so a headline that

@@ -51,10 +51,11 @@ export function WeightConverter({ presets }: { presets: Preset[] }) {
     setLbs(n === null ? "" : format(n / KG_PER_LB));
   };
 
+  const tonnes = kgValue !== null ? format(kgValue / 1000, 1) : "";
   const sentence =
     lbsValue !== null && kgValue !== null
       ? `${format(lbsValue)} lbs is about ${format(kgValue, 0)} kg${
-          kgValue >= 1000 ? ` (${format(kgValue / 1000, 1)} tonnes)` : ""
+          kgValue >= 1000 ? ` (${tonnes} ${tonnes === "1" ? "tonne" : "tonnes"})` : ""
         }.`
       : "Enter a weight in either box.";
 
