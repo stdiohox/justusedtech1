@@ -920,11 +920,17 @@ export const programDetails: Record<string, ProgramDetail> = {
       The cohort detail that used to run here (the Lagos curriculum, the St. Louis ethical AI
       track, Google Classroom, the capstone) is still on this page, in "Where it runs" and
       "How it runs" below. The overview now carries the review's copy.
+
+      Its opening paragraph ("The Circular Tech Bootcamp equips young people...") is off this
+      page at the client's request, as on the other programme pages; it still opens the
+      /programs panel. The figures take its place. The "To date" list they replace also held
+      "Location: St Louis USA and Lagos Nigeria", which "Where it runs" covers in full.
     */
     overview: [
-      "The Circular Tech Bootcamp equips young people with practical knowledge and skills in electronic waste management, device recovery, refurbishment, and the circular technology economy. Through structured learning and practical engagement, participants explore how electronic devices can be assessed, repaired where feasible, and returned to productive use. The programme also introduces the environmental and social value of extending device lifecycles.",
       "The initiative connects technical skills development with digital inclusion and the potential for future employment and entrepreneurship.",
     ],
+    featureResults: true,
+    spinTargets: true,
     sections: [
       {
         heading: "Monitoring focus",

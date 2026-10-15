@@ -467,8 +467,18 @@ export default async function ProgramDetailPage({ params }: Params) {
               rolling on reels. Only a programme that opts in pays for the in-view observer.
             */
             <SpinOnView>
-              {/* Three columns: the spinning variant is for a row of three, as Breakthrough has. */}
-              <RevealGroup className="mx-auto mt-12 grid max-w-5xl gap-x-8 gap-y-12 text-center md:grid-cols-3">
+              {/*
+                Columns follow the count so the row never ends on a stray item: three across
+                for three targets, four (two by two on tablets) for four, as Bootcamp has.
+              */}
+              <RevealGroup
+                className={cn(
+                  "mx-auto mt-12 grid gap-x-8 gap-y-12 text-center",
+                  detail.targets.length === 4
+                    ? "max-w-6xl sm:grid-cols-2 lg:grid-cols-4"
+                    : "max-w-5xl md:grid-cols-3",
+                )}
+              >
                 {detail.targets.map((target) => (
                   <RevealItem key={target.figure} className="border-t border-edge pt-8">
                     <p className="text-[4rem] leading-none font-bold tracking-[-0.045em] text-brand-green-dark tabular-nums lg:text-[5rem]">
