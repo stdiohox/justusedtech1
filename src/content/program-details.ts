@@ -74,6 +74,8 @@ export type ProgramDetail = {
    * figures (a number and a short label), which is what the cards are built for.
    */
   featureResults?: boolean;
+  /** Spin the Targets figures as odometer reels when they come into view. */
+  spinTargets?: boolean;
   /** Numbers that have not happened yet. Never rendered without the "Target" framing. */
   targets?: { figure: string; detail: string }[];
   audience: { primary: string[]; secondary: string[] };
@@ -362,6 +364,7 @@ export const programDetails: Record<string, ProgramDetail> = {
       "The programme combines device redistribution with follow-up engagement to understand whether beneficiaries can use their devices effectively and whether the support contributes to their learning or professional development.",
     ],
     featureResults: true,
+    spinTargets: true,
     /*
       The review's "How we measure progress" section is off this page at the client's
       request. It is in git history if it is wanted back.

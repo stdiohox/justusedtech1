@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 import { cn } from "@/lib/utils";
 
 /**
@@ -29,6 +35,64 @@ const BASE_S = 3.2;
 const REEL_STEP_S = 0.8;
 
 const hasDigits = (value: string) => /^\d/.test(value);
+
+/**
+ * Sets `data-spin` on its wrapper the first time the wrapper is in view, which is what sets
+ * every Odometer inside it rolling (see .jut-reel in globals.css). Never under reduced
+ * motion. Rendered without the attribute on the server, so the reels rest on their values.
+ */
+export function SpinOnView({
+  children,
+  className,
+  as: Tag = "div",
+}: {
+  children: ReactNode;
+  className?: string;
+  as?: "div" | "ul";
+}) {
+  const ref = useRef<HTMLElement>(null);
+  const [spin, setSpin] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        observer.disconnect();
+        setSpin(true);
+      },
+      { threshold: 0.35 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <Tag
+      ref={ref as never}
+      data-spin={spin || undefined}
+      className={className}
+    >
+      {children}
+    </Tag>
+  );
+}
+
+/**
+ * A figure as reels, with its final value as screen-reader text. Falls back to the plain
+ * value for one that does not start with a digit.
+ */
+export function SpinFigure({ value }: { value: string }) {
+  return (
+    <>
+      {hasDigits(value) ? <Odometer value={value} /> : <span aria-hidden>{value}</span>}
+      <span className="sr-only">{value}</span>
+    </>
+  );
+}
 
 /**
  * One reel per digit. A reel's strip runs 0 to 9 a number of times and then on to its digit,
@@ -67,32 +131,8 @@ function Odometer({ value }: { value: string }) {
 }
 
 export function ImpactFigures({ items }: { items: Item[] }) {
-  const ref = useRef<HTMLUListElement>(null);
-  const [spin, setSpin] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry?.isIntersecting) return;
-        observer.disconnect();
-        setSpin(true);
-      },
-      { threshold: 0.35 },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <ul
-      ref={ref}
-      data-spin={spin || undefined}
-      className="grid gap-4 md:grid-cols-3"
-    >
+    <SpinOnView as="ul" className="grid gap-4 md:grid-cols-3">
       {items.map((item, i) => {
         const dark = i === 0;
         return (
@@ -111,12 +151,7 @@ export function ImpactFigures({ items }: { items: Item[] }) {
                 dark ? "text-white" : "text-brand-green-dark",
               )}
             >
-              {hasDigits(item.label) ? (
-                <Odometer value={item.label} />
-              ) : (
-                <span aria-hidden>{item.label}</span>
-              )}
-              <span className="sr-only">{item.label}</span>
+              <SpinFigure value={item.label} />
             </p>
             <p
               className={cn(
@@ -129,6 +164,6 @@ export function ImpactFigures({ items }: { items: Item[] }) {
           </li>
         );
       })}
-    </ul>
+    </SpinOnView>
   );
 }

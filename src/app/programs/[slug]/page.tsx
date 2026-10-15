@@ -30,7 +30,11 @@ import {
   TagPill,
 } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
-import { ImpactFigures } from "@/components/sections/impact-figures";
+import {
+  ImpactFigures,
+  SpinFigure,
+  SpinOnView,
+} from "@/components/sections/impact-figures";
 import { VideoFeature } from "@/components/sections/video-feature";
 import { VisitLog } from "@/components/sections/visit-log";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
@@ -401,13 +405,28 @@ export default async function ProgramDetailPage({ params }: Params) {
               lede="Figures the programme is working towards. These are planned, not delivered."
             />
           </Reveal>
-          <RevealGroup className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-            {detail.targets.map((target) => (
-              <RevealItem key={target.figure}>
-                <StatBlock value={target.figure} label={target.detail} />
-              </RevealItem>
-            ))}
-          </RevealGroup>
+          {(() => {
+            const grid = (
+              <RevealGroup className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+                {detail.targets.map((target) => (
+                  <RevealItem key={target.figure}>
+                    <StatBlock
+                      value={
+                        detail.spinTargets ? (
+                          <SpinFigure value={target.figure} />
+                        ) : (
+                          target.figure
+                        )
+                      }
+                      label={target.detail}
+                    />
+                  </RevealItem>
+                ))}
+              </RevealGroup>
+            );
+            /* Only a programme that opts in pays for the in-view observer. */
+            return detail.spinTargets ? <SpinOnView>{grid}</SpinOnView> : grid;
+          })()}
         </Section>
       )}
 
