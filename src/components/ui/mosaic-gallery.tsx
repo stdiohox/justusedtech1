@@ -28,9 +28,12 @@ import type { GalleryPhoto } from "@/components/ui/elastic-gallery";
 export function MosaicGallery({
   photos,
   className,
+  columns = "columns-1 gap-3 sm:columns-2 sm:gap-4 lg:columns-3",
 }: {
   photos: GalleryPhoto[];
   className?: string;
+  /** The column flow. Two-up for posters, where a third column would sit empty. */
+  columns?: string;
 }) {
   const [open, setOpen] = useState<number | null>(null);
 
@@ -43,7 +46,7 @@ export function MosaicGallery({
         which is the thing that was cropping. `break-inside-avoid` keeps a photograph from
         being split across a column boundary.
       */}
-      <div className="columns-1 gap-3 sm:columns-2 sm:gap-4 lg:columns-3">
+      <div className={columns}>
         {photos.map((photo, i) => (
           <button
             key={photo.src}

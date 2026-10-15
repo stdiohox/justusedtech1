@@ -504,7 +504,7 @@ export default async function ProgramDetailPage({ params }: Params) {
         <Section tone="deep">
           <Reveal>
             <SectionHead
-              title="From the field"
+              title={detail.galleryHeading ?? "From the field"}
               /*
                 Copy about the photographs, written per programme. It is not generated from
                 the count and the gallery style any more: that line counted the frames the
@@ -725,6 +725,19 @@ function ProgramGallery({
 }) {
   if (photos.length < 2) return <ElasticGallery photos={photos} />;
   if (style === "mosaic") return <MosaicGallery photos={photos} />;
+  /*
+    Posters: two-up at every width from sm, whole and uncropped, capped so each one lands
+    near its readable size rather than stretching across the shell. Same-shaped fliers end
+    level. The lightbox opens each at full size for the small print.
+  */
+  if (style === "posters")
+    return (
+      <MosaicGallery
+        photos={photos}
+        className="max-w-[56rem]"
+        columns="columns-1 gap-4 sm:columns-2 sm:gap-6"
+      />
+    );
 
   const wide =
     style === "bento" ? (

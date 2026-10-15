@@ -106,6 +106,8 @@ export type ProgramDetail = {
    * How to work the widget still gets said, once, by the gallery itself underneath.
    */
   galleryLede?: string;
+  /** The gallery's heading where "From the field" would be wrong, such as campaign fliers. */
+  galleryHeading?: string;
   /**
    * Which gallery treatment this programme's photographs get.
    *
@@ -118,10 +120,12 @@ export type ProgramDetail = {
    *            collapsed panels would be slivers. Project 9-12 has ten frames.
    * `mosaic`   every frame visible at rest in an asymmetric grid. For a set rather than a
    *            sequence, where hiding frames behind hover would hide the point.
+   * `posters`  two-up, every frame whole at its own shape. For fliers and other images that
+   *            carry text, where any crop would cut words off.
    *
    * A single photograph ignores this and renders as one frame.
    */
-  galleryStyle?: "elastic" | "accordion" | "bento" | "mosaic";
+  galleryStyle?: "elastic" | "accordion" | "bento" | "mosaic" | "posters";
   /**
    * The School Tour visit log, rendered on this programme's own page.
    *
@@ -838,15 +842,30 @@ export const programDetails: Record<string, ProgramDetail> = {
       ],
       secondary: ["Emerging creative enterprises and the people they employ"],
     },
+    /*
+      The two SkillSync fliers, supplied by the client. They replace the device handover
+      photograph that was this gallery's only frame. The alt text carries each flier's words,
+      since a poster's text is its content. The people pictured are campaign imagery and are
+      not named or described as beneficiaries.
+    */
     gallery: [
       {
-        src: "/programs/skillsync_initiative.jpg",
-        alt: "Five people standing together for a photograph at a device handover event, with a desktop computer in front of them.",
-        width: 1400,
-        height: 933,
+        src: "/programs/skillsync-initiative/01.jpg",
+        alt: "SkillSync flier: Introducing Skill Sync. Empowering Nigeria's future creatives with the tools they need. Skill Sync is providing young Nigerian creatives with access to the tools, mentorship, and opportunities they need to transform their craft into lasting success. For more information, visit bit.ly/SKSYNC2025.",
+        width: 1027,
+        height: 1280,
+      },
+      {
+        src: "/programs/skillsync-initiative/02.jpg",
+        alt: "SkillSync flier: Have you applied yet? Your creative future starts here. Don't miss your chance to join Skill Sync. Gain access to digital tools, mentorship, and opportunities that can help you build a thriving creative career. Apply today at bit.ly/SKSYNC2025.",
+        /* The supplied file carried a 5px black strip along its top edge; trimmed off. */
+        width: 1025,
+        height: 1275,
       },
     ],
-    galleryLede: "A photograph taken at a device handover event.",
+    galleryHeading: "Campaign fliers",
+    galleryLede: "The SkillSync launch flier and the call for applications.",
+    galleryStyle: "posters",
   },
 
   /* ---------------------------------------------------------------- */

@@ -70,6 +70,11 @@ const PROGRAM_PHOTOS: Record<
     position?: string;
     wideSrc?: string;
     widePosition?: string;
+    /*
+      "logo" for a mark rather than a photograph: shown whole (object-contain) on white with
+      room around it, never cropped by cover the way a photograph is.
+    */
+    kind?: "photo" | "logo";
   }
 > = {
   "school-tour-initiative": {
@@ -111,18 +116,14 @@ const PROGRAM_PHOTOS: Record<
     alt: "Team members loading equipment into the back of a van at an outdoor collection event.",
   },
   /*
-    Scene only, and deliberately not described as SkillSync work: the photograph is a device
-    handover, and nothing in the frame depicts the creative-economy support this programme
-    actually runs. Naming the programme in the alt text would assert something the picture
-    does not show.
-
-    Worth a look before this one stays: the banner and three of the shirts in frame read
-    "Product Tent", an organisation removed from the partner list a few commits ago for
-    having no logo. The card credits a different partner in its body copy.
+    The Federal Ministry of Art, Culture and the Creative Economy's mark, supplied by the
+    client to replace the device handover photograph that stood here (the file is still in
+    public/programs/ and in git history). A logo, so it is contained, not cropped.
   */
   "skillsync-initiative": {
-    src: "/programs/skillsync_initiative.jpg",
-    alt: "Five people standing together for a photograph at a device handover event, with a desktop computer in front of them.",
+    src: "/programs/skillsync_fmacce_logo.jpg",
+    alt: "Logo of the Federal Ministry of Art, Culture and the Creative Economy, Federal Republic of Nigeria (FMACCE).",
+    kind: "logo",
   },
   "circular-tech-bootcamp": {
     src: "/programs/circular_tech_bootcamp.jpg",
@@ -255,6 +256,32 @@ export function ProgramMedia({
     /* Written as two ternaries rather than one flag so the wideSrc check narrows the type. */
     const src = wide && photo.wideSrc ? photo.wideSrc : photo.src;
     const position = wide && photo.wideSrc ? photo.widePosition : photo.position;
+
+    /*
+      A logo sits whole on white, inset from the band's edges, with a hairline under it so the
+      white band does not merge into a white card body. mix-blend-multiply drops the JPEG's
+      near-white background into the band's true white, so no faint box shows around the mark.
+    */
+    if (photo.kind === "logo") {
+      return (
+        <div
+          className={cn(
+            height,
+            "relative overflow-hidden border-b border-edge bg-white",
+            className,
+          )}
+        >
+          <Image
+            src={src}
+            alt={photo.alt}
+            fill
+            sizes={photoSizes}
+            quality={90}
+            className="object-contain p-8 mix-blend-multiply sm:p-10"
+          />
+        </div>
+      );
+    }
 
     return (
       /*
