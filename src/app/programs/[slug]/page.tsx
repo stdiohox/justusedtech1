@@ -110,10 +110,28 @@ export default async function ProgramDetailPage({ params }: Params) {
   if (!program || !detail) notFound();
 
   const icons = OBJECTIVE_ICONS[slug] ?? [Target];
-  /* The figure cards: a programme's highlights where it has them, else its results. */
-  const featured = detail.featureResults
-    ? (program.highlights ?? program.results)
-    : undefined;
+  /*
+    The figure cards, and where they came from: a programme's highlights where it has them,
+    else its results, else its running totals (SkillSync, whose one figure is a total). The
+    source decides which plain list below would only repeat them.
+  */
+  const featuredSource = !detail.featureResults
+    ? undefined
+    : program.highlights
+      ? "highlights"
+      : program.results
+        ? "results"
+        : program.stats
+          ? "stats"
+          : undefined;
+  const featured =
+    featuredSource === "highlights"
+      ? program.highlights
+      : featuredSource === "results"
+        ? program.results
+        : featuredSource === "stats"
+          ? program.stats
+          : undefined;
   /*
     Delivered results and running totals, each under its own heading, kept distinct from
     `detail.targets` everywhere they appear. A programme can carry both (Project 9-12 does).
@@ -123,9 +141,7 @@ export default async function ProgramDetailPage({ params }: Params) {
       Not repeated as a list where the figure cards above already are the results, and not
       drawn as a list at all where the programme has a timeline (rendered just above these).
     */
-    program.results &&
-    !program.timeline &&
-    !(detail.featureResults && !program.highlights)
+    program.results && !program.timeline && featuredSource !== "results"
       ? {
           title: "Delivered",
           lede: "Work that has already happened, with the dates it happened on.",
@@ -133,10 +149,10 @@ export default async function ProgramDetailPage({ params }: Params) {
         }
       : undefined,
     /*
-      Running totals are short figures, so where the figure cards lead with a programme's
-      highlights they already carry them (Project 9-12's 425 and 700+); not repeated.
+      Running totals are short figures, so where the cards lead with highlights (Project
+      9-12's 425 and 700+) or are the totals themselves (SkillSync), they are not repeated.
     */
-    program.stats && !(detail.featureResults && program.highlights)
+    program.stats && featuredSource !== "highlights" && featuredSource !== "stats"
       ? {
           title: "To date",
           lede: "Totals since the programme began, rather than for one year.",
@@ -242,10 +258,11 @@ export default async function ProgramDetailPage({ params }: Params) {
           the balance by breaking the thing the cap was there to protect.
         */}
         <Reveal className="mt-14">
-          {detail.featureResults ? (
+          {detail.featureResults && detail.overview.length <= 2 ? (
             /*
-              A programme whose figures lead the page: the overview runs as even columns in one
-              body style (no lede paragraph to set apart), and the figures follow it.
+              A programme whose figures lead the page and whose opening paragraph came off:
+              the one or two paragraphs left run as even columns in one body style, and the
+              figures follow. A longer overview (SkillSync's three) keeps the lede layout below.
             */
             /* One paragraph alone in a two-column grid would hug the left; it centres at a
                reading measure instead, in line with the centred figures below it. */

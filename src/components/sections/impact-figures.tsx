@@ -135,8 +135,20 @@ function Odometer({ value }: { value: string }) {
 }
 
 export function ImpactFigures({ items }: { items: Item[] }) {
+  /*
+    Columns follow the count, and fewer than three centre at a narrower width, so one figure
+    (SkillSync's 15+) is a single centred card rather than a third of a row with two empty
+    slots beside it.
+  */
+  const layout =
+    items.length === 1
+      ? "mx-auto max-w-md"
+      : items.length === 2
+        ? "mx-auto max-w-3xl md:grid-cols-2"
+        : "md:grid-cols-3";
+
   return (
-    <SpinOnView as="ul" className="grid gap-4 md:grid-cols-3">
+    <SpinOnView as="ul" className={cn("grid gap-4", layout)}>
       {items.map((item, i) => {
         const dark = i === 0;
         return (
@@ -156,10 +168,15 @@ export function ImpactFigures({ items }: { items: Item[] }) {
                   figure (seven characters or more, like 200,000+) steps down to 52 to 60px:
                   at 80px it measured 327px against a 323px card, and 251px at 1024.
                 */
-                "leading-none font-bold tracking-[-0.045em] tabular-nums",
                 item.label.length >= 7
                   ? "text-[3.25rem] lg:text-[3.75rem]"
                   : "text-[4rem] lg:text-[5rem]",
+                /*
+                  After the size, not before: tailwind-merge drops a leading-* that a later
+                  font-size class follows, which set the line back to 1.5 and dropped the "+"
+                  below the 1em digit reels beside it.
+                */
+                "leading-none font-bold tracking-[-0.045em] tabular-nums",
                 dark ? "text-white" : "text-brand-green-dark",
               )}
             >

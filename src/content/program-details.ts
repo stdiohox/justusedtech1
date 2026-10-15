@@ -841,6 +841,8 @@ export const programDetails: Record<string, ProgramDetail> = {
       "The initiative focuses on connecting young people with tools that support creative practice, digital production, and the development of marketable skills.",
       "Through collaboration with partners, including the Office of the Special Assistant to the President on Art, Culture and the Creative Economy, JustUsedTech aims to reduce technology barriers faced by emerging creatives.",
     ],
+    /* Its one figure (15+ devices) as a spinning figure card in place of the "To date" list. */
+    featureResults: true,
     sections: [
       {
         heading: "Monitoring focus",
