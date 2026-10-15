@@ -254,8 +254,13 @@ function ProgramCard({
               )}
             >
               {metrics.map((metric) => (
-                <div key={metric.label} className="flex flex-col-reverse gap-1.5">
-                  {/* Label is the term, figure its value; flex-col-reverse paints the figure first. */}
+                <div key={metric.label} className="flex flex-col-reverse justify-end gap-1.5">
+                  {/*
+                    Label is the term, figure its value; flex-col-reverse paints the figure
+                    first. justify-end is what pins it to the top: in a reversed column the
+                    main axis runs bottom to top, so without it every figure sat at the foot
+                    of its cell and a shorter label dropped its figure below its neighbours'.
+                  */}
                   <dt
                     className={cn(
                       "text-[0.8125rem] leading-snug text-pretty",
