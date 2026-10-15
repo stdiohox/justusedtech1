@@ -382,8 +382,9 @@ export default async function ProgramDetailPage({ params }: Params) {
         {detail.partners && (
           <div className="mt-14 border-t border-edge pt-10 text-center">
             <Reveal>
+              {/* Singular for one mark (SkillSync, Circular Tech), so it follows the count. */}
               <h2 className="text-xl font-extrabold tracking-[-0.02em] text-ink">
-                Partners
+                {detail.partners.length === 1 ? "Partner" : "Partners"}
               </h2>
             </Reveal>
             <RevealGroup as="ul" className="mt-7 flex flex-wrap justify-center gap-4">
