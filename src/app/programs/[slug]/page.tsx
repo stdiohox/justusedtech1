@@ -102,8 +102,22 @@ export default async function ProgramDetailPage({ params }: Params) {
   if (!program || !detail) notFound();
 
   const icons = OBJECTIVE_ICONS[slug] ?? [Target];
-  /* Dated delivery, kept distinct from `detail.targets` everywhere it appears. */
-  const delivered = program.results ?? program.stats;
+  /*
+    Delivered results and running totals, each under its own heading, kept distinct from
+    `detail.targets` everywhere they appear. A programme can carry both (Project 9-12 does).
+  */
+  const delivered = [
+    program.results && {
+      title: "Delivered",
+      lede: "Work that has already happened, with the dates it happened on.",
+      items: program.results,
+    },
+    program.stats && {
+      title: "To date",
+      lede: "Totals since the programme began, rather than for one year.",
+      items: program.stats,
+    },
+  ].filter((group) => group !== undefined);
   /* Whether the audience section has a second column to sit beside. See that section. */
   const audienceHasAside = Boolean(detail.outcomes || detail.measurement);
 
@@ -235,6 +249,40 @@ export default async function ProgramDetailPage({ params }: Params) {
           opened a screen-height gap above itself, which is the one thing a note explaining an
           absence should not do.
         */}
+        {/*
+          The review's headed blocks (Our approach, How we measure progress, Monitoring focus,
+          the partner and school lists), in its order, under the overview they follow. Each is
+          a heading over prose or over a list of names, laid out two to a row from lg.
+        */}
+        {detail.sections && (
+          <RevealGroup className="mt-14 grid gap-x-16 gap-y-10 border-t border-edge pt-10 lg:grid-cols-2">
+            {detail.sections.map((section) => (
+              <RevealItem key={section.heading}>
+                <h2 className="text-xl font-extrabold tracking-[-0.02em] text-ink">
+                  {section.heading}
+                </h2>
+                {section.body?.map((para) => (
+                  <p
+                    key={para}
+                    className="mt-3 max-w-[60ch] text-[1rem] leading-relaxed text-ink-soft text-pretty"
+                  >
+                    {para}
+                  </p>
+                ))}
+                {section.items && (
+                  <ul className="mt-4 flex flex-wrap gap-2">
+                    {section.items.map((item) => (
+                      <li key={item}>
+                        <TagPill>{item}</TagPill>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </RevealItem>
+            ))}
+          </RevealGroup>
+        )}
+
         {detail.pending && (
           <Reveal className="mt-10">
             <div className="max-w-[60ch] rounded-card border border-edge bg-[var(--surface-subtle)] p-7">
@@ -332,20 +380,13 @@ export default async function ProgramDetailPage({ params }: Params) {
         </Section>
       )}
 
-      {delivered && (
-        <Section tone="white">
+      {delivered.map((group) => (
+        <Section key={group.title} tone="white">
           <Reveal>
-            <SectionHead
-              title={program.results ? "Delivered" : "To date"}
-              lede={
-                program.results
-                  ? "Work that has already happened, with the dates it happened on."
-                  : "Totals since the programme began, rather than for one year."
-              }
-            />
+            <SectionHead title={group.title} lede={group.lede} />
           </Reveal>
           <RevealGroup className="mt-12 grid gap-8 md:grid-cols-3">
-            {delivered.map((item) => (
+            {group.items.map((item) => (
               <RevealItem key={item.label}>
                 <div className="border-t border-edge pt-6">
                   <p className="text-[1.0625rem] font-extrabold tracking-[-0.02em] text-ink">
@@ -359,7 +400,7 @@ export default async function ProgramDetailPage({ params }: Params) {
             ))}
           </RevealGroup>
         </Section>
-      )}
+      ))}
 
       {detail.activities && (
         <Section tone="deep">

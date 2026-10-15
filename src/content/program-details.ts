@@ -17,10 +17,9 @@
  * documents for the team, not public programme copy. The workplan in particular was removed
  * from this site once before for exactly that reason.
  *
- * Every tagline and overview follows the client's October 2026 website review. The review
- * also supplies a "How we measure progress" or "Monitoring focus" paragraph per programme.
- * Those are held in TODO(client): Q18 comments against each programme rather than rendered,
- * because they bring back the measurement sections the client earlier asked to remove.
+ * Every tagline, overview, and headed section follows the client's October 2026 website
+ * review, as written. Its "How we measure progress", "Monitoring focus", "Our approach", and
+ * "Our commitment" blocks, and its partner and school lists, are `sections`.
  *
  * The GreenBin document describes both the running collection operation and the future
  * ecosystem. Only the operating half is here. Smart bins, GreenPoints, the entrepreneurship
@@ -45,6 +44,11 @@ export type ProgramDetail = {
   apply?: { label: string; href: string };
   /** Opening prose. Two or three paragraphs, no headings. */
   overview: string[];
+  /**
+   * The review's headed blocks, in its order, rendered right under the overview: a heading
+   * with prose (`body`) or with a list of names (`items`).
+   */
+  sections?: { heading: string; body?: string[]; items?: string[] }[];
   /**
    * A three-card band under the overview.
    *
@@ -152,7 +156,14 @@ export const programDetails: Record<string, ProgramDetail> = {
     overview: [
       "The School Tour Initiative introduces students to electronic waste, responsible technology use, digital sustainability, and the importance of extending the useful life of electronic devices.",
       "Through school-based engagement sessions, students learn how electronic waste affects the environment and how responsible disposal, reuse, and refurbishment can support a more sustainable digital future.",
-      "Our approach combines environmental awareness with practical learning and opportunities to understand how technology can be reused to support education and digital participation.",
+    ],
+    sections: [
+      {
+        heading: "Our approach",
+        body: [
+          "We combine environmental awareness with practical learning and opportunities to understand how technology can be reused to support education and digital participation.",
+        ],
+      },
     ],
     context: [
       {
@@ -331,17 +342,18 @@ export const programDetails: Record<string, ProgramDetail> = {
     tagline:
       "Connecting refurbished technology with mentorship and opportunity.",
     overview: [
-      "The Breakthrough Series supports underserved young people aged 18 to 35 by connecting access to refurbished devices with mentorship, personal development, and opportunities to strengthen digital skills.",
+      "The Breakthrough Series supports underserved young people aged 18–35 by connecting access to refurbished devices with mentorship, personal development, and opportunities to strengthen digital skills.",
       "Access to a functional device can help young people practise new skills, explore creative interests, complete learning activities, and build portfolios that support their future opportunities.",
       "The programme combines device redistribution with follow-up engagement to understand whether beneficiaries can use their devices effectively and whether the support contributes to their learning or professional development.",
     ],
-    /*
-      TODO(client): Q18. The review's "How we measure progress", held:
-      "We track devices handed over, beneficiary participation, mentorship engagement,
-      continued device use, and beneficiary-reported outcomes. Follow-up findings are reported
-      using the number of beneficiaries reached and the number who responded, so readers can
-      interpret the results accurately."
-    */
+    sections: [
+      {
+        heading: "How we measure progress",
+        body: [
+          "We track devices handed over, beneficiary participation, mentorship engagement, continued device use, and beneficiary-reported outcomes. Follow-up findings are reported using the number of beneficiaries reached and the number who responded, so readers can interpret the results accurately.",
+        ],
+      },
+    ],
     objectives: [
       {
         label: "Put devices in hands",
@@ -364,15 +376,11 @@ export const programDetails: Record<string, ProgramDetail> = {
           "Produce short storytelling films following recipients from selection to early outcomes, for programme communications and advocacy.",
       },
     ],
-    /*
-      TODO(client): Q8. The review changes the first target to "100 refurbished devices to
-      underserved youth aged 18 to 35, from 2027 to 2030". Held at 10 within 12 months.
-    */
     targets: [
       {
-        figure: "10",
+        figure: "100",
         detail:
-          "Refurbished devices to underserved youth aged 18 to 35, within 12 months",
+          "Refurbished devices to underserved youth aged 18 to 35, from 2027 - 2030",
       },
       {
         figure: "75%",
@@ -488,11 +496,29 @@ export const programDetails: Record<string, ProgramDetail> = {
       "Project 9-12 combines access to sports equipment with opportunities for young people to participate in organised activities that encourage teamwork, inclusion, and personal development.",
       "Through collaboration with Passback and other community partners, the programme supports the redistribution of usable sports equipment and technology to schools and youth communities.",
     ],
-    /*
-      TODO(client): Q18. The review's "Monitoring focus", held:
-      "We document participating schools and communities, attendance, equipment donated,
-      recipient confirmation, and feedback on the usefulness of the support."
-    */
+    sections: [
+      {
+        heading: "Schools engaged",
+        items: [
+          "AYETORO SENIOR GRAMMAR SCHOOL",
+          "ELETU ODIBO SENIOR HIGH SCHOOL ABULE-OJA",
+          "JIBOWU JUNIOR HIGH SCHOOL YABA",
+          "MAINLAND JUNIOR HIGH SCHOOL",
+          "LAGOS CITY",
+          "WESLEY GIRLS SENIOR SECONDARY SCHOOL",
+          "BIRREL AVENUE SENIOR HIGH SCHOOL SABO",
+          "MAINLAND SENIOR SENIOR HIGH SCHOOL FADEYI",
+          "OKE - ODO JUNIOR HIGH SCHOOL, EBUTE METTA",
+          "VITOKEV SCHOOLS",
+        ],
+      },
+      {
+        heading: "Monitoring focus",
+        body: [
+          "We document participating schools and communities, attendance, equipment donated, recipient confirmation, and feedback on the usefulness of the support.",
+        ],
+      },
+    ],
     objectives: [
       {
         label: "Engage young people",
@@ -643,9 +669,26 @@ export const programDetails: Record<string, ProgramDetail> = {
     tagline:
       "Responsible e-waste recovery for a more circular technology economy.",
     overview: [
-      "GreenBin 360 connects businesses and institutions with responsible electronic waste collection and recovery services. The initiative supports the collection of retired technology, the identification of devices suitable for reuse or refurbishment, and the responsible management of equipment that cannot be reused.",
-      "Recovered devices can enter JustUsedTech's upcycling, refurbishment, and redistribution pipeline, helping extend the useful life of functional equipment and support digital inclusion programmes.",
-      "We work with corporate, institutional, and community partners to improve technology recovery, promote responsible resource management, and document the outcomes of collected equipment.",
+      "GreenBin 360 connects businesses and institutions with responsible electronic waste collection and recovery services. The initiative supports the collection of retired technology, the identification of devices suitable for reuse or refurbishment, and the responsible management of equipment that cannot be reused. Recovered devices can enter JustUsedTech's upcycling, refurbishment and redistribution pipeline, helping extend the useful life of functional equipment and support digital inclusion programmes.",
+    ],
+    sections: [
+      {
+        heading: "Our commitment",
+        body: [
+          "We work with corporate, institutional, and community partners to improve technology recovery, promote responsible resource management, and document the outcomes of collected equipment.",
+        ],
+      },
+      {
+        heading: "Partners for the Green Bin project",
+        items: [
+          "Cortex",
+          "CIC 2112",
+          "CIC 4200",
+          "WashU",
+          "AB Mauri",
+          "Higher Education Metropolitan",
+        ],
+      },
     ],
     context: [
       {
@@ -757,15 +800,14 @@ export const programDetails: Record<string, ProgramDetail> = {
       "The initiative focuses on connecting young people with tools that support creative practice, digital production, and the development of marketable skills.",
       "Through collaboration with partners, including the Office of the Special Assistant to the President on Art, Culture and the Creative Economy, JustUsedTech aims to reduce technology barriers faced by emerging creatives.",
     ],
-    /*
-      TODO(client): Q18. The review's "Monitoring focus", held:
-      "We track devices distributed, recipient profiles, intended use, continued device
-      functionality, beneficiary feedback, and evidence of progress in creative or
-      entrepreneurial activities."
-
-      `pending` came out with the review: the programme now carries client-supplied figures,
-      so the note saying it had none was no longer true.
-    */
+    sections: [
+      {
+        heading: "Monitoring focus",
+        body: [
+          "We track devices distributed, recipient profiles, intended use, continued device functionality, beneficiary feedback, and evidence of progress in creative or entrepreneurial activities.",
+        ],
+      },
+    ],
     objectives: [
       {
         label: "Develop indigenous creative skill",
@@ -822,15 +864,17 @@ export const programDetails: Record<string, ProgramDetail> = {
       "How it runs" below. The overview now carries the review's copy.
     */
     overview: [
-      "The Circular Tech Bootcamp equips young people with practical knowledge and skills in electronic waste management, device recovery, refurbishment, and the circular technology economy. Through structured learning and practical engagement, participants explore how electronic devices can be assessed, repaired where feasible, and returned to productive use.",
-      "The programme also introduces the environmental and social value of extending device lifecycles, and connects technical skills development with digital inclusion and the potential for future employment and entrepreneurship.",
+      "The Circular Tech Bootcamp equips young people with practical knowledge and skills in electronic waste management, device recovery, refurbishment, and the circular technology economy. Through structured learning and practical engagement, participants explore how electronic devices can be assessed, repaired where feasible, and returned to productive use. The programme also introduces the environmental and social value of extending device lifecycles.",
+      "The initiative connects technical skills development with digital inclusion and the potential for future employment and entrepreneurship.",
     ],
-    /*
-      TODO(client): Q18. The review's "Monitoring focus", held:
-      "We document enrolment, attendance, completion, practical skills gained, devices
-      assessed or refurbished, and participants' subsequent learning or employment pathways
-      where follow-up data are available."
-    */
+    sections: [
+      {
+        heading: "Monitoring focus",
+        body: [
+          "We document enrolment, attendance, completion, practical skills gained, devices assessed or refurbished, and participants' subsequent learning or employment pathways where follow-up data are available.",
+        ],
+      },
+    ],
     contextHeading: {
       title: "Where it runs",
       lede: "The same programme runs in two places. Here is what each one does, and what they have in common.",

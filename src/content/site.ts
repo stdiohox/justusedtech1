@@ -155,22 +155,15 @@ export const footerNav = [
  * Home hero copy. Moved here from the hero component, which carried it inline against the
  * rule that canonical copy lives in src/content/.
  *
- * `body` is the first paragraph of the client's October 2026 website review. The rest of
- * the review's hero is held:
- *
- * TODO(client): Q15. Eyebrow. The review has "Technology Access Across the United States,
- * Nigeria and Kenya", but its own second paragraph calls Kenya an expansion and drops Ghana.
- * TODO(client): Q14. Headline. The review has "Give technology a second life. Empowers young
- * futures." ("Empowers" looks like it should be "Empower").
- * TODO(client): Q16. Second paragraph, held until the client says where it should sit:
- * "Through our US recovery operations and community-based programmes in Nigeria and
- * expanding to other countries such as Kenya and Ghana through our partners, we connect
- * usable technology with the people and communities who need it most."
+ * Every line is the client's October 2026 website review, as written.
  */
 export const hero = {
-  eyebrow: "Technology access, US and Africa",
-  headline: ["Give tech a second life.", "Power young futures on two continents."],
-  body: "JustUsedTech collects, refurbishes, and redistributes technology to expand digital access for underserved students, especially young people and aspiring professionals. By connecting responsible e-waste management with digital inclusion, education, and youth empowerment, we turn retired technology into opportunities for learning, creativity, and career development.",
+  eyebrow: "Technology Access Across the United States, Nigeria and Kenya.",
+  headline: ["Give technology a second life.", "Empowers young futures."],
+  body: [
+    "JustUsedTech collects, refurbishes, and redistributes technology to expand digital access for underserved students, especially young people and aspiring professionals. By connecting responsible e-waste management with digital inclusion, education, and youth empowerment, we turn retired technology into opportunities for learning, creativity, and career development.",
+    "Through our US recovery operations and community-based programmes in Nigeria and expanding to other countries such as Kenya and Ghana through our partners, we connect usable technology with the people and communities who need it most.",
+  ],
 } as const;
 
 /** Announcement bar above the header. */

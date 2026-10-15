@@ -258,9 +258,15 @@ function ProgramCard({
                   >
                     {metric.label}
                   </dt>
+                  {/*
+                    Clamped to three lines. The review's School Tour and Project 9-12 entries
+                    carry school lists and phase write-ups, and at full length they stretched
+                    every card in their row, leaving the featured card a block of empty green.
+                    The whole text is on the programme page the card links to.
+                  */}
                   <dd
                     className={cn(
-                      "mt-1 text-[0.8125rem] leading-snug",
+                      "mt-1 line-clamp-3 text-[0.8125rem] leading-snug",
                       featured ? "text-white/75" : "text-ink-soft",
                     )}
                   >

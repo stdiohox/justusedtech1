@@ -30,14 +30,11 @@ import { OrbitBackdrop } from "@/components/sections/orbit-backdrop";
  * specific delivery that did not happen. The visual pattern is unchanged, but every string
  * comes from confirmed figures.
  *
- * It no longer names one school. The card read "Gbagada Junior High / 60+ students
- * reached", and the 60+ is not attributable to that school in anything supplied: the
- * organisation profile gives 100+ students across the three 2025 sites as a single figure.
- * The card now reports it the same way the source does.
+ * It names no single school: student counts are only ever given per year, never per school,
+ * so Card A reports the 2025 School Tour schools and students as the review does.
  *
- * Card B's weight comes from `ewasteToDate` rather than a string in this file. It was a
- * string, and it sat at 90,000+ while content/impact.ts said 95,000+, which is the whole
- * reason the figure is declared once now.
+ * Card B's weight comes from `ewasteToDate` rather than a string in this file, which is why
+ * the figure is declared once, in content/impact.ts.
  */
 export function Hero() {
   return (
@@ -71,13 +68,7 @@ export function Hero() {
           left under them.
         */}
         <div className="text-flow-load max-w-[640px] lg:flex lg:flex-col lg:pb-12">
-          {/*
-            Not "Tech access for Africa". Africa is where devices are redistributed, but it
-            is half the model at most: collection, refurbishment, and the warehouse are in
-            St. Louis, 60% of upcycled devices go back into that community, and the US
-            operation has its own 800+ devices and 20+ partners. An Africa-only line reads
-            as the whole organisation and writes the US work out of it.
-          */}
+          {/* The review's line, naming the three countries the work runs in. */}
           <p className="text-[12px] leading-none font-semibold tracking-[var(--tracking-eyebrow)] text-white/90 uppercase">
             {hero.eyebrow}
           </p>
@@ -93,13 +84,15 @@ export function Hero() {
 
           {/*
             Capped at 56 characters. The column runs to 640px, which is wider than this
-            size wants to be read at. The review's paragraph is four times the length of
-            the sentence this cap was set for, so it steps down to 1rem and the cap opens a
-            little, which keeps it to about seven lines at lg rather than ten.
+            size wants to be read at. The review's two paragraphs are many times the length
+            of the sentence this cap was set for, so they step down to 1rem and the cap opens
+            a little. One wrapper, so .text-flow-load still brings the copy in as one step.
           */}
-          <p className="mt-[var(--space-32)] max-w-[56ch] text-[1rem] leading-relaxed font-normal tracking-[var(--tracking-body)] text-white/90 text-pretty">
-            {hero.body}
-          </p>
+          <div className="mt-[var(--space-32)] flex max-w-[56ch] flex-col gap-4 text-[1rem] leading-relaxed font-normal tracking-[var(--tracking-body)] text-white/90 text-pretty">
+            {hero.body.map((para) => (
+              <p key={para}>{para}</p>
+            ))}
+          </div>
 
           {/*
             Filled primary plus ghost-outlined secondary: the standard two-button pair,

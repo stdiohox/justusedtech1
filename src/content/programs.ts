@@ -1,13 +1,10 @@
 /**
  * Programme catalogue. `status` drives the badge treatment everywhere a programme appears.
  *
- * Summaries and first paragraphs follow the client's October 2026 website review. Figures
- * come from content/impact.ts where any other surface also states them, and are typed here
- * only where this catalogue is their one home. SkillSync and Circular Tech Bootcamp carry
- * the figures the client supplied in that review and nothing else.
- *
- * TODO(client): Q17. The review lists the programmes Breakthrough Series first. The order
- * below is unchanged, which keeps School Tour as the featured cell on the home page.
+ * Order, summaries, first paragraphs, and figures follow the client's October 2026 website
+ * review, which is the source of truth: Breakthrough Series first, as the review lists it,
+ * which also makes it the featured cell on the home page. Figures come from
+ * content/impact.ts where any other surface also states them.
  */
 
 import {
@@ -16,10 +13,10 @@ import {
   listOf,
   schoolTourSchools2025,
   schoolTourSchools2026,
+  schoolTourSchoolsCount2026,
   schoolTourStudents2025,
   schoolTourStudents2026,
   schoolTourUnderstanding2026,
-  stLouisShare,
 } from "@/content/impact";
 
 export type ProgramStatus = "active" | "upcoming";
@@ -31,23 +28,42 @@ export type Program = {
   partner?: string;
   summary: string;
   body: string[];
-  /**
-   * Dated, verified results only. Omitted where none exist. Every label leads with its year
-   * or its date, because results now span 2025 and 2026 under one "Delivered" heading.
-   */
+  /** Delivered results, under the review's own headings. Omitted where none exist. */
   results?: { label: string; detail: string }[];
   /**
-   * Cumulative figures, as distinct from `results`.
-   *
-   * The two are not interchangeable. `results` is dated delivery; these are running totals
-   * with no single date, rendered under "To date", so filing them as results would put a year
-   * on a number that has none.
+   * Cumulative figures, as distinct from `results`: running totals with no single date,
+   * rendered under "To date".
    */
   stats?: { label: string; detail: string }[];
   target?: string;
 };
 
 export const programs: Program[] = [
+  {
+    slug: "breakthrough-series",
+    name: "Breakthrough Series",
+    status: "active",
+    summary:
+      "Connecting refurbished technology with mentorship and opportunity.",
+    body: [
+      "The Breakthrough Series supports underserved young people aged 18–35 by connecting access to refurbished devices with mentorship, personal development, and opportunities to strengthen digital skills.",
+    ],
+    /* The review's "Impacts". */
+    results: [
+      {
+        label: "22",
+        detail: "Upcycled laptop devices to underserved youth aged 18 to 35, in 2026",
+      },
+      {
+        label: "85%",
+        detail: "Of recipients actively using devices for learning or income",
+      },
+      {
+        label: "80%",
+        detail: "Of recipients in at least one structured mentorship interaction",
+      },
+    ],
+  },
   {
     slug: "school-tour-initiative",
     name: "School Tour Initiative",
@@ -59,59 +75,23 @@ export const programs: Program[] = [
     ],
     target:
       "1,000 students across 10 schools in 12 months, with a 60% literacy improvement measured pre and post session.",
-    /*
-      One student count per year, never per school: nothing supplied attributes a count to a
-      single school. School counts and names come from impact.ts, and 2026's from the visit
-      log, so this list cannot disagree with the record it summarises.
-    */
+    /* The review's "Reported achievements in 2025" and "2026 reporting", each with its schools. */
     results: [
       {
-        label: `2025: ${schoolTourSchools2025.length} schools reached`,
-        detail: `${listOf(schoolTourSchools2025)}, in Lagos State.`,
+        label: "Reported achievements in 2025",
+        detail: `Three schools reached Lagos State. ${schoolTourStudents2025.value} students engaged. Five refurbished laptops were donated.`,
       },
       {
-        label: `2025: ${schoolTourStudents2025.value} students`,
-        detail:
-          "Engaged in structured e-waste and digital sustainability sessions.",
-      },
-      { label: "2025: 5 laptops", detail: "Refurbished laptops donated." },
-      {
-        label: `2026: ${schoolTourSchools2026.length} schools reached`,
-        detail: "In Lagos State, Nigeria. Every visit is listed on the programme page.",
+        label: "Schools visited, 2025",
+        detail: listOf(schoolTourSchools2025),
       },
       {
-        label: `2026: ${schoolTourStudents2026.value} students`,
-        detail:
-          "Engaged in e-waste awareness and digital sustainability sessions.",
+        label: "2026 reporting",
+        detail: `${schoolTourSchoolsCount2026.value} schools in Lagos State Nigeria. ${schoolTourStudents2026.value} Students engaged. ${schoolTourUnderstanding2026.value} ${schoolTourUnderstanding2026.label}`,
       },
       {
-        label: `2026: ${schoolTourUnderstanding2026.value}`,
-        detail: `${schoolTourUnderstanding2026.label}.`,
-      },
-    ],
-  },
-  {
-    slug: "breakthrough-series",
-    name: "Breakthrough Series",
-    status: "active",
-    summary:
-      "Connecting refurbished technology with mentorship and opportunity.",
-    body: [
-      "The Breakthrough Series supports underserved young people aged 18 to 35 by connecting access to refurbished devices with mentorship, personal development, and opportunities to strengthen digital skills.",
-    ],
-    /*
-      The first dated delivery this programme has carried since a named individual's 2025
-      story was removed at the client's request.
-
-      TODO(client): Q7. The review also reports 85% of recipients actively using devices for
-      learning or income and 80% in at least one structured mentorship interaction. Both are
-      held until the client gives the number of recipients who responded, which the
-      programme's own measurement text promises to report alongside them.
-    */
-    results: [
-      {
-        label: "2026: 22 laptops",
-        detail: "Upcycled laptops donated to underserved youth aged 18 to 35.",
+        label: "Schools visited, 2026",
+        detail: listOf(schoolTourSchools2026),
       },
     ],
   },
@@ -126,36 +106,31 @@ export const programs: Program[] = [
       "Project 9-12 combines access to sports equipment with opportunities for young people to participate in organised activities that encourage teamwork, inclusion, and personal development.",
     ],
     /*
-      TODO(client): Q9. Held from the review until answered: the "425 students from 2025 till
-      date" total (the 2025 300+ includes community members, not only students), the "700+
-      sports gears donated" total (200+ and 450+ make 650+), the 2026 "Schools engaged" list
-      (identical to the School Tour 2026 list), and the 2026 event's date and venue ("Bariga
-      Stadium Yaba"). The 2026 event report link is left out until the client supplies it.
+      The review's "Programme activities". Its "Schools engaged" list and "Monitoring focus"
+      are on the programme page, in content/program-details.ts. The 2026 event report link is
+      left out until the client supplies it.
     */
     results: [
       {
-        label: "Phase 1, June 2025, Lagos District IV",
-        /*
-          The five schools are named rather than counted. The profile lists them, and a
-          named school is a checkable claim where "5 schools" is only an assertion.
-        */
+        label: "Phase 1 – June 2025 (Lagos District IV)",
         detail:
-          "200+ students engaged across Mainland Senior High School, Lagos City Senior School, Mobolaji Bank Anthony High School, Saint Francis Junior Grammar School, and Akoka Junior Grammar School. 200+ upcycled sports gear donated, and 5 refurbished laptops awarded to deserving students.",
+          "Students from five secondary schools participated. Participating Schools included: Mainland Senior High School, Lagos City Senior School, Mobolaji Bank Anthony High School, Saint Francis Junior Grammar School, Akoka Junior Grammar School. Impact: 200+ students engaged, 200+ Upcycled sports gear donated, 5 refurbished laptops awarded to deserving students.",
       },
       {
-        label: "Phase 2, August 2025, Makoko",
+        label: "Phase 2 – August 2025 (Makoko Community)",
         detail:
-          "The second phase expanded beyond schools to the wider community. Sports gear donated to a community football team, and 100+ children and community members reached.",
+          "The second phase expanded beyond schools to serve the broader community. Impact: Sports gear donated to a community football team, 100+ children and community members reached.",
       },
+      { label: "2025", detail: "300+ reached in 2025" },
       {
-        label: "2025 in total",
-        detail: "300+ students, children, and community members reached.",
-      },
-      {
-        label: "2026 event",
+        label: "Project 9-12 Activity 2026",
         detail:
-          "125+ students engaged, 450+ sports gear donated, and 10 upcycled laptops donated to 10 schools.",
+          "Event was hosted at the Bariga Stadium Yaba. 125+ students engaged, 450+ sports gears donated, 10 upcycled laptops donated to 10 schools. 125+ reached in 2026.",
       },
+    ],
+    stats: [
+      { label: "425", detail: "Students in from 2025 till date" },
+      { label: "700+", detail: "Sports gears donated in Lagos state" },
     ],
   },
   {
@@ -168,21 +143,18 @@ export const programs: Program[] = [
       "GreenBin 360 connects businesses and institutions with responsible electronic waste collection and recovery services. The initiative supports the collection of retired technology, the identification of devices suitable for reuse or refurbishment, and the responsible management of equipment that cannot be reused.",
     ],
     /*
-      The US operations figures from content/impact.ts. Same numbers, not new ones: this
-      programme IS the US collection operation, so its totals are that operation's. All three
-      are read rather than retyped, because a retyped copy here went stale once already.
-
-      TODO(client): Q13. The review lists the GreenBin partners as Cortex, CIC 2112, CIC 4200,
-      WashU, AB Mauri, and Higher Education Metropolitan. Only Cortex STL and WashU IT are in
-      content/partners.ts; the list goes in once the exact names and logos arrive.
+      The review's "Reported impact", read from content/impact.ts rather than retyped. Its
+      partner list is on the programme page, in content/program-details.ts.
     */
     stats: [
       {
-        label: `${ewasteToDate.value} lbs`,
-        detail: "E-waste upcycled across US operations since inception",
+        label: `More than ${ewasteToDate.value.replace("+", "")} lbs`,
+        detail: "of e-waste upcycled across US operations since inception.",
       },
-      { label: devicesToDate.value, detail: "Devices redistributed" },
-      { label: stLouisShare.value, detail: "Devices returned to the St. Louis community" },
+      {
+        label: `More than ${devicesToDate.value.replace("+", "")}`,
+        detail: "devices redistributed,",
+      },
     ],
   },
   {
@@ -199,23 +171,16 @@ export const programs: Program[] = [
     slug: "skillsync-initiative",
     name: "SkillSync Initiative",
     status: "active",
-    partner:
-      "Office of the Special Assistant to the President on Art, Culture and the Creative Economy",
-    /*
-      TODO(client): Q10. The review heads this programme "SkillSync Initiative in Partnership
-      with the Federal Government of Nigeria", a wider claim than the Office credited above.
-      Held until the client confirms the wording.
-    */
+    /* The review heads the programme "SkillSync Initiative in Partnership with the Federal
+       Government of Nigeria". The Office is still named in its overview. */
+    partner: "the Federal Government of Nigeria",
     summary:
       "Equipping emerging creatives with the tools to develop their potential.",
     body: [
       "The SkillSync Initiative supports emerging Nigerian creatives by improving access to functional technology and opportunities that can strengthen digital creativity, entrepreneurship, and income generation.",
     ],
-    /*
-      A running total rather than a dated result: the review gives no year for it.
-      TODO(client): Q10. Move it into `results` under its year once the client gives one.
-    */
-    stats: [{ label: "15+ devices", detail: "Donated to emerging creatives" }],
+    /* The review's "Impact". It gives no year, so it is a running total. */
+    stats: [{ label: "15+", detail: "devices donated" }],
   },
   {
     slug: "circular-tech-bootcamp",
@@ -233,17 +198,14 @@ export const programs: Program[] = [
     body: [
       "The Circular Tech Bootcamp equips young people with practical knowledge and skills in electronic waste management, device recovery, refurbishment, and the circular technology economy.",
     ],
-    /*
-      Running totals rather than dated results: the review gives no year or cohort split.
-      TODO(client): Q10. Move them into `results` once the client gives the year.
-    */
+    /* The review's "Impact". It gives no year, so these are running totals. */
     stats: [
       {
-        label: "21 young people",
-        detail:
-          "Trained on device upcycling, repair, and refurbishment, in St. Louis, Missouri, and Lagos",
+        label: "21",
+        detail: "young persons trained on device upcycling, repair and refurbishment.",
       },
-      { label: "14 laptops", detail: "Refurbished and donated during the programme" },
+      { label: "Location", detail: "St Louis USA and Lagos Nigeria" },
+      { label: "14 Refurbished laptops", detail: "donated during this project" },
     ],
   },
 ];

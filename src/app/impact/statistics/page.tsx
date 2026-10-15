@@ -10,22 +10,28 @@ import {
 } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
 import { EwasteChart } from "@/components/sections/ewaste-chart";
-import { VisitLog } from "@/components/sections/visit-log";
 import {
   communitiesReached,
-  ewasteAsOf,
+  devicesToDate,
+  ewasteHistory,
+  ewasteSeriesTitle,
+  ewasteToDate,
+  ewasteTotal2025,
   impactTiles2025,
   laptops2026,
-  reached2025,
   schoolTourSchools2025,
   schoolTourSchools2026,
+  schoolTourSchoolsCount2026,
   schoolTourStudents2025,
   schoolTourStudents2026,
   schoolTourUnderstanding2026,
-  usOperations,
+  schoolsToDate,
+  sessionsToDate,
+  stLouisPartners,
+  stLouisShare,
+  studentsToDate,
   type Stat,
 } from "@/content/impact";
-import { schoolVisits } from "@/content/news";
 import { hasDetailPage } from "@/content/program-details";
 import { activePrograms } from "@/content/programs";
 
@@ -45,24 +51,40 @@ export const metadata: Metadata = {
  * which is the rule every other surface follows too.
  */
 
-/* The School Tour counts are composed from the lists, so they follow the record. */
-const schools2026: Stat = {
-  value: String(schoolTourSchools2026.length),
-  label: "Schools reached by the School Tour Initiative in 2026",
-};
+const runningTotals: Stat[] = [
+  ewasteToDate,
+  devicesToDate,
+  studentsToDate,
+  schoolsToDate,
+  sessionsToDate,
+  stLouisShare,
+  stLouisPartners,
+];
+
+/* The 2025 school count is the review's named list, which it states as "Three schools". */
 const schools2025: Stat = {
   value: String(schoolTourSchools2025.length),
-  label: "Schools reached by the School Tour Initiative in 2025",
+  label: "schools reached Lagos State, 2025",
 };
 
 const byYear: { year: string; stats: Stat[] }[] = [
   {
     year: "2026, to date",
-    stats: [laptops2026, schoolTourStudents2026, schools2026, schoolTourUnderstanding2026],
+    stats: [
+      laptops2026,
+      schoolTourStudents2026,
+      schoolTourSchoolsCount2026,
+      schoolTourUnderstanding2026,
+    ],
   },
   {
     year: "2025",
-    stats: [reached2025, ...impactTiles2025, schoolTourStudents2025, schools2025],
+    stats: [
+      { ...ewasteTotal2025, value: `${ewasteTotal2025.value} lbs` },
+      schoolTourStudents2025,
+      schools2025,
+      ...impactTiles2025,
+    ],
   },
 ];
 
@@ -88,20 +110,24 @@ export default function StatisticsPage() {
       />
 
       <Section tone="white" id="ewaste">
+        {/* The review's "Historical E-Waste Collection Performance", as written. */}
         <Reveal>
-          {/*
-            TODO(client): Q1, Q20. The second sentence of the lede is the client's own caveat
-            on these figures, shortened. Drop it once the series is confirmed as final.
-          */}
           <SectionHead
             eyebrow="Since 2017"
-            title="E-waste upcycled, year by year"
-            lede={`Pounds of electronic waste collected and upcycled through our US operations each year, to ${ewasteAsOf}. Annual figures are being reconciled against collection registers, partner reports, and weight records.`}
+            title={ewasteHistory.title}
+            lede={ewasteHistory.body[0]}
           />
+        </Reveal>
+        <Reveal delay={0.05} className="mt-6 grid gap-5 lg:grid-cols-2 lg:gap-16">
+          {ewasteHistory.body.slice(1).map((para) => (
+            <p key={para} className="text-[1rem] leading-relaxed text-ink-soft text-pretty">
+              {para}
+            </p>
+          ))}
         </Reveal>
         <Reveal delay={0.08} className="mt-12">
           <div className="card">
-            <EwasteChart caption="Pounds upcycled per year, US operations" />
+            <EwasteChart caption={ewasteSeriesTitle} />
           </div>
         </Reveal>
       </Section>
@@ -110,14 +136,14 @@ export default function StatisticsPage() {
         <Reveal>
           <SectionHead
             title="Running totals"
-            lede="Figures since US operations began, rather than for any one year."
+            lede="Figures from the start of each activity to date, rather than for any one year."
           />
         </Reveal>
         <RevealGroup
           as="ul"
           className="mt-14 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4"
         >
-          {usOperations.map((stat) => (
+          {runningTotals.map((stat) => (
             <RevealItem as="li" key={stat.label}>
               <StatBlock value={stat.value} label={stat.label} detail={stat.detail} />
             </RevealItem>
@@ -204,26 +230,30 @@ export default function StatisticsPage() {
 
       <Section tone="white" id="schools">
         <Reveal>
-          {/*
-            TODO(client): Q4. The review's "18 secondary schools" and "18 School Tour
-            sessions" are not stated here; the counts below are the named records.
-          */}
           <SectionHead
             title="Schools and communities"
             lede="Where the School Tour Initiative has been, and the communities our programmes have reached."
           />
         </Reveal>
-        <div className="mt-12 grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+        {/* The review's "Schools Visited across Lagos State" lists, as written. */}
+        <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-16">
+          {[
+            { year: "2025", schools: schoolTourSchools2025 },
+            { year: "2026", schools: schoolTourSchools2026 },
+          ].map((group) => (
+            <Reveal key={group.year}>
+              <p className={EYEBROW}>Schools visited, {group.year}</p>
+              <ul className="mt-4 flex flex-col gap-3">
+                {group.schools.map((school) => (
+                  <li key={school} className="text-[1.0625rem] leading-snug font-extrabold text-ink">
+                    {school}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          ))}
           <Reveal>
-            <p className={EYEBROW}>2025</p>
-            <ul className="mt-4 space-y-3">
-              {schoolTourSchools2025.map((school) => (
-                <li key={school} className="text-[1.0625rem] leading-snug font-extrabold text-ink">
-                  {school}
-                </li>
-              ))}
-            </ul>
-            <p className={`${EYEBROW} mt-10`}>Communities reached</p>
+            <p className={EYEBROW}>Communities reached</p>
             <ul className="mt-4 flex flex-wrap gap-2">
               {communitiesReached.map((community) => (
                 <li key={community}>
@@ -231,10 +261,6 @@ export default function StatisticsPage() {
                 </li>
               ))}
             </ul>
-          </Reveal>
-          <Reveal delay={0.05}>
-            <p className={`${EYEBROW} mb-4`}>2026, every visit</p>
-            <VisitLog visits={schoolVisits} />
           </Reveal>
         </div>
       </Section>

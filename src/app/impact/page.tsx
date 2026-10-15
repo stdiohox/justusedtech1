@@ -1,16 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHero } from "@/components/layout/page-hero";
-import {
-  Section,
-  SectionHead,
-  StatBlock,
-} from "@/components/common/primitives";
+import { Section, SectionHead } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
 import { PillLink } from "@/components/common/pill-button";
 import { Impact2025 } from "@/components/sections/impact-2025";
 import Image from "next/image";
-import { impactPage, usOperations } from "@/content/impact";
+import { impactPage } from "@/content/impact";
 import { coverOf, latestPost } from "@/content/news";
 
 export const metadata: Metadata = {
@@ -58,46 +54,44 @@ export default function ImpactPage() {
       </Section>
 
       {/*
-        The 2025 set reads as a dashboard rather than as five equal stat blocks: the
-        e-waste total takes a wide cell with its two routes drawn as a proportion, the reach
-        figure takes a green feature card, and the rest run as tiles. Ranked, because the
-        figures are not the same size of fact.
-
-        TODO(client): Q21. Kept as it was: the review's Impact page does not mention it.
+        The 2025 set as a dashboard: the e-waste total takes a wide cell, the reach figure a
+        green feature card, and the rest run as tiles. Ranked, because the figures are not the
+        same size of fact. Not in the review's Impact page, and kept with its figures updated.
       */}
       <Impact2025 />
 
       {/*
-        Environmental impact, from the review, over the US operations figures it already
-        carried. The 2025 total is in the dashboard directly above, so it is not repeated
-        here; the review lists it under this heading as well.
-
-        Stat blocks rather than a second dashboard: four peer figures with no part-of-a-whole
-        among them, so there is nothing for a dashboard to rank.
+        Environmental impact, as the review writes it: its "Reported 2025 results" and
+        "Cumulative results" lists, then its closing line.
       */}
       <Section tone="green">
         <Reveal>
           <SectionHead
             onGreen
-            eyebrow="US operations, since inception"
             title={impactPage.environment.title}
             lede={impactPage.environment.lede}
           />
         </Reveal>
-        <RevealGroup
-          as="ul"
-          className="mt-14 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4"
-        >
-          {usOperations.map((stat) => (
-            <RevealItem as="li" key={stat.label}>
-              <StatBlock
-                onGreen
-                value={stat.value}
-                label={stat.label}
-                detail={stat.detail}
-              />
-            </RevealItem>
-          ))}
+        <RevealGroup className="mt-14 grid gap-10 md:grid-cols-2 md:gap-16">
+          {[impactPage.environment.results2025, impactPage.environment.cumulative].map(
+            (group) => (
+              <RevealItem key={group.heading} className="border-t border-white/25 pt-6">
+                <h3 className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-white/80 uppercase">
+                  {group.heading}
+                </h3>
+                <ul className="mt-4 flex list-disc flex-col gap-3 pl-5 marker:text-white/60">
+                  {group.items.map((item) => (
+                    <li
+                      key={item}
+                      className="text-[1.125rem] leading-snug font-bold text-white text-pretty"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </RevealItem>
+            ),
+          )}
         </RevealGroup>
         <Reveal className="mt-12">
           <p className="max-w-[62ch] text-[1.0625rem] leading-relaxed text-white/85 text-pretty">

@@ -6,40 +6,31 @@ import { EwasteChart } from "@/components/sections/ewaste-chart";
 import {
   communitiesReached,
   devicesToDate,
+  ewasteHistory,
+  ewasteSeriesTitle,
   ewasteToDate,
   laptops2026,
   schoolTourSchools2025,
   schoolTourSchools2026,
-  schoolTourStudents2026,
+  schoolsToDate,
+  sessionsToDate,
+  studentsToDate,
   type Stat,
 } from "@/content/impact";
 
 /**
- * Home: "Our Impact at a Glance", from the October 2026 website review.
- *
- * The chart and four figures, then where the work happened, then a way into the full
- * statistics page. Every value is read from content/impact.ts; this file states none.
- *
- * TODO(client): Q22. The review puts both years' full school lists here. They are on
- * /impact/statistics instead, with only the counts here, until the client confirms.
- * TODO(client): Q4, Q5. The review's "18 schools", "18 sessions", and "870 students" are
- * not stated; see content/impact.ts.
+ * Home: "Our Impact at a Glance", the review's section 1.2, as written: the figures and the
+ * annual chart, then communities, the two years' school lists, and the review's historical
+ * note on the e-waste figures. Every value is read from content/impact.ts.
  */
 
 const tiles: Stat[] = [
-  /* Details are the review's own captions, minus "during the year" (TODO(client): Q3). */
-  {
-    ...ewasteToDate,
-    detail:
-      "Electronic waste processed through reported US collection and upcycling activities.",
-  },
-  {
-    ...schoolTourStudents2026,
-    detail:
-      "Took part in e-waste awareness and digital sustainability sessions for the School Tour Initiative.",
-  },
-  laptops2026,
+  schoolsToDate,
+  studentsToDate,
+  ewasteToDate,
   devicesToDate,
+  laptops2026,
+  sessionsToDate,
 ];
 
 export function ImpactGlance() {
@@ -49,14 +40,18 @@ export function ImpactGlance() {
         <SectionHead title="Our Impact at a Glance" />
       </Reveal>
 
-      <div className="mt-12 grid gap-4 lg:grid-cols-[1.15fr_0.85fr]">
+      {/*
+        Chart on its own row, tiles three across under it. Side by side, six tiles ran far
+        taller than the chart and left its card mostly empty.
+      */}
+      <div className="mt-12 flex flex-col gap-4">
         <Reveal>
-          <div className="card h-full">
-            <EwasteChart caption="E-waste upcycled each year, lbs" compact />
+          <div className="card">
+            <EwasteChart caption={ewasteSeriesTitle} compact />
           </div>
         </Reveal>
 
-        <RevealGroup as="ul" className="grid gap-4 sm:grid-cols-2">
+        <RevealGroup as="ul" className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {tiles.map((stat) => (
             <RevealItem as="li" key={stat.label}>
               <div className="card h-full">
@@ -78,14 +73,13 @@ export function ImpactGlance() {
       </div>
 
       <Reveal className="mt-4">
-        <div className="card flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+        <div className="card grid gap-8 lg:grid-cols-[0.8fr_1fr_1.2fr] lg:gap-10">
+          <div>
             <p className="flex items-center gap-2 text-[0.9375rem] font-extrabold text-ink">
               <MapPin className="size-4 text-brand-green-dark" strokeWidth={2} aria-hidden />
-              Schools visited: {schoolTourSchools2025.length} in 2025,{" "}
-              {schoolTourSchools2026.length} in 2026
+              Communities reached
             </p>
-            <ul className="flex flex-wrap gap-2" aria-label="Communities reached">
+            <ul className="mt-4 flex flex-wrap gap-2">
               {communitiesReached.map((community) => (
                 <li key={community}>
                   <TagPill>{community}</TagPill>
@@ -93,9 +87,41 @@ export function ImpactGlance() {
               ))}
             </ul>
           </div>
-          <PillLink href="/impact/statistics" variant="outline" flow>
-            See all statistics
-          </PillLink>
+          {[
+            { year: "2025", schools: schoolTourSchools2025 },
+            { year: "2026", schools: schoolTourSchools2026 },
+          ].map((group) => (
+            <div key={group.year}>
+              <p className="text-[0.9375rem] font-extrabold text-ink">
+                Schools Visited across Lagos State: {group.year}
+              </p>
+              <ul className="mt-3 flex flex-col gap-1.5 text-[0.9375rem] leading-snug text-ink-soft">
+                {group.schools.map((school) => (
+                  <li key={school}>{school}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </Reveal>
+
+      <Reveal className="mt-4">
+        <div className="card grid gap-6 lg:grid-cols-[0.8fr_2.2fr] lg:gap-10">
+          <div className="flex flex-col items-start gap-6">
+            <h3 className="text-xl font-extrabold tracking-[-0.02em] text-ink text-balance">
+              {ewasteHistory.title}
+            </h3>
+            <PillLink href="/impact/statistics" variant="outline" flow>
+              See all statistics
+            </PillLink>
+          </div>
+          <div className="flex flex-col gap-4">
+            {ewasteHistory.body.map((para) => (
+              <p key={para} className="text-[0.9375rem] leading-relaxed text-ink-soft text-pretty">
+                {para}
+              </p>
+            ))}
+          </div>
         </div>
       </Reveal>
     </Section>

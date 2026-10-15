@@ -48,8 +48,7 @@ export function EwasteChart({
   const summary = `Bar chart of pounds of e-waste upcycled each year from ${first.year} to ${last.year}. ${values}. The highest year is ${peak.year}.`;
 
   /* Plot height lives in one place so the y-axis column and the bars always match. */
-  /* Compact grows at lg, where its card is as tall as the two rows of tiles beside it. */
-  const plotHeight = compact ? "h-40 sm:h-48 lg:h-[17rem]" : "h-56 sm:h-72";
+  const plotHeight = compact ? "h-40 sm:h-48" : "h-56 sm:h-72";
 
   return (
     <figure>
@@ -172,10 +171,8 @@ export function EwasteChart({
           {/*
             The same figures as a table, for touch, for screen readers, and for anyone who
             wants the exact numbers. Native details: no script, and closed by default so the
-            chart stays the first read.
-
-            No running-total column yet. TODO(client): Q1. It would print the lifetime sum
-            of this series beside the held lifetime figure; add it once Q1 is answered.
+            chart stays the first read. The running total is summed from the rows above it,
+            so it reaches the series total (200,120) in the last row.
           */}
           {/*
             One constant label: the open state is already announced by the details element,
@@ -193,7 +190,7 @@ export function EwasteChart({
               tabIndex={0}
               className="mt-4 overflow-x-auto"
             >
-              <table className="w-full min-w-[20rem] text-left text-[0.9375rem]">
+              <table className="w-full min-w-[28rem] text-left text-[0.9375rem]">
                 <caption className="sr-only">
                   Pounds of e-waste upcycled per year, {first.year} to {last.year}
                 </caption>
@@ -201,17 +198,23 @@ export function EwasteChart({
                   <tr className="border-b border-edge text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
                     <th scope="col" className="py-3 pr-6">Year</th>
                     <th scope="col" className="py-3 pr-6 text-right">Pounds</th>
+                    <th scope="col" className="py-3 pr-6 text-right">Running total</th>
                     <th scope="col" className="py-3">Note</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-edge">
-                  {ewasteByYear.map((y) => (
+                  {ewasteByYear.map((y, i) => (
                     <tr key={y.year}>
                       <th scope="row" className="py-3 pr-6 font-bold text-ink tabular-nums">
                         {y.year}
                       </th>
                       <td className="py-3 pr-6 text-right font-semibold text-ink tabular-nums">
                         {formatLbs(y.lbs)}
+                      </td>
+                      <td className="py-3 pr-6 text-right text-ink-soft tabular-nums">
+                        {formatLbs(
+                          ewasteByYear.slice(0, i + 1).reduce((sum, row) => sum + row.lbs, 0),
+                        )}
                       </td>
                       <td className="py-3 text-ink-soft">
                         {[y.partial && `To ${ewasteAsOf}.`, y.note].filter(Boolean).join(" ")}
