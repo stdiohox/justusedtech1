@@ -97,6 +97,16 @@ function ProgramPanel({ program, tone }: { program: Program; tone: number }) {
   */
   const hasRail = Boolean(program.target || program.results || program.stats);
   const detailed = hasDetailPage(program.slug);
+  /*
+    The rail's headline figures: a programme's highlights, else its running totals, else its
+    results, up to three. The same set each programme page leads with as its Impacts.
+
+    It used to print the full results and totals here. School Tour's school lists and
+    Project 9-12's phase write-ups ran the rail several times the height of the left
+    column, leaving most of each panel empty on the left. The write-ups live on each
+    programme's page, one "Learn more" away.
+  */
+  const figures = (program.highlights ?? program.stats ?? program.results)?.slice(0, 3);
 
   /*
     The body prose, rendered into whichever column needs it.
@@ -190,7 +200,16 @@ function ProgramPanel({ program, tone }: { program: Program; tone: number }) {
           )}
         </div>
 
-        <div className="lg:pt-1">
+        {/*
+          Without a target box the rail is just the figures, a third the height of the left
+          column; centred against it, the panel reads as balanced rather than top-heavy.
+        */}
+        <div
+          className={cn(
+            "lg:pt-1",
+            hasRail && !program.target && "lg:flex lg:flex-col lg:justify-center",
+          )}
+        >
           {program.target && (
             <div className="rounded-[var(--radius-inner)] bg-mint p-6">
               <p className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-brand-green-dark uppercase">
@@ -202,56 +221,28 @@ function ProgramPanel({ program, tone }: { program: Program; tone: number }) {
             </div>
           )}
 
-          {program.results && (
+          {figures && (
             <div className={program.target ? "mt-6" : ""}>
-              {/* No year in the heading: results span 2025 and 2026, so each label carries its own. */}
               <p className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
-                Delivered
+                Impacts
               </p>
               {/*
-                gap, not space-y. See the note on the spacing scale in globals.css: a
-                space-y-N whose N matches a --space-N token resolves to that token's raw
-                pixel value, so space-y-4 here was 4px rather than 16px. Every entry is a
-                bold label over a two or three line detail with 4px between them, so the
-                entries were as close to each other as a label is to its own text, and
-                Project 9-12's two phases read as one paragraph.
-
-                gap-5 rather than the 16px that was meant: 20px against the 4px inside an
-                entry makes the boundary unambiguous at this density.
+                Figure over label, three across from sm. The label is the term and the figure
+                its value, so that is the DOM order; flex-col-reverse paints the figure first,
+                and justify-end pins it to the top of its cell (a reversed column runs bottom
+                to top) so figures stay level when one label wraps longer than its neighbours.
               */}
-              <dl className="mt-4 flex flex-col gap-5">
-                {program.results.map((result) => (
-                  <div key={result.label}>
-                    <dt className="text-[0.9375rem] font-extrabold text-ink">
-                      {result.label}
+              <dl className="mt-4 grid gap-x-6 gap-y-5 sm:grid-cols-3">
+                {figures.map((figure) => (
+                  <div
+                    key={figure.label}
+                    className="flex flex-col-reverse justify-end gap-1.5 border-t border-edge pt-4"
+                  >
+                    <dt className="text-[0.875rem] leading-snug text-ink-soft text-pretty">
+                      {figure.detail}
                     </dt>
-                    <dd className="mt-1 text-[0.9375rem] leading-relaxed text-ink-soft">
-                      {result.detail}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-          )}
-
-          {/*
-            Running totals, under their own heading. They cannot go under "Delivered" above:
-            these are cumulative figures with no year, and that list is dated delivery.
-          */}
-          {program.stats && (
-            <div className={program.target || program.results ? "mt-6" : ""}>
-              <p className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
-                To date
-              </p>
-              {/* Same fix as the results list above, same reason. */}
-              <dl className="mt-4 flex flex-col gap-5">
-                {program.stats.map((stat) => (
-                  <div key={stat.label}>
-                    <dt className="text-[0.9375rem] font-extrabold text-ink">
-                      {stat.label}
-                    </dt>
-                    <dd className="mt-1 text-[0.9375rem] leading-relaxed text-ink-soft">
-                      {stat.detail}
+                    <dd className="text-[1.75rem] leading-none font-bold tracking-[-0.03em] text-brand-green-dark tabular-nums">
+                      {figure.label}
                     </dd>
                   </div>
                 ))}
