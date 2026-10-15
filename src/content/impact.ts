@@ -257,8 +257,23 @@ export const laptops2026: Stat = {
  * Impact page copy, as the review writes it.
  * ------------------------------------------------------------------ */
 
+/** 1 lb is exactly 0.45359237 kg (the international avoirdupois pound). */
+export const KG_PER_LB = 0.45359237;
+
+/* The lifetime floor in kilograms, for readers who think in kg: 200,000 lbs is 90,718 kg. */
+const lifetimeKg = Math.round(floorOf(ewasteToDate.value) * KG_PER_LB);
+
 export const impactPage = {
   title: "Our Impact",
+  /* The page's lead figure: the review's cumulative result, at hero size. */
+  lifetime: {
+    eyebrow: "Since 2017",
+    value: ewasteToDate.value,
+    unit: "lbs",
+    caption: "of e-waste upcycled across US operations since inception",
+    metric: `About ${lifetimeKg.toLocaleString("en-US")} kg (${(lifetimeKg / 1000).toFixed(1)} tonnes)`,
+    link: "See it year by year",
+  },
   lede: "At JustUsedTech, we measure impact through the environmental value of technology recovery, the redistribution of functional devices, and the opportunities created through our education and youth empowerment programmes.",
   method: [
     "Our Monitoring, Evaluation and Learning approach tracks programme activities, beneficiary engagement, device handovers, and outcomes where data are available. We distinguish annual achievements from cumulative results and programme targets from verified outcomes.",

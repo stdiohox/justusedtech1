@@ -2,6 +2,7 @@
 
 import { useId, useState } from "react";
 import { ArrowLeftRight } from "lucide-react";
+import { KG_PER_LB } from "@/content/impact";
 import { cn } from "@/lib/utils";
 
 /**
@@ -13,11 +14,7 @@ import { cn } from "@/lib/utils";
  * cannot disagree with the numbers on the page. A plain sentence under the boxes reads the
  * answer out (and is announced to screen readers), with tonnes once it is past a thousand
  * kilograms, which is the size most of these figures are.
- *
- * 1 lb is exactly 0.45359237 kg (the international avoirdupois pound).
  */
-
-const KG_PER_LB = 0.45359237;
 
 type Preset = { label: string; lbs: number };
 

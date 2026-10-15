@@ -5,6 +5,7 @@ import { Section, SectionHead } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
 import { PillLink } from "@/components/common/pill-button";
 import { Impact2025 } from "@/components/sections/impact-2025";
+import { SpinFigure, SpinOnView } from "@/components/sections/impact-figures";
 import Image from "next/image";
 import { impactPage } from "@/content/impact";
 import { coverOf, latestPost } from "@/content/news";
@@ -32,9 +33,39 @@ export default function ImpactPage() {
         }
       />
 
+      {/*
+        The lead figure: 200,000+ lbs since 2017, at hero size, rolling in on the odometer
+        reels the programme pages use. The kg line is for readers who do not think in pounds.
+      */}
+      <Section tone="green" className="py-20 md:py-28">
+        <Reveal className="text-center">
+          <p className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-white/80 uppercase">
+            {impactPage.lifetime.eyebrow}
+          </p>
+          <SpinOnView className="mt-5">
+            <p className="text-[3.5rem] leading-none font-bold tracking-[-0.045em] text-white tabular-nums sm:text-[6rem] lg:text-[9rem]">
+              <SpinFigure value={impactPage.lifetime.value} />
+              <span className="ml-[0.2em] text-[0.4em] tracking-[-0.02em] text-white/85">
+                {impactPage.lifetime.unit}
+              </span>
+            </p>
+          </SpinOnView>
+          <p className="mx-auto mt-6 max-w-[34ch] text-[1.25rem] leading-snug font-bold text-white text-balance sm:text-[1.5rem]">
+            {impactPage.lifetime.caption}
+          </p>
+          <p className="mt-3 text-[1rem] font-semibold text-white/80 tabular-nums">
+            {impactPage.lifetime.metric}
+          </p>
+          <div className="mt-9 flex justify-center">
+            <PillLink href="/impact/statistics#ewaste" variant="onDark" flow>
+              {impactPage.lifetime.link}
+            </PillLink>
+          </div>
+        </Reveal>
+      </Section>
+
       {/* How the figures below are kept: the review's Monitoring, Evaluation and Learning copy. */}
-      {/* Paper, the masthead's own ground, so this reads as the hero continuing rather than a new band. */}
-      <Section tone="paper" className="!pt-0">
+      <Section tone="paper">
         <Reveal>
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-16">
             {impactPage.method.map((para, i) => (
