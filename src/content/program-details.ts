@@ -68,6 +68,12 @@ export type ProgramDetail = {
    * with plausible-sounding objectives nobody wrote.
    */
   pending?: string;
+  /**
+   * Show the programme's `results` as interactive figure cards under the overview, in place
+   * of the plain "Delivered" list further down the page. For results that are all headline
+   * figures (a number and a short label), which is what the cards are built for.
+   */
+  featureResults?: boolean;
   /** Numbers that have not happened yet. Never rendered without the "Target" framing. */
   targets?: { figure: string; detail: string }[];
   audience: { primary: string[]; secondary: string[] };
@@ -345,11 +351,17 @@ export const programDetails: Record<string, ProgramDetail> = {
   "breakthrough-series": {
     tagline:
       "Connecting refurbished technology with mentorship and opportunity.",
+    /*
+      The review's opening paragraph ("The Breakthrough Series supports underserved young
+      people aged 18–35...") is off this page at the client's request; its place is taken by
+      the programme's figures (`featureResults`). It still opens the /programs panel, from
+      content/programs.ts.
+    */
     overview: [
-      "The Breakthrough Series supports underserved young people aged 18–35 by connecting access to refurbished devices with mentorship, personal development, and opportunities to strengthen digital skills.",
       "Access to a functional device can help young people practise new skills, explore creative interests, complete learning activities, and build portfolios that support their future opportunities.",
       "The programme combines device redistribution with follow-up engagement to understand whether beneficiaries can use their devices effectively and whether the support contributes to their learning or professional development.",
     ],
+    featureResults: true,
     sections: [
       {
         heading: "How we measure progress",

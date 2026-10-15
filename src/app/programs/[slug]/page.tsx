@@ -30,6 +30,7 @@ import {
   TagPill,
 } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
+import { ImpactFigures } from "@/components/sections/impact-figures";
 import { VideoFeature } from "@/components/sections/video-feature";
 import { VisitLog } from "@/components/sections/visit-log";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
@@ -107,11 +108,14 @@ export default async function ProgramDetailPage({ params }: Params) {
     `detail.targets` everywhere they appear. A programme can carry both (Project 9-12 does).
   */
   const delivered = [
-    program.results && {
-      title: "Delivered",
-      lede: "Work that has already happened, with the dates it happened on.",
-      items: program.results,
-    },
+    /* Not repeated as a list where the overview already shows them as figure cards. */
+    program.results && !detail.featureResults
+      ? {
+          title: "Delivered",
+          lede: "Work that has already happened, with the dates it happened on.",
+          items: program.results,
+        }
+      : undefined,
     program.stats && {
       title: "To date",
       lede: "Totals since the programme began, rather than for one year.",
@@ -216,7 +220,22 @@ export default async function ProgramDetailPage({ params }: Params) {
           the balance by breaking the thing the cap was there to protect.
         */}
         <Reveal className="mt-14">
-          {detail.overview.length > 1 ? (
+          {detail.featureResults ? (
+            /*
+              A programme whose figures lead the page: the overview runs as even columns in one
+              body style (no lede paragraph to set apart), and the figures follow it.
+            */
+            <div className="grid gap-5 lg:grid-cols-2 lg:gap-16">
+              {detail.overview.map((para) => (
+                <p
+                  key={para}
+                  className="text-[1.0625rem] leading-relaxed text-ink-soft text-pretty"
+                >
+                  {para}
+                </p>
+              ))}
+            </div>
+          ) : detail.overview.length > 1 ? (
             <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">
               <p className="text-[1.25rem] leading-[1.6] font-semibold text-ink text-pretty">
                 {detail.overview[0]}
@@ -239,6 +258,18 @@ export default async function ProgramDetailPage({ params }: Params) {
             </p>
           )}
         </Reveal>
+
+        {/* The review's "Impacts", as interactive figure cards. See ImpactFigures. */}
+        {detail.featureResults && program.results && (
+          <div className="mt-14">
+            <h2 className="text-2xl font-extrabold tracking-[-0.03em] text-ink sm:text-3xl">
+              Impacts
+            </h2>
+            <div className="mt-8">
+              <ImpactFigures items={program.results} />
+            </div>
+          </div>
+        )}
 
         {/*
           Stated rather than hidden. A programme with no published design skips five sections
