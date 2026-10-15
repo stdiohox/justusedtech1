@@ -40,25 +40,28 @@ export function ProgramsPreview() {
         </Reveal>
 
         {/*
-          The review's three intro paragraphs, in the split the programme pages use for their
-          overview: the first at lede weight on the left, the other two down the right. One
-          stack at 62ch would leave the right half of the shell empty above the bento.
+          The review's three intro paragraphs, one per column from lg, all in the same body
+          style.
+
+          They used to split one-against-two: the first paragraph alone on the left at lede
+          weight, the other two on the right. That read as two different voices, and the left
+          column ended well short of the right. The three are close in length (155 to 190
+          characters), so a column each ends them within a line of one another, and no
+          sentence breaks across a column the way a two-column text flow would. Below lg they
+          stack at a readable measure.
         */}
-        <Reveal delay={0.06} className="mt-8 grid gap-6 lg:grid-cols-2 lg:gap-16">
-          <p className="text-[1.125rem] leading-[1.6] font-semibold text-ink text-pretty">
-            {programsIntro.body[0]}
-          </p>
-          {/* gap, not space-y-4: see the spacing-scale note in globals.css. */}
-          <div className="flex flex-col gap-4">
-            {programsIntro.body.slice(1).map((para) => (
-              <p
-                key={para}
-                className="text-[1rem] leading-relaxed text-ink-soft text-pretty"
-              >
-                {para}
-              </p>
-            ))}
-          </div>
+        <Reveal
+          delay={0.06}
+          className="mt-8 grid max-w-[65ch] gap-4 lg:max-w-none lg:grid-cols-3 lg:gap-12"
+        >
+          {programsIntro.body.map((para) => (
+            <p
+              key={para}
+              className="text-[1.0625rem] leading-relaxed text-ink-soft text-pretty"
+            >
+              {para}
+            </p>
+          ))}
         </Reveal>
 
         <RevealGroup className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-12">
