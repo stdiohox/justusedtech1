@@ -79,6 +79,8 @@ export type ProgramDetail = {
   spinTargets?: boolean;
   /** Centre the gallery section: heading, lede, the gallery itself, and its hint. */
   galleryCentered?: boolean;
+  /** Show the pounds-to-kilograms converter under the figures, for a weight-led programme. */
+  weightConverter?: boolean;
   /** Numbers that have not happened yet. Never rendered without the "Target" framing. */
   targets?: { figure: string; detail: string }[];
   audience: { primary: string[]; secondary: string[] };
@@ -700,9 +702,16 @@ export const programDetails: Record<string, ProgramDetail> = {
   "greenbin-360": {
     tagline:
       "Responsible e-waste recovery for a more circular technology economy.",
+    /*
+      The opening sentences ("GreenBin 360 connects businesses and institutions...") are off
+      this page at the client's request, as on the other programme pages; they still open the
+      /programs panel. The figures and the weight converter take their place.
+    */
     overview: [
-      "GreenBin 360 connects businesses and institutions with responsible electronic waste collection and recovery services. The initiative supports the collection of retired technology, the identification of devices suitable for reuse or refurbishment, and the responsible management of equipment that cannot be reused. Recovered devices can enter JustUsedTech's upcycling, refurbishment and redistribution pipeline, helping extend the useful life of functional equipment and support digital inclusion programmes.",
+      "Recovered devices can enter JustUsedTech's upcycling, refurbishment and redistribution pipeline, helping extend the useful life of functional equipment and support digital inclusion programmes.",
     ],
+    featureResults: true,
+    weightConverter: true,
     sections: [
       {
         heading: "Our commitment",

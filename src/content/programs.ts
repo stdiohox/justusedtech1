@@ -10,6 +10,7 @@
 import {
   devicesToDate,
   ewasteToDate,
+  ewasteTotal2025,
   listOf,
   schoolTourSchools2025,
   schoolTourSchools2026,
@@ -275,6 +276,15 @@ export const programs: Program[] = [
         label: `More than ${devicesToDate.value.replace("+", "")}`,
         detail: "devices redistributed",
       },
+    ],
+    /*
+      The headline figures: the two running totals above (which the home card shows) and the
+      review's 2025 weight. The programme page shows all three as its Impacts.
+    */
+    highlights: [
+      { label: ewasteToDate.value, detail: "lbs of e-waste upcycled across US operations since inception" },
+      { label: devicesToDate.value, detail: "devices redistributed" },
+      { label: ewasteTotal2025.value, detail: "lbs of e-waste upcycled in 2025" },
     ],
   },
   {

@@ -36,6 +36,8 @@ import {
   SpinOnView,
 } from "@/components/sections/impact-figures";
 import { DeliveredTimeline } from "@/components/sections/delivered-timeline";
+import { WeightConverter } from "@/components/sections/weight-converter";
+import { ewasteByYear, ewasteToDate, floorOf } from "@/content/impact";
 import { VideoFeature } from "@/components/sections/video-feature";
 import { VisitLog } from "@/components/sections/visit-log";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
@@ -300,6 +302,23 @@ export default async function ProgramDetailPage({ params }: Params) {
             <div className="mt-8">
               <ImpactFigures items={featured} />
             </div>
+          </div>
+        )}
+
+        {/* Pounds to kilograms, loaded with the site's own e-waste weights. */}
+        {detail.weightConverter && (
+          <div className="mt-10">
+            <WeightConverter
+              presets={[
+                { label: "Since 2017", lbs: floorOf(ewasteToDate.value) },
+                ...ewasteByYear
+                  .filter((y) => y.year >= 2025)
+                  .map((y) => ({
+                    label: y.partial ? `${y.year} so far` : String(y.year),
+                    lbs: y.lbs,
+                  })),
+              ]}
+            />
           </div>
         )}
 

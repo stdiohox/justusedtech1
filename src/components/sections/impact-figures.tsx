@@ -151,8 +151,15 @@ export function ImpactFigures({ items }: { items: Item[] }) {
           >
             <p
               className={cn(
-                /* Centred and enlarged at the client's request: 52px became 64 to 80px. */
-                "text-[4rem] leading-none font-bold tracking-[-0.045em] tabular-nums lg:text-[5rem]",
+                /*
+                  Centred and enlarged at the client's request: 52px became 64 to 80px. A long
+                  figure (seven characters or more, like 200,000+) steps down to 52 to 60px:
+                  at 80px it measured 327px against a 323px card, and 251px at 1024.
+                */
+                "leading-none font-bold tracking-[-0.045em] tabular-nums",
+                item.label.length >= 7
+                  ? "text-[3.25rem] lg:text-[3.75rem]"
+                  : "text-[4rem] lg:text-[5rem]",
                 dark ? "text-white" : "text-brand-green-dark",
               )}
             >
