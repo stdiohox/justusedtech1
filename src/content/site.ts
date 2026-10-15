@@ -169,8 +169,9 @@ export const hero = {
 /** Announcement bar above the header. */
 export const announcement = {
   badge: "New",
-  text: "Now accepting device donations across the US and Nigeria",
-  href: "/get-involved#donate-devices",
+  text: "Register for Circular Tech Bootcamp cohort 2",
+  /* The programme page, whose masthead carries the application form button. */
+  href: "/programs/circular-tech-bootcamp",
 } as const;
 
 /* The hero trust row moved to content/partners.ts, where it is resolved from the partner
