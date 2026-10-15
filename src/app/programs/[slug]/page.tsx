@@ -35,6 +35,7 @@ import {
   SpinFigure,
   SpinOnView,
 } from "@/components/sections/impact-figures";
+import { DeliveredTimeline } from "@/components/sections/delivered-timeline";
 import { VideoFeature } from "@/components/sections/video-feature";
 import { VisitLog } from "@/components/sections/visit-log";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
@@ -116,8 +117,13 @@ export default async function ProgramDetailPage({ params }: Params) {
     `detail.targets` everywhere they appear. A programme can carry both (Project 9-12 does).
   */
   const delivered = [
-    /* Not repeated as a list where the figure cards above already are the results. */
-    program.results && !(detail.featureResults && !program.highlights)
+    /*
+      Not repeated as a list where the figure cards above already are the results, and not
+      drawn as a list at all where the programme has a timeline (rendered just above these).
+    */
+    program.results &&
+    !program.timeline &&
+    !(detail.featureResults && !program.highlights)
       ? {
           title: "Delivered",
           lede: "Work that has already happened, with the dates it happened on.",
@@ -458,6 +464,13 @@ export default async function ProgramDetailPage({ params }: Params) {
               ))}
             </RevealGroup>
           )}
+        </Section>
+      )}
+
+      {/* Delivered work as a dated timeline, for a programme that has one (Project 9-12). */}
+      {program.timeline && (
+        <Section tone="white">
+          <DeliveredTimeline timeline={program.timeline} />
         </Section>
       )}
 

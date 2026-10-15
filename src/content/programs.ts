@@ -44,8 +44,117 @@ export type Program = {
    * write-ups stay on the programme page the card links to.
    */
   highlights?: { label: string; detail: string }[];
+  /**
+   * Delivered work as dated events grouped by year, for a programme whose results are a
+   * sequence of events rather than a list of figures. The programme page draws it as a
+   * timeline; `results` is derived from it (see resultsFromTimeline), so the /programs panel
+   * and the statistics page read the same words.
+   */
+  timeline?: TimelineYear[];
   target?: string;
 };
+
+/** One figure an event delivered. `value` is absent for an outcome with no number. */
+export type TimelineImpact = { value?: string; label: string };
+
+export type TimelineEvent = {
+  /** When it happened, as the review gives it: "June 2025", "2026". */
+  when: string;
+  title: string;
+  place?: string;
+  /** The heading this event carries in a plain results list, where "title – when (place)" reads wrong. */
+  label?: string;
+  summary: string;
+  schools?: string[];
+  impacts: TimelineImpact[];
+};
+
+export type TimelineYear = {
+  year: string;
+  /** The review's total for the year, e.g. "300+ reached in 2025". */
+  total?: string;
+  events: TimelineEvent[];
+};
+
+/**
+ * A timeline as a plain results list, in the review's own sentence shape: each event's
+ * summary, its schools, then "Impact:" and its figures; each year's total as its own entry.
+ */
+function resultsFromTimeline(timeline: TimelineYear[]) {
+  return timeline.flatMap((year) => [
+    ...year.events.map((event) => ({
+      label: event.label ?? `${event.title} – ${event.when}${event.place ? ` (${event.place})` : ""}`,
+      detail: [
+        event.summary,
+        event.schools && `Participating Schools included: ${event.schools.join(", ")}.`,
+        `Impact: ${event.impacts.map((i) => (i.value ? `${i.value} ${i.label}` : i.label)).join(", ")}.`,
+      ]
+        .filter(Boolean)
+        .join(" "),
+    })),
+    ...(year.total ? [{ label: year.year, detail: year.total }] : []),
+  ]);
+}
+
+/*
+  Project 9-12's "Programme activities" from the review, as structured events. The wording
+  is the review's; the figures that sat mid-sentence are pulled out so the page can show them
+  as figures.
+*/
+const project912Timeline: TimelineYear[] = [
+  {
+    year: "2025",
+    total: "300+ reached in 2025",
+    events: [
+      {
+        when: "June 2025",
+        title: "Phase 1",
+        place: "Lagos District IV",
+        summary: "Students from five secondary schools participated.",
+        schools: [
+          "Mainland Senior High School",
+          "Lagos City Senior School",
+          "Mobolaji Bank Anthony High School",
+          "Saint Francis Junior Grammar School",
+          "Akoka Junior Grammar School",
+        ],
+        impacts: [
+          { value: "200+", label: "students engaged" },
+          { value: "200+", label: "Upcycled sports gear donated" },
+          { value: "5", label: "refurbished laptops awarded to deserving students" },
+        ],
+      },
+      {
+        when: "August 2025",
+        title: "Phase 2",
+        place: "Makoko Community",
+        summary: "The second phase expanded beyond schools to serve the broader community.",
+        impacts: [
+          { label: "Sports gear donated to a community football team" },
+          { value: "100+", label: "children and community members reached" },
+        ],
+      },
+    ],
+  },
+  {
+    year: "2026",
+    total: "125+ reached in 2026",
+    events: [
+      {
+        when: "2026",
+        title: "Project 9-12 Activity 2026",
+        label: "Project 9-12 Activity 2026",
+        place: "Bariga Stadium Yaba",
+        summary: "Event was hosted at the Bariga Stadium Yaba.",
+        impacts: [
+          { value: "125+", label: "students engaged" },
+          { value: "450+", label: "sports gears donated" },
+          { value: "10", label: "upcycled laptops donated to 10 schools" },
+        ],
+      },
+    ],
+  },
+];
 
 export const programs: Program[] = [
   {
@@ -128,24 +237,8 @@ export const programs: Program[] = [
       are on the programme page, in content/program-details.ts. The 2026 event report link is
       left out until the client supplies it.
     */
-    results: [
-      {
-        label: "Phase 1 – June 2025 (Lagos District IV)",
-        detail:
-          "Students from five secondary schools participated. Participating Schools included: Mainland Senior High School, Lagos City Senior School, Mobolaji Bank Anthony High School, Saint Francis Junior Grammar School, Akoka Junior Grammar School. Impact: 200+ students engaged, 200+ Upcycled sports gear donated, 5 refurbished laptops awarded to deserving students.",
-      },
-      {
-        label: "Phase 2 – August 2025 (Makoko Community)",
-        detail:
-          "The second phase expanded beyond schools to serve the broader community. Impact: Sports gear donated to a community football team, 100+ children and community members reached.",
-      },
-      { label: "2025", detail: "300+ reached in 2025" },
-      {
-        label: "Project 9-12 Activity 2026",
-        detail:
-          "Event was hosted at the Bariga Stadium Yaba. 125+ students engaged, 450+ sports gears donated, 10 upcycled laptops donated to 10 schools. 125+ reached in 2026.",
-      },
-    ],
+    timeline: project912Timeline,
+    results: resultsFromTimeline(project912Timeline),
     stats: [
       { label: "425", detail: "students from 2025 till date" },
       { label: "700+", detail: "Sports gears donated in Lagos state" },
