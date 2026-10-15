@@ -45,7 +45,7 @@ export const ewasteByYear: EwasteYear[] = [
 export const ewasteAsOf = "October 2026";
 
 /** The review's title for the series, used as the chart's caption. */
-export const ewasteSeriesTitle = "Cumulative e-waste upcycling in the US operations";
+export const ewasteSeriesTitle = "Yearly e-waste upcycled in the US operations";
 
 /** The review's "Historical E-Waste Collection Performance" copy, as written. */
 export const ewasteHistory = {
@@ -85,7 +85,7 @@ export const ewasteToDate: Stat = {
   value: "200,000+",
   label: "Pounds (lbs) of e-waste collected from 2017 till date",
   detail:
-    "Electronic waste processed through reported US collection and upcycling activities during the year.",
+    "Electronic waste processed through reported US collection and upcycling activities.",
 };
 
 /* Read off the series, so the 2025 total and the 2025 bar cannot disagree. */
@@ -148,7 +148,7 @@ export const schoolTourSchools2025 = [
 export const schoolTourSchools2026 = [
   "Eletu Odibo Senior High School",
   "Birrel Avenue Senior High School",
-  "Victotev School Lagos",
+  "Victokev School Lagos",
   "Lagos City Senior College",
   "Wesley Girls' Senior Secondary School",
   "Mainland Junior High School",
@@ -171,7 +171,7 @@ export const schoolsToDate: Stat = {
 
 export const sessionsToDate: Stat = {
   value: "18",
-  label: "School Tour Sections conducted from 2025 till date",
+  label: "School Tour Sessions conducted from 2025 till date",
 };
 
 export const schoolTourSchoolsCount2026: Stat = {
@@ -195,7 +195,7 @@ export const studentsToDate: Stat = {
     floorOf(schoolTourStudents2025.value) + floorOf(schoolTourStudents2026.value),
   ),
   label: "students reached from 2025 till date",
-  detail: `${schoolTourStudents2025.value} students engaged in 2025 and ${schoolTourStudents2026.value} 2026. Students participated in e-waste awareness and digital sustainability sessions for the School Tour Initiative project`,
+  detail: `${schoolTourStudents2025.value} students engaged in 2025 and ${schoolTourStudents2026.value} in 2026. Students participated in e-waste awareness and digital sustainability sessions for the School Tour Initiative project`,
 };
 
 export const schoolTourUnderstanding2026: Stat = {

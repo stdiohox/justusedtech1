@@ -129,7 +129,7 @@ export const programs: Program[] = [
       },
     ],
     stats: [
-      { label: "425", detail: "Students in from 2025 till date" },
+      { label: "425", detail: "students from 2025 till date" },
       { label: "700+", detail: "Sports gears donated in Lagos state" },
     ],
   },
@@ -153,7 +153,7 @@ export const programs: Program[] = [
       },
       {
         label: `More than ${devicesToDate.value.replace("+", "")}`,
-        detail: "devices redistributed,",
+        detail: "devices redistributed",
       },
     ],
   },
