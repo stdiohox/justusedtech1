@@ -3,8 +3,8 @@ import { PillAnchor, PillLink } from "@/components/common/pill-button";
 import { asks, hero } from "@/content/site";
 import {
   ewasteToDate,
-  schoolTourSchools2025,
-  schoolTourStudents2025,
+  schoolsToDate,
+  studentsToDate,
 } from "@/content/impact";
 import { OrbitBackdrop } from "@/components/sections/orbit-backdrop";
 
@@ -31,7 +31,7 @@ import { OrbitBackdrop } from "@/components/sections/orbit-backdrop";
  * comes from confirmed figures.
  *
  * It names no single school: student counts are only ever given per year, never per school,
- * so Card A reports the 2025 School Tour schools and students as the review does.
+ * so Card A reports the School Tour's running totals: schools reached and students reached.
  *
  * Card B's weight comes from `ewasteToDate` rather than a string in this file, which is why
  * the figure is declared once, in content/impact.ts.
@@ -222,13 +222,13 @@ export function Hero() {
                   />
                   School tour sessions
                 </p>
-                {/* Both lines read from content/impact.ts, the same figures as the School Tour page. */}
+                {/* Both lines read from content/impact.ts, the same figures as the home glance. */}
                 <p className="mt-2 text-[0.875rem] leading-snug font-semibold text-ink-soft">
-                  {schoolTourSchools2025.length} schools across Lagos State
+                  {schoolsToDate.value} {schoolsToDate.label}
                 </p>
                 {/* ink-soft, not ink-faint: the lighter token loses AA on the glass fill. */}
-                <p className="mt-1.5 text-[0.75rem] font-bold text-ink-soft">
-                  {schoolTourStudents2025.value} students reached in 2025
+                <p className="mt-1.5 text-[0.75rem] leading-snug font-bold text-ink-soft">
+                  {studentsToDate.value} {studentsToDate.label}
                 </p>
               </FloatingCard>
 
