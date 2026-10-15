@@ -68,7 +68,7 @@ export function Hero() {
           left under them.
         */}
         <div className="text-flow-load max-w-[640px] lg:flex lg:flex-col lg:pb-12">
-          {/* The review's line, naming the three countries the work runs in. */}
+          {/* Where the work runs: the US, and Africa. */}
           <p className="text-[12px] leading-none font-semibold tracking-[var(--tracking-eyebrow)] text-white/90 uppercase">
             {hero.eyebrow}
           </p>
