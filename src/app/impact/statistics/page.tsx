@@ -1,0 +1,317 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { PageHero } from "@/components/layout/page-hero";
+import {
+  Section,
+  SectionHead,
+  StatBlock,
+  TagPill,
+} from "@/components/common/primitives";
+import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
+import { EwasteChart } from "@/components/sections/ewaste-chart";
+import { WeightConverter } from "@/components/sections/weight-converter";
+import {
+  communitiesReached,
+  devicesToDate,
+  ewasteHistory,
+  ewasteSeriesTitle,
+  ewasteToDate,
+  ewasteTotal2025,
+  impactTiles2025,
+  laptops2026,
+  schoolTourSchools2025,
+  schoolTourSchools2026,
+  schoolTourSchoolsCount2026,
+  schoolTourStudents2025,
+  schoolTourStudents2026,
+  schoolTourUnderstanding2026,
+  schoolsToDate,
+  sessionsToDate,
+  stLouisPartners,
+  stLouisShare,
+  studentsToDate,
+  weightPresets,
+  type Stat,
+} from "@/content/impact";
+import { hasDetailPage } from "@/content/program-details";
+import { activePrograms } from "@/content/programs";
+
+export const metadata: Metadata = {
+  title: "Statistics",
+  description:
+    "E-waste upcycled by year since 2017, and every figure JustUsedTech reports, with the year it belongs to.",
+};
+
+/**
+ * /impact/statistics. Every figure the site states, in one place, read from the ledger in
+ * content/impact.ts and the programme catalogue. Nothing on this page is typed here: a number
+ * that appears below and nowhere in content/ would be a second source.
+ *
+ * Order runs from the one long series (e-waste since 2017), to running totals, to single
+ * years, to programmes, to places. Dated results and running totals never share a list,
+ * which is the rule every other surface follows too.
+ */
+
+const runningTotals: Stat[] = [
+  ewasteToDate,
+  devicesToDate,
+  studentsToDate,
+  schoolsToDate,
+  sessionsToDate,
+  stLouisShare,
+  stLouisPartners,
+];
+
+/* The 2025 school count is the review's named list, which it states as "Three schools". */
+const schools2025: Stat = {
+  value: String(schoolTourSchools2025.length),
+  label: "schools reached Lagos State, 2025",
+};
+
+const byYear: { year: string; stats: Stat[] }[] = [
+  {
+    year: "2026, to date",
+    stats: [
+      laptops2026,
+      schoolTourStudents2026,
+      schoolTourSchoolsCount2026,
+      schoolTourUnderstanding2026,
+    ],
+  },
+  {
+    year: "2025",
+    stats: [
+      { ...ewasteTotal2025, value: `${ewasteTotal2025.value} lbs` },
+      schoolTourStudents2025,
+      schools2025,
+      ...impactTiles2025,
+    ],
+  },
+];
+
+const EYEBROW =
+  "text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase";
+
+/* Programme order for the one-column phone layout of "By programme". Literal, so Tailwind sees them. */
+const MOBILE_ORDER = [
+  "max-md:order-1",
+  "max-md:order-2",
+  "max-md:order-3",
+  "max-md:order-4",
+  "max-md:order-5",
+  "max-md:order-6",
+  "max-md:order-7",
+  "max-md:order-8",
+];
+
+export default function StatisticsPage() {
+  return (
+    <>
+      <PageHero
+        eyebrow="Statistics"
+        title="Every figure we report, in one place."
+        lede="E-waste upcycled since 2017, year by year, then the running totals and yearly results behind our programmes. Annual results are kept apart from running totals, and targets are not counted here."
+        actions={
+          <Link
+            href="/impact"
+            className="inline-flex items-center gap-2 text-[0.9375rem] font-bold text-ink-soft transition-colors duration-300 hover:text-brand-green-dark"
+          >
+            <ArrowLeft className="size-4" strokeWidth={2} aria-hidden />
+            Our impact
+          </Link>
+        }
+      />
+
+      <Section tone="white" id="ewaste">
+        {/* The review's "Historical E-Waste Collection Performance", as written. */}
+        {/*
+          One spread: the heading and the 200,000 lbs lede on the left, the two context
+          paragraphs stacked on the right. It used to run the lede alone at the head's width,
+          with nothing beside it, and then the two paragraphs side by side ending three lines
+          apart; both left a hole on the right.
+        */}
+        <div className="grid gap-6 lg:grid-cols-[5fr_7fr] lg:gap-16">
+          <Reveal>
+            <SectionHead eyebrow="Since 2017" title={ewasteHistory.title} />
+            {/* The lead-paragraph style the Impact page's method copy uses: the 200,000 lbs line is the claim the two beside it qualify. */}
+            <p className="mt-5 text-[1.1875rem] leading-[1.6] font-semibold text-ink text-pretty">
+              {ewasteHistory.body[0]}
+            </p>
+          </Reveal>
+          <Reveal delay={0.05} className="flex flex-col gap-5 lg:pt-14">
+            {ewasteHistory.body.slice(1).map((para) => (
+              <p key={para} className="text-[1rem] leading-relaxed text-ink-soft text-pretty">
+                {para}
+              </p>
+            ))}
+          </Reveal>
+        </div>
+        <Reveal delay={0.08} className="mt-12">
+          <div className="card">
+            <EwasteChart caption={ewasteSeriesTitle} />
+          </div>
+        </Reveal>
+        {/*
+          Right under the chart, because this is where the site's weights are: the lifetime
+          total and ten years of pounds. A reader who thinks in kilograms meets the question
+          here first, so the answer sits beside it.
+        */}
+        <Reveal delay={0.1} className="mt-6">
+          <WeightConverter presets={weightPresets} />
+        </Reveal>
+      </Section>
+
+      <Section tone="deep" id="totals">
+        <Reveal>
+          <SectionHead
+            title="Running totals"
+            lede="Figures from the start of each activity to date, rather than for any one year."
+          />
+        </Reveal>
+        <RevealGroup
+          as="ul"
+          className="mt-14 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4"
+        >
+          {runningTotals.map((stat) => (
+            <RevealItem as="li" key={stat.label}>
+              <StatBlock value={stat.value} label={stat.label} detail={stat.detail} />
+            </RevealItem>
+          ))}
+        </RevealGroup>
+      </Section>
+
+      <Section tone="white" id="by-year">
+        <Reveal>
+          <SectionHead
+            title="Year by year"
+            lede="Results that belong to a single year, with the year they belong to."
+          />
+        </Reveal>
+        <div className="mt-14 grid gap-14 lg:grid-cols-2 lg:gap-16">
+          {byYear.map((group) => (
+            <Reveal key={group.year}>
+              <h3 className="text-xl font-extrabold tracking-[-0.02em] text-ink">
+                {group.year}
+              </h3>
+              <ul className="mt-6 grid gap-x-8 gap-y-10 sm:grid-cols-2">
+                {group.stats.map((stat) => (
+                  <li key={stat.label}>
+                    <StatBlock value={stat.value} label={stat.label} detail={stat.detail} />
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          ))}
+        </div>
+      </Section>
+
+      <Section tone="deep" id="programmes">
+        <Reveal>
+          <SectionHead
+            title="By programme"
+            lede="What each programme has delivered, and its running totals. Targets are on each programme's own page, labelled as targets."
+          />
+        </Reveal>
+        {/*
+          Two independent stacks, not a grid: the cards run from two lines (GreenBin) to a
+          dozen (Project 9-12), and a grid row stretched the short one to the long one's
+          height, leaving most of that card blank. Programmes are dealt alternately, 1-3-5
+          left and 2-4-6 right, so the reading still zigzags in programme order across the
+          rows and the two stacks end within a card of each other (CSS columns, which fill
+          one column before the next, ended 700px apart). Below md the stacks dissolve
+          (`contents`) and `order` puts the cards back in programme order in one column.
+        */}
+        <div className="mt-12 flex flex-col gap-4 md:flex-row md:items-start">
+          {[0, 1].map((column) => (
+            <RevealGroup
+              key={column}
+              className="contents md:flex md:min-w-0 md:flex-1 md:flex-col md:gap-4"
+            >
+              {activePrograms.map((program, i) =>
+                i % 2 !== column ? null : (
+                  <RevealItem key={program.slug} className={MOBILE_ORDER[i]}>
+                    <article className="card">
+                      <h3 className="text-xl font-extrabold tracking-[-0.02em] text-ink">
+                        {hasDetailPage(program.slug) ? (
+                          <Link
+                            href={`/programs/${program.slug}`}
+                            className="underline-offset-4 hover:text-brand-green-dark hover:underline"
+                          >
+                            {program.name}
+                          </Link>
+                        ) : (
+                          program.name
+                        )}
+                      </h3>
+                      {[
+                        { heading: "Delivered", items: program.results },
+                        { heading: "To date", items: program.stats },
+                      ].map(
+                        (list) =>
+                          list.items && (
+                            <div key={list.heading} className="mt-6">
+                              <p className={EYEBROW}>{list.heading}</p>
+                              <dl className="mt-3 flex flex-col gap-4">
+                                {list.items.map((item) => (
+                                  <div key={item.label}>
+                                    <dt className="text-[0.9375rem] font-extrabold text-ink">
+                                      {item.label}
+                                    </dt>
+                                    <dd className="mt-1 text-[0.9375rem] leading-relaxed text-ink-soft">
+                                      {item.detail}
+                                    </dd>
+                                  </div>
+                                ))}
+                              </dl>
+                            </div>
+                          ),
+                      )}
+                    </article>
+                  </RevealItem>
+                ),
+              )}
+            </RevealGroup>
+          ))}
+        </div>
+      </Section>
+
+      <Section tone="white" id="schools">
+        <Reveal>
+          <SectionHead
+            title="Schools and communities"
+            lede="Where the School Tour Initiative has been, and the communities our programmes have reached."
+          />
+        </Reveal>
+        {/* The review's "Schools Visited across Lagos State" lists, as written. */}
+        <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-16">
+          {[
+            { year: "2025", schools: schoolTourSchools2025 },
+            { year: "2026", schools: schoolTourSchools2026 },
+          ].map((group) => (
+            <Reveal key={group.year}>
+              <p className={EYEBROW}>Schools visited, {group.year}</p>
+              <ul className="mt-4 flex flex-col gap-3">
+                {group.schools.map((school) => (
+                  <li key={school} className="text-[1.0625rem] leading-snug font-extrabold text-ink">
+                    {school}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          ))}
+          <Reveal>
+            <p className={EYEBROW}>Communities reached</p>
+            <ul className="mt-4 flex flex-wrap gap-2">
+              {communitiesReached.map((community) => (
+                <li key={community}>
+                  <TagPill>{community}</TagPill>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </div>
+      </Section>
+    </>
+  );
+}

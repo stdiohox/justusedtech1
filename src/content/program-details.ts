@@ -17,12 +17,9 @@
  * documents for the team, not public programme copy. The workplan in particular was removed
  * from this site once before for exactly that reason.
  *
- * SkillSync is still the thin one, but less so than it was. The 2026 organisation profile
- * carries a real description of it, so its overview and objectives are now drawn from that
- * document like every other programme's. What it still has no source for is numbers: no
- * targets, no delivery timeline, and no dated results, which is what `pending` says. That
- * absence is stated rather than filled, because content/programs.ts forbids inventing
- * figures for this programme specifically.
+ * Every tagline, overview, and headed section follows the client's October 2026 website
+ * review, as written. Its "How we measure progress", "Monitoring focus", "Our approach", and
+ * "Our commitment" blocks, and its partner and school lists, are `sections`.
  *
  * The GreenBin document describes both the running collection operation and the future
  * ecosystem. Only the operating half is here. Smart bins, GreenPoints, the entrepreneurship
@@ -30,6 +27,7 @@
  * has no detail page.
  */
 
+import { partnersNamed, type Partner } from "@/content/partners";
 import { forms } from "@/content/site";
 import { videos, type VideoClip } from "@/content/videos";
 
@@ -47,6 +45,11 @@ export type ProgramDetail = {
   apply?: { label: string; href: string };
   /** Opening prose. Two or three paragraphs, no headings. */
   overview: string[];
+  /**
+   * The review's headed blocks, in its order, rendered right under the overview: a heading
+   * with prose (`body`) or with a list of names (`items`).
+   */
+  sections?: { heading: string; body?: string[]; items?: string[] }[];
   /**
    * A three-card band under the overview.
    *
@@ -66,6 +69,24 @@ export type ProgramDetail = {
    * with plausible-sounding objectives nobody wrote.
    */
   pending?: string;
+  /**
+   * Show the programme's headline figures as interactive figure cards under the overview:
+   * its `highlights` where it has them, else its `results`. When the cards are the results
+   * themselves (Breakthrough), the plain "Delivered" list further down is not repeated;
+   * when they are highlights (School Tour), the fuller results list stays.
+   */
+  featureResults?: boolean;
+  /** Spin the Targets figures as odometer reels when they come into view. */
+  spinTargets?: boolean;
+  /** Centre the gallery section: heading, lede, the gallery itself, and its hint. */
+  galleryCentered?: boolean;
+  /** Show the pounds-to-kilograms converter under the figures, for a weight-led programme. */
+  weightConverter?: boolean;
+  /**
+   * Partner logos for the programme, from content/partners.ts. Only partners this content
+   * already ties to the programme, and only those with a supplied logo.
+   */
+  partners?: Partner[];
   /** Numbers that have not happened yet. Never rendered without the "Target" framing. */
   targets?: { figure: string; detail: string }[];
   audience: { primary: string[]; secondary: string[] };
@@ -104,6 +125,8 @@ export type ProgramDetail = {
    * How to work the widget still gets said, once, by the gallery itself underneath.
    */
   galleryLede?: string;
+  /** The gallery's heading where "From the field" would be wrong, such as campaign fliers. */
+  galleryHeading?: string;
   /**
    * Which gallery treatment this programme's photographs get.
    *
@@ -116,10 +139,12 @@ export type ProgramDetail = {
    *            collapsed panels would be slivers. Project 9-12 has ten frames.
    * `mosaic`   every frame visible at rest in an asymmetric grid. For a set rather than a
    *            sequence, where hiding frames behind hover would hide the point.
+   * `posters`  two-up, every frame whole at its own shape. For fliers and other images that
+   *            carry text, where any crop would cut words off.
    *
    * A single photograph ignores this and renders as one frame.
    */
-  galleryStyle?: "elastic" | "accordion" | "bento" | "mosaic";
+  galleryStyle?: "elastic" | "accordion" | "bento" | "mosaic" | "posters";
   /**
    * The School Tour visit log, rendered on this programme's own page.
    *
@@ -150,11 +175,25 @@ export const programDetails: Record<string, ProgramDetail> = {
   /* ---------------------------------------------------------------- */
   "school-tour-initiative": {
     tagline:
-      "E-waste literacy and environmental sustainability, taught inside Lagos secondary schools.",
+      "Building environmental awareness and digital responsibility among students.",
+    /*
+      The review's opening paragraph ("The School Tour Initiative introduces students to
+      electronic waste...") is off this page at the client's request; the programme's
+      headline figures take its place, as on Breakthrough Series. It still opens the
+      /programs panel, from content/programs.ts.
+    */
     overview: [
-      "Nigeria's digital consumption is rising faster than its capacity to deal with what that consumption leaves behind. Devices arrive, devices fail, and what happens next is usually a dump site or an open fire. The School Tour Initiative goes into secondary schools and closes the gap between knowing a device is finished and knowing what to do with it.",
-      "Sessions are interactive rather than lectured. Students work through what a device is made of, where its materials go, why e-waste matters in the neighbourhood they live in, and what the circular economy asks of them as consumers. Selected students are then trained as peer educators, so the session does not end when the team leaves the compound.",
-      "The initiative is measured on movement, not attendance. Every school is assessed before and after, so the change in what students know is a number rather than an impression.",
+      "Through school-based engagement sessions, students learn how electronic waste affects the environment and how responsible disposal, reuse, and refurbishment can support a more sustainable digital future.",
+    ],
+    featureResults: true,
+    spinTargets: true,
+    sections: [
+      {
+        heading: "Our approach",
+        body: [
+          "We combine environmental awareness with practical learning and opportunities to understand how technology can be reused to support education and digital participation.",
+        ],
+      },
     ],
     context: [
       {
@@ -331,12 +370,24 @@ export const programDetails: Record<string, ProgramDetail> = {
   /* ---------------------------------------------------------------- */
   "breakthrough-series": {
     tagline:
-      "Refurbished laptops and mentorship for underserved young people aged 18 to 35, with their progress recorded over the following months.",
+      "Connecting refurbished technology with mentorship and opportunity.",
+    /*
+      The review's opening paragraph ("The Breakthrough Series supports underserved young
+      people aged 18–35...") is off this page at the client's request; its place is taken by
+      the programme's figures (`featureResults`). It still opens the /programs panel, from
+      content/programs.ts.
+    */
     overview: [
-      "Digital exclusion compounds. Without a device a young person cannot build digital skills. Without the skills they cannot reach income. Without income they cannot afford the device. The Breakthrough Series exists to break that loop at the point where it is cheapest to break: the machine itself.",
-      "A laptop on its own is rarely enough, so each one is paired with structured mentorship from industry professionals, freelancers, and digital career coaches. Recipients are found through social media campaigns, school partnerships, and referrals from youth organisations, and selection prioritises underserved youth, women in technology, and unemployed graduates.",
-      "Then the team follows up. Recipients are surveyed and called at three and six months to record what they have built, learned, or earned, and their account of it is filmed and edited into a short documentary and social cuts.",
+      "Access to a functional device can help young people practise new skills, explore creative interests, complete learning activities, and build portfolios that support their future opportunities.",
+      "The programme combines device redistribution with follow-up engagement to understand whether beneficiaries can use their devices effectively and whether the support contributes to their learning or professional development.",
     ],
+    featureResults: true,
+    spinTargets: true,
+    galleryCentered: true,
+    /*
+      The review's "How we measure progress" section is off this page at the client's
+      request. It is in git history if it is wanted back.
+    */
     objectives: [
       {
         label: "Put devices in hands",
@@ -361,9 +412,9 @@ export const programDetails: Record<string, ProgramDetail> = {
     ],
     targets: [
       {
-        figure: "10",
+        figure: "100",
         detail:
-          "Refurbished devices to underserved youth aged 18 to 35, within 12 months",
+          "Refurbished devices to underserved youth aged 18 to 35, from 2027 - 2030",
       },
       {
         figure: "75%",
@@ -474,11 +525,46 @@ export const programDetails: Record<string, ProgramDetail> = {
   /* ---------------------------------------------------------------- */
   "project-9-12": {
     tagline:
-      "Sports gear and technology access for children and youth aged 10 to 18, run with Passback.",
+      "Promoting youth development through sports, technology, and community engagement.",
+    /* Passback is the named partner; Phase 1 ran in Lagos Education District IV; the Skate
+       Lagos donation was at the Lagos State Government's Sporty Lagos initiative. */
+    partners: partnersNamed("project-9-12", [
+      "Passback",
+      "Lagos Educational District IV",
+      "Sporty Lagos",
+    ]),
+    /*
+      The review's opening paragraph ("Project 9-12 combines access to sports equipment...")
+      is off this page at the client's request; the headline figures take its place, as on
+      Breakthrough Series and School Tour. It still opens the /programs panel.
+    */
     overview: [
-      "Young people in underserved communities face a double barrier: no equipment, and no structured programme to use it in. Sports materials sit financially out of reach for most families, schools have nothing to lend, and usable gear elsewhere is routinely thrown away rather than passed on.",
-      "Project 9-12 closes that distribution gap. Working with Passback, an organisation that specialises in collecting and redistributing used sports equipment, JustUsedTech receives, sorts, and quality-assesses donated gear, then puts it into the hands of schools and communities through a collect, refurbish, and distribute model.",
-      "The events are not only distributions. Coaches use them to spot players worth developing, and the sessions carry the same reuse and responsible consumption message the school tours do, on the grounds that the gear being handed out is itself second hand.",
+      "Through collaboration with Passback and other community partners, the programme supports the redistribution of usable sports equipment and technology to schools and youth communities.",
+    ],
+    featureResults: true,
+    spinTargets: true,
+    sections: [
+      {
+        heading: "Schools engaged",
+        items: [
+          "Ayetoro Senior Grammar School",
+          "Eletu Odibo Senior High School Abule-Oja",
+          "Jibowu Junior High School Yaba",
+          "Mainland Junior High School",
+          "Lagos City",
+          "Wesley Girls Senior Secondary School",
+          "Birrel Avenue Senior High School Sabo",
+          "Mainland Senior High School Fadeyi",
+          "Oke - Odo Junior High School, Ebute Metta",
+          "Victokev Schools",
+        ],
+      },
+      {
+        heading: "Monitoring focus",
+        body: [
+          "We document participating schools and communities, attendance, equipment donated, recipient confirmation, and feedback on the usefulness of the support.",
+        ],
+      },
     ],
     objectives: [
       {
@@ -628,11 +714,43 @@ export const programDetails: Record<string, ProgramDetail> = {
   /* ---------------------------------------------------------------- */
   "greenbin-360": {
     tagline:
-      "E-waste collection from companies and institutions across St. Louis, Missouri. This is where the devices every other programme hands out come from.",
+      "Responsible e-waste recovery for a more circular technology economy.",
+    /* The Green Bin partner list below, in its order, where a logo exists. CIC 2112 and CIC
+       4200 share one CIC St. Louis tile; Higher Education Metropolitan has no logo yet. */
+    partners: partnersNamed("greenbin-360", [
+      "Cortex STL",
+      "CIC St. Louis",
+      "WashU IT",
+      "AB Mauri",
+    ]),
+    /*
+      The opening sentences ("GreenBin 360 connects businesses and institutions...") are off
+      this page at the client's request, as on the other programme pages; they still open the
+      /programs panel. The figures and the weight converter take their place.
+    */
     overview: [
-      "Existing e-waste solutions mostly stop at collection and recycling. They rarely touch digital poverty, youth employment, or community participation, which means the material moves but nothing else does. GreenBin 360 treats a discarded device as a community asset rather than a disposal problem.",
-      "In practice this is the operation that feeds everything else JustUsedTech runs. Companies and institutions across St. Louis, Missouri, hand over end-of-life and surplus hardware, and the programme routes it into sorting, data destruction, repair, and refurbishment. What can be brought back is brought back; what cannot is dismantled for material recovery.",
-      "Recovered devices then go out through the redistribution pillar, to schools, libraries, innovation hubs, women-led businesses, and community centres. One organisation's retired hardware becomes another person's first computer.",
+      "Recovered devices can enter JustUsedTech's upcycling, refurbishment and redistribution pipeline, helping extend the useful life of functional equipment and support digital inclusion programmes.",
+    ],
+    featureResults: true,
+    weightConverter: true,
+    sections: [
+      {
+        heading: "Our commitment",
+        body: [
+          "We work with corporate, institutional, and community partners to improve technology recovery, promote responsible resource management, and document the outcomes of collected equipment.",
+        ],
+      },
+      {
+        heading: "Partners for the Green Bin project",
+        items: [
+          "Cortex",
+          "CIC 2112",
+          "CIC 4200",
+          "WashU",
+          "AB Mauri",
+          "Higher Education Metropolitan",
+        ],
+      },
     ],
     context: [
       {
@@ -738,11 +856,24 @@ export const programDetails: Record<string, ProgramDetail> = {
   /* ---------------------------------------------------------------- */
   "skillsync-initiative": {
     tagline:
-      "Support for emerging Nigerian creative talent, with entrepreneurship and income-generation pathways.",
+      "Equipping emerging creatives with the tools to develop their potential.",
+    partners: partnersNamed("skillsync-initiative", [
+      "Office of the Special Assistant to the President on Art, Culture and the Creative Economy",
+    ]),
     overview: [
-      "SkillSync sets out to empower emerging creative talent in Nigeria. Its focus is the skills of indigenous creatives, and its aim is to nurture and empower the next generation of creative minds. It runs with the Office of the Special Assistant to the President on Art, Culture and the Creative Economy.",
-      "The programme seeks to provide opportunities for employment, entrepreneurship, and income generation, particularly for youth, women, and persons living with disabilities. Nigeria's creative industry has boundless possibilities for closing the unemployment gap, and through SkillSync the Office aims to strengthen employment in arts and culture, provide an entrepreneurship support programme, and make investments for innovation.",
-      "It sits alongside the device work rather than inside it. Where the Breakthrough Series answers what a young person builds with a laptop, SkillSync answers what a creative practitioner does with a skill they already have and no route to market.",
+      "The SkillSync Initiative supports emerging Nigerian creatives by improving access to functional technology and opportunities that can strengthen digital creativity, entrepreneurship, and income generation.",
+      "The initiative focuses on connecting young people with tools that support creative practice, digital production, and the development of marketable skills.",
+      "Through collaboration with partners, including the Office of the Special Assistant to the President on Art, Culture and the Creative Economy, JustUsedTech aims to reduce technology barriers faced by emerging creatives.",
+    ],
+    /* Its one figure (15+ devices) as a spinning figure card in place of the "To date" list. */
+    featureResults: true,
+    sections: [
+      {
+        heading: "Monitoring focus",
+        body: [
+          "We track devices distributed, recipient profiles, intended use, continued device functionality, beneficiary feedback, and evidence of progress in creative or entrepreneurial activities.",
+        ],
+      },
     ],
     objectives: [
       {
@@ -766,8 +897,6 @@ export const programDetails: Record<string, ProgramDetail> = {
           "Strengthen employment in arts and culture through entrepreneurship support and investment for innovation.",
       },
     ],
-    pending:
-      "SkillSync has no separate project design document, so this page carries no targets, delivery timeline, or dated results. Those will be added when the document exists rather than estimated in the meantime.",
     audience: {
       primary: [
         "Youth across Nigeria's creative economy",
@@ -776,30 +905,65 @@ export const programDetails: Record<string, ProgramDetail> = {
       ],
       secondary: ["Emerging creative enterprises and the people they employ"],
     },
+    /*
+      The two SkillSync fliers, supplied by the client. They replace the device handover
+      photograph that was this gallery's only frame. The alt text carries each flier's words,
+      since a poster's text is its content. The people pictured are campaign imagery and are
+      not named or described as beneficiaries.
+    */
     gallery: [
       {
-        src: "/programs/skillsync_initiative.jpg",
-        alt: "Five people standing together for a photograph at a device handover event, with a desktop computer in front of them.",
-        width: 1400,
-        height: 933,
+        src: "/programs/skillsync-initiative/01.jpg",
+        alt: "SkillSync flier: Introducing Skill Sync. Empowering Nigeria's future creatives with the tools they need. Skill Sync is providing young Nigerian creatives with access to the tools, mentorship, and opportunities they need to transform their craft into lasting success. For more information, visit bit.ly/SKSYNC2025.",
+        width: 1027,
+        height: 1280,
+      },
+      {
+        src: "/programs/skillsync-initiative/02.jpg",
+        alt: "SkillSync flier: Have you applied yet? Your creative future starts here. Don't miss your chance to join Skill Sync. Gain access to digital tools, mentorship, and opportunities that can help you build a thriving creative career. Apply today at bit.ly/SKSYNC2025.",
+        /* The supplied file carried a 5px black strip along its top edge; trimmed off. */
+        width: 1025,
+        height: 1275,
       },
     ],
-    galleryLede: "A photograph taken at a device handover event.",
+    galleryHeading: "Campaign fliers",
+    galleryLede: "The SkillSync launch flier and the call for applications.",
+    galleryStyle: "posters",
   },
 
   /* ---------------------------------------------------------------- */
   "circular-tech-bootcamp": {
     tagline:
-      "Hands-on hardware training in Lagos and St. Louis, Missouri, on the same laptops that go back out to the community afterwards.",
+      "Developing practical skills in technology refurbishment and responsible e-waste management.",
+    /* The St. Louis delivery was run with Thomas Dunn Learning Center. */
+    partners: partnersNamed("circular-tech-bootcamp", ["Thomas Dunn Learning Center"]),
     /* The URL is in site.ts with the other external forms, so a replacement lands once. */
     apply: {
       label: "Apply for the bootcamp",
       href: forms.circularTechBootcamp,
     },
+    /*
+      The cohort detail that used to run here (the Lagos curriculum, the St. Louis ethical AI
+      track, Google Classroom, the capstone) is still on this page, in "Where it runs" and
+      "How it runs" below. The overview now carries the review's copy.
+
+      Its opening paragraph ("The Circular Tech Bootcamp equips young people...") is off this
+      page at the client's request, as on the other programme pages; it still opens the
+      /programs panel. The figures take its place. The "To date" list they replace also held
+      "Location: St Louis USA and Lagos Nigeria", which "Where it runs" covers in full.
+    */
     overview: [
-      "Every device that arrives at JustUsedTech needs assessment before it can be redistributed. The bootcamp turns that necessary work into a curriculum, so the people learning hardware repair are learning on real laptops that are going to real people afterwards, not on spare hardware kept for practice.",
-      "The same programme runs in two places. In Lagos it is a jobs-focused course, taking participants through computer hardware from the component level up: identification, assembly and disassembly, troubleshooting, RAM, SSD and battery replacement, maintenance and optimisation, refurbishment, quality testing, and networking basics. Alongside that runs the circular economy and e-waste half, covering environmental impact, reuse and repair principles, safe disposal of damaged components, and community awareness.",
-      "In St. Louis, Missouri, it runs with Thomas Dunn Learning Center as a summer programme for participants aged 15 and up, and carries a second track alongside the hardware one: the ethical use of artificial intelligence, covering where these tools fail, bias, privacy, accountability, and digital citizenship. Both cohorts use Google Classroom for materials, assignments, and progress, and both close on a capstone exhibition where teams present what they refurbished or built.",
+      "The initiative connects technical skills development with digital inclusion and the potential for future employment and entrepreneurship.",
+    ],
+    featureResults: true,
+    spinTargets: true,
+    sections: [
+      {
+        heading: "Monitoring focus",
+        body: [
+          "We document enrolment, attendance, completion, practical skills gained, devices assessed or refurbished, and participants' subsequent learning or employment pathways where follow-up data are available.",
+        ],
+      },
     ],
     contextHeading: {
       title: "Where it runs",

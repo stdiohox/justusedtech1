@@ -1125,10 +1125,55 @@
   will-change: transform;
 }
 
+/*
+  Odometer reels, for ImpactFigures. Each digit is a 1em window over a vertical strip of
+  digits. At rest the strip sits on its final digit (--to), which is what a reader without
+  JavaScript, a crawler, and reduced motion all get. When the figures come into view
+  [data-spin] goes on the list and every strip rolls up from 0 to --to, ease-out so it
+  lands rather than stops, with the rightmost reels running longest, as on a real counter.
+*/
+@keyframes jut-roll {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(var(--to));
+  }
+}
+
+.jut-reel {
+  display: inline-block;
+  height: 1em;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+.jut-reel > span {
+  display: flex;
+  flex-direction: column;
+  transform: translateY(var(--to));
+}
+
+.jut-reel > span > span {
+  height: 1em;
+  line-height: 1;
+}
+
+[data-spin] .jut-reel > span {
+  /* Ease-out quart rather than expo: expo spent most of the travel in the first 300ms, so
+     the reels read as a flicker rather than a spin. Quart keeps the landing soft and leaves
+     the roll visible. */
+  animation: jut-roll var(--dur, 1.6s) cubic-bezier(0.25, 1, 0.5, 1) var(--delay, 0s) both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee {
     animation: none;
     transform: none;
+  }
+
+  [data-spin] .jut-reel > span {
+    animation: none;
   }
 
   .jut-route {

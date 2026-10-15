@@ -5,7 +5,7 @@ import { ProgramMedia } from "@/components/common/program-media";
 import { SectionHead, StatusBadge } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
 import { hasDetailPage } from "@/content/program-details";
-import { activePrograms } from "@/content/programs";
+import { activePrograms, programsIntro } from "@/content/programs";
 import { cn } from "@/lib/utils";
 
 /**
@@ -18,37 +18,62 @@ import { cn } from "@/lib/utils";
  * The distinction still reads on /programs, where In development is its own section under
  * the active list and GreenBin 360 Smart Bin Ecosystem carries the Upcoming badge.
  *
- * The five cells are simply the first five active programmes in catalogue order, which is
- * what removes the duplicate the old shape risked: one contiguous slice cannot repeat an
- * entry, where a hand-picked promotion could have put GreenBin 360 in the top row while it
- * was already sitting in the grid below.
- *
- * Five is the number the layout wants, not a preference. The grid is six columns, the
- * featured cell spans four, so one small cell finishes its row and three fill the next.
+ * Every active programme gets a cell, in catalogue order, so the count in the heading is the
+ * count on screen. Twelve columns from lg: the featured cell (8) and the second (4) share
+ * the first row, and the other four take a row of 3 each. At md the first two run full
+ * width and the four pair up; below md everything stacks. No width leaves an empty cell.
  *
  * Every cell is the same Category Card: a media band flush to the card's own edges, then a
- * 28px body carrying the status badge, the title, and the summary.
+ * 28px body carrying the status badge, the title, the summary, and up to three headline
+ * figures. Card height is bounded by that cap rather than by how much a programme has
+ * delivered, which is what stopped one long programme stretching its whole row into empty
+ * space. The full results live on each programme's page.
  */
 export function ProgramsPreview() {
-  const [featured, ...rest] = activePrograms.slice(0, 5);
+  const [featured, second, ...rest] = activePrograms;
 
   return (
     <section className="bg-paper py-14 md:py-20">
       <div className="shell">
         <Reveal>
-          <SectionHead
-            title="Six programmes, running on the same pipeline"
-            lede="Collection in St. Louis, Missouri, feeds refurbishment, and refurbishment feeds every programme below."
-          />
+          <SectionHead title={programsIntro.title} lede={programsIntro.lede} />
         </Reveal>
 
-        <RevealGroup className="mt-12 grid gap-4 md:grid-cols-6">
-          <RevealItem className="md:col-span-4">
+        {/*
+          The review's three intro paragraphs, one per column from lg, all in the same body
+          style.
+
+          They used to split one-against-two: the first paragraph alone on the left at lede
+          weight, the other two on the right. That read as two different voices, and the left
+          column ended well short of the right. The three are close in length (155 to 190
+          characters), so a column each ends them within a line of one another, and no
+          sentence breaks across a column the way a two-column text flow would. Below lg they
+          stack at a readable measure.
+        */}
+        <Reveal
+          delay={0.06}
+          className="mt-8 grid max-w-[65ch] gap-4 lg:max-w-none lg:grid-cols-3 lg:gap-12"
+        >
+          {programsIntro.body.map((para) => (
+            <p
+              key={para}
+              className="text-[1.0625rem] leading-relaxed text-ink-soft text-pretty"
+            >
+              {para}
+            </p>
+          ))}
+        </Reveal>
+
+        <RevealGroup className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-12">
+          <RevealItem className="md:col-span-2 lg:col-span-8">
             <ProgramCard program={featured!} tone={0} featured />
           </RevealItem>
+          <RevealItem className="md:col-span-2 lg:col-span-4">
+            <ProgramCard program={second!} tone={1} />
+          </RevealItem>
           {rest.map((program, i) => (
-            <RevealItem key={program.slug} className="md:col-span-2">
-              <ProgramCard program={program} tone={i + 1} />
+            <RevealItem key={program.slug} className="lg:col-span-3">
+              <ProgramCard program={program} tone={i + 2} />
             </RevealItem>
           ))}
         </RevealGroup>
@@ -86,8 +111,14 @@ function ProgramCard({
   tone: number;
   featured?: boolean;
 }) {
-  /* No card-quiet branch: every cell here comes from activePrograms now. */
-  const metrics = program.results ?? program.stats;
+  /*
+    Headline figures only: `highlights` where a programme sets them, else its running totals,
+    else its results. Three on the featured card's three columns, two on a small card.
+  */
+  const metrics = (program.highlights ?? program.stats ?? program.results)?.slice(
+    0,
+    featured ? 3 : 2,
+  );
   return (
     <Link
       /*
@@ -209,43 +240,42 @@ function ProgramCard({
           )}
 
           {/*
-            The figures footer, which used to be the featured cell's alone. Every card that
-            has numbers now carries them, because a card with only a one-line summary read as
-            a thinner programme rather than a smaller cell.
-
-            Divider, type sizes, and spacing are the featured cell's, unchanged. Two things
-            do change, and both are forced rather than chosen: the colours flip to the ink
-            tokens off the dark card, and the columns collapse to one. A small cell is 380px
-            against the featured cell's 777, so three columns there would set each figure in
-            about 14 characters of width.
-
-            `results` before `stats` because a dated result is the stronger claim. No card
-            currently has both.
+            The figures footer: the figure set large in the brand green (white on the dark
+            featured card), its label under it in full. No line clamp: the cap on how many
+            figures a card shows already bounds its height, and clamping cut the client's
+            wording mid-phrase. Three columns on the featured card from sm, one column on a
+            small card, where three would set each figure in about 10 characters of width.
           */}
           {metrics && (
             <dl
               className={cn(
-                "mt-4 grid gap-x-8 gap-y-4 border-t pt-6",
+                "mt-4 grid gap-x-8 gap-y-5 border-t pt-6",
                 featured ? "border-white/20 sm:grid-cols-3" : "border-edge",
               )}
             >
               {metrics.map((metric) => (
-                <div key={metric.label}>
+                <div key={metric.label} className="flex flex-col-reverse justify-end gap-1.5">
+                  {/*
+                    Label is the term, figure its value; flex-col-reverse paints the figure
+                    first. justify-end is what pins it to the top: in a reversed column the
+                    main axis runs bottom to top, so without it every figure sat at the foot
+                    of its cell and a shorter label dropped its figure below its neighbours'.
+                  */}
                   <dt
                     className={cn(
-                      "text-[0.8125rem] font-extrabold",
-                      featured ? "text-white" : "text-ink",
-                    )}
-                  >
-                    {metric.label}
-                  </dt>
-                  <dd
-                    className={cn(
-                      "mt-1 text-[0.8125rem] leading-snug",
+                      "text-[0.8125rem] leading-snug text-pretty",
                       featured ? "text-white/75" : "text-ink-soft",
                     )}
                   >
                     {metric.detail}
+                  </dt>
+                  <dd
+                    className={cn(
+                      "text-[1.375rem] leading-tight font-extrabold tracking-[-0.02em] tabular-nums",
+                      featured ? "text-white" : "text-brand-green-dark",
+                    )}
+                  >
+                    {metric.label}
                   </dd>
                 </div>
               ))}

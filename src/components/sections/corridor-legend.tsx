@@ -1,5 +1,5 @@
 import { MapPin } from "lucide-react";
-import { corridorCities } from "@/content/impact";
+import { corridorCities } from "@/content/corridors";
 
 /**
  * Key for the corridor globe: the four cities cobe cannot label, since it renders no text

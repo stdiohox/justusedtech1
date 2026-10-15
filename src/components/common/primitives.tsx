@@ -211,7 +211,8 @@ export function StatBlock({
   onGreen = false,
   className,
 }: {
-  value: string;
+  /* A string, or a node such as an Odometer with its own screen-reader text. */
+  value: ReactNode;
   label: string;
   detail?: string;
   onGreen?: boolean;

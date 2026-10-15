@@ -6,6 +6,7 @@ import { useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import {
   ArrowRight,
+  ChartColumn,
   ChevronDown,
   Compass,
   FileText,
@@ -14,6 +15,7 @@ import {
   Handshake,
   HeartHandshake,
   Laptop,
+  Leaf,
   Palette,
   Recycle,
   RefreshCw,
@@ -66,13 +68,15 @@ const NAV_ICONS: Record<NavIcon, LucideIcon> = {
   Laptop,
   HandCoins,
   Users,
+  Leaf,
+  ChartColumn,
 };
 
 /**
  * Sticky white nav: logo left, five centred links, Contact plus the primary CTA right.
  * One line, 72px tall.
  *
- * About, Programs and Get Involved open dropdown menus. Impact and Team are plain links.
+ * About, Programs, Impact and Get Involved open dropdown menus. News and Team are plain links.
  *
  * On the interaction. The panel opens on hover AND on focus, and the trigger is a real
  * button carrying aria-expanded, so it works from the keyboard rather than only under a
@@ -423,8 +427,9 @@ function NavMenu({
         ref={triggerRef}
         type="button"
         id={triggerId}
+        /* A disclosure, not a menu: aria-haspopup="true" means role="menu" with arrow keys,
+           and the panel is a plain list of links. aria-expanded and aria-controls say it all. */
         aria-expanded={isOpen}
-        aria-haspopup="true"
         aria-controls={panelId}
         aria-current={isCurrent ? "page" : undefined}
         onClick={() => (isOpen ? onClose() : onOpen())}
@@ -458,6 +463,7 @@ function NavMenu({
           <motion.div
             key="panel"
             id={panelId}
+            role="group"
             aria-labelledby={triggerId}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

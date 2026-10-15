@@ -20,6 +20,7 @@ import {
   Wrench,
   type LucideIcon,
 } from "lucide-react";
+import { PartnerMark } from "@/components/common/partner-mark";
 import { PillAnchor, PillLink } from "@/components/common/pill-button";
 import { ProgramMedia } from "@/components/common/program-media";
 import {
@@ -30,6 +31,14 @@ import {
   TagPill,
 } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
+import {
+  ImpactFigures,
+  SpinFigure,
+  SpinOnView,
+} from "@/components/sections/impact-figures";
+import { DeliveredTimeline } from "@/components/sections/delivered-timeline";
+import { WeightConverter } from "@/components/sections/weight-converter";
+import { weightPresets } from "@/content/impact";
 import { VideoFeature } from "@/components/sections/video-feature";
 import { VisitLog } from "@/components/sections/visit-log";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
@@ -102,8 +111,56 @@ export default async function ProgramDetailPage({ params }: Params) {
   if (!program || !detail) notFound();
 
   const icons = OBJECTIVE_ICONS[slug] ?? [Target];
-  /* Dated delivery, kept distinct from `detail.targets` everywhere it appears. */
-  const delivered = program.results ?? program.stats;
+  /*
+    The figure cards, and where they came from: a programme's highlights where it has them,
+    else its results, else its running totals (SkillSync, whose one figure is a total). The
+    source decides which plain list below would only repeat them.
+  */
+  const featuredSource = !detail.featureResults
+    ? undefined
+    : program.highlights
+      ? "highlights"
+      : program.results
+        ? "results"
+        : program.stats
+          ? "stats"
+          : undefined;
+  const featured =
+    featuredSource === "highlights"
+      ? program.highlights
+      : featuredSource === "results"
+        ? program.results
+        : featuredSource === "stats"
+          ? program.stats
+          : undefined;
+  /*
+    Delivered results and running totals, each under its own heading, kept distinct from
+    `detail.targets` everywhere they appear. A programme can carry both (Project 9-12 does).
+  */
+  const delivered = [
+    /*
+      Not repeated as a list where the figure cards above already are the results, and not
+      drawn as a list at all where the programme has a timeline (rendered just above these).
+    */
+    program.results && !program.timeline && featuredSource !== "results"
+      ? {
+          title: "Delivered",
+          lede: "Work that has already happened, with the dates it happened on.",
+          items: program.results,
+        }
+      : undefined,
+    /*
+      Running totals are short figures, so where the cards lead with highlights (Project
+      9-12's 425 and 700+) or are the totals themselves (SkillSync), they are not repeated.
+    */
+    program.stats && featuredSource !== "highlights" && featuredSource !== "stats"
+      ? {
+          title: "To date",
+          lede: "Totals since the programme began, rather than for one year.",
+          items: program.stats,
+        }
+      : undefined,
+  ].filter((group) => group !== undefined);
   /* Whether the audience section has a second column to sit beside. See that section. */
   const audienceHasAside = Boolean(detail.outcomes || detail.measurement);
 
@@ -202,7 +259,35 @@ export default async function ProgramDetailPage({ params }: Params) {
           the balance by breaking the thing the cap was there to protect.
         */}
         <Reveal className="mt-14">
-          {detail.overview.length > 1 ? (
+          {detail.featureResults && detail.overview.length <= 2 ? (
+            /*
+              A programme whose figures lead the page and whose opening paragraph came off:
+              the one or two paragraphs left run as even columns in one body style, and the
+              figures follow. A longer overview (SkillSync's three) keeps the lede layout below.
+            */
+            /* One paragraph alone in a two-column grid would hug the left; it centres at a
+               reading measure instead, in line with the centred figures below it. */
+            <div
+              className={cn(
+                "grid gap-5",
+                detail.overview.length > 1
+                  ? "lg:grid-cols-2 lg:gap-16"
+                  : "mx-auto max-w-[62ch] text-center",
+              )}
+            >
+              {detail.overview.map((para) => (
+                <p
+                  key={para}
+                  className={cn(
+                    "leading-relaxed text-ink-soft text-pretty",
+                    detail.overview.length > 1 ? "text-[1.0625rem]" : "text-[1.1875rem]",
+                  )}
+                >
+                  {para}
+                </p>
+              ))}
+            </div>
+          ) : detail.overview.length > 1 ? (
             <div className="grid gap-8 lg:grid-cols-2 lg:gap-16">
               <p className="text-[1.25rem] leading-[1.6] font-semibold text-ink text-pretty">
                 {detail.overview[0]}
@@ -226,6 +311,25 @@ export default async function ProgramDetailPage({ params }: Params) {
           )}
         </Reveal>
 
+        {/* The review's "Impacts", as interactive figure cards. See ImpactFigures. */}
+        {featured && (
+          <div className="mt-14">
+            <h2 className="text-center text-2xl font-extrabold tracking-[-0.03em] text-ink sm:text-3xl">
+              Impacts
+            </h2>
+            <div className="mt-8">
+              <ImpactFigures items={featured} />
+            </div>
+          </div>
+        )}
+
+        {/* Pounds to kilograms, loaded with the site's own e-waste weights. */}
+        {detail.weightConverter && (
+          <div className="mt-10">
+            <WeightConverter presets={weightPresets} />
+          </div>
+        )}
+
         {/*
           Stated rather than hidden. A programme with no published design skips five sections
           in a row, and without this the page reads as though half of it failed to load.
@@ -235,6 +339,71 @@ export default async function ProgramDetailPage({ params }: Params) {
           opened a screen-height gap above itself, which is the one thing a note explaining an
           absence should not do.
         */}
+        {/*
+          The review's headed blocks (Our approach, How we measure progress, Monitoring focus,
+          the partner and school lists), in its order, under the overview they follow. Each is
+          a heading over prose or over a list of names, laid out two to a row from lg.
+        */}
+        {detail.sections && (
+          <RevealGroup className="mt-14 grid gap-x-16 gap-y-10 border-t border-edge pt-10 lg:grid-cols-2">
+            {detail.sections.map((section) => (
+              <RevealItem key={section.heading}>
+                <h2 className="text-xl font-extrabold tracking-[-0.02em] text-ink">
+                  {section.heading}
+                </h2>
+                {section.body?.map((para) => (
+                  <p
+                    key={para}
+                    className="mt-3 max-w-[60ch] text-[1rem] leading-relaxed text-ink-soft text-pretty"
+                  >
+                    {para}
+                  </p>
+                ))}
+                {section.items && (
+                  <ul className="mt-4 flex flex-wrap gap-2">
+                    {section.items.map((item) => (
+                      <li key={item}>
+                        <TagPill>{item}</TagPill>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </RevealItem>
+            ))}
+          </RevealGroup>
+        )}
+
+        {/*
+          The partners on this programme, as their logos. Centred tiles rather than the bare
+          /partners strip: one to three marks on a wide row read as a credit line, not a
+          list. Each tile carries the name too, because a crest or a stacked lockup at this
+          size does not always say who it is.
+        */}
+        {detail.partners && (
+          <div className="mt-14 border-t border-edge pt-10 text-center">
+            <Reveal>
+              {/* Singular for one mark (SkillSync, Circular Tech), so it follows the count. */}
+              <h2 className="text-xl font-extrabold tracking-[-0.02em] text-ink">
+                {detail.partners.length === 1 ? "Partner" : "Partners"}
+              </h2>
+            </Reveal>
+            <RevealGroup as="ul" className="mt-7 flex flex-wrap justify-center gap-4">
+              {detail.partners.map((partner) => (
+                <RevealItem
+                  as="li"
+                  key={partner.name}
+                  className="flex w-full flex-col items-center justify-between gap-8 rounded-card border border-edge bg-white px-6 pt-10 pb-7 sm:w-[14rem] xl:w-[17rem]"
+                >
+                  <PartnerMark partner={partner} size="lg" />
+                  <p className="max-w-[24ch] text-[0.8125rem] leading-snug font-bold text-ink-soft text-balance">
+                    {partner.name}
+                  </p>
+                </RevealItem>
+              ))}
+            </RevealGroup>
+          </div>
+        )}
+
         {detail.pending && (
           <Reveal className="mt-10">
             <div className="max-w-[60ch] rounded-card border border-edge bg-[var(--surface-subtle)] p-7">
@@ -320,34 +489,66 @@ export default async function ProgramDetailPage({ params }: Params) {
             <SectionHead
               title="Targets"
               lede="Figures the programme is working towards. These are planned, not delivered."
+              align={detail.spinTargets ? "center" : "left"}
             />
           </Reveal>
-          <RevealGroup className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
-            {detail.targets.map((target) => (
-              <RevealItem key={target.figure}>
-                <StatBlock value={target.figure} label={target.detail} />
-              </RevealItem>
-            ))}
-          </RevealGroup>
+          {detail.spinTargets ? (
+            /*
+              The spinning variant, centred to match the Impacts above it: one column per
+              target so the row sits in the middle of the shell, each figure enlarged and
+              rolling on reels. Only a programme that opts in pays for the in-view observer.
+            */
+            <SpinOnView>
+              {/*
+                Columns follow the count so the row never ends on a stray item: three across
+                for three targets, four (two by two on tablets) for four, as Bootcamp has.
+              */}
+              <RevealGroup
+                className={cn(
+                  "mx-auto mt-12 grid gap-x-8 gap-y-12 text-center",
+                  detail.targets.length === 4
+                    ? "max-w-6xl sm:grid-cols-2 lg:grid-cols-4"
+                    : "max-w-5xl md:grid-cols-3",
+                )}
+              >
+                {detail.targets.map((target) => (
+                  <RevealItem key={target.figure} className="border-t border-edge pt-8">
+                    <p className="text-[4rem] leading-none font-bold tracking-[-0.045em] text-brand-green-dark tabular-nums lg:text-[5rem]">
+                      <SpinFigure value={target.figure} />
+                    </p>
+                    <p className="mx-auto mt-4 max-w-[30ch] text-[0.9375rem] leading-snug text-ink-soft text-pretty">
+                      {target.detail}
+                    </p>
+                  </RevealItem>
+                ))}
+              </RevealGroup>
+            </SpinOnView>
+          ) : (
+            <RevealGroup className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+              {detail.targets.map((target) => (
+                <RevealItem key={target.figure}>
+                  <StatBlock value={target.figure} label={target.detail} />
+                </RevealItem>
+              ))}
+            </RevealGroup>
+          )}
         </Section>
       )}
 
-      {delivered && (
+      {/* Delivered work as a dated timeline, for a programme that has one (Project 9-12). */}
+      {program.timeline && (
         <Section tone="white">
+          <DeliveredTimeline timeline={program.timeline} />
+        </Section>
+      )}
+
+      {delivered.map((group) => (
+        <Section key={group.title} tone="white">
           <Reveal>
-            <SectionHead
-              title={
-                program.results ? "Delivered in 2025" : "US operations to date"
-              }
-              lede={
-                program.results
-                  ? "Work that has already happened, with the dates it happened on."
-                  : "Totals for the collection operation since it began, rather than for one year."
-              }
-            />
+            <SectionHead title={group.title} lede={group.lede} />
           </Reveal>
           <RevealGroup className="mt-12 grid gap-8 md:grid-cols-3">
-            {delivered.map((item) => (
+            {group.items.map((item) => (
               <RevealItem key={item.label}>
                 <div className="border-t border-edge pt-6">
                   <p className="text-[1.0625rem] font-extrabold tracking-[-0.02em] text-ink">
@@ -361,7 +562,7 @@ export default async function ProgramDetailPage({ params }: Params) {
             ))}
           </RevealGroup>
         </Section>
-      )}
+      ))}
 
       {detail.activities && (
         <Section tone="deep">
@@ -465,7 +666,7 @@ export default async function ProgramDetailPage({ params }: Params) {
         <Section tone="deep">
           <Reveal>
             <SectionHead
-              title="From the field"
+              title={detail.galleryHeading ?? "From the field"}
               /*
                 Copy about the photographs, written per programme. It is not generated from
                 the count and the gallery style any more: that line counted the frames the
@@ -473,12 +674,14 @@ export default async function ProgramDetailPage({ params }: Params) {
                 itself underneath.
               */
               lede={detail.galleryLede}
+              align={detail.galleryCentered ? "center" : "left"}
             />
           </Reveal>
           <Reveal className="mt-12">
             <ProgramGallery
               photos={detail.gallery}
               style={detail.galleryStyle}
+              centered={detail.galleryCentered}
             />
           </Reveal>
         </Section>
@@ -680,25 +883,45 @@ export default async function ProgramDetailPage({ params }: Params) {
 function ProgramGallery({
   photos,
   style,
+  centered = false,
 }: {
   photos: GalleryPhoto[];
   style: ProgramDetail["galleryStyle"];
+  /* Centred layout: the accordion fills the shell (so it sits centred with no empty margins)
+     and the hint line centres; wired for the accordion, which Breakthrough uses. */
+  centered?: boolean;
 }) {
   if (photos.length < 2) return <ElasticGallery photos={photos} />;
   if (style === "mosaic") return <MosaicGallery photos={photos} />;
+  /*
+    Posters: two-up at every width from sm, whole and uncropped, capped so each one lands
+    near its readable size rather than stretching across the shell. Same-shaped fliers end
+    level. The lightbox opens each at full size for the small print.
+  */
+  if (style === "posters")
+    return (
+      <MosaicGallery
+        photos={photos}
+        className="max-w-[56rem]"
+        columns="columns-1 gap-4 sm:columns-2 sm:gap-6"
+      />
+    );
 
   const wide =
     style === "bento" ? (
       <BentoGallery photos={photos} />
     ) : style === "accordion" ? (
-      <ImageAccordion photos={photos} />
+      <ImageAccordion photos={photos} fill={centered} />
     ) : (
       <ElasticGallery photos={photos} />
     );
 
   return (
     <>
-      <MosaicGallery photos={photos} className="md:hidden [&>div]:columns-2" />
+      <MosaicGallery
+        photos={photos}
+        className={cn("md:hidden [&>div]:columns-2", centered && "[&>p]:text-center")}
+      />
       <div className="hidden md:block">{wide}</div>
     </>
   );

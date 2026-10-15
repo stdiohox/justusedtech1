@@ -1,21 +1,19 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHero } from "@/components/layout/page-hero";
-import {
-  Section,
-  SectionHead,
-  StatBlock,
-} from "@/components/common/primitives";
+import { Section, SectionHead } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
+import { PillLink } from "@/components/common/pill-button";
 import { Impact2025 } from "@/components/sections/impact-2025";
+import { SpinFigure, SpinOnView } from "@/components/sections/impact-figures";
 import Image from "next/image";
-import { usOperations } from "@/content/impact";
+import { impactPage } from "@/content/impact";
 import { coverOf, latestPost } from "@/content/news";
 
 export const metadata: Metadata = {
   title: "Impact",
   description:
-    "Confirmed 2025 results and lifetime US operations figures: devices redistributed, students reached, and e-waste diverted.",
+    "How JustUsedTech measures impact: e-waste recovered, devices redistributed, and the results of our education and youth programmes.",
 };
 
 export default function ImpactPage() {
@@ -26,46 +24,111 @@ export default function ImpactPage() {
     <>
       <PageHero
         eyebrow="Impact"
-        title="The numbers we can stand behind."
-        lede="Everything on this page is a confirmed figure from 2025 or from US operations since inception. Where a programme has no dated result, it is not listed here."
+        title={impactPage.title}
+        lede={impactPage.lede}
+        actions={
+          <PillLink href="/impact/statistics" variant="outline" flow>
+            See all statistics
+          </PillLink>
+        }
       />
 
       {/*
-        The 2025 set reads as a dashboard rather than as five equal stat blocks: the
-        e-waste total takes a wide cell with its two routes drawn as a proportion, the reach
-        figure takes a green feature card, and the rest run as tiles. Ranked, because the
-        figures are not the same size of fact.
+        The lead figure: 200,000+ lbs since 2017, at hero size, rolling in on the odometer
+        reels the programme pages use. The kg line is for readers who do not think in pounds.
+      */}
+      <Section tone="green" className="py-20 md:py-28">
+        <Reveal className="text-center">
+          <p className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-white/80 uppercase">
+            {impactPage.lifetime.eyebrow}
+          </p>
+          <SpinOnView className="mt-5">
+            <p className="text-[3.5rem] leading-none font-bold tracking-[-0.045em] text-white tabular-nums sm:text-[6rem] lg:text-[9rem]">
+              <SpinFigure value={impactPage.lifetime.value} />
+              <span className="ml-[0.2em] text-[0.4em] tracking-[-0.02em] text-white/85">
+                {impactPage.lifetime.unit}
+              </span>
+            </p>
+          </SpinOnView>
+          <p className="mx-auto mt-6 max-w-[34ch] text-[1.25rem] leading-snug font-bold text-white text-balance sm:text-[1.5rem]">
+            {impactPage.lifetime.caption}
+          </p>
+          <p className="mt-3 text-[1rem] font-semibold text-white/80 tabular-nums">
+            {impactPage.lifetime.metric}
+          </p>
+          <div className="mt-9 flex justify-center">
+            <PillLink href="/impact/statistics#ewaste" variant="onDark" flow>
+              {impactPage.lifetime.link}
+            </PillLink>
+          </div>
+        </Reveal>
+      </Section>
+
+      {/* How the figures below are kept: the review's Monitoring, Evaluation and Learning copy. */}
+      <Section tone="paper">
+        <Reveal>
+          <div className="grid gap-6 lg:grid-cols-2 lg:gap-16">
+            {impactPage.method.map((para, i) => (
+              <p
+                key={para}
+                className={
+                  i === 0
+                    ? "text-[1.125rem] leading-[1.6] font-semibold text-ink text-pretty"
+                    : "text-[1.0625rem] leading-relaxed text-ink-soft text-pretty"
+                }
+              >
+                {para}
+              </p>
+            ))}
+          </div>
+        </Reveal>
+      </Section>
+
+      {/*
+        The 2025 set as a dashboard: the e-waste total takes a wide cell, the reach figure a
+        green feature card, and the rest run as tiles. Ranked, because the figures are not the
+        same size of fact. Not in the review's Impact page, and kept with its figures updated.
       */}
       <Impact2025 />
 
       {/*
-        US operations stays on stat blocks. It is four peer figures with no part-of-a-whole
-        among them, so there is nothing for a dashboard to rank, and running a second
-        dashboard here would take the emphasis back off the 2025 one.
+        Environmental impact, as the review writes it: its "Reported 2025 results" and
+        "Cumulative results" lists, then its closing line.
       */}
       <Section tone="green">
         <Reveal>
           <SectionHead
             onGreen
-            title="US operations, since inception"
-            lede="St. Louis, Missouri, is where the pipeline starts, and a majority of what we recover stays there."
+            title={impactPage.environment.title}
+            lede={impactPage.environment.lede}
           />
         </Reveal>
-        <RevealGroup
-          as="ul"
-          className="mt-14 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4"
-        >
-          {usOperations.map((stat) => (
-            <RevealItem as="li" key={stat.label}>
-              <StatBlock
-                onGreen
-                value={stat.value}
-                label={stat.label}
-                detail={stat.detail}
-              />
-            </RevealItem>
-          ))}
+        <RevealGroup className="mt-14 grid gap-10 md:grid-cols-2 md:gap-16">
+          {[impactPage.environment.results2025, impactPage.environment.cumulative].map(
+            (group) => (
+              <RevealItem key={group.heading} className="border-t border-white/25 pt-6">
+                <h3 className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-white/80 uppercase">
+                  {group.heading}
+                </h3>
+                <ul className="mt-4 flex list-disc flex-col gap-3 pl-5 marker:text-white/60">
+                  {group.items.map((item) => (
+                    <li
+                      key={item}
+                      className="text-[1.125rem] leading-snug font-bold text-white text-pretty"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </RevealItem>
+            ),
+          )}
         </RevealGroup>
+        <Reveal className="mt-12">
+          <p className="max-w-[62ch] text-[1.0625rem] leading-relaxed text-white/85 text-pretty">
+            {impactPage.environment.close}
+          </p>
+        </Reveal>
       </Section>
 
       {/*

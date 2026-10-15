@@ -1,7 +1,11 @@
 import Image from "next/image";
 import { PillAnchor, PillLink } from "@/components/common/pill-button";
-import { asks } from "@/content/site";
-import { ewasteToDate } from "@/content/impact";
+import { asks, hero } from "@/content/site";
+import {
+  ewasteToDate,
+  schoolsToDate,
+  studentsToDate,
+} from "@/content/impact";
 import { OrbitBackdrop } from "@/components/sections/orbit-backdrop";
 
 /**
@@ -26,14 +30,11 @@ import { OrbitBackdrop } from "@/components/sections/orbit-backdrop";
  * specific delivery that did not happen. The visual pattern is unchanged, but every string
  * comes from confirmed figures.
  *
- * It no longer names one school. The card read "Gbagada Junior High / 60+ students
- * reached", and the 60+ is not attributable to that school in anything supplied: the
- * organisation profile gives 100+ students across the three 2025 sites as a single figure.
- * The card now reports it the same way the source does.
+ * It names no single school: student counts are only ever given per year, never per school,
+ * so Card A reports the School Tour's running totals: schools reached and students reached.
  *
- * Card B's weight comes from `ewasteToDate` rather than a string in this file. It was a
- * string, and it sat at 90,000+ while content/impact.ts said 95,000+, which is the whole
- * reason the figure is declared once now.
+ * Card B's weight comes from `ewasteToDate` rather than a string in this file, which is why
+ * the figure is declared once, in content/impact.ts.
  */
 export function Hero() {
   return (
@@ -67,15 +68,9 @@ export function Hero() {
           left under them.
         */}
         <div className="text-flow-load max-w-[640px] lg:flex lg:flex-col lg:pb-12">
-          {/*
-            Not "Tech access for Africa". Africa is where devices are redistributed, but it
-            is half the model at most: collection, refurbishment, and the warehouse are in
-            St. Louis, 60% of upcycled devices go back into that community, and the US
-            operation has its own 800+ devices and 20+ partners. An Africa-only line reads
-            as the whole organisation and writes the US work out of it.
-          */}
+          {/* Where the work runs: the US, and Africa. */}
           <p className="text-[12px] leading-none font-semibold tracking-[var(--tracking-eyebrow)] text-white/90 uppercase">
-            Technology access, US and Africa
+            {hero.eyebrow}
           </p>
 
           {/*
@@ -83,22 +78,21 @@ export function Hero() {
             "futures" rather than being shrunk to fit.
           */}
           <h1 className="mt-[var(--space-28)] text-[2.375rem] leading-[1.06] font-extrabold tracking-[var(--tracking-headline)] text-white text-balance sm:text-[2.75rem] lg:text-5xl">
-            Give tech a second life.
-            <span className="block">
-              Power young futures on two continents.
-            </span>
+            {hero.headline[0]}
+            <span className="block">{hero.headline[1]}</span>
           </h1>
 
           {/*
-            Capped at 52 characters. The column runs to 640px, which is wider than this
-            size wants to be read at, and the cap is what stops the paragraph from becoming
-            the densest thing in a section whose whole job is to breathe.
+            Capped at 56 characters. The column runs to 640px, which is wider than this
+            size wants to be read at. The review's two paragraphs are many times the length
+            of the sentence this cap was set for, so they step down to 1rem and the cap opens
+            a little. One wrapper, so .text-flow-load still brings the copy in as one step.
           */}
-          <p className="mt-[var(--space-32)] max-w-[52ch] text-[1.0625rem] leading-relaxed font-normal tracking-[var(--tracking-body)] text-white/90 text-pretty">
-            JustUsedTech collects, refurbishes, and redistributes technology to
-            underserved students and youth across Nigeria, Ghana, Kenya, and the
-            US, turning e-waste into opportunity.
-          </p>
+          <div className="mt-[var(--space-32)] flex max-w-[56ch] flex-col gap-4 text-[1rem] leading-relaxed font-normal tracking-[var(--tracking-body)] text-white/90 text-pretty">
+            {hero.body.map((para) => (
+              <p key={para}>{para}</p>
+            ))}
+          </div>
 
           {/*
             Filled primary plus ghost-outlined secondary: the standard two-button pair,
@@ -124,7 +118,12 @@ export function Hero() {
             Below lg the column does not flex, so mt-auto is inert there and the fixed 40
             does the spacing. That is the right split: a phone has no floor to reach.
           */}
-          <div className="mt-[var(--space-40)] flex flex-wrap items-center gap-[var(--space-16)] lg:mt-auto">
+          {/*
+            lg:pt-40 is the floor under mt-auto. With the review's longer paragraph, a narrow
+            lg viewport (1024) has no leftover height for auto to take, and the buttons sat
+            directly on the paragraph's last line.
+          */}
+          <div className="mt-[var(--space-40)] flex flex-wrap items-center gap-[var(--space-16)] lg:mt-auto lg:pt-[var(--space-40)]">
             <PillAnchor href={asks.donateDevice} variant="onDark" travel>
               Donate a device
             </PillAnchor>
@@ -223,12 +222,13 @@ export function Hero() {
                   />
                   School tour sessions
                 </p>
+                {/* Both lines read from content/impact.ts, the same figures as the home glance. */}
                 <p className="mt-2 text-[0.875rem] leading-snug font-semibold text-ink-soft">
-                  Three schools across Lagos State
+                  {schoolsToDate.value} {schoolsToDate.label}
                 </p>
                 {/* ink-soft, not ink-faint: the lighter token loses AA on the glass fill. */}
-                <p className="mt-1.5 text-[0.75rem] font-bold text-ink-soft">
-                  100+ students reached in 2025
+                <p className="mt-1.5 text-[0.75rem] leading-snug font-bold text-ink-soft">
+                  {studentsToDate.value} {studentsToDate.label}
                 </p>
               </FloatingCard>
 

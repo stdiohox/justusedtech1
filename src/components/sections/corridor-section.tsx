@@ -2,7 +2,8 @@ import { SectionHead } from "@/components/common/primitives";
 import { Reveal } from "@/components/common/reveal";
 import { CorridorLegend } from "@/components/sections/corridor-legend";
 import { WorldMap } from "@/components/sections/world-map";
-import { communitiesReached, corridors } from "@/content/impact";
+import { communitiesReached } from "@/content/impact";
+import { corridors } from "@/content/corridors";
 
 export function CorridorSection() {
   return (
