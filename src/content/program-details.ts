@@ -715,8 +715,14 @@ export const programDetails: Record<string, ProgramDetail> = {
   "greenbin-360": {
     tagline:
       "Responsible e-waste recovery for a more circular technology economy.",
-    /* The two names on the Green Bin partner list below that have supplied logos. */
-    partners: partnersNamed("greenbin-360", ["Cortex STL", "WashU IT"]),
+    /* The Green Bin partner list below, in its order, where a logo exists. CIC 2112 and CIC
+       4200 share one CIC St. Louis tile; Higher Education Metropolitan has no logo yet. */
+    partners: partnersNamed("greenbin-360", [
+      "Cortex STL",
+      "CIC St. Louis",
+      "WashU IT",
+      "AB Mauri",
+    ]),
     /*
       The opening sentences ("GreenBin 360 connects businesses and institutions...") are off
       this page at the client's request, as on the other programme pages; they still open the

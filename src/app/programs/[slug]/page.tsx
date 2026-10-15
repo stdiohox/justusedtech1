@@ -391,7 +391,7 @@ export default async function ProgramDetailPage({ params }: Params) {
                 <RevealItem
                   as="li"
                   key={partner.name}
-                  className="flex w-full flex-col items-center justify-between gap-8 rounded-card border border-edge bg-white px-6 pt-10 pb-7 sm:w-[17rem]"
+                  className="flex w-full flex-col items-center justify-between gap-8 rounded-card border border-edge bg-white px-6 pt-10 pb-7 sm:w-[14rem] xl:w-[17rem]"
                 >
                   <PartnerMark partner={partner} size="lg" />
                   <p className="max-w-[24ch] text-[0.8125rem] leading-snug font-bold text-ink-soft text-balance">

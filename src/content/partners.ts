@@ -153,6 +153,27 @@ export const nigeriaPartners: Partner[] = [
 export const allPartners: Partner[] = [...usPartners, ...nigeriaPartners];
 
 /**
+ * Partners credited on a programme page only, not on /partners.
+ *
+ * Kept out of `allPartners` because the client has not listed them on the partners page,
+ * and the nav's "18 partners" count reads off that list. Unlike the eighteen, these marks
+ * were not supplied by the client: they were taken from each organisation's own website
+ * in October 2026, so the client should confirm before launch that the logos may be used.
+ */
+const programmePartners: Partner[] = [
+  /* AB Mauri North America, headquartered at @4240 in Cortex. Its colour logo from
+     abmauri.com, rendered from the SVG and cropped to the ink. */
+  { name: "AB Mauri", logo: { src: "/partners/partner-ab-mauri.png", width: 1059, height: 321 } },
+  /*
+    CIC St. Louis (Cambridge Innovation Center), in Cortex. The Green Bin list names "CIC
+    2112" and "CIC 4200"; CIC's St. Louis buildings are 4220 and 4240 Duncan and 20 S. Sarah,
+    so the two are read as CIC sites and credited as one organisation. Confirm with the
+    client. The mark is CIC's own logo from cic.com, in the orange it uses on white.
+  */
+  { name: "CIC St. Louis", logo: { src: "/partners/partner-cic.png", width: 913, height: 497 } },
+];
+
+/**
  * The four marks in the hero trust row.
  *
  * Resolved out of the list above rather than retyped, so the row cannot name an
@@ -175,7 +196,9 @@ export const heroTrustPartners: Partner[] = partnersNamed("heroTrustPartners", [
 /** Partners by name, from the list above. A name it does not carry fails the build. */
 export function partnersNamed(where: string, names: string[]): Partner[] {
   return names.map((name) => {
-    const partner = allPartners.find((candidate) => candidate.name === name);
+    const partner = [...allPartners, ...programmePartners].find(
+      (candidate) => candidate.name === name,
+    );
     if (!partner) throw new Error(`${where}: no partner named "${name}"`);
     return partner;
   });
