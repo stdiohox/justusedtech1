@@ -784,7 +784,8 @@ function ProgramGallery({
 }: {
   photos: GalleryPhoto[];
   style: ProgramDetail["galleryStyle"];
-  /* Centres the panel row and the hint line; wired for the accordion, which Breakthrough uses. */
+  /* Centred layout: the accordion fills the shell (so it sits centred with no empty margins)
+     and the hint line centres; wired for the accordion, which Breakthrough uses. */
   centered?: boolean;
 }) {
   if (photos.length < 2) return <ElasticGallery photos={photos} />;
@@ -807,7 +808,7 @@ function ProgramGallery({
     style === "bento" ? (
       <BentoGallery photos={photos} />
     ) : style === "accordion" ? (
-      <ImageAccordion photos={photos} centered={centered} />
+      <ImageAccordion photos={photos} fill={centered} />
     ) : (
       <ElasticGallery photos={photos} />
     );

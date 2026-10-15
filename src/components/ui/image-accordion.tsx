@@ -28,15 +28,20 @@ import type { GalleryPhoto } from "@/components/ui/elastic-gallery";
 export function ImageAccordion({
   photos,
   className,
-  centered = false,
+  fill = false,
 }: {
   photos: GalleryPhoto[];
   className?: string;
   /**
-   * Centre the row and its hint in the shell. mx-auto centres the row while it fits; once it
-   * is wider than the shell the auto margins resolve to 0 and it scrolls as before.
+   * Span the shell instead of sitting at a fixed width. The fixed version is about 735px
+   * (one 400px panel and 60px spines), which left a 1,226px shell mostly empty around it.
+   * Filled, the panels share the row by flex-grow: the open one takes six parts and each
+   * spine one, so the open photograph runs about 700px and the spines about 115px, wide
+   * enough to recognise what is in them. Hovering hands the six parts to another panel;
+   * flex-grow animates, so the panels still slide. Taller too, to suit the wider frame.
+   * The hint centres under it.
    */
-  centered?: boolean;
+  fill?: boolean;
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [open, setOpen] = useState<number | null>(null);
@@ -52,7 +57,7 @@ export function ImageAccordion({
         Phones never see it: the programme page swaps in the mosaic below md.
       */}
       <div className="w-full overflow-x-auto overscroll-x-contain pb-3 [scrollbar-width:thin]">
-        <div className={cn("flex w-max gap-2 sm:gap-3", centered && "mx-auto")}>
+        <div className={cn("flex gap-2 sm:gap-3", fill ? "w-full" : "w-max")}>
           {photos.map((photo, i) => {
             const active = i === activeIndex;
             return (
@@ -64,11 +69,19 @@ export function ImageAccordion({
                 onFocus={() => setActiveIndex(i)}
                 onClick={() => setOpen(i)}
                 className={cn(
-                  "group relative h-[22rem] shrink-0 overflow-hidden rounded-inner border border-edge",
-                  "bg-mint transition-[width] duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]",
+                  "group relative overflow-hidden rounded-inner border border-edge bg-mint",
+                  "duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]",
                   "focus-visible:ring-2 focus-visible:ring-brand-green-dark focus-visible:ring-offset-2",
-                  "focus-visible:outline-none motion-reduce:transition-none sm:h-[28rem]",
-                  active ? "w-[19rem] sm:w-[25rem]" : "w-[3.75rem]",
+                  "focus-visible:outline-none motion-reduce:transition-none",
+                  fill
+                    ? cn(
+                        "h-[30rem] min-w-0 basis-0 transition-[flex-grow] lg:h-[34rem]",
+                        active ? "grow-[6]" : "grow",
+                      )
+                    : cn(
+                        "h-[22rem] shrink-0 transition-[width] sm:h-[28rem]",
+                        active ? "w-[19rem] sm:w-[25rem]" : "w-[3.75rem]",
+                      ),
                 )}
               >
                 <Image
@@ -76,7 +89,7 @@ export function ImageAccordion({
                   alt={photo.alt}
                   fill
                   quality={90}
-                  sizes="(min-width: 640px) 400px, 300px"
+                  sizes={fill ? "(min-width: 1024px) 760px, 70vw" : "(min-width: 640px) 400px, 300px"}
                   className="object-cover"
                 />
 
@@ -111,7 +124,7 @@ export function ImageAccordion({
         </div>
       </div>
 
-      <p className={cn("mt-2 text-[0.8125rem] text-ink-faint", centered && "text-center")}>
+      <p className={cn("mt-2 text-[0.8125rem] text-ink-faint", fill && "text-center")}>
         Hover or focus a panel to open it. Select it to see the full frame.
       </p>
 
