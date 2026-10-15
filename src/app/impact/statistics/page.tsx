@@ -125,20 +125,28 @@ export default function StatisticsPage() {
 
       <Section tone="white" id="ewaste">
         {/* The review's "Historical E-Waste Collection Performance", as written. */}
-        <Reveal>
-          <SectionHead
-            eyebrow="Since 2017"
-            title={ewasteHistory.title}
-            lede={ewasteHistory.body[0]}
-          />
-        </Reveal>
-        <Reveal delay={0.05} className="mt-6 grid gap-5 lg:grid-cols-2 lg:gap-16">
-          {ewasteHistory.body.slice(1).map((para) => (
-            <p key={para} className="text-[1rem] leading-relaxed text-ink-soft text-pretty">
-              {para}
+        {/*
+          One spread: the heading and the 200,000 lbs lede on the left, the two context
+          paragraphs stacked on the right. It used to run the lede alone at the head's width,
+          with nothing beside it, and then the two paragraphs side by side ending three lines
+          apart; both left a hole on the right.
+        */}
+        <div className="grid gap-6 lg:grid-cols-[5fr_7fr] lg:gap-16">
+          <Reveal>
+            <SectionHead eyebrow="Since 2017" title={ewasteHistory.title} />
+            {/* The lead-paragraph style the Impact page's method copy uses: the 200,000 lbs line is the claim the two beside it qualify. */}
+            <p className="mt-5 text-[1.1875rem] leading-[1.6] font-semibold text-ink text-pretty">
+              {ewasteHistory.body[0]}
             </p>
-          ))}
-        </Reveal>
+          </Reveal>
+          <Reveal delay={0.05} className="flex flex-col gap-5 lg:pt-14">
+            {ewasteHistory.body.slice(1).map((para) => (
+              <p key={para} className="text-[1rem] leading-relaxed text-ink-soft text-pretty">
+                {para}
+              </p>
+            ))}
+          </Reveal>
+        </div>
         <Reveal delay={0.08} className="mt-12">
           <div className="card">
             <EwasteChart caption={ewasteSeriesTitle} />
