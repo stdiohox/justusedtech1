@@ -362,14 +362,10 @@ export const programDetails: Record<string, ProgramDetail> = {
       "The programme combines device redistribution with follow-up engagement to understand whether beneficiaries can use their devices effectively and whether the support contributes to their learning or professional development.",
     ],
     featureResults: true,
-    sections: [
-      {
-        heading: "How we measure progress",
-        body: [
-          "We track devices handed over, beneficiary participation, mentorship engagement, continued device use, and beneficiary-reported outcomes. Follow-up findings are reported using the number of beneficiaries reached and the number who responded, so readers can interpret the results accurately.",
-        ],
-      },
-    ],
+    /*
+      The review's "How we measure progress" section is off this page at the client's
+      request. It is in git history if it is wanted back.
+    */
     objectives: [
       {
         label: "Put devices in hands",
