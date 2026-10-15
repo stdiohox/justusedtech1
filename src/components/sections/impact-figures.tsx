@@ -28,11 +28,13 @@ import { cn } from "@/lib/utils";
 type Item = { label: string; detail: string };
 
 /*
-  Reel timing, slowed at the client's request. The leftmost reel runs BASE_S, each reel to
-  its right REEL_STEP_S longer, so a two-digit figure settles over about four seconds.
+  Reel timing, slowed at the client's request. The leftmost reel runs BASE_S and the
+  rightmost BASE_S + SPREAD_S, with the reels between spaced evenly, so every figure settles
+  at about four seconds whatever its length: 22 runs 3.2s and 4.0s, 1,000 runs 3.2s to 4.0s
+  across four reels rather than out to 5.6s.
 */
 const BASE_S = 3.2;
-const REEL_STEP_S = 0.8;
+const SPREAD_S = 0.8;
 
 const hasDigits = (value: string) => /^\d/.test(value);
 
@@ -101,6 +103,8 @@ export function SpinFigure({ value }: { value: string }) {
  */
 function Odometer({ value }: { value: string }) {
   const chars = [...value];
+  const digitCount = chars.filter((c) => /\d/.test(c)).length;
+  const step = digitCount > 1 ? SPREAD_S / (digitCount - 1) : 0;
   let seen = 0;
 
   return (
@@ -114,7 +118,7 @@ function Odometer({ value }: { value: string }) {
         const strip = Array.from({ length: laps * 10 + digit + 1 }, (_, n) => n % 10);
         const style = {
           "--to": `calc(-1em * ${strip.length - 1})`,
-          "--dur": `${BASE_S + position * REEL_STEP_S}s`,
+          "--dur": `${(BASE_S + position * step).toFixed(2)}s`,
         } as CSSProperties;
         return (
           <span key={i} className="jut-reel" style={style}>

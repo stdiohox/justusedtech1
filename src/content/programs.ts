@@ -103,10 +103,14 @@ export const programs: Program[] = [
         detail: listOf(schoolTourSchools2026),
       },
     ],
-    /* The review's running totals, the same two the home glance leads with. */
+    /*
+      The review's headline successes. The home card shows the first two (the running totals
+      the home glance leads with); the programme page shows all three as its Impacts.
+    */
     highlights: [
       { label: schoolsToDate.value, detail: schoolsToDate.label },
       { label: studentsToDate.value, detail: studentsToDate.label },
+      { label: schoolTourUnderstanding2026.value, detail: schoolTourUnderstanding2026.label },
     ],
   },
   {

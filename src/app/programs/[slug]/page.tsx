@@ -107,13 +107,17 @@ export default async function ProgramDetailPage({ params }: Params) {
   if (!program || !detail) notFound();
 
   const icons = OBJECTIVE_ICONS[slug] ?? [Target];
+  /* The figure cards: a programme's highlights where it has them, else its results. */
+  const featured = detail.featureResults
+    ? (program.highlights ?? program.results)
+    : undefined;
   /*
     Delivered results and running totals, each under its own heading, kept distinct from
     `detail.targets` everywhere they appear. A programme can carry both (Project 9-12 does).
   */
   const delivered = [
-    /* Not repeated as a list where the overview already shows them as figure cards. */
-    program.results && !detail.featureResults
+    /* Not repeated as a list where the figure cards above already are the results. */
+    program.results && !(detail.featureResults && !program.highlights)
       ? {
           title: "Delivered",
           lede: "Work that has already happened, with the dates it happened on.",
@@ -229,11 +233,23 @@ export default async function ProgramDetailPage({ params }: Params) {
               A programme whose figures lead the page: the overview runs as even columns in one
               body style (no lede paragraph to set apart), and the figures follow it.
             */
-            <div className="grid gap-5 lg:grid-cols-2 lg:gap-16">
+            /* One paragraph alone in a two-column grid would hug the left; it centres at a
+               reading measure instead, in line with the centred figures below it. */
+            <div
+              className={cn(
+                "grid gap-5",
+                detail.overview.length > 1
+                  ? "lg:grid-cols-2 lg:gap-16"
+                  : "mx-auto max-w-[62ch] text-center",
+              )}
+            >
               {detail.overview.map((para) => (
                 <p
                   key={para}
-                  className="text-[1.0625rem] leading-relaxed text-ink-soft text-pretty"
+                  className={cn(
+                    "leading-relaxed text-ink-soft text-pretty",
+                    detail.overview.length > 1 ? "text-[1.0625rem]" : "text-[1.1875rem]",
+                  )}
                 >
                   {para}
                 </p>
@@ -264,13 +280,13 @@ export default async function ProgramDetailPage({ params }: Params) {
         </Reveal>
 
         {/* The review's "Impacts", as interactive figure cards. See ImpactFigures. */}
-        {detail.featureResults && program.results && (
+        {featured && (
           <div className="mt-14">
             <h2 className="text-center text-2xl font-extrabold tracking-[-0.03em] text-ink sm:text-3xl">
               Impacts
             </h2>
             <div className="mt-8">
-              <ImpactFigures items={program.results} />
+              <ImpactFigures items={featured} />
             </div>
           </div>
         )}

@@ -69,9 +69,10 @@ export type ProgramDetail = {
    */
   pending?: string;
   /**
-   * Show the programme's `results` as interactive figure cards under the overview, in place
-   * of the plain "Delivered" list further down the page. For results that are all headline
-   * figures (a number and a short label), which is what the cards are built for.
+   * Show the programme's headline figures as interactive figure cards under the overview:
+   * its `highlights` where it has them, else its `results`. When the cards are the results
+   * themselves (Breakthrough), the plain "Delivered" list further down is not repeated;
+   * when they are highlights (School Tour), the fuller results list stays.
    */
   featureResults?: boolean;
   /** Spin the Targets figures as odometer reels when they come into view. */
@@ -167,10 +168,17 @@ export const programDetails: Record<string, ProgramDetail> = {
   "school-tour-initiative": {
     tagline:
       "Building environmental awareness and digital responsibility among students.",
+    /*
+      The review's opening paragraph ("The School Tour Initiative introduces students to
+      electronic waste...") is off this page at the client's request; the programme's
+      headline figures take its place, as on Breakthrough Series. It still opens the
+      /programs panel, from content/programs.ts.
+    */
     overview: [
-      "The School Tour Initiative introduces students to electronic waste, responsible technology use, digital sustainability, and the importance of extending the useful life of electronic devices.",
       "Through school-based engagement sessions, students learn how electronic waste affects the environment and how responsible disposal, reuse, and refurbishment can support a more sustainable digital future.",
     ],
+    featureResults: true,
+    spinTargets: true,
     sections: [
       {
         heading: "Our approach",
