@@ -266,7 +266,7 @@ export default async function ProgramDetailPage({ params }: Params) {
         {/* The review's "Impacts", as interactive figure cards. See ImpactFigures. */}
         {detail.featureResults && program.results && (
           <div className="mt-14">
-            <h2 className="text-2xl font-extrabold tracking-[-0.03em] text-ink sm:text-3xl">
+            <h2 className="text-center text-2xl font-extrabold tracking-[-0.03em] text-ink sm:text-3xl">
               Impacts
             </h2>
             <div className="mt-8">
@@ -403,30 +403,39 @@ export default async function ProgramDetailPage({ params }: Params) {
             <SectionHead
               title="Targets"
               lede="Figures the programme is working towards. These are planned, not delivered."
+              align={detail.spinTargets ? "center" : "left"}
             />
           </Reveal>
-          {(() => {
-            const grid = (
-              <RevealGroup className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+          {detail.spinTargets ? (
+            /*
+              The spinning variant, centred to match the Impacts above it: one column per
+              target so the row sits in the middle of the shell, each figure enlarged and
+              rolling on reels. Only a programme that opts in pays for the in-view observer.
+            */
+            <SpinOnView>
+              {/* Three columns: the spinning variant is for a row of three, as Breakthrough has. */}
+              <RevealGroup className="mx-auto mt-12 grid max-w-5xl gap-x-8 gap-y-12 text-center md:grid-cols-3">
                 {detail.targets.map((target) => (
-                  <RevealItem key={target.figure}>
-                    <StatBlock
-                      value={
-                        detail.spinTargets ? (
-                          <SpinFigure value={target.figure} />
-                        ) : (
-                          target.figure
-                        )
-                      }
-                      label={target.detail}
-                    />
+                  <RevealItem key={target.figure} className="border-t border-edge pt-8">
+                    <p className="text-[4rem] leading-none font-bold tracking-[-0.045em] text-brand-green-dark tabular-nums lg:text-[5rem]">
+                      <SpinFigure value={target.figure} />
+                    </p>
+                    <p className="mx-auto mt-4 max-w-[30ch] text-[0.9375rem] leading-snug text-ink-soft text-pretty">
+                      {target.detail}
+                    </p>
                   </RevealItem>
                 ))}
               </RevealGroup>
-            );
-            /* Only a programme that opts in pays for the in-view observer. */
-            return detail.spinTargets ? <SpinOnView>{grid}</SpinOnView> : grid;
-          })()}
+            </SpinOnView>
+          ) : (
+            <RevealGroup className="mt-12 grid gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+              {detail.targets.map((target) => (
+                <RevealItem key={target.figure}>
+                  <StatBlock value={target.figure} label={target.detail} />
+                </RevealItem>
+              ))}
+            </RevealGroup>
+          )}
         </Section>
       )}
 

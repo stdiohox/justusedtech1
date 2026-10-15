@@ -139,7 +139,7 @@ export function ImpactFigures({ items }: { items: Item[] }) {
           <li
             key={item.label}
             className={cn(
-              "card h-full",
+              "card h-full text-center",
               "transition-[transform,border-color] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]",
               "hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0",
               dark ? "card-dark" : "hover:border-brand-green",
@@ -147,7 +147,8 @@ export function ImpactFigures({ items }: { items: Item[] }) {
           >
             <p
               className={cn(
-                "text-[3.25rem] leading-none font-bold tracking-[-0.045em] tabular-nums",
+                /* Centred and enlarged at the client's request: 52px became 64 to 80px. */
+                "text-[4rem] leading-none font-bold tracking-[-0.045em] tabular-nums lg:text-[5rem]",
                 dark ? "text-white" : "text-brand-green-dark",
               )}
             >
@@ -155,7 +156,7 @@ export function ImpactFigures({ items }: { items: Item[] }) {
             </p>
             <p
               className={cn(
-                "mt-4 max-w-[30ch] text-[0.9375rem] leading-snug text-pretty",
+                "mx-auto mt-4 max-w-[30ch] text-[0.9375rem] leading-snug text-pretty",
                 dark ? "text-white/85" : "text-ink-soft",
               )}
             >
