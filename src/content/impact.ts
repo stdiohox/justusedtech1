@@ -53,7 +53,7 @@ export const ewasteHistory = {
   body: [
     "From its establishment in 2017 through October 2026, JustUsedTech is working toward documenting a cumulative total of 200,000 pounds of electronic waste collected through its e-waste recovery and collection activities.",
     "Collection volumes are expected to vary from year to year in response to operational capacity, collection partnerships, institutional participation, and wider economic conditions. Collection activity during 2020 and 2021 was particularly affected by the COVID-19 pandemic, which disrupted normal business operations, movement, institutional activities, and collection logistics.",
-    "The proposed annual breakdown reflects lower collection volumes during the pandemic period, followed by a gradual recovery and subsequent growth as collection activities and partnerships expanded. These annual estimates should be reconciled against available collection registers, partner reports, and weight records before being adopted as official historical results. Justusedtech will use the consolidated figures to strengthen its environmental impact reporting, improve year-on-year performance monitoring, and document the contribution of e-waste recovery to its circular technology and digital inclusion programmes.",
+    "The proposed annual breakdown reflects lower collection volumes during the pandemic period, followed by a gradual recovery and subsequent growth as collection activities and partnerships expanded.",
   ],
 };
 
