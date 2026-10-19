@@ -50,7 +50,7 @@ export function SpinOnView({
 }: {
   children: ReactNode;
   className?: string;
-  as?: "div" | "ul";
+  as?: "div" | "ul" | "span";
 }) {
   const ref = useRef<HTMLElement>(null);
   const [spin, setSpin] = useState(false);

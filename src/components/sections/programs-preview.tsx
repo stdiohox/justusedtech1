@@ -7,6 +7,7 @@ import { SectionHead, StatusBadge } from "@/components/common/primitives";
 import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
 import { hasDetailPage } from "@/content/program-details";
 import { activePrograms, programsIntro } from "@/content/programs";
+import { SpinFigure, SpinOnView } from "@/components/sections/impact-figures";
 import { cn } from "@/lib/utils";
 
 /**
@@ -253,7 +254,12 @@ function ProgramCard({
             wording mid-phrase. Three columns on the featured card from sm, one column on a
             small card, where three would set each figure in about 10 characters of width.
           */}
+          {/*
+            The figures roll in as odometers the first time a card's footer is in view. In the
+            carousel that is when the card is scrolled into the track, not on page load.
+          */}
           {metrics && (
+            <SpinOnView>
             <dl
               className={cn(
                 "mt-4 grid gap-x-8 gap-y-5 border-t pt-6",
@@ -278,15 +284,16 @@ function ProgramCard({
                   </dt>
                   <dd
                     className={cn(
-                      "text-[1.375rem] leading-tight font-extrabold tracking-[-0.02em] tabular-nums",
+                      "text-[1.375rem] leading-none font-extrabold tracking-[-0.02em] tabular-nums",
                       featured ? "text-white" : "text-brand-green-dark",
                     )}
                   >
-                    {metric.label}
+                    <SpinFigure value={metric.label} />
                   </dd>
                 </div>
               ))}
             </dl>
+            </SpinOnView>
           )}
         </div>
       </div>

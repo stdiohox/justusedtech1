@@ -7,6 +7,7 @@ import {
   studentsToDate,
 } from "@/content/impact";
 import { OrbitBackdrop } from "@/components/sections/orbit-backdrop";
+import { SpinFigure, SpinOnView } from "@/components/sections/impact-figures";
 
 /**
  * Home hero: two-column split on a flat green gradient with a dashed orbit backdrop.
@@ -237,7 +238,10 @@ export function Hero() {
                 delay="1.6s"
               >
                 <p className="text-3xl leading-none font-extrabold tracking-[-0.035em] text-brand-green-dark">
-                  {ewasteToDate.value} lbs
+                  <SpinOnView as="span">
+                    <SpinFigure value={ewasteToDate.value} />
+                  </SpinOnView>{" "}
+                  lbs
                 </p>
                 <p className="mt-2 text-[0.875rem] font-semibold text-ink-soft">
                   E-waste diverted

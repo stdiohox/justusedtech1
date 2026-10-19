@@ -1,5 +1,6 @@
 import { ewasteAsOf, ewasteByYear, formatLbs } from "@/content/impact";
 import { ChartEscape } from "@/components/sections/chart-escape";
+import { SpinOnView } from "@/components/sections/impact-figures";
 import { cn } from "@/lib/utils";
 
 /**
@@ -18,6 +19,16 @@ import { cn } from "@/lib/utils";
  * widen the page on a phone. Escape dismisses it, through the one small client wrapper,
  * ChartEscape. Touch has no hover, which is why the full chart also carries the same
  * figures as a table.
+ *
+ * The bars grow from the baseline the first time the chart is in view, one after another
+ * left to right, through the same SpinOnView trigger as the odometer figures. The fill is
+ * its own layer under the labels, so only the colour scales and the text never stretches.
+ * At rest (server render, no script, reduced motion) every bar is at its full height.
+ *
+ * A tap shows a bar's tooltip too: each column takes focus on click (tabIndex -1, so it is
+ * focusable by pointer but stays out of the tab order, which keeps it legal inside the
+ * aria-hidden plot; keyboard and screen reader users have the aria-label and the table).
+ * Tapping elsewhere blurs it and the tooltip goes.
  *
  * `compact` is the home page glance: shorter, no notes, no table. The plot's aria-label
  * lists every year's value in both, since the bars themselves are not readable by assistive
@@ -55,6 +66,7 @@ export function EwasteChart({
       <figcaption className="text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
         {caption}
       </figcaption>
+      <SpinOnView>
       <ChartEscape className="mt-4">
       <div role="img" aria-label={summary} className="flex gap-2 sm:gap-3">
         {/* Y axis. Labels sit on their gridlines, so each is centred on its own value. */}
@@ -90,21 +102,26 @@ export function EwasteChart({
                 return (
                   <li
                     key={y.year}
-                    className="group relative flex h-full items-end rounded-t-[6px] transition-colors duration-150 hover:bg-mint/70"
+                    tabIndex={-1}
+                    className="group relative flex h-full cursor-pointer items-end rounded-t-[6px] outline-none transition-colors duration-150 hover:bg-mint/70 focus:bg-mint/70"
                   >
                     <div
-                      className={cn(
-                        "relative w-full rounded-t-[4px]",
-                        y.partial
-                          ? "border-[1.5px] border-b-0 border-brand-green-dark bg-mint [background-image:repeating-linear-gradient(135deg,var(--brand-green-dark)_0_1.5px,transparent_1.5px_6px)]"
-                          : "bg-brand-green-dark",
-                      )}
+                      className="relative w-full"
                       style={{ height: `${(y.lbs / top) * 100}%` }}
                     >
+                      <span
+                        className={cn(
+                          "jut-bar absolute inset-0 rounded-t-[4px]",
+                          y.partial
+                            ? "border-[1.5px] border-b-0 border-brand-green-dark bg-mint [background-image:repeating-linear-gradient(135deg,var(--brand-green-dark)_0_1.5px,transparent_1.5px_6px)]"
+                            : "bg-brand-green-dark",
+                        )}
+                        style={{ "--i": i } as React.CSSProperties}
+                      />
                       {labelled && (
                         <span
                           className={cn(
-                            "absolute bottom-full mb-1.5 text-[0.6875rem] leading-none font-bold whitespace-nowrap text-ink tabular-nums group-hover:hidden [[data-dismissed]_&]:inline!",
+                            "absolute bottom-full mb-1.5 text-[0.6875rem] leading-none font-bold whitespace-nowrap text-ink tabular-nums jut-bar-label group-hover:opacity-0 group-focus:opacity-0 [[data-dismissed]_&]:opacity-100!",
                             i === n - 1 ? "right-0" : "left-1/2 -translate-x-1/2",
                             /* Below sm a slot is ~26px, and the year-to-date label runs
                                into the peak bar beside it. The value is still in the
@@ -117,7 +134,7 @@ export function EwasteChart({
                       )}
                       <span
                         className={cn(
-                          "absolute bottom-full z-10 mb-2 hidden rounded-[var(--radius-badge)] bg-ink px-3 py-2 text-left whitespace-nowrap text-white shadow-lg group-hover:block [[data-dismissed]_&]:hidden!",
+                          "absolute bottom-full z-10 mb-2 hidden rounded-[var(--radius-badge)] bg-ink px-3 py-2 text-left whitespace-nowrap text-white shadow-lg group-hover:block group-focus:block [[data-dismissed]_&]:hidden!",
                           i < 2 ? "left-0" : i > n - 3 ? "right-0" : "left-1/2 -translate-x-1/2",
                         )}
                       >
@@ -155,6 +172,7 @@ export function EwasteChart({
         </div>
       </div>
       </ChartEscape>
+      </SpinOnView>
 
       {!compact && (
         <>
