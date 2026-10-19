@@ -87,7 +87,7 @@ function resultsFromTimeline(timeline: TimelineYear[]) {
       label: event.label ?? `${event.title} – ${event.when}${event.place ? ` (${event.place})` : ""}`,
       detail: [
         event.summary,
-        event.schools && `Participating Schools included: ${event.schools.join(", ")}.`,
+        event.schools && `Participating schools included: ${event.schools.join(", ")}.`,
         `Impact: ${event.impacts.map((i) => (i.value ? `${i.value} ${i.label}` : i.label)).join(", ")}.`,
       ]
         .filter(Boolean)
@@ -121,7 +121,7 @@ const project912Timeline: TimelineYear[] = [
         ],
         impacts: [
           { value: "200+", label: "students engaged" },
-          { value: "200+", label: "Upcycled sports gear donated" },
+          { value: "200+", label: "upcycled sports gear donated" },
           { value: "5", label: "refurbished laptops awarded to deserving students" },
         ],
       },
@@ -146,10 +146,10 @@ const project912Timeline: TimelineYear[] = [
         title: "Project 9-12 Activity 2026",
         label: "Project 9-12 Activity 2026",
         place: "Bariga Stadium Yaba",
-        summary: "Event was hosted at the Bariga Stadium Yaba.",
+        summary: "The event was hosted at the Bariga Stadium Yaba.",
         impacts: [
           { value: "125+", label: "students engaged" },
-          { value: "450+", label: "sports gears donated" },
+          { value: "450+", label: "sports gear donated" },
           { value: "10", label: "upcycled laptops donated to 10 schools" },
         ],
       },
@@ -198,7 +198,7 @@ export const programs: Program[] = [
     results: [
       {
         label: "Reported achievements in 2025",
-        detail: `Three schools reached Lagos State. ${schoolTourStudents2025.value} students engaged. Five refurbished laptops were donated.`,
+        detail: `Three schools reached in Lagos State. ${schoolTourStudents2025.value} students engaged. Five refurbished laptops were donated.`,
       },
       {
         label: "Schools visited, 2025",
@@ -206,7 +206,7 @@ export const programs: Program[] = [
       },
       {
         label: "2026 reporting",
-        detail: `${schoolTourSchoolsCount2026.value} schools in Lagos State Nigeria. ${schoolTourStudents2026.value} Students engaged. ${schoolTourUnderstanding2026.value} ${schoolTourUnderstanding2026.label}`,
+        detail: `${schoolTourSchoolsCount2026.value} schools in Lagos State, Nigeria. ${schoolTourStudents2026.value} students engaged. ${schoolTourUnderstanding2026.value} ${schoolTourUnderstanding2026.label}`,
       },
       {
         label: "Schools visited, 2026",
@@ -242,7 +242,7 @@ export const programs: Program[] = [
     results: resultsFromTimeline(project912Timeline),
     stats: [
       { label: "425", detail: "students from 2025 till date" },
-      { label: "700+", detail: "Sports gears donated in Lagos state" },
+      { label: "700+", detail: "Sports gear donated in Lagos State" },
     ],
     /*
       The headline figures, all the review's own: the two running totals above (which the
@@ -250,7 +250,7 @@ export const programs: Program[] = [
     */
     highlights: [
       { label: "425", detail: "students from 2025 till date" },
-      { label: "700+", detail: "Sports gears donated in Lagos state" },
+      { label: "700+", detail: "Sports gear donated in Lagos State" },
       { label: "10", detail: "upcycled laptops donated to 10 schools in 2026" },
     ],
   },
@@ -334,8 +334,8 @@ export const programs: Program[] = [
         label: "21",
         detail: "young persons trained on device upcycling, repair and refurbishment.",
       },
-      { label: "Location", detail: "St Louis USA and Lagos Nigeria" },
-      { label: "14 Refurbished laptops", detail: "donated during this project" },
+      { label: "Location", detail: "St. Louis, USA and Lagos, Nigeria" },
+      { label: "14 refurbished laptops", detail: "donated during this project" },
     ],
     /* The two figures from the stats above, without the Location line, which is not one. */
     highlights: [
@@ -370,7 +370,7 @@ export const upcomingPrograms = programs.filter((p) => p.status === "upcoming");
  * catalogue's, so the heading cannot say six while the grid shows five or seven.
  */
 export const programsIntro = {
-  title: `One circular technology model. ${activePrograms.length} Active Projects.`,
+  title: `One circular technology model. ${activePrograms.length} active projects.`,
   lede: "Multiple pathways to impact.",
   body: [
     "JustUsedTech connects device collection and refurbishment with programmes that promote digital inclusion, environmental awareness, education, mentorship, and youth empowerment.",

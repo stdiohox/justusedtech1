@@ -438,7 +438,7 @@ export const posts: Post[] = [
     title: "JustUsedTech at the 3rd Annual Recyclers Conference",
     location: "Nigeria",
     excerpt:
-      "The team attended the Recyclers Association of Nigeria's 3rd Annual Recyclers Conference as a delegate, alongside the recyclers, processors, and policy people the circular economy in Nigeria runs on.",
+      "The team attended the Recyclers Association of Nigeria's 3rd Annual Recyclers Conference as delegates, alongside the recyclers, processors, and policy people the circular economy in Nigeria runs on.",
     body: [
       "JustUsedTech attended the 3rd Annual Recyclers Conference, the RAN conference, as a delegate. The conference brings together the recyclers, processors, and policy people the circular economy in Nigeria depends on, which is the same set of people JustUsedTech's e-waste work in Lagos sits among.",
       "Recovering electronics is only half of the model: what cannot be refurbished has to go somewhere responsible, and that means knowing the recyclers who can take it. Conferences like this one are where those relationships get made.",

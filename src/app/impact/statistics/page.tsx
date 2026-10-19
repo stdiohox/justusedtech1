@@ -66,7 +66,7 @@ const runningTotals: Stat[] = [
 /* The 2025 school count is the review's named list, which it states as "Three schools". */
 const schools2025: Stat = {
   value: String(schoolTourSchools2025.length),
-  label: "schools reached Lagos State, 2025",
+  label: "schools reached in Lagos State, 2025",
 };
 
 const byYear: { year: string; stats: Stat[] }[] = [

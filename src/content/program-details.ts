@@ -1073,7 +1073,7 @@ export const programDetails: Record<string, ProgramDetail> = {
     ],
     phases: [
       {
-        window: "Week 1 to 6",
+        window: "Weeks 1 to 6",
         label: "Setup",
         detail:
           "Curriculum development, trainer and volunteer recruitment, participant recruitment, device collection, and lab setup.",

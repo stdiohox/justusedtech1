@@ -32,8 +32,8 @@ export const ewasteByYear: EwasteYear[] = [
   { year: 2017, lbs: 9000 },
   { year: 2018, lbs: 14090 },
   { year: 2019, lbs: 17450 },
-  { year: 2020, lbs: 7000, note: "Due to the covid 19 Pandemic." },
-  { year: 2021, lbs: 9200, note: "Gradual recovery from the Pandemic." },
+  { year: 2020, lbs: 7000, note: "Due to the COVID-19 pandemic." },
+  { year: 2021, lbs: 9200, note: "Gradual recovery from the pandemic." },
   { year: 2022, lbs: 17900 },
   { year: 2023, lbs: 27100 },
   { year: 2024, lbs: 31650 },
@@ -45,7 +45,7 @@ export const ewasteByYear: EwasteYear[] = [
 export const ewasteAsOf = "October 2026";
 
 /** The review's title for the series, used as the chart's caption. */
-export const ewasteSeriesTitle = "Yearly e-waste upcycled in the US operations";
+export const ewasteSeriesTitle = "Yearly e-waste upcycled in US operations";
 
 /** The review's "Historical E-Waste Collection Performance" copy, as written. */
 export const ewasteHistory = {
@@ -178,7 +178,7 @@ export const schoolsToDate: Stat = {
   value: "18",
   label: "Secondary schools reached from 2025 - 2026",
   detail:
-    "through our School Tour Initiative activities delivered in District 4 Lagos State.",
+    "through our School Tour Initiative activities delivered in District 4, Lagos State.",
 };
 
 export const sessionsToDate: Stat = {
@@ -188,7 +188,7 @@ export const sessionsToDate: Stat = {
 
 export const schoolTourSchoolsCount2026: Stat = {
   value: "10+",
-  label: "schools in Lagos State Nigeria, 2026",
+  label: "schools in Lagos State, Nigeria, 2026",
 };
 
 export const schoolTourStudents2025: Stat = {
@@ -207,13 +207,13 @@ export const studentsToDate: Stat = {
     floorOf(schoolTourStudents2025.value) + floorOf(schoolTourStudents2026.value),
   ),
   label: "students reached from 2025 till date",
-  detail: `${schoolTourStudents2025.value} students engaged in 2025 and ${schoolTourStudents2026.value} in 2026. Students participated in e-waste awareness and digital sustainability sessions for the School Tour Initiative project`,
+  detail: `${schoolTourStudents2025.value} students engaged in 2025 and ${schoolTourStudents2026.value} in 2026. Students participated in e-waste awareness and digital sustainability sessions for the School Tour Initiative project.`,
 };
 
 export const schoolTourUnderstanding2026: Stat = {
   value: "85%",
   label:
-    "student records improved understanding of the E-waste, Circular economy and Environmental sustainability",
+    "of student records show improved understanding of e-waste, the circular economy and environmental sustainability",
 };
 
 /* ------------------------------------------------------------------ *
@@ -249,8 +249,8 @@ export const impactTiles2025: Stat[] = [
 
 export const laptops2026: Stat = {
   value: "22",
-  label: "Laptops Donated in 2026 alone",
-  detail: "across St Louis USA, Kenya and Lagos, Ibadan, Delta and Kwara State Nigeria",
+  label: "Laptops donated in 2026 alone",
+  detail: "across St. Louis, USA; Kenya; and Lagos, Ibadan, Delta and Kwara State, Nigeria",
 };
 
 /* ------------------------------------------------------------------ *

@@ -131,7 +131,7 @@ export const nav: NavEntry[] = [
           {
             label: "GreenBin 360",
             description:
-              "E-waste collection from organizations and institutions",
+              "E-waste collection from organisations and institutions",
             href: "/programs/greenbin-360",
             icon: "Recycle",
             status: "active",
@@ -222,7 +222,7 @@ export const nav: NavEntry[] = [
           },
           {
             label: "Partner With Us",
-            description: "Schools, companies, and community organizations",
+            description: "Schools, companies, and community organisations",
             href: "/get-involved#partner",
             icon: "Handshake",
           },
