@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { CardCarousel } from "@/components/common/card-carousel";
 import { PillLink } from "@/components/common/pill-button";
 import { ProgramMedia } from "@/components/common/program-media";
 import { SectionHead, StatusBadge } from "@/components/common/primitives";
@@ -20,8 +21,10 @@ import { cn } from "@/lib/utils";
  *
  * Every active programme gets a cell, in catalogue order, so the count in the heading is the
  * count on screen. Twelve columns from lg: the featured cell (8) and the second (4) share
- * the first row, and the other four take a row of 3 each. At md the first two run full
- * width and the four pair up; below md everything stacks. No width leaves an empty cell.
+ * the first row; below lg the two stack. The rest run in a sideways carousel under them.
+ * They used to take a row of 3 columns each, which set four cards in about 330px apiece and
+ * squeezed the summaries and figures into narrow columns. In the carousel each card keeps a
+ * readable width however many programmes there are.
  *
  * Every cell is the same Category Card: a media band flush to the card's own edges, then a
  * 28px body carrying the status badge, the title, the summary, and up to three headline
@@ -64,24 +67,28 @@ export function ProgramsPreview() {
           ))}
         </Reveal>
 
-        <RevealGroup className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-12">
-          <RevealItem className="md:col-span-2 lg:col-span-8">
+        <RevealGroup className="mt-12 grid gap-4 lg:grid-cols-12">
+          <RevealItem className="lg:col-span-8">
             <ProgramCard program={featured!} tone={0} featured />
           </RevealItem>
-          <RevealItem className="md:col-span-2 lg:col-span-4">
+          <RevealItem className="lg:col-span-4">
             <ProgramCard program={second!} tone={1} />
           </RevealItem>
-          {rest.map((program, i) => (
-            <RevealItem key={program.slug} className="lg:col-span-3">
-              <ProgramCard program={program} tone={i + 2} />
-            </RevealItem>
-          ))}
         </RevealGroup>
 
-        <Reveal className="mt-10">
-          <PillLink href="/programs" variant="outline" flow>
-            All programmes
-          </PillLink>
+        <Reveal className="mt-4">
+          <CardCarousel
+            label="More programmes"
+            footer={
+              <PillLink href="/programs" variant="outline" flow>
+                All programmes
+              </PillLink>
+            }
+          >
+            {rest.map((program, i) => (
+              <ProgramCard key={program.slug} program={program} tone={i + 2} />
+            ))}
+          </CardCarousel>
         </Reveal>
       </div>
     </section>
