@@ -119,8 +119,8 @@ export const socials = [
   },
   {
     name: "TikTok",
-    href: "https://tiktok.com/@justusedtech",
-    handle: "@justusedtech",
+    href: "https://www.tiktok.com/@justusedtech_",
+    handle: "@justusedtech_",
   },
   {
     name: "YouTube",
