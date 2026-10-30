@@ -103,6 +103,32 @@ export const newsletter = {
 export const forms = {
   volunteer: "https://forms.gle/uUpehQ1UneYHQsju7",
   circularTechBootcamp: "https://bit.ly/JUTCircularTechBootcamp",
+  /* The device needs survey. The one exception to "none of them is embedded": it is
+     embedded on /request-a-device, so it is kept as the full viewform URL, which is what
+     the embed is built from. The short link is https://forms.gle/j2FqzNbhDGLxbCZF9. */
+  deviceRequest:
+    "https://docs.google.com/forms/d/e/1FAIpQLScIuJsnzpvs7yCEpiZni07oqb11uM5tdz_zO7k-FzdgC1xx5g/viewform",
+} as const;
+
+/**
+ * The device request page. Requests used to arrive as emails to the general inbox, over
+ * two hundred of them, with no way to track them. They now go through the Google Form,
+ * whose responses land in one sheet the team can sort and follow up from.
+ *
+ * The copy follows the form's own wording: it is a needs survey, and filling it in is not
+ * a promise of a device. The page must not say otherwise.
+ */
+export const deviceRequest = {
+  href: "/request-a-device",
+  embed: `${forms.deviceRequest}?embedded=true`,
+  eyebrow: "Request a device",
+  title: "Need a laptop or computer?",
+  lede: "Tell us about your device needs through our short survey. It takes about 5 to 8 minutes, and it is how every device request now reaches our team.",
+  note: "This is a needs survey. Filling it in does not guarantee a laptop or other device, but it is how we learn who needs one and plan our device support programmes.",
+  emailNote:
+    "Please use the form rather than email. Device requests sent by email cannot be tracked, so they may be missed.",
+  cta: "Fill in the device request form",
+  openInTab: "Open the form in a new tab",
 } as const;
 
 export const socials = [
@@ -149,6 +175,7 @@ export const footerNav = [
   { label: "Partners", href: "/partners" },
   { label: "News", href: "/news" },
   { label: "Contact", href: "/contact" },
+  { label: "Request a device", href: "/request-a-device" },
 ] as const;
 
 /**
