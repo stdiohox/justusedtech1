@@ -144,15 +144,15 @@ export function ContactSplit() {
           </div>
 
           {/*
-            The business card. mt-auto pins it to the panel's floor from lg up, where the
-            column flexes to the form's height; the padding above it is the floor for that
-            gap, because mt-auto goes to zero once the column is full and the leaning card
-            would otherwise ride up into the chips. The lean is 2 degrees, not the template's
+            The business card. With the form gone the panel spans the page, so from lg up the
+            card is capped and centred, and it leans about its own centre: left-aligned, it
+            left half the panel empty beside it. The padding above it keeps the leaning
+            card clear of the chips. The lean is 2 degrees, not the template's
             3: the card is text, not a screenshot, and any more tilt makes the address harder
             to read than it needs to be.
           */}
           <div className="mt-12 lg:mt-auto lg:pt-14">
-            <address className="rounded-[var(--radius-inner)] bg-white p-6 text-ink not-italic shadow-[0_24px_60px_-24px_rgba(0,0,0,0.45)] sm:p-7 lg:max-w-2xl lg:origin-bottom-left lg:-rotate-2">
+            <address className="rounded-[var(--radius-inner)] bg-white p-6 text-ink not-italic shadow-[0_24px_60px_-24px_rgba(0,0,0,0.45)] sm:p-7 lg:mx-auto lg:max-w-2xl lg:-rotate-2">
               <div className="grid gap-6 sm:grid-cols-2">
                 <div>
                   <p className="flex items-center gap-2 text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
