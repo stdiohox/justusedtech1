@@ -4,7 +4,6 @@ import { FlutedGlass } from "@paper-design/shaders-react";
 import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import { SectionHead } from "@/components/common/primitives";
 import { Reveal } from "@/components/common/reveal";
-import { ContactForm } from "@/components/sections/contact-form";
 import { contact, newsletter, socials } from "@/content/site";
 
 /**
@@ -14,11 +13,15 @@ import { contact, newsletter, socials } from "@/content/site";
  * glass shader on the right. What carried over is the geometry. What did not: the template
  * was a sign-up form with demo names, social sign-in buttons, a password field, a testimonial
  * from a person we do not have, and a dashboard mockup. None of that belongs on a nonprofit's
- * contact page, so the left panel holds the real ContactForm, and the right panel holds the
- * organisation's real details, where the template had a quote and a screenshot.
+ * contact page, so the right panel held the organisation's real details, where the template
+ * had a quote and a screenshot.
  *
- * Both panels sit in the house bezel rather than the template's flat 1px black/10 border, and
- * the right panel is the brand's green surface rather than a black-to-white gradient. The
+ * The left panel, a message form that composed a mailto, was removed at the client's request
+ * in October 2026: device requests had buried the inbox, and they now go through the form on
+ * /request-a-device. The details panel takes the full width, so its rows sit two across.
+ *
+ * The panel sits in the house bezel rather than the template's flat 1px black/10 border, and
+ * is the brand's green surface rather than a black-to-white gradient. The
  * shader is decoration only: aria-hidden, pointer-events off, and if WebGL is unavailable the
  * green fill underneath carries the panel on its own.
  *
@@ -29,22 +32,9 @@ import { contact, newsletter, socials } from "@/content/site";
  */
 export function ContactSplit() {
   return (
-    <div className="grid gap-6 lg:grid-cols-[0.94fr_1.06fr]">
-      {/* Left: the form. */}
+    <div>
+      {/* The details, over the shader. */}
       <Reveal className="bezel">
-        <div className="bezel-core bg-white px-6 py-8 sm:px-9 sm:py-10 lg:px-12 lg:py-12">
-          <SectionHead
-            title="Send a message"
-            lede="Tell us what you need and it lands with the right person. Most replies go out within two working days."
-          />
-          <div className="mt-9">
-            <ContactForm />
-          </div>
-        </div>
-      </Reveal>
-
-      {/* Right: the details, over the shader. */}
-      <Reveal delay={0.1} className="bezel">
         <div className="bezel-core relative isolate flex min-h-[40rem] flex-col overflow-hidden bg-green-surface px-6 py-8 text-white sm:px-9 sm:py-10 lg:min-h-0 lg:px-12 lg:py-12">
           {/*
             Fluted glass over a vertical fade to a deeper green. The light and dark flutes are
@@ -86,11 +76,11 @@ export function ContactSplit() {
           <SectionHead
             onGreen
             eyebrow="Reach us directly"
-            title="Prefer to skip the form?"
+            title="Call or email us."
             lede="Every line below opens the right app. Partnerships have their own inbox so they reach the people who answer them."
           />
 
-          <ul className="mt-10 grid gap-3">
+          <ul className="mt-10 grid gap-3 md:grid-cols-2">
             <ContactRow
               icon={
                 <Phone
@@ -162,7 +152,7 @@ export function ContactSplit() {
             to read than it needs to be.
           */}
           <div className="mt-12 lg:mt-auto lg:pt-14">
-            <address className="rounded-[var(--radius-inner)] bg-white p-6 text-ink not-italic shadow-[0_24px_60px_-24px_rgba(0,0,0,0.45)] sm:p-7 lg:origin-bottom-left lg:-rotate-2">
+            <address className="rounded-[var(--radius-inner)] bg-white p-6 text-ink not-italic shadow-[0_24px_60px_-24px_rgba(0,0,0,0.45)] sm:p-7 lg:max-w-2xl lg:origin-bottom-left lg:-rotate-2">
               <div className="grid gap-6 sm:grid-cols-2">
                 <div>
                   <p className="flex items-center gap-2 text-[0.6875rem] font-extrabold tracking-[0.16em] text-ink-faint uppercase">
