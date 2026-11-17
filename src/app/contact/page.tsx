@@ -8,7 +8,7 @@ import { contact, deviceRequest } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: `Reach JustUsedTech at ${contact.hqAddress}, ${contact.hqCity}, or by phone and email.`,
+  description: `Reach JustUsedTech at ${contact.hqAddress}, ${contact.hqCity}, or through our FAQ and forms.`,
 };
 
 /*

@@ -119,21 +119,14 @@ export function SiteFooter() {
             <address className="mt-5 space-y-1 text-[0.9375rem] leading-relaxed text-white/80 not-italic">
               <span className="block">{contact.hqAddress}</span>
               <span className="block">{contact.hqCity}</span>
-              <a
-                href={contact.phoneHref}
+              {/* US phone and emails hidden for now (Nov 2026, client request); see the
+                  note on `contact` in site.ts. The FAQ takes their place. */}
+              <Link
+                href="/faq"
                 className="mt-2 block font-semibold transition-colors duration-300 hover:text-white"
               >
-                {contact.phone}
-              </a>
-              {contact.emails.map((e) => (
-                <a
-                  key={e.address}
-                  href={`mailto:${e.address}`}
-                  className="block font-semibold transition-colors duration-300 hover:text-white"
-                >
-                  {e.address}
-                </a>
-              ))}
+                Questions? Read our FAQ
+              </Link>
             </address>
             {/*
               Nigeria is one line rather than a second address block: the US block above is

@@ -1,7 +1,7 @@
 "use client";
 
 import { FlutedGlass } from "@paper-design/shaders-react";
-import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowUpRight, CircleHelp, MapPin, Phone } from "lucide-react";
 import { SectionHead } from "@/components/common/primitives";
 import { Reveal } from "@/components/common/reveal";
 import { contact, newsletter, socials } from "@/content/site";
@@ -76,24 +76,27 @@ export function ContactSplit() {
           <SectionHead
             onGreen
             eyebrow="Reach us directly"
-            title="Call or email us."
-            lede="Every line below opens the right app. Partnerships have their own inbox so they reach the people who answer them."
+            title="Find answers or reach the team."
+            lede="We are updating our email inboxes, so for now the quickest route is our FAQ and the forms it links to."
           />
 
+          {/*
+            The US phone and both email rows are hidden for now at the client's request
+            (Nov 2026) while the inboxes are sorted out; see the note on `contact` in
+            site.ts. The FAQ row takes their place so the grid still pairs up.
+          */}
           <ul className="mt-10 grid gap-3 md:grid-cols-2">
             <ContactRow
               icon={
-                <Phone
+                <CircleHelp
                   className="size-[1.125rem]"
                   strokeWidth={2}
                   aria-hidden
                 />
               }
-              /* "Phone" alone was fine with one number. With two it would have been the
-                 reader's job to guess which country answers. */
-              label="US phone"
-              value={contact.phone}
-              href={contact.phoneHref}
+              label="Questions and forms"
+              value="Read the FAQ"
+              href="/faq"
             />
             <ContactRow
               icon={
@@ -107,21 +110,6 @@ export function ContactSplit() {
               value={contact.fieldPhone}
               href={contact.fieldPhoneHref}
             />
-            {contact.emails.map((email) => (
-              <ContactRow
-                key={email.address}
-                icon={
-                  <Mail
-                    className="size-[1.125rem]"
-                    strokeWidth={2}
-                    aria-hidden
-                  />
-                }
-                label={email.label}
-                value={email.address}
-                href={`mailto:${email.address}`}
-              />
-            ))}
           </ul>
 
           <div className="mt-10">

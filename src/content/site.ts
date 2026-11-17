@@ -22,7 +22,12 @@ export const contact = {
   hqCity: "Saint Louis, MO 63130",
   hqCountry: "United States",
   /* The St. Louis warehouse line. `fieldPhone` below is the Lagos one; the two are named
-     apart rather than as phone1/phone2 so a render site cannot pick the wrong country. */
+     apart rather than as phone1/phone2 so a render site cannot pick the wrong country.
+
+     TEMPORARILY HIDDEN (Nov 2026, client request): `phone` and `emails` are not rendered on
+     the contact page or in the footer while the team sorts out its inboxes. Visitors are sent
+     to /faq and the forms instead. The values stay here so restoring them is a render change
+     only. The get-involved page and the `asks` mailto buttons were not part of that request. */
   phone: "+1 314-643-1990",
   phoneHref: "tel:+13146431990",
   fieldLabel: "Nigeria Field Operations",
@@ -175,6 +180,7 @@ export const footerNav = [
   { label: "Partners", href: "/partners" },
   { label: "News", href: "/news" },
   { label: "Contact", href: "/contact" },
+  { label: "FAQ", href: "/faq" },
   { label: "Request a device", href: "/request-a-device" },
 ] as const;
 
