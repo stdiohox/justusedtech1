@@ -11,6 +11,7 @@ import {
   ewasteSeriesTitle,
   ewasteToDate,
   laptops2026,
+  schoolTourSchools2024,
   schoolTourSchools2025,
   schoolTourSchools2026,
   schoolsToDate,
@@ -81,7 +82,7 @@ export function ImpactGlance() {
       </div>
 
       <Reveal className="mt-4">
-        <div className="card grid gap-8 lg:grid-cols-[0.8fr_1fr_1.2fr] lg:gap-10">
+        <div className="card grid gap-8 sm:grid-cols-2 lg:grid-cols-[0.8fr_1fr_1fr_1.2fr] lg:gap-10">
           <div>
             <p className="flex items-center gap-2 text-[0.9375rem] font-extrabold text-ink">
               <MapPin className="size-4 text-brand-green-dark" strokeWidth={2} aria-hidden />
@@ -96,6 +97,7 @@ export function ImpactGlance() {
             </ul>
           </div>
           {[
+            { year: "2024", schools: schoolTourSchools2024 },
             { year: "2025", schools: schoolTourSchools2025 },
             { year: "2026", schools: schoolTourSchools2026 },
           ].map((group) => (

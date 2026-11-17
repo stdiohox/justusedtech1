@@ -12,6 +12,7 @@ import {
   ewasteToDate,
   ewasteTotal2025,
   listOf,
+  schoolTourSchools2024,
   schoolTourSchools2025,
   schoolTourSchools2026,
   schoolTourSchoolsCount2026,
@@ -196,6 +197,10 @@ export const programs: Program[] = [
       "1,000 students across 10 schools in 12 months, with a 60% literacy improvement measured pre and post session.",
     /* The review's "Reported achievements in 2025" and "2026 reporting", each with its schools. */
     results: [
+      {
+        label: "Schools visited across Lagos State, 2024",
+        detail: listOf(schoolTourSchools2024),
+      },
       {
         label: "Reported achievements in 2025",
         detail: `Three schools reached in Lagos State. ${schoolTourStudents2025.value} students engaged. Five refurbished laptops were donated.`,

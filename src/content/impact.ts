@@ -151,6 +151,14 @@ export const communitiesReached = ["Makoko", "Gbagada", "Lagos Mainland"];
   The two school lists exactly as the review writes them. They are the review's lists, not
   the dated visit log in content/news.ts, which keeps its own spellings and dates.
 */
+/* Added Nov 2026, as the client supplied it: "Schools Visited across Lagos state in 2024". */
+export const schoolTourSchools2024 = [
+  "Emma Elshaddai Secondary School",
+  "Mobolaji Bank Anthony Junior High School",
+  "Akoka Junior High School",
+  "Saint Francis Junior Grammar School",
+];
+
 export const schoolTourSchools2025 = [
   "Whanyinna School",
   "Lagos City College",
@@ -171,24 +179,29 @@ export const schoolTourSchools2026 = [
 ];
 
 /*
-  Stated, not derived: the review gives 18 schools and 18 sessions, while its two named
-  lists hold 13 schools between them.
+  Stated, not derived: the client gives 22 schools and 22 sessions from 2024 till date
+  (Nov 2026 update, was 18 from 2025), while the three named lists hold 17 schools.
 */
 export const schoolsToDate: Stat = {
-  value: "18",
-  label: "Secondary schools reached from 2025 - 2026",
+  value: "22",
+  label: "Schools reached from 2024 till date",
   detail:
     "through our School Tour Initiative activities delivered in District 4, Lagos State.",
 };
 
 export const sessionsToDate: Stat = {
-  value: "18",
-  label: "School Tour Sessions conducted from 2025 till date",
+  value: "22",
+  label: "School Tour sessions conducted from 2024 till date",
 };
 
 export const schoolTourSchoolsCount2026: Stat = {
   value: "10+",
   label: "schools in Lagos State, Nigeria, 2026",
+};
+
+export const schoolTourStudents2024: Stat = {
+  value: "322",
+  label: "students engaged in 2024",
 };
 
 export const schoolTourStudents2025: Stat = {
@@ -201,13 +214,15 @@ export const schoolTourStudents2026: Stat = {
   label: "students engaged in 2026",
 };
 
-/* 870 in the review, and the sum of its two years. */
+/* 1,192 as the client states it (Nov 2026), and the sum of the three years. */
 export const studentsToDate: Stat = {
-  value: String(
-    floorOf(schoolTourStudents2025.value) + floorOf(schoolTourStudents2026.value),
-  ),
-  label: "students reached from 2025 till date",
-  detail: `${schoolTourStudents2025.value} students engaged in 2025 and ${schoolTourStudents2026.value} in 2026. Students participated in e-waste awareness and digital sustainability sessions for the School Tour Initiative project.`,
+  value: (
+    floorOf(schoolTourStudents2024.value) +
+    floorOf(schoolTourStudents2025.value) +
+    floorOf(schoolTourStudents2026.value)
+  ).toLocaleString("en-US"),
+  label: "students reached from 2024 till date",
+  detail: `${schoolTourStudents2024.value} students engaged in 2024, ${schoolTourStudents2025.value} in 2025, and ${schoolTourStudents2026.value} in 2026. Students participated in e-waste awareness and digital sustainability sessions for the School Tour Initiative project.`,
 };
 
 export const schoolTourUnderstanding2026: Stat = {

@@ -20,9 +20,11 @@ import {
   ewasteTotal2025,
   impactTiles2025,
   laptops2026,
+  schoolTourSchools2024,
   schoolTourSchools2025,
   schoolTourSchools2026,
   schoolTourSchoolsCount2026,
+  schoolTourStudents2024,
   schoolTourStudents2025,
   schoolTourStudents2026,
   schoolTourUnderstanding2026,
@@ -69,6 +71,12 @@ const schools2025: Stat = {
   label: "schools reached in Lagos State, 2025",
 };
 
+/* 2024 likewise counts its named list (four schools, supplied Nov 2026). */
+const schools2024: Stat = {
+  value: String(schoolTourSchools2024.length),
+  label: "schools reached in Lagos State, 2024",
+};
+
 const byYear: { year: string; stats: Stat[] }[] = [
   {
     year: "2026, to date",
@@ -87,6 +95,10 @@ const byYear: { year: string; stats: Stat[] }[] = [
       schools2025,
       ...impactTiles2025,
     ],
+  },
+  {
+    year: "2024",
+    stats: [schoolTourStudents2024, schools2024],
   },
 ];
 
@@ -286,6 +298,7 @@ export default function StatisticsPage() {
         {/* The review's "Schools Visited across Lagos State" lists, as written. */}
         <div className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-16">
           {[
+            { year: "2024", schools: schoolTourSchools2024 },
             { year: "2025", schools: schoolTourSchools2025 },
             { year: "2026", schools: schoolTourSchools2026 },
           ].map((group) => (
