@@ -5,9 +5,11 @@ import { PageHero } from "@/components/layout/page-hero";
 import { Section, SectionHead } from "@/components/common/primitives";
 import { Reveal } from "@/components/common/reveal";
 import {
+  faqClosing,
   faqForms,
   faqGroups,
   faqPage,
+  type FaqBlock,
   type FaqLink,
 } from "@/content/faq";
 
@@ -73,8 +75,8 @@ export default function FaqPage() {
                       </span>
                     </summary>
                     <div className="max-w-[68ch] space-y-3 px-5 pb-5 text-[1rem] leading-relaxed text-ink-soft sm:px-6">
-                      {item.answer.map((para) => (
-                        <p key={para}>{para}</p>
+                      {item.answer.map((block, i) => (
+                        <AnswerBlock key={i} block={block} />
                       ))}
                       {item.link && <AnswerLink {...item.link} />}
                     </div>
@@ -84,8 +86,77 @@ export default function FaqPage() {
             </Reveal>
           ))}
         </div>
+
+        <div className="mt-16 grid gap-4 md:grid-cols-2">
+          {faqClosing.map((cta, i) => (
+            <Reveal key={cta.title} delay={i * 0.06} className="h-full">
+              <div className="flex h-full flex-col justify-between gap-6 rounded-[var(--radius-inner)] bg-mint p-6 sm:p-8">
+                <div>
+                  <h3 className="text-[1.375rem] font-extrabold text-ink">
+                    {cta.title}
+                  </h3>
+                  <p className="mt-2 max-w-[52ch] text-[1rem] leading-relaxed text-ink-soft">
+                    {cta.body}
+                  </p>
+                </div>
+                <AnswerLink {...cta.link} />
+              </div>
+            </Reveal>
+          ))}
+        </div>
       </Section>
     </>
+  );
+}
+
+function AnswerBlock({ block }: { block: FaqBlock }) {
+  if (typeof block === "string") return <p>{block}</p>;
+  if ("heading" in block) {
+    return <p className="pt-1 font-extrabold text-ink">{block.heading}</p>;
+  }
+  if ("list" in block) {
+    return (
+      <ul className="list-disc space-y-1.5 pl-5 marker:text-brand-green">
+        {block.list.map((entry) => (
+          <li key={entry}>{entry}</li>
+        ))}
+      </ul>
+    );
+  }
+  return (
+    <p>
+      {block.parts.map((part, i) =>
+        typeof part === "string" ? (
+          part
+        ) : part.external ? (
+          <a
+            key={i}
+            href={part.href}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="font-bold text-brand-green-dark underline underline-offset-4"
+          >
+            {part.label}
+          </a>
+        ) : part.href.startsWith("mailto:") ? (
+          <a
+            key={i}
+            href={part.href}
+            className="font-bold break-all text-brand-green-dark underline underline-offset-4"
+          >
+            {part.label}
+          </a>
+        ) : (
+          <Link
+            key={i}
+            href={part.href}
+            className="font-bold text-brand-green-dark underline underline-offset-4"
+          >
+            {part.label}
+          </Link>
+        ),
+      )}
+    </p>
   );
 }
 
