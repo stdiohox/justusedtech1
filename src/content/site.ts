@@ -130,8 +130,9 @@ export const deviceRequest = {
   title: "Need a laptop or computer?",
   lede: "Tell us about your device needs through our short survey. It takes about 5 to 8 minutes, and it is how every device request now reaches our team.",
   note: "This is a needs survey. Filling it in does not guarantee a laptop or other device, but it is how we learn who needs one and plan our device support programmes.",
-  emailNote:
-    "Please use the form rather than email. Device requests sent by email cannot be tracked, so they may be missed.",
+  /* Matches the FAQ (client changes, 18 Nov 2026): organisations may email, individuals
+     must use the survey. */
+  emailNote: `Organisations can email us at ${contact.emails[1].address} or use the form. Individuals, please fill in our device needs survey: requests for laptops or phones sent by email will not receive a response.`,
   cta: "Fill in the device request form",
   openInTab: "Open the form in a new tab",
 } as const;
