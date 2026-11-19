@@ -64,7 +64,7 @@ export default function ContactPage() {
         <Reveal>
           <SectionHead
             title="Find the warehouse"
-            lede="Device drop-offs happen here. Please email ahead so we can log the donation."
+            lede="Device drop-offs happen here. This is currently our only drop-off location."
           />
         </Reveal>
         <Reveal delay={0.08} className="mt-10">
